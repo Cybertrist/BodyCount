@@ -13,7 +13,7 @@
 
 ---
 
-> **Projet en cours.** L'application est fonctionnelle mais pas terminée — voir la [feuille de route](#feuille-de-route).
+> **Projet en cours.** L'application est fonctionnelle mais pas terminée, voir la [feuille de route](#feuille-de-route).
 
 Une application de suivi personnel qui ne parle à aucun serveur. Tout vit dans un SQLite sur le téléphone, derrière une authentification biométrique, et n'en sort que si on demande explicitement un export.
 
@@ -21,12 +21,12 @@ Le projet m'intéressait surtout pour la contrainte : construire quelque chose d
 
 ## Fonctionnalités
 
-- **Verrouillage biométrique** à l'ouverture — empreinte ou reconnaissance faciale
+- **Verrouillage biométrique** à l'ouverture : empreinte ou reconnaissance faciale
 - **Répertoire de contacts** avec photos, notes, étiquettes et évaluations
 - **Statistiques** : graphiques mensuels, répartitions, séries, classements
 - **Carte** des rencontres, sur fond OpenStreetMap
 - **Frise chronologique** de l'ensemble des entrées
-- **Galerie privée** — les photos vivent dans le stockage applicatif, invisibles de la galerie du téléphone
+- **Galerie privée** : les photos vivent dans le stockage applicatif, invisibles de la galerie du téléphone
 - **Export / import** en JSON ou ZIP, pour garder la main sur ses données
 
 ## Stack
@@ -94,7 +94,7 @@ C'est le point central du projet, donc autant être précis sur ce qui est garan
 **Ce qui ne l'est pas :**
 - sur un téléphone **rooté**, le répertoire privé de l'application est lisible. La biométrie verrouille l'interface, elle ne chiffre pas la base ;
 - une sauvegarde Android automatique peut emporter les données hors de l'appareil si elle n'est pas désactivée ;
-- un export JSON ou ZIP est en clair — c'est à vous de le stocker correctement.
+- un export JSON ou ZIP est en clair, c'est à vous de le stocker correctement.
 
 Un chiffrement réel de la base (SQLCipher, clé dérivée du Keystore Android) est la suite logique et n'est pas encore en place.
 
@@ -102,7 +102,7 @@ Un chiffrement réel de la base (SQLCipher, clé dérivée du Keystore Android) 
 
 Ce qui reste avant de considérer l'application finie :
 
-- [ ] **Chiffrement de la base** — SQLCipher, clé dérivée du Keystore Android, déverrouillage lié à la biométrie
+- [ ] **Chiffrement de la base** : SQLCipher, clé dérivée du Keystore Android, déverrouillage lié à la biométrie
 - [ ] **Chiffrement des photos** au repos, pas seulement leur isolation dans le stockage applicatif
 - [ ] **Désactiver la sauvegarde Android automatique** (`allowBackup="false"`), qui peut aujourd'hui exfiltrer la base
 - [ ] **Export chiffré** avec mot de passe, plutôt que du JSON en clair
