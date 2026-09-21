@@ -7,11 +7,13 @@
 [![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?style=flat-square&logo=flutter&logoColor=white)](https://flutter.dev/)
 [![Dart](https://img.shields.io/badge/Dart-3.x-0175C2?style=flat-square&logo=dart&logoColor=white)](https://dart.dev/)
 [![SQLite](https://img.shields.io/badge/SQLite-local-003B57?style=flat-square&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
-[![Licence](https://img.shields.io/badge/Licence-MIT-1F6FEB?style=flat-square)](LICENSE)
+[![Statut](https://img.shields.io/badge/Statut-en%20cours-D29922?style=flat-square)](#feuille-de-route)
 
 </div>
 
 ---
+
+> **Projet en cours.** L'application est fonctionnelle mais pas terminée — voir la [feuille de route](#feuille-de-route).
 
 Une application de suivi personnel qui ne parle à aucun serveur. Tout vit dans un SQLite sur le téléphone, derrière une authentification biométrique, et n'en sort que si on demande explicitement un export.
 
@@ -95,6 +97,17 @@ C'est le point central du projet, donc autant être précis sur ce qui est garan
 - un export JSON ou ZIP est en clair — c'est à vous de le stocker correctement.
 
 Un chiffrement réel de la base (SQLCipher, clé dérivée du Keystore Android) est la suite logique et n'est pas encore en place.
+
+## Feuille de route
+
+Ce qui reste avant de considérer l'application finie :
+
+- [ ] **Chiffrement de la base** — SQLCipher, clé dérivée du Keystore Android, déverrouillage lié à la biométrie
+- [ ] **Chiffrement des photos** au repos, pas seulement leur isolation dans le stockage applicatif
+- [ ] **Désactiver la sauvegarde Android automatique** (`allowBackup="false"`), qui peut aujourd'hui exfiltrer la base
+- [ ] **Export chiffré** avec mot de passe, plutôt que du JSON en clair
+- [ ] Finir les écrans de statistiques et la vue carte
+- [ ] Tests sur les DAO et la logique d'export
 
 ## Avertissement
 
