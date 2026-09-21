@@ -22,18 +22,7 @@ Le projet m'intéressait surtout pour la contrainte : construire quelque chose d
 
 <img src="docs/schemas/palette.png" alt="Palette de l'application : primaire #FF6B35, accent #E84530, fond #0A0A0A, surface #141414, cartes #1C1C1C, texte #F5F5F5." width="100%">
 
-```
-lib/
-├── main.dart
-├── app.dart
-├── config/       Thème et routage
-├── models/       Contact, Encounter, Photo
-├── database/     DAO SQLite
-├── providers/    État Riverpod
-├── screens/      Écrans
-├── widgets/      Composants réutilisables
-└── utils/        Images, export, dates
-```
+<img src="docs/schemas/arborescence.png" alt="Arborescence de lib. main.dart : le point d'entrée. app.dart : l'application et son thème. config : thème et routage. models : Contact, Encounter, Photo. database : les DAO SQLite. providers : l'état, en Riverpod. screens : les écrans. widgets : les composants réutilisables. utils : images, export, dates." width="100%">
 
 Nécessite le SDK Flutter 3.x et un appareil ou un émulateur Android.
 
