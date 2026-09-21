@@ -32,3 +32,6 @@ Thumbs.db
 # Divers
 *.log
 coverage/
+
+# Notes de conception locales, hors dépôt
+prompt-claude-code.md
