@@ -26,6 +26,8 @@ Le projet m'intéressait surtout pour la contrainte : construire quelque chose d
 
 Nécessite le SDK Flutter 3.x et un appareil ou un émulateur Android.
 
+<img src="docs/blocs/01.png" alt="Terminal bash : démarrage" width="100%">
+
 ```bash
 git clone https://github.com/Cybertrist/BodyCount.git
 cd BodyCount
