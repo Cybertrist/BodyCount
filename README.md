@@ -1,6 +1,7 @@
 <div align="center">
 
-# BodyCount
+<img src="docs/banniere.png" alt="BodyCount" width="100%">
+
 
 **Journal personnel chiffré, hors ligne, sur Android.**
 
