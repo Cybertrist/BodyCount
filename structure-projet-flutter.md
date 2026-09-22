@@ -1,4 +1,4 @@
-# Structure du Projet Flutter — BodyCount
+# Structure du projet Flutter : BodyCount
 
 ## Vue d'ensemble de l'architecture
 
@@ -286,14 +286,14 @@ mymeets/
 
 ```dart
 // config/theme.dart
-static const primary = Color(0xFFFF6B35);       // Orange vif — couleur principale
-static const primaryDark = Color(0xFFE84530);    // Rouge-orangé — accents secondaires
-static const accent = Color(0xFFFFAB76);         // Orange clair — highlights
+static const primary = Color(0xFFFF6B35);       // Orange vif, couleur principale
+static const primaryDark = Color(0xFFE84530);    // Rouge-orangé, accents secondaires
+static const accent = Color(0xFFFFAB76);         // Orange clair, highlights
 static const background = Color(0xFF0A0A0A);     // Noir profond
 static const surface = Color(0xFF141414);        // Surface relevée
 static const card = Color(0xFF1C1C1C);           // Card background
 static const cardBorder = Color(0xFF2A2A2A);     // Bordure subtile des cards
-static const textPrimary = Color(0xFFF5F5F5);   // Texte principal — blanc cassé
+static const textPrimary = Color(0xFFF5F5F5);   // Texte principal, blanc cassé
 static const textSecondary = Color(0xFF8A8A8A);  // Texte secondaire
 static const star = Color(0xFFFF6B35);           // Étoiles rating = orange principal
 static const success = Color(0xFF4CAF50);        // Vert succès
