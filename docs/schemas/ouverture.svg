@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="392"
+     viewBox="0 0 1280 392" role="img"
+     aria-label="Trois écrans demandent la base au même instant, au déverrouillage. Ils attendent tous la même ouverture, qui ouvre un seul fichier chiffré. Avant la correction, chacun lançait la sienne, et l'application finissait avec deux connexions sur deux fichiers différents.">
+  <rect width="1280" height="392" fill="#0D1117"/>
+  <path d="M 280 54 C 380 54 420 170 520 170" stroke="#2F3A47" stroke-width="1.8" fill="none"/>
+  <path d="M 280 170 C 380 170 420 170 520 170" stroke="#2F3A47" stroke-width="1.8" fill="none"/>
+  <path d="M 280 286 C 380 286 420 170 520 170" stroke="#2F3A47" stroke-width="1.8" fill="none"/>
+  <path d="M 780 170 H 1000" stroke="#2F3A47" stroke-width="1.8" fill="none"/>
+
+  
+  <g>
+    <circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="6s" repeatCount="indefinite"
+        path="M 280 54 C 380 54 420 170 520 170" keyPoints="0;0;1;1" keyTimes="0;0.0333;0.2667;1"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="6s" repeatCount="indefinite"
+             values="0;0;0.18;0.18;0;0"
+             keyTimes="0;0.0333;0.0750;0.2250;0.2667;1"/></circle>
+    <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="6s" repeatCount="indefinite"
+        path="M 280 54 C 380 54 420 170 520 170" keyPoints="0;0;1;1" keyTimes="0;0.0333;0.2667;1"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="6s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.0333;0.0750;0.2250;0.2667;1"/></circle>
+  </g>
+  <g>
+    <circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="6s" repeatCount="indefinite"
+        path="M 280 170 C 380 170 420 170 520 170" keyPoints="0;0;1;1" keyTimes="0;0.0583;0.2917;1"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="6s" repeatCount="indefinite"
+             values="0;0;0.18;0.18;0;0"
+             keyTimes="0;0.0583;0.1000;0.2500;0.2917;1"/></circle>
+    <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="6s" repeatCount="indefinite"
+        path="M 280 170 C 380 170 420 170 520 170" keyPoints="0;0;1;1" keyTimes="0;0.0583;0.2917;1"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="6s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.0583;0.1000;0.2500;0.2917;1"/></circle>
+  </g>
+  <g>
+    <circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="6s" repeatCount="indefinite"
+        path="M 280 286 C 380 286 420 170 520 170" keyPoints="0;0;1;1" keyTimes="0;0.0833;0.3167;1"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="6s" repeatCount="indefinite"
+             values="0;0;0.18;0.18;0;0"
+             keyTimes="0;0.0833;0.1250;0.2750;0.3167;1"/></circle>
+    <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="6s" repeatCount="indefinite"
+        path="M 280 286 C 380 286 420 170 520 170" keyPoints="0;0;1;1" keyTimes="0;0.0833;0.3167;1"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="6s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.0833;0.1250;0.2750;0.3167;1"/></circle>
+  </g>
+  
+  <g>
+    <circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="6s" repeatCount="indefinite"
+        path="M 780 170 H 1000" keyPoints="0;0;1;1" keyTimes="0;0.3833;0.5667;1"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="6s" repeatCount="indefinite"
+             values="0;0;0.18;0.18;0;0"
+             keyTimes="0;0.3833;0.4250;0.5250;0.5667;1"/></circle>
+    <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="6s" repeatCount="indefinite"
+        path="M 780 170 H 1000" keyPoints="0;0;1;1" keyTimes="0;0.3833;0.5667;1"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="6s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.3833;0.4250;0.5250;0.5667;1"/></circle>
+  </g>
+
+  
+  <g>
+    <rect x="56" y="18" width="224" height="72" rx="11"
+          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
+    <rect x="56" y="30" width="3" height="48" rx="1.5"
+          fill="#E879F9" opacity="0.5"/>
+    <text x="76" y="49" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
+          font-size="13.5" font-weight="600" fill="#F0F4F8">Répertoire</text>
+    <text x="76" y="69" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+          font-size="12" fill="#8B99A8">la grille des fiches</text>
+  </g>
+  <g>
+    <rect x="56" y="134" width="224" height="72" rx="11"
+          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
+    <rect x="56" y="146" width="3" height="48" rx="1.5"
+          fill="#E879F9" opacity="0.5"/>
+    <text x="76" y="165" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
+          font-size="13.5" font-weight="600" fill="#F0F4F8">Villes</text>
+    <text x="76" y="185" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+          font-size="12" fill="#8B99A8">les filtres du haut</text>
+  </g>
+  <g>
+    <rect x="56" y="250" width="224" height="72" rx="11"
+          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
+    <rect x="56" y="262" width="3" height="48" rx="1.5"
+          fill="#E879F9" opacity="0.5"/>
+    <text x="76" y="281" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
+          font-size="13.5" font-weight="600" fill="#F0F4F8">Statistiques</text>
+    <text x="76" y="301" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+          font-size="12" fill="#8B99A8">les lieux, la carte</text>
+  </g>
+
+  <!-- L'ouverture partagée, qui s'allume quand les trois demandes
+       arrivent, puis rend la même connexion à chacune. -->
+  
+  <g>
+    <rect x="520" y="134" width="260" height="72" rx="11"
+          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
+    <rect x="520" y="146" width="3" height="48" rx="1.5"
+          fill="#E879F9" opacity="1"/>
+    <text x="540" y="165" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
+          font-size="13.5" font-weight="600" fill="#F0F4F8">Base.instance.db</text>
+    <text x="540" y="185" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+          font-size="12" fill="#8B99A8">une ouverture, attendue par tous</text>
+  </g>
+  <rect x="520" y="134" width="260" height="72" rx="11" fill="none"
+        stroke="#E879F9" stroke-width="1.5" opacity="0">
+    <animate attributeName="opacity" dur="6s" repeatCount="indefinite"
+             values="0;0;0.9;0.9;0;0"
+             keyTimes="0;0.2833;0.3250;0.4917;0.5333;1"/>
+  </rect>
+
+  
+  <g>
+    <rect x="1000" y="134" width="224" height="72" rx="11"
+          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
+    <rect x="1000" y="146" width="3" height="48" rx="1.5"
+          fill="#E879F9" opacity="0.4"/>
+    <text x="1020" y="165" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
+          font-size="13.5" font-weight="600" fill="#F0F4F8">bodycount.db</text>
+    <text x="1020" y="185" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+          font-size="12" fill="#8B99A8">un seul fichier, chiffré</text>
+  </g>
+  <g opacity="0">
+    <animate attributeName="opacity" dur="6s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.5500;0.5917;0.8917;0.9333;1"/>
+    <circle cx="1206" cy="152" r="9" fill="#4ADE80" opacity="0.18"/>
+    <path d="M 1201.5 152 l 3 3 l 6 -6" stroke="#4ADE80" stroke-width="2"
+          fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <text x="640" y="354" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+        font-size="12.5" fill="#5C6A7A">Au déverrouillage, trois écrans demandent la base au même instant. Ils attendent la même ouverture au lieu d’en lancer trois.</text>
+  <text x="640" y="376" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+        font-size="12.5" fill="#5C6A7A">Avant, l’une fermait la connexion de l’autre, qui croyait la base en clair et la recopiait : la fiche écrivait dans un fichier, le répertoire lisait l’autre.</text>
+</svg>

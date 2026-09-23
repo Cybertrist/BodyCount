@@ -27,10 +27,10 @@ ce qui rend impossible d'en corriger une en oubliant l'autre.
 
 ## Ce que fait chaque script
 
-- `figures.sh` : tout le contenu de ce dépôt, la bannière, les dix
-  bandeaux de section, les quatre grilles, l'arborescence, les couches, le
-  modèle de données, la chaîne de chiffrement, les formats de fichier, la
-  fabrication de la carte, le modèle de confidentialité et la palette.
+- `figures.sh` : tout le contenu de ce dépôt, la bannière, les douze
+  bandeaux de section, les cinq grilles, l'arborescence, les couches, le
+  modèle de données, les formats de fichier, la fabrication de la carte,
+  la restauration pas à pas, le modèle de confidentialité et la palette.
   C'est le seul fichier à ouvrir pour changer un texte.
 - `captures.sh` : la planche de quatre captures d'écran. Les images
   sources sont dans `src-captures/`, en 1080 x 2340, telles que
@@ -46,7 +46,9 @@ ce qui rend impossible d'en corriger une en oubliant l'autre.
 - `pastilles.sh` : les deux pastilles du sélecteur de langue.
 - `sequence.sh` : le gabarit des enchaînements, des étapes reliées par
   une flèche.
-- `anime.js` : la chaîne de chiffrement, en SVG animé. Pas de police
+- `anime.js` : les quatre SVG animés, la chaîne de chiffrement,
+  l'ouverture unique de la base, le flux chiffré par morceaux et la
+  recherche des communes, dans `docs/schemas/`. Pas de police
   externe : un SVG affiché en `<img>` n'a pas le droit d'aller la
   chercher, et une `@import` ignorée donnerait une figure cassée chez les
   autres et correcte chez soi.

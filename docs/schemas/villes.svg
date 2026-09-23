@@ -1,0 +1,223 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="290"
+     viewBox="0 0 1280 290" role="img"
+     aria-label="Une ville saisie passe par quatre étapes : le nom exact, un début de nom, une faute de frappe d'une ou deux lettres, un nom de ville suivi d'un quartier. La première qui répond l'emporte, et la commune la plus peuplée à chaque étape. Locmariaquer, Plougastel, Locmariaqer et Vannes centre tombent en France ; Londres reste hors de la carte, dans le classement des lieux.">
+  <rect width="1280" height="290" fill="#0D1117"/>
+  <path d="M 262 94 H 1128" stroke="#2F3A47" stroke-width="1.8" fill="none"/>
+
+  <rect x="56" y="58" width="206" height="72" rx="11" fill="#131A24" stroke="#1F2833"/>
+  <rect x="56" y="70" width="3" height="48" rx="1.5" fill="#E879F9"/>
+  <text x="76" y="114" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5" fill="#5C6A7A">ce qui a été tapé</text>
+
+  
+  <g>
+    <rect x="316" y="58" width="170" height="72" rx="11"
+          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
+    <rect x="316" y="70" width="3" height="48" rx="1.5"
+          fill="#E879F9" opacity="0.9"/>
+    <text x="336" y="89" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
+          font-size="13.5" font-weight="600" fill="#F0F4F8">Nom exact</text>
+    <text x="336" y="109" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+          font-size="12" fill="#8B99A8">accents, tirets, « St »</text>
+  </g>
+  <g>
+    <rect x="506" y="58" width="170" height="72" rx="11"
+          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
+    <rect x="506" y="70" width="3" height="48" rx="1.5"
+          fill="#E879F9" opacity="0.75"/>
+    <text x="526" y="89" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
+          font-size="13.5" font-weight="600" fill="#F0F4F8">Début de nom</text>
+    <text x="526" y="109" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+          font-size="12" fill="#8B99A8">la plus peuplée</text>
+  </g>
+  <g>
+    <rect x="696" y="58" width="170" height="72" rx="11"
+          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
+    <rect x="696" y="70" width="3" height="48" rx="1.5"
+          fill="#E879F9" opacity="0.6000000000000001"/>
+    <text x="716" y="89" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
+          font-size="13.5" font-weight="600" fill="#F0F4F8">Faute de frappe</text>
+    <text x="716" y="109" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+          font-size="12" fill="#8B99A8">une ou deux lettres</text>
+  </g>
+  <g>
+    <rect x="886" y="58" width="170" height="72" rx="11"
+          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
+    <rect x="886" y="70" width="3" height="48" rx="1.5"
+          fill="#E879F9" opacity="0.45000000000000007"/>
+    <text x="906" y="89" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
+          font-size="13.5" font-weight="600" fill="#F0F4F8">Ville et quartier</text>
+    <text x="906" y="109" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+          font-size="12" fill="#8B99A8">le plus long nom</text>
+  </g>
+
+  <!-- Le point d'arrivée : une épingle, et ce qu'elle a trouvé. -->
+  <g transform="translate(1150 94)">
+    <path d="M 0 -18 a 10 10 0 0 1 10 10 c 0 8 -10 18 -10 18 c 0 0 -10 -10 -10 -18 a 10 10 0 0 1 10 -10 z"
+          fill="#131A24" stroke="#E879F9" stroke-width="1.6"/>
+    <circle cy="-8" r="3.4" fill="#E879F9"/>
+  </g>
+
+  
+  <g opacity="0"><animate attributeName="opacity" dur="16s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.0000;0.0156;0.1844;0.2000;1"/>
+    <text x="76" y="90" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="14" font-weight="600" fill="#F0F4F8">Locmariaquer</text>
+  </g>
+  <rect x="316" y="58" width="170" height="72" rx="11" fill="none"
+          stroke="#E879F9" stroke-width="1.6" opacity="0"><animate attributeName="opacity" dur="16s" repeatCount="indefinite"
+             values="0;0;0.9;0.9;0;0"
+             keyTimes="0;0.0563;0.0719;0.1719;0.1875;1"/></rect>
+  
+  <g>
+    <circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="16s" repeatCount="indefinite"
+        path="M 262 94 H 401" keyPoints="0;0;1;1" keyTimes="0;0.0187;0.1000;1"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="16s" repeatCount="indefinite"
+             values="0;0;0.18;0.18;0;0"
+             keyTimes="0;0.0187;0.0344;0.0844;0.1000;1"/></circle>
+    <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="16s" repeatCount="indefinite"
+        path="M 262 94 H 401" keyPoints="0;0;1;1" keyTimes="0;0.0187;0.1000;1"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="16s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.0187;0.0344;0.0844;0.1000;1"/></circle>
+  </g>
+  <g opacity="0"><animate attributeName="opacity" dur="16s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.0938;0.1094;0.1844;0.2000;1"/>
+    <text x="1150" y="136" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="12.5"
+          font-weight="600" fill="#4ADE80">Locmariaquer, 56</text>
+    <text x="1150" y="155" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5"
+          fill="#8B99A8">posée sur la carte</text>
+  </g>
+  <g opacity="0"><animate attributeName="opacity" dur="16s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.2000;0.2156;0.3844;0.4000;1"/>
+    <text x="76" y="90" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="14" font-weight="600" fill="#F0F4F8">Plougastel</text>
+  </g>
+  <rect x="506" y="58" width="170" height="72" rx="11" fill="none"
+          stroke="#E879F9" stroke-width="1.6" opacity="0"><animate attributeName="opacity" dur="16s" repeatCount="indefinite"
+             values="0;0;0.9;0.9;0;0"
+             keyTimes="0;0.2563;0.2719;0.3719;0.3875;1"/></rect>
+  
+  <g>
+    <circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="16s" repeatCount="indefinite"
+        path="M 262 94 H 591" keyPoints="0;0;1;1" keyTimes="0;0.2188;0.3000;1"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="16s" repeatCount="indefinite"
+             values="0;0;0.18;0.18;0;0"
+             keyTimes="0;0.2188;0.2344;0.2844;0.3000;1"/></circle>
+    <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="16s" repeatCount="indefinite"
+        path="M 262 94 H 591" keyPoints="0;0;1;1" keyTimes="0;0.2188;0.3000;1"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="16s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.2188;0.2344;0.2844;0.3000;1"/></circle>
+  </g>
+  <g opacity="0"><animate attributeName="opacity" dur="16s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.2938;0.3094;0.3844;0.4000;1"/>
+    <text x="1150" y="136" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="12.5"
+          font-weight="600" fill="#4ADE80">Plougastel-Daoulas, 29</text>
+    <text x="1150" y="155" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5"
+          fill="#8B99A8">posée sur la carte</text>
+  </g>
+  <g opacity="0"><animate attributeName="opacity" dur="16s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.4000;0.4156;0.5844;0.6000;1"/>
+    <text x="76" y="90" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="14" font-weight="600" fill="#F0F4F8">Locmariaqer</text>
+  </g>
+  <rect x="696" y="58" width="170" height="72" rx="11" fill="none"
+          stroke="#E879F9" stroke-width="1.6" opacity="0"><animate attributeName="opacity" dur="16s" repeatCount="indefinite"
+             values="0;0;0.9;0.9;0;0"
+             keyTimes="0;0.4563;0.4719;0.5719;0.5875;1"/></rect>
+  
+  <g>
+    <circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="16s" repeatCount="indefinite"
+        path="M 262 94 H 781" keyPoints="0;0;1;1" keyTimes="0;0.4188;0.5000;1"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="16s" repeatCount="indefinite"
+             values="0;0;0.18;0.18;0;0"
+             keyTimes="0;0.4188;0.4344;0.4844;0.5000;1"/></circle>
+    <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="16s" repeatCount="indefinite"
+        path="M 262 94 H 781" keyPoints="0;0;1;1" keyTimes="0;0.4188;0.5000;1"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="16s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.4188;0.4344;0.4844;0.5000;1"/></circle>
+  </g>
+  <g opacity="0"><animate attributeName="opacity" dur="16s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.4938;0.5094;0.5844;0.6000;1"/>
+    <text x="1150" y="136" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="12.5"
+          font-weight="600" fill="#4ADE80">Locmariaquer, 56</text>
+    <text x="1150" y="155" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5"
+          fill="#8B99A8">posée sur la carte</text>
+  </g>
+  <g opacity="0"><animate attributeName="opacity" dur="16s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.6000;0.6156;0.7844;0.8000;1"/>
+    <text x="76" y="90" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="14" font-weight="600" fill="#F0F4F8">Vannes centre</text>
+  </g>
+  <rect x="886" y="58" width="170" height="72" rx="11" fill="none"
+          stroke="#E879F9" stroke-width="1.6" opacity="0"><animate attributeName="opacity" dur="16s" repeatCount="indefinite"
+             values="0;0;0.9;0.9;0;0"
+             keyTimes="0;0.6563;0.6719;0.7719;0.7875;1"/></rect>
+  
+  <g>
+    <circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="16s" repeatCount="indefinite"
+        path="M 262 94 H 971" keyPoints="0;0;1;1" keyTimes="0;0.6188;0.7000;1"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="16s" repeatCount="indefinite"
+             values="0;0;0.18;0.18;0;0"
+             keyTimes="0;0.6188;0.6344;0.6844;0.7000;1"/></circle>
+    <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="16s" repeatCount="indefinite"
+        path="M 262 94 H 971" keyPoints="0;0;1;1" keyTimes="0;0.6188;0.7000;1"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="16s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.6188;0.6344;0.6844;0.7000;1"/></circle>
+  </g>
+  <g opacity="0"><animate attributeName="opacity" dur="16s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.6938;0.7094;0.7844;0.8000;1"/>
+    <text x="1150" y="136" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="12.5"
+          font-weight="600" fill="#4ADE80">Vannes, 56</text>
+    <text x="1150" y="155" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5"
+          fill="#8B99A8">posée sur la carte</text>
+  </g>
+  <g opacity="0"><animate attributeName="opacity" dur="16s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.8000;0.8156;0.9844;1.0000;1"/>
+    <text x="76" y="90" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="14" font-weight="600" fill="#F0F4F8">Londres</text>
+  </g>
+  
+  
+  <g>
+    <circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="16s" repeatCount="indefinite"
+        path="M 262 94 H 1128" keyPoints="0;0;1;1" keyTimes="0;0.8188;0.9000;1"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="16s" repeatCount="indefinite"
+             values="0;0;0.18;0.18;0;0"
+             keyTimes="0;0.8188;0.8344;0.8844;0.9000;1"/></circle>
+    <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="16s" repeatCount="indefinite"
+        path="M 262 94 H 1128" keyPoints="0;0;1;1" keyTimes="0;0.8188;0.9000;1"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="16s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.8188;0.8344;0.8844;0.9000;1"/></circle>
+  </g>
+  <g opacity="0"><animate attributeName="opacity" dur="16s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.8938;0.9094;0.9844;1.0000;1"/>
+    <text x="1150" y="136" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="12.5"
+          font-weight="600" fill="#E2725F">hors de France</text>
+    <text x="1150" y="155" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5"
+          fill="#8B99A8">dans le classement</text>
+  </g>
+
+  <text x="640" y="226" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+        font-size="12.5" fill="#5C6A7A">34 836 communes de métropole et de Corse, embarquées. La première étape qui répond l’emporte, et à chaque étape la commune la plus peuplée.</text>
+  <text x="640" y="248" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+        font-size="12.5" fill="#5C6A7A">Un département entre parenthèses départage les homonymes : « Saint-Denis (11) ».</text>
+</svg>

@@ -36,9 +36,11 @@ rep bodycount "$A" \
 "$(t 'La stack' 'The stack')" \
 "$(t 'Architecture' 'Architecture')" \
 "$(t 'Le chiffrement' 'Encryption')" \
+"$(t 'Vidéos et sauvegardes' 'Videos and backups')" \
 "$(t 'La carte, sans tuiles' 'The map, without tiles')" \
 "$(t 'Le calendrier' 'The calendar')" \
 "$(t 'Modèle de confidentialité' 'Privacy model')" \
+"$(t 'Les tests' 'The tests')" \
 "$(t 'Feuille de route' 'Roadmap')" \
 "$(t 'Avertissement' 'A word of warning')"
 
@@ -47,10 +49,10 @@ grid bc-feat "$A" 2 \
 "$(t 'Verrouillage biométrique' 'Biometric lock')|$(t "L'empreinte ne déverrouille pas un écran, elle charge la clé. Sans elle, la base reste illisible." 'The fingerprint does not unlock a screen, it loads the key. Without it, the database stays unreadable.')" \
 "$(t 'Répertoire' 'Directory')|$(t 'Photos, carnet de notes daté, étiquettes libres, genre et rôle, notes sur cinq.' 'Photos, a dated notebook, free tags, gender and role, ratings out of five.')" \
 "$(t 'Statistiques' 'Statistics')|$(t "Le total de l'année, le rythme mois par mois, le podium et la répartition des rôles." 'The year total, the month by month rhythm, the podium and the split by role.')" \
-"$(t 'Carte de France' 'Map of France')|$(t 'La vraie géométrie du pays, côtes et îles comprises, embarquée dans l&#39;application. Aucune tuile téléchargée.' 'The real geometry of the country, coastlines and islands included, embedded in the app. No tile downloaded.')" \
+"$(t 'Carte de France' 'Map of France')|$(t 'La vraie géométrie du pays et ses 34 836 communes, embarquées dans l&#39;application. Même mal orthographié, un village tombe à sa place.' 'The real geometry of the country and its 34,836 communes, embedded in the app. Even misspelt, a village lands in its place.')" \
 "$(t 'Calendrier' 'Calendar')|$(t 'Le mois en sept colonnes, et sous chaque jour des signes qui disent ce qu&#39;il a eu de remarquable.' 'The month in seven columns, with signs under each day telling what it had of note.')" \
-"$(t 'Galerie privée' 'Private gallery')|$(t 'Chaque photo est chiffrée à part, invisible de la galerie du téléphone.' 'Each photo is encrypted on its own, invisible to the phone gallery.')" \
-"$(t 'Export chiffré' 'Encrypted export')|$(t 'Une archive protégée par ta phrase de passe, pour garder la main sur tes données.' 'An archive protected by your passphrase, to keep a hold on your own data.')" \
+"$(t 'Galerie privée' 'Private gallery')|$(t 'Photos et vidéos, chacune chiffrée à part, invisibles de la galerie du téléphone. Elles s&#39;ouvrent en plein écran, se pincent, se lisent.' 'Photos and videos, each encrypted on its own, invisible to the phone gallery. They open full screen, pinch, play.')" \
+"$(t 'Sauvegarde complète' 'Full backup')|$(t 'Fiches, photos et vidéos dans un fichier protégé par ta phrase de passe, qui se restaure sans rien risquer : tout est vérifié avant d&#39;effacer.' 'People, photos and videos in one file protected by your passphrase, restored at no risk: everything is checked before anything is erased.')" \
 "$(t 'Ce que ça rapporte' 'What it earns')|$(t 'Un montant par rencontre, en centimes entiers, avec le total et la moyenne de l&#39;année.' 'An amount per encounter, in whole cents, with the year total and average.')" \
 "$(t 'Tout se reprend' 'Everything is editable')|$(t 'Fiche, rencontre, note, étiquette, photo : rien de ce qui est saisi n&#39;est définitif.' 'Person, encounter, note, tag, photo: nothing you enter is final.')" \
 "$(t 'Adresse et itinéraire' 'Address and directions')|$(t 'Le seul geste qui sorte du téléphone, et seulement quand on appuie dessus.' 'The only gesture that leaves the phone, and only when you press it.')" \
@@ -59,27 +61,30 @@ grid bc-feat "$A" 2 \
 # --------------------------------------------------------------- les écrans
 grid bc-ecrans "$A" 2 \
 "$(t 'Verrou' 'Lock')|$(t "Le premier écran, et le seul tant que la clé n&#39;est pas chargée. Il dit pourquoi l&#39;empreinte est demandée, et ce qui se passe si le téléphone n&#39;en a aucune d&#39;enregistrée." 'The first screen, and the only one until the key is loaded. It says why the fingerprint is asked for, and what happens if the phone has none enrolled.')" \
-"$(t 'Fiches' 'Directory')|$(t 'La grille des personnes. Recherche sur le nom, la ville et les étiquettes, cinq tris, filtre par ville. Chaque carte porte la photo, le nombre de fois et la moyenne.' 'The grid of people. Search on name, city and tags, five sortings, filter by city. Each card carries the photo, the number of times and the average.')" \
-"$(t 'Fiche' 'Person')|$(t 'La photo en haut, qui se replie au défilement. Dessous : étiquettes, carnet daté, liste des soirs, galerie. Chaque ligne se rouvre pour être corrigée ou effacée.' 'The photo on top, folding away as you scroll. Below: tags, dated notebook, list of nights, gallery. Every row reopens to be fixed or deleted.')" \
+"$(t 'Fiches' 'Directory')|$(t 'La grille des personnes. Recherche sur le nom, la ville et les étiquettes, quatre tris, filtres par ville et par étiquette. Chaque carte porte la photo, le nombre de fois et la moyenne.' 'The grid of people. Search on name, city and tags, four sortings, filters by city and by tag. Each card carries the photo, the number of times and the average.')" \
+"$(t 'Fiche' 'Person')|$(t 'La photo en haut, qui se replie au défilement et s&#39;ouvre en grand au toucher. Dessous : étiquettes, carnet daté, liste des soirs, galerie. Chaque ligne se rouvre pour être corrigée ou effacée.' 'The photo on top, folding away as you scroll and opening full size on a tap. Below: tags, dated notebook, list of nights, gallery. Every row reopens to be fixed or deleted.')" \
+"$(t 'Visionneuse' 'Viewer')|$(t 'Photos et vidéos en plein écran. On glisse de l&#39;une à l&#39;autre, on pince ou on touche deux fois pour zoomer, une vidéo se met en pause au toucher.' 'Photos and videos full screen. Swipe from one to the next, pinch or double tap to zoom, tap a video to pause it.')" \
 "$(t 'Stats' 'Stats')|$(t "Le total de l&#39;année et son écart avec la précédente, ce que ça a rapporté, le rythme en douze barres, le podium, et la répartition actif, passif, versatile en anneau." 'The year total and its gap with the previous one, what it earned, the rhythm in twelve bars, the podium, and the active, passive, versatile split as a ring.')" \
 "$(t 'Carte' 'Map')|$(t 'La France dessinée à partir de sa vraie géométrie, les villes à leur place, et le classement des lieux. Se pince pour zoomer, se traîne pour se déplacer.' 'France drawn from its real geometry, cities in their true place, and the ranking of places. Pinch to zoom, drag to pan.')" \
 "$(t 'Agenda' 'Calendar')|$(t 'Un calendrier mensuel : un jour vide est un chiffre effacé, un jour plein porte un disque, doré s&#39;il a rapporté. On tape sur un jour pour n&#39;avoir que lui.' 'A monthly calendar: an empty day is a dimmed number, a busy one carries a disc, golden if it earned. Tap a day to see only that day.')" \
 "$(t 'Légende' 'Legend')|$(t 'Ce que déclenche chacun des vingt-cinq signes du calendrier, dit précisément : pas « une bonne soirée » mais « une note de cinq sur cinq ».' 'What triggers each of the twenty-five calendar signs, stated precisely: not « a good night » but « a five out of five rating ».')" \
-"$(t 'Formulaires' 'Forms')|$(t 'Créer ou reprendre une fiche, enregistrer une rencontre, écrire une note, gérer les étiquettes et les photos. Chaque écrit passe par un dépôt, jamais par du SQL dispersé.' 'Create or edit a person, record an encounter, write a note, manage tags and photos. Every write goes through a repository, never through scattered SQL.')" \
-"$(t 'Réglages' 'Settings')|$(t 'L&#39;empreinte qu&#39;on peut couper, le délai de verrouillage, le masquage dans le multitâche, l&#39;export chiffré, un jeu d&#39;essai, et l&#39;effacement total.' 'The fingerprint you can switch off, the auto-lock delay, hiding in the task switcher, the encrypted export, a demo set, and the full wipe.')"
+"$(t 'Formulaires' 'Forms')|$(t 'Créer ou reprendre une fiche, enregistrer une rencontre, écrire une note, gérer les étiquettes, les photos et les vidéos. Chaque écrit passe par un dépôt, jamais par du SQL dispersé.' 'Create or edit a person, record an encounter, write a note, manage tags, photos and videos. Every write goes through a repository, never through scattered SQL.')" \
+"$(t 'Réglages' 'Settings')|$(t 'L&#39;empreinte qu&#39;on peut couper, le délai de verrouillage, le masquage dans le multitâche, l&#39;export et la restauration, un jeu d&#39;essai, et l&#39;effacement total.' 'The fingerprint you can switch off, the auto-lock delay, hiding in the task switcher, export and restore, a demo set, and the full wipe.')"
 
 # ----------------------------------------------------------------- la stack
 grid bc-stack "$A" 3 \
 "Flutter 3.x|$(t "Le framework, en Dart, pour une application Android native." 'The framework, in Dart, for a native Android app.')" \
 "sqflite_sqlcipher|$(t 'SQLite chiffré par SQLCipher, la seule base du projet.' 'SQLite encrypted by SQLCipher, the only database in the project.')" \
-"cryptography|$(t 'AES-GCM pour les photos et les sauvegardes, HKDF et PBKDF2 pour les clés.' 'AES-GCM for photos and backups, HKDF and PBKDF2 for the keys.')" \
+"cryptography|$(t 'AES-GCM pour les photos, HKDF et PBKDF2 pour les clés.' 'AES-GCM for photos, HKDF and PBKDF2 for the keys.')" \
+"javax.crypto|$(t 'AES-GCM natif pour les vidéos et les sauvegardes, par deux appels Kotlin.' 'Native AES-GCM for videos and backups, through two Kotlin calls.')" \
 "flutter_secure_storage|$(t 'La clé maîtresse, rangée dans le Keystore Android.' 'The master key, kept in the Android Keystore.')" \
 "local_auth|$(t "L'empreinte, qui déverrouille la clé." 'The fingerprint, which unlocks the key.')" \
 "flutter_riverpod|$(t "La gestion d'état, et l'invalidation après écriture." 'State management, and invalidation after writes.')" \
 "go_router|$(t 'La navigation, et la garde qui ramène au verrou.' 'Navigation, and the guard that sends you back to the lock.')" \
-"image_picker|$(t 'Les photos, chiffrées dès leur arrivée dans le coffre.' 'Photos, encrypted the moment they reach the vault.')" \
+"image_picker|$(t 'Photos et vidéos, chiffrées dès leur arrivée dans le coffre.' 'Photos and videos, encrypted the moment they reach the vault.')" \
+"video_player|$(t 'La lecture, depuis une copie du cache privé effacée à la fermeture.' 'Playback, from a private cache copy erased on close.')" \
 "path_provider|$(t 'Les dossiers privés de l&#39;application, hors de portée des autres.' 'The app private folders, out of reach of other apps.')" \
-"archive + share_plus|$(t "L'archive de sauvegarde, avant chiffrement, puis son partage." 'The backup archive, before encryption, then its sharing.')" \
+"archive|$(t "Relire les sauvegardes de l'ancien format, faites en ZIP." 'Reading back backups in the old format, made as ZIP.')" \
 "uuid|$(t 'Le nom des fichiers du coffre, qui ne dit rien de leur contenu.' 'The names of vault files, which say nothing about their contents.')" \
 "intl|$(t 'Les dates en français, sans les écrire à la main.' 'Dates in French, without writing them by hand.')" \
 "url_launcher|$(t 'L&#39;itinéraire et l&#39;appel, confiés aux applications du téléphone.' 'Directions and calls, handed to the phone own apps.')" \
@@ -87,11 +92,11 @@ grid bc-stack "$A" 3 \
 
 # -------------------------------------------------------- la feuille de route
 grid bc-route "$A" 2 \
-"$(t 'Restauration depuis un fichier' 'Restore from a file')|$(t "L'export chiffré existe, le sélecteur de fichier pour le relire reste à brancher." 'The encrypted export exists, the file picker to read it back is still to wire in.')" \
-"Tests|$(t "Sur les dépôts, la migration de schéma et le chiffrement." 'On the repositories, the schema migration and the encryption.')" \
-"$(t 'Recherche par étiquette' 'Search by tag')|$(t "Le dépôt sait filtrer dessus, l'écran ne le propose pas encore." 'The repository can filter on them, the screen does not offer it yet.')" \
-"$(t 'Villes hors de France' 'Cities outside France')|$(t 'La table embarquée couvre la France et quelques capitales. Au delà, la ville est listée sous la carte plutôt que posée au hasard.' 'The embedded table covers France and a few capitals. Beyond that, the city is listed under the map rather than placed at random.')" \
-"$(t 'Point précis sur la carte' 'Exact point on the map')|$(t 'La carte descend à la ville. Poser un point à la main en enregistrant une rencontre donnerait la rue, sans rien demander à un serveur.' 'The map goes down to the city. Dropping a pin by hand when recording an encounter would give the street, without asking a server anything.')"
+"$(t 'Point précis sur la carte' 'Exact point on the map')|$(t 'La carte descend à la commune. Poser un point à la main en enregistrant une rencontre donnerait la rue, sans rien demander à un serveur.' 'The map goes down to the commune. Dropping a pin by hand when recording an encounter would give the street, without asking a server anything.')" \
+"$(t 'Tests des écrans' 'Screen tests')|$(t 'Les données et le chiffrement sont couverts sur appareil. Les écrans ne le sont pas encore : un test par parcours, de la fiche à la carte.' 'Data and encryption are covered on device. The screens are not yet: one test per journey, from the person to the map.')" \
+"$(t 'Rappel de sauvegarde' 'Backup reminder')|$(t 'Dire quand la dernière sauvegarde date d&#39;un mois. Perdre le téléphone, c&#39;est perdre tout ce qui n&#39;a pas été exporté.' 'Say when the last backup is a month old. Losing the phone means losing everything not exported.')" \
+"$(t 'Vidéos allégées' 'Lighter videos')|$(t 'Une vidéo entre telle quelle dans le coffre. La réencoder à l&#39;import diviserait sa taille, et celle des sauvegardes.' 'A video goes into the vault as it is. Re-encoding it on import would cut its size, and that of backups.')" \
+"$(t 'Clé de publication' 'Release signing key')|$(t 'L&#39;APK est encore signé avec la clé de débogage. Une vraie clé est la condition pour que les mises à jour restent possibles.' 'The APK is still signed with the debug key. A real key is what keeps updates possible.')"
 
 # ---------------------------------------------------------- l'arborescence
 treefig bodycount "$A" "lib/" \
@@ -100,15 +105,18 @@ treefig bodycount "$A" "lib/" \
 "1|config/|$(t 'Thème, routage, formats d écran.' 'Theme, routing, screen formats.')" \
 "1|domaine/|<code>Personne</code>, <code>Rencontre</code>, <code>Etiquette</code>, <code>Note</code>, <code>Photo</code>." \
 "1|donnees/|$(t 'Le schéma chiffré, les dépôts, les statistiques.' 'The encrypted schema, the repositories, the statistics.')" \
-"2|coordonnees.dart|$(t 'Les villes et leurs latitudes.' 'Cities and their latitudes.')" \
+"2|base.dart|$(t 'Une seule ouverture, les migrations, la réparation.' 'A single opening, the migrations, the repair.')" \
+"2|coordonnees.dart|$(t 'Les communes, et la recherche qui pardonne les fautes.' 'The communes, and the search that forgives typos.')" \
 "2|geometrie_france.dart|$(t 'Le décodeur du fond de carte.' 'The base map decoder.')" \
-"1|security/|$(t 'Trousseau, coffre à photos, verrou, protection écran.' 'Keyring, photo vault, lock, screen guard.')" \
+"1|security/|$(t 'Trousseau, coffres photo et vidéo, verrou, protection écran.' 'Keyring, photo and video vaults, lock, screen guard.')" \
+"2|flux_chiffre.dart|$(t 'Le chiffrement par morceaux, pour ce qui ne tient pas en mémoire.' 'Chunked encryption, for what does not fit in memory.')" \
+"2|aes_natif.dart|$(t 'AES-GCM par le chiffrement d&#39;Android.' 'AES-GCM through Android encryption.')" \
 "1|providers/|$(t "L'état, en Riverpod." 'State, in Riverpod.')" \
 "1|ecrans/|$(t 'Les écrans, et le calcul des signes du calendrier.' 'The screens, and the calendar signs.')" \
 "2|calendrier.dart|$(t 'Le mois, et la liste dessous.' 'The month, and the list below.')" \
-"2|marqueurs_calendrier.dart|$(t 'Le calcul des vingt-cinq signes.' 'The twenty-five signs.')" \
+"2|visionneuse.dart|$(t 'Photos et vidéos en plein écran.' 'Photos and videos full screen.')" \
 "1|widgets/|$(t 'Les composants réutilisables, dont la carte.' 'The reusable components, including the map.')" \
-"1|utils/|$(t 'Images, sauvegarde chiffrée, dates.' 'Images, encrypted backup, dates.')"
+"1|utils/|$(t 'Médias, sauvegarde en flux, sélecteur de fichiers, dates.' 'Media, streamed backup, file picker, dates.')"
 
 # ------------------------------------------------------ comment la carte est faite
 seqfig bc-carte "$A" \
@@ -120,12 +128,14 @@ seqfig bc-carte "$A" \
 # ----------------------------- le modèle de confidentialité, en deux colonnes
 V1="$(t 'Aucune requête réseau, aucun compte, aucune analytique.' 'No network request, no account, no analytics.')"
 V2="$(t "La base est chiffrée par SQLCipher. Sa clé vit dans le Keystore et n'est chargée qu'après l'empreinte, quand celle ci est active." 'The database is encrypted by SQLCipher. Its key lives in the Keystore and is only loaded after the fingerprint, when that is switched on.')"
-V3="$(t 'Chaque photo est chiffrée en AES-GCM, et reste absente de la galerie du téléphone.' 'Every photo is encrypted with AES-GCM, and never shows in the phone gallery.')"
+V3="$(t 'Chaque photo et chaque vidéo est chiffrée en AES-GCM, et reste absente de la galerie du téléphone.' 'Every photo and video is encrypted with AES-GCM, and never shows in the phone gallery.')"
 V4="$(t "L'aperçu du multitâche est masqué, les captures bloquées, la sauvegarde Android refusée." 'The task switcher preview is blanked, screenshots blocked, Android backup refused.')"
 F1="$(t "Une fois l'application ouverte, tout est lisible à l'écran. L'empreinte protège l'accès, pas ton épaule." 'Once the app is open, everything is readable on screen. The fingerprint protects access, not your shoulder.')"
 F2="$(t 'Une sauvegarde exportée voyage. Elle est chiffrée par ta phrase de passe, qui vaut ce que tu la fais valoir.' 'An exported backup travels. It is encrypted by your passphrase, which is worth what you make it worth.')"
 F3="$(t "Perdre le téléphone, c'est perdre les données : la clé ne se recopie nulle part." 'Losing the phone means losing the data: the key is copied nowhere.')"
 F4="$(t "L'empreinte se coupe dans les réglages. Le chiffrement reste, mais la clé se charge alors sans preuve d'identité." 'The fingerprint can be switched off in the settings. Encryption stays, but the key then loads without proof of identity.')"
+V5="$(t 'Une restauration vérifie toute la sauvegarde avant d&#39;effacer quoi que ce soit : une phrase fausse ou un fichier abîmé ne touchent à rien.' 'A restore checks the whole backup before erasing anything: a wrong passphrase or a damaged file touch nothing.')"
+F5="$(t 'Pour être lue, une vidéo est déchiffrée dans le cache privé de l&#39;application, le temps de la lecture. La copie part à la fermeture et au verrouillage.' 'To be played, a video is decrypted into the app private cache for as long as it plays. The copy goes on close and on lock.')"
 TV="$(t 'Ce qui est <span>vrai</span>' 'What is <span>true</span>')"
 TF="$(t "Ce qui ne l'est <span>pas</span>" 'What is <span>not</span>')"
 OK='<i><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.3l3.4 3.4L13 5" stroke="#4ADE80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></i>'
@@ -136,8 +146,8 @@ cat > "$D/html$SUF/s-bc-privacy.html" <<HTML
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&family=Space+Grotesk:wght@400;500&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{width:1280px;height:340px;overflow:hidden;background:#0D1117}
-.w{width:1280px;height:340px;background:#0D1117;display:flex;gap:30px;padding:26px 56px}
+html,body{width:1280px;height:384px;overflow:hidden;background:#0D1117}
+.w{width:1280px;height:384px;background:#0D1117;display:flex;gap:30px;padding:26px 56px}
 .p{flex:1;background:#131A24;border:1px solid #1F2833;border-radius:13px;padding:20px 24px;
    display:flex;flex-direction:column;gap:11px;position:relative;overflow:hidden}
 .p::after{content:"";position:absolute;left:0;top:20px;bottom:20px;width:3px;border-radius:0 3px 3px 0}
@@ -156,6 +166,7 @@ code{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#C3CCD7}
   <div class="l">$OK<p>$V2</p></div>
   <div class="l">$OK<p>$V3</p></div>
   <div class="l">$OK<p>$V4</p></div>
+  <div class="l">$OK<p>$V5</p></div>
 </div>
 
 <div class="p ko">
@@ -164,12 +175,13 @@ code{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#C3CCD7}
   <div class="l">$KO<p>$F2</p></div>
   <div class="l">$KO<p>$F3</p></div>
   <div class="l">$KO<p>$F4</p></div>
+  <div class="l">$KO<p>$F5</p></div>
 </div>
 
 </div></body></html>
 HTML
 "$CH" --headless=new --disable-gpu --hide-scrollbars --virtual-time-budget=11000 --force-device-scale-factor=2 \
-  --screenshot="$B/flow$SUF/bc-privacy.png" --window-size=1280,340 "file:///$B/html$SUF/s-bc-privacy.html" >/dev/null 2>&1
+  --screenshot="$B/flow$SUF/bc-privacy.png" --window-size=1280,384 "file:///$B/html$SUF/s-bc-privacy.html" >/dev/null 2>&1
 echo "  bc-privacy.png"
 
 # --------------------------------------------------------------- la palette
@@ -247,13 +259,14 @@ echo "  bc-couches.png"
 # Les six tables et leurs clés étrangères. La figure est dessinée en SVG
 # plutôt qu'en boîtes CSS : ce qu'on veut lire ici, ce sont les liens, et
 # une grille ne sait pas tracer une ligne d'un bloc à l'autre.
-MT="$(t 'six tables, schéma v5' 'six tables, schema v5')"
+MT="$(t 'six tables, schéma v7' 'six tables, schema v7')"
 MP="$(t 'prénom, âge, ville, genre, rôle,' 'first name, age, city, gender, role,')"
 MP2="$(t 'source, téléphone, adresse' 'source, phone, address')"
 MR="$(t 'date, lieu, note en demi-points,' 'date, place, rating in half points,')"
 MR2="$(t 'montant gagné en centimes' 'amount earned in cents')"
 MN="$(t 'texte libre, daté' 'free text, dated')"
-MPH="$(t 'chemin dans le coffre' 'path in the vault')"
+MPH="$(t 'chemin dans le coffre, photo ou vidéo,' 'path in the vault, photo or video,')"
+MPH2="$(t 'durée et vignette d&#39;une vidéo' 'duration and thumbnail of a video')"
 ME="$(t 'clé normalisée, unique' 'normalised key, unique')"
 MC="$(t 'en cascade' 'on cascade')"
 MNUL="$(t 'facultatif' 'optional')"
@@ -307,7 +320,7 @@ svg{display:block}
 $(boite 60 172 240 84 "personnes" "$MP" "$MP2")
 $(boite 450 54 250 84 "rencontres" "$MR" "$MR2")
 $(boite 450 172 250 84 "notes" "$MN" "")
-$(boite 450 290 250 84 "photos" "$MPH" "")
+$(boite 450 290 250 84 "photos" "$MPH" "$MPH2")
 $(boite 890 172 250 84 "etiquettes" "$ME" "")
 
   <text x="352" y="152" class="lb">1 - n, $MC</text>
@@ -323,31 +336,45 @@ HTML
   --screenshot="$B/flow$SUF/bc-modele.png" --window-size=1280,452 "file:///$B/html$SUF/s-bc-modele.html" >/dev/null 2>&1
 echo "  bc-modele.png"
 
-# ------------------------------------------------- les deux formats de fichier
-# Le coffre à photos et la sauvegarde exportée, octet par octet. Une
-# phrase décrirait mal ce qu&#39;un ruban montre d&#39;un coup d&#39;oeil.
+# ------------------------------------------------- les formats de fichier
+# Le coffre à photos, le coffre à vidéos et la sauvegarde exportée, octet
+# par octet. Une phrase décrirait mal ce qu'un ruban montre d'un coup
+# d'oeil. Les deux derniers partagent le même flux chiffré par morceaux,
+# détaillé sur le dernier ruban.
 FT1="$(t 'Une photo dans le coffre' 'A photo in the vault')"
-FT2="$(t 'Une sauvegarde exportée' 'An exported backup')"
-FD1="$(t 'Clé dérivée du trousseau par HKDF. Le nom du fichier est un UUID : il ne dit rien de ce qu&#39;il contient.' 'Key derived from the keyring by HKDF. The file name is a UUID: it says nothing about what it holds.')"
-FD2="$(t 'Clé dérivée de ta phrase de passe par PBKDF2-HMAC-SHA256, 210 000 tours. Le sel change à chaque export.' 'Key derived from your passphrase by PBKDF2-HMAC-SHA256, 210,000 rounds. The salt changes on every export.')"
+FT2="$(t 'Une vidéo dans le coffre' 'A video in the vault')"
+FT3="$(t 'Une sauvegarde exportée' 'An exported backup')"
+FT4="$(t 'Un morceau du flux' 'One chunk of the stream')"
+FD1="$(t 'Chiffrée d&#39;un bloc : une photo tient en mémoire. Clé dérivée du trousseau par HKDF, nom de fichier en UUID.' 'Encrypted in one block: a photo fits in memory. Key derived from the keyring by HKDF, file name as a UUID.')"
+FD2="$(t 'Même clé que les photos, mais en flux : la vidéo ne passe jamais en mémoire d&#39;un bloc.' 'Same key as photos, but streamed: the video never sits in memory whole.')"
+FD3="$(t 'Clé tirée de ta phrase de passe par PBKDF2-HMAC-SHA256, 210 000 tours, sel neuf à chaque export. Le flux porte le JSON puis chaque média, et se termine par un octet nul.' 'Key drawn from your passphrase by PBKDF2-HMAC-SHA256, 210,000 rounds, fresh salt on every export. The stream carries the JSON then each media, and ends on a zero byte.')"
+FD4="$(t 'Chaque morceau authentifie son rang et le fait d&#39;être le dernier : intervertir, retirer ou couper fait échouer la lecture.' 'Each chunk authenticates its rank and whether it is the last: swapping, removing or cutting makes reading fail.')"
 O="$(t 'octets' 'bytes')"
 FL_C="$(t 'longueur variable' 'variable length')"
+FL_M="$(t 'morceaux chiffrés' 'encrypted chunks')"
+FL_1="$(t 'jusqu&#39;à 1 Mo' 'up to 1 MB')"
+FL_R="$(t 'rang, dernier' 'rank, last')"
+FL_A="$(t 'authentifié, non écrit' 'authenticated, not written')"
 
 cat > "$D/html$SUF/s-bc-formats.html" <<HTML
 <!doctype html><html lang="$LG"><head><meta charset="utf-8">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&family=Space+Grotesk:wght@400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{width:1280px;height:376px;overflow:hidden;background:#0D1117}
-.w{width:1280px;height:376px;background:#0D1117;padding:26px 56px;display:flex;flex-direction:column;gap:18px}
-.b{background:#131A24;border:1px solid #1F2833;border-radius:13px;padding:19px 24px;flex:1;
-   display:flex;flex-direction:column;gap:13px}
-h3{font-family:Syne,sans-serif;font-weight:800;font-size:17px;color:#F0F4F8}
-.rb{display:flex;gap:4px;height:52px}
+html,body{width:1280px;height:716px;overflow:hidden;background:#0D1117}
+.w{width:1280px;height:716px;background:#0D1117;padding:26px 56px;display:flex;flex-direction:column;gap:14px}
+.b{background:#131A24;border:1px solid #1F2833;border-radius:13px;padding:17px 24px;flex:1;
+   display:flex;flex-direction:column;gap:11px}
+.b.m{border-color:#3A2A55}
+h3{font-family:Syne,sans-serif;font-weight:800;font-size:16.5px;color:#F0F4F8}
+.rb{display:flex;gap:4px;height:48px}
 .seg{border-radius:7px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
      border:1px solid rgba(255,255,255,.07)}
 .seg b{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12.5px;color:#F0F4F8}
 .seg span{font-family:'Space Grotesk',sans-serif;font-size:10.5px;color:rgba(255,255,255,.5)}
+.seg.fl{background:repeating-linear-gradient(90deg,#4C2A84 0 118px,#0D1117 118px 122px)}
+.seg.fl .lb{background:#4C2A84;flex:1;align-self:center;padding:0 18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+.seg.ad{border:1.5px dashed #6B4A9A;background:transparent}
 .p{font-family:'Space Grotesk',sans-serif;font-size:13px;line-height:1.45;color:#8B99A8}
 </style></head><body><div class="w">
 
@@ -365,17 +392,54 @@ h3{font-family:Syne,sans-serif;font-weight:800;font-size:17px;color:#F0F4F8}
   <div class="b">
     <h3>$FT2</h3>
     <div class="rb">
-      <div class="seg" style="width:120px;background:#2B1A4E"><b>BCEX1</b><span>5 $O</span></div>
-      <div class="seg" style="width:150px;background:#38205F"><b>sel</b><span>16 $O</span></div>
-      <div class="seg" style="width:150px;background:#3A2166"><b>nonce</b><span>12 $O</span></div>
-      <div class="seg" style="flex:1;background:#4C2A84"><b>AES-GCM</b><span>$FL_C</span></div>
-      <div class="seg" style="width:160px;background:#63348F"><b>MAC</b><span>16 $O</span></div>
+      <div class="seg" style="width:120px;background:#2B1A4E"><b>BCV1</b><span>4 $O</span></div>
+      <div class="seg fl" style="flex:1"><div class="lb"><b>$FL_M</b><span>$FL_1</span></div></div>
     </div>
     <p class="p">$FD2</p>
+  </div>
+
+  <div class="b">
+    <h3>$FT3</h3>
+    <div class="rb">
+      <div class="seg" style="width:120px;background:#2B1A4E"><b>BCEX2</b><span>5 $O</span></div>
+      <div class="seg" style="width:150px;background:#38205F"><b>sel</b><span>16 $O</span></div>
+      <div class="seg fl" style="flex:1"><div class="lb"><b>$FL_M</b><span>JSON, photos, $(t 'vidéos' 'videos')</span></div></div>
+    </div>
+    <p class="p">$FD3</p>
+  </div>
+
+  <div class="b m">
+    <h3>$FT4</h3>
+    <div class="rb">
+      <div class="seg" style="width:150px;background:#2B1A4E"><b>$(t 'longueur' 'length')</b><span>4 $O</span></div>
+      <div class="seg" style="width:150px;background:#3A2166"><b>nonce</b><span>12 $O</span></div>
+      <div class="seg" style="flex:1;background:#4C2A84"><b>AES-GCM</b><span>$FL_1</span></div>
+      <div class="seg" style="width:150px;background:#63348F"><b>MAC</b><span>16 $O</span></div>
+      <div class="seg ad" style="width:190px"><b>$FL_R</b><span>$FL_A</span></div>
+    </div>
+    <p class="p">$FD4</p>
   </div>
 
 </div></body></html>
 HTML
 "$CH" --headless=new --disable-gpu --hide-scrollbars --virtual-time-budget=10000 --force-device-scale-factor=2 \
-  --screenshot="$B/flow$SUF/bc-formats.png" --window-size=1280,376 "file:///$B/html$SUF/s-bc-formats.html" >/dev/null 2>&1
+  --screenshot="$B/flow$SUF/bc-formats.png" --window-size=1280,716 "file:///$B/html$SUF/s-bc-formats.html" >/dev/null 2>&1
 echo "  bc-formats.png"
+
+# ------------------------------------------------ la restauration, pas à pas
+# Rien n'est effacé avant la dernière étape. C'est tout l'intérêt de
+# l'ordre, et c'est ce qu'une séquence montre mieux qu'une phrase.
+seqfig bc-restauration "$A" \
+"$(t 'Choisir' 'Choose')|$(t 'Le sélecteur du système, qui voit Téléchargements, la carte SD, un dossier synchronisé. Le fichier est recopié dans le cache privé.' 'The system picker, which sees Downloads, the SD card, a synced folder. The file is copied into the private cache.')" \
+"$(t 'Tout vérifier' 'Check it all')|$(t 'Premier passage : chaque morceau est déchiffré puis jeté. Une phrase fausse s&#39;arrête au premier, un octet abîmé au sien.' 'First pass: every chunk is decrypted then dropped. A wrong passphrase stops at the first, a damaged byte at its own.')" \
+"$(t 'Ranger les médias' 'Store the media')|$(t 'Second passage : photos et vidéos entrent dans le coffre sous de nouveaux noms. Si quelque chose échoue, ils sont effacés.' 'Second pass: photos and videos enter the vault under new names. If anything fails, they are erased.')" \
+"$(t 'Remplacer' 'Replace')|$(t 'Alors seulement les fiches changent, et les fichiers des anciennes partent. Jusque là, rien n&#39;a été touché.' 'Only then do the people change, and the old ones files go. Until then, nothing was touched.')"
+
+# ---------------------------------------------------------------- les tests
+grid bc-tests "$A" 3 \
+"$(t 'Base' 'Database')|$(t 'Huit ouvertures simultanées rendent une seule connexion. Une écriture se relit partout. Une base sans version est réparée, pas détruite.' 'Eight simultaneous openings give one connection. A write reads back everywhere. A database without a version is repaired, not destroyed.')" \
+"$(t 'Flux chiffré' 'Encrypted stream')|$(t 'Aller-retour de zéro octet à trois mégaoctets. Tronqué, interverti ou modifié d&#39;un octet : refusé. Le natif relit le Dart, et l&#39;inverse.' 'Round trip from zero bytes to three megabytes. Truncated, swapped or one byte changed: refused. Native reads Dart back, and the reverse.')" \
+"$(t 'Coffre vidéo' 'Video vault')|$(t 'Une vidéo entre, se relit à l&#39;identique, l&#39;original disparaît, et la copie de lecture aussi.' 'A video goes in, reads back identical, the original disappears, and so does the playback copy.')" \
+"$(t 'Sauvegarde' 'Backup')|$(t 'Tout revient, fiche, étiquettes, rencontre, photo, vidéo et vignette. Phrase fausse, fichier abîmé, fichier étranger : rien ne bouge.' 'Everything comes back, person, tags, encounter, photo, video and thumbnail. Wrong passphrase, damaged file, foreign file: nothing moves.')" \
+"$(t 'Communes' 'Communes')|$(t 'Un village, une faute de frappe, un homonyme départagé par son département, Londres hors de la carte, « chez lui » qui n&#39;est pas une ville.' 'A village, a typo, a namesake settled by its department, London off the map, « chez lui » not being a city.')" \
+"$(t 'Sur appareil' 'On device')|$(t 'SQLCipher, le Keystore et l&#39;AES natif n&#39;existent que sur Android : les dix-huit tests tournent sur un émulateur.' 'SQLCipher, the Keystore and native AES only exist on Android: the eighteen tests run on an emulator.')"

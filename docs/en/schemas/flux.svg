@@ -1,0 +1,173 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="380"
+     viewBox="0 0 1280 380" role="img"
+     aria-label="A video is cut into one megabyte chunks. Each is encrypted on its own, with its nonce and tag, and authenticates its rank and whether it is the last. Two swapped chunks do not read back: reading is refused.">
+  <rect width="1280" height="380" fill="#0D1117"/>
+
+  <!-- La vidéo en clair, qu'une tête de lecture parcourt. -->
+  <rect x="82" y="44" width="1116" height="40" rx="9" fill="#1A2230" stroke="#1F2833"/>
+  <text x="102" y="69" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="12.5" fill="#8B99A8">plain video, 5.4 MB</text>
+  <rect x="82" y="44" width="4" height="40" rx="2" fill="#E879F9" opacity="0">
+    <animate attributeName="x" dur="9s" repeatCount="indefinite"
+             values="82;82;1194;1194" keyTimes="0;0.0444;0.2889;1"/>
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.0333;0.0611;0.2722;0.3000;1"/>
+  </rect>
+  <path d="M 640 92 V 138" stroke="#2F3A47" stroke-width="1.8" fill="none"/>
+  <path d="M 633 130 L 640 138 L 647 130" stroke="#2F3A47" stroke-width="1.8" fill="none"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  
+  <g opacity="0">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.0444;0.0722;0.9278;0.9556;1"/>
+    <g>
+      <rect x="82" y="150" width="168" height="84" rx="11" fill="#131A24" stroke="#1F2833"/>
+      <rect x="82" y="162" width="3" height="60" rx="1.5" fill="#E879F9" opacity="1"/>
+      <text x="100" y="180" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="13" font-weight="600"
+            fill="#F0F4F8">rank 0</text>
+      <text x="100" y="200" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5"
+            fill="#8B99A8">1 MB encrypted</text>
+      <text x="100" y="218" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="10.5"
+            fill="#5C6A7A">nonce + MAC</text>
+      <g transform="translate(220 166)" stroke="#E879F9" stroke-width="1.6" fill="none">
+        <rect x="0" y="7" width="14" height="11" rx="2.5"/>
+        <path d="M 3 7 V 4.5 a 4 4 0 0 1 8 0 V 7"/>
+      </g>
+    </g>
+  </g>
+  <g opacity="0">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.0833;0.1111;0.9278;0.9556;1"/>
+    <g>
+      <rect x="270" y="150" width="168" height="84" rx="11" fill="#131A24" stroke="#1F2833"/>
+      <rect x="270" y="162" width="3" height="60" rx="1.5" fill="#E879F9" opacity="0.88"/>
+      <text x="288" y="180" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="13" font-weight="600"
+            fill="#F0F4F8">rank 1</text>
+      <text x="288" y="200" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5"
+            fill="#8B99A8">1 MB encrypted</text>
+      <text x="288" y="218" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="10.5"
+            fill="#5C6A7A">nonce + MAC</text>
+      <g transform="translate(408 166)" stroke="#E879F9" stroke-width="1.6" fill="none">
+        <rect x="0" y="7" width="14" height="11" rx="2.5"/>
+        <path d="M 3 7 V 4.5 a 4 4 0 0 1 8 0 V 7"/>
+      </g>
+    </g>
+  </g>
+  <g opacity="0">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.1222;0.1500;0.9278;0.9556;1"/>
+    <g>
+      <animateTransform attributeName="transform" type="translate"
+        dur="9s" repeatCount="indefinite"
+        values="0 0;0 0;188 0;188 0;0 0;0 0"
+        keyTimes="0;0.4000;0.4889;0.9111;0.9667;1"/>
+      <rect x="458" y="150" width="168" height="84" rx="11" fill="#131A24" stroke="#1F2833"/>
+      <rect x="458" y="162" width="3" height="60" rx="1.5" fill="#E879F9" opacity="0.76"/>
+      <text x="476" y="180" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="13" font-weight="600"
+            fill="#F0F4F8">rank 2</text>
+      <text x="476" y="200" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5"
+            fill="#8B99A8">1 MB encrypted</text>
+      <text x="476" y="218" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="10.5"
+            fill="#5C6A7A">nonce + MAC</text>
+      <g transform="translate(596 166)" stroke="#E879F9" stroke-width="1.6" fill="none">
+        <rect x="0" y="7" width="14" height="11" rx="2.5"/>
+        <path d="M 3 7 V 4.5 a 4 4 0 0 1 8 0 V 7"/>
+      </g>
+    </g>
+  </g>
+  <g opacity="0">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.1611;0.1889;0.9278;0.9556;1"/>
+    <g>
+      <animateTransform attributeName="transform" type="translate"
+        dur="9s" repeatCount="indefinite"
+        values="0 0;0 0;-188 0;-188 0;0 0;0 0"
+        keyTimes="0;0.4000;0.4889;0.9111;0.9667;1"/>
+      <rect x="646" y="150" width="168" height="84" rx="11" fill="#131A24" stroke="#1F2833"/>
+      <rect x="646" y="162" width="3" height="60" rx="1.5" fill="#E879F9" opacity="0.64"/>
+      <text x="664" y="180" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="13" font-weight="600"
+            fill="#F0F4F8">rank 3</text>
+      <text x="664" y="200" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5"
+            fill="#8B99A8">1 MB encrypted</text>
+      <text x="664" y="218" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="10.5"
+            fill="#5C6A7A">nonce + MAC</text>
+      <g transform="translate(784 166)" stroke="#E879F9" stroke-width="1.6" fill="none">
+        <rect x="0" y="7" width="14" height="11" rx="2.5"/>
+        <path d="M 3 7 V 4.5 a 4 4 0 0 1 8 0 V 7"/>
+      </g>
+    </g>
+  </g>
+  <g opacity="0">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.2000;0.2278;0.9278;0.9556;1"/>
+    <g>
+      <rect x="834" y="150" width="168" height="84" rx="11" fill="#131A24" stroke="#1F2833"/>
+      <rect x="834" y="162" width="3" height="60" rx="1.5" fill="#E879F9" opacity="0.52"/>
+      <text x="852" y="180" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="13" font-weight="600"
+            fill="#F0F4F8">rank 4</text>
+      <text x="852" y="200" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5"
+            fill="#8B99A8">1 MB encrypted</text>
+      <text x="852" y="218" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="10.5"
+            fill="#5C6A7A">nonce + MAC</text>
+      <g transform="translate(972 166)" stroke="#E879F9" stroke-width="1.6" fill="none">
+        <rect x="0" y="7" width="14" height="11" rx="2.5"/>
+        <path d="M 3 7 V 4.5 a 4 4 0 0 1 8 0 V 7"/>
+      </g>
+    </g>
+  </g>
+  <g opacity="0">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.2389;0.2667;0.9278;0.9556;1"/>
+    <g>
+      <rect x="1022" y="150" width="168" height="84" rx="11" fill="#131A24" stroke="#1F2833"/>
+      <rect x="1022" y="162" width="3" height="60" rx="1.5" fill="#E879F9" opacity="0.4"/>
+      <text x="1040" y="180" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="13" font-weight="600"
+            fill="#F0F4F8">rank 5</text>
+      <text x="1040" y="200" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5"
+            fill="#8B99A8">the last one</text>
+      <text x="1040" y="218" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="10.5"
+            fill="#5C6A7A">nonce + MAC</text>
+      <g transform="translate(1160 166)" stroke="#E879F9" stroke-width="1.6" fill="none">
+        <rect x="0" y="7" width="14" height="11" rx="2.5"/>
+        <path d="M 3 7 V 4.5 a 4 4 0 0 1 8 0 V 7"/>
+      </g>
+    </g>
+  </g>
+  <rect x="455" y="147" width="174" height="90" rx="13"
+          fill="none" stroke="#E2725F" stroke-width="1.8" opacity="0">
+      <animate attributeName="opacity" dur="9s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.5111;0.5389;0.8833;0.9111;1"/></rect>
+  <rect x="643" y="147" width="174" height="90" rx="13"
+          fill="none" stroke="#E2725F" stroke-width="1.8" opacity="0">
+      <animate attributeName="opacity" dur="9s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.5111;0.5389;0.8833;0.9111;1"/></rect>
+
+  <g opacity="0">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.5111;0.5389;0.8833;0.9111;1"/>
+    <text x="640" y="270" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="13"
+          font-weight="600" fill="#E2725F">rank 3 read in place of rank 2: refused</text>
+  </g>
+  <g opacity="0">
+    <animate attributeName="opacity" dur="9s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.3000;0.3278;0.3833;0.4111;1"/>
+    <text x="640" y="270" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="13"
+          font-weight="600" fill="#4ADE80">six chunks sealed, each in its place</text>
+  </g>
+
+  <text x="640" y="330" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+        font-size="12.5" fill="#5C6A7A">Each chunk is encrypted on its own, with its own nonce, and authenticates its rank and whether it is the last.</text>
+  <text x="640" y="352" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+        font-size="12.5" fill="#5C6A7A">A chunk moved, removed or cut does not read back. The video never sits in memory whole.</text>
+</svg>

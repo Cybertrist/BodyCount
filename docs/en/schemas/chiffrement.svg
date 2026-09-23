@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="340"
      viewBox="0 0 1280 340" role="img"
-     aria-label="The fingerprint loads the master key from the Android Keystore. HKDF-SHA256 derives two keys from it: the SQLCipher password that opens the encrypted journal, and the AES-GCM key that opens the photo vault.">
+     aria-label="The fingerprint loads the master key from the Android Keystore. HKDF-SHA256 derives two keys from it: the SQLCipher password that opens the encrypted journal, and the AES-GCM key that opens the photo and video vault.">
   <rect width="1280" height="340" fill="#0D1117"/>
 
   <!-- Les fils, posés sous les cartes : une bille qui passe derrière une
@@ -125,9 +125,9 @@
     <rect x="1044" y="228" width="3" height="48" rx="1.5"
           fill="#E879F9" opacity="0.4"/>
     <text x="1064" y="247" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
-          font-size="13.5" font-weight="600" fill="#F0F4F8">vault/*.bcx</text>
+          font-size="13.5" font-weight="600" fill="#F0F4F8">vault/</text>
     <text x="1064" y="267" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
-          font-size="12" fill="#8B99A8">one photo, one file</text>
+          font-size="12" fill="#8B99A8">photos and videos</text>
   </g>
 
   <text x="640" y="322" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
