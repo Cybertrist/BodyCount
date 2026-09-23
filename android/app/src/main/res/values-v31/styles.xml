@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Android 12 et plus imposent leur propre écran de démarrage : l'icône
+         au centre, sur une couleur de fond. On lui donne celle de
+         l'application, et l'animation de lancement de Flutter prend le
+         relais avec le même logo au même endroit. -->
+    <style name="LaunchTheme" parent="@android:style/Theme.Black.NoTitleBar">
+        <item name="android:windowBackground">@drawable/launch_background</item>
+        <item name="android:windowSplashScreenBackground">@color/fond</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/fond</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/icone_demarrage</item>
+    </style>
+    <style name="NormalTheme" parent="@android:style/Theme.Black.NoTitleBar">
+        <item name="android:windowBackground">@color/fond</item>
+    </style>
+</resources>

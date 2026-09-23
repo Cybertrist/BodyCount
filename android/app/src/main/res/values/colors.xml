@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Le fond de l'application, AppColors.background. Le démarrage le
+         reprend pour qu'aucun blanc ne s'intercale entre l'icône touchée
+         et le premier écran. -->
+    <color name="fond">#0B0616</color>
+</resources>

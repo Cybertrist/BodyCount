@@ -65,9 +65,9 @@ class AuthService {
       return ResultatOuverture.echec('Erreur inattendue : $e');
     }
 
-    if (!authentifie) {
-      return const ResultatOuverture.echec('Annulé.');
-    }
+    // Fermer la demande n'est pas une erreur : c'est un choix. L'écran
+    // reste calme et propose simplement de recommencer.
+    if (!authentifie) return const ResultatOuverture.annule();
 
     // La clé n'entre en mémoire qu'ici, une fois l'identité prouvée.
     await KeyVault.instance.unlock();
@@ -141,11 +141,19 @@ class AuthService {
 
 /// Le résultat d'une tentative d'ouverture.
 class ResultatOuverture {
-  const ResultatOuverture.succes() : raison = null;
-  const ResultatOuverture.echec(this.raison);
+  const ResultatOuverture.succes()
+      : raison = null,
+        annule = false;
+  const ResultatOuverture.echec(this.raison) : annule = false;
+  const ResultatOuverture.annule()
+      : raison = null,
+        annule = true;
 
-  /// Null quand tout s'est bien passé.
+  /// Vrai quand la demande d'empreinte a été fermée sans répondre.
+  final bool annule;
+
+  /// Null quand tout s'est bien passé, ou quand la demande a été fermée.
   final String? raison;
 
-  bool get ouvert => raison == null;
+  bool get ouvert => raison == null && !annule;
 }

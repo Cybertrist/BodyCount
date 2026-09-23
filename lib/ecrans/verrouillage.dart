@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../config/theme.dart';
 import '../providers/auth_provider.dart';
 import '../providers/settings_provider.dart';
+import 'lancement.dart';
 
 /// Écran d'ouverture.
 ///
@@ -29,8 +30,11 @@ class _LockScreenState extends ConsumerState<LockScreen> {
   void initState() {
     super.initState();
     // Le premier essai part tout seul : ouvrir l'application et poser le
-    // doigt doivent être le même geste.
-    WidgetsBinding.instance.addPostFrameCallback((_) => _ouvrir());
+    // doigt doivent être le même geste. Il attend la fin de l'animation de
+    // lancement, que la fenêtre du système couperait en plein milieu.
+    Lancement.termine.then((_) {
+      if (mounted) _ouvrir();
+    });
   }
 
   /// Ouvre, en demandant l'empreinte ou non.

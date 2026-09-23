@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'config/routes.dart';
 import 'config/theme.dart';
+import 'ecrans/lancement.dart';
 import 'providers/auth_provider.dart';
 import 'providers/donnees.dart';
 import 'providers/settings_provider.dart';
@@ -142,6 +143,14 @@ class _BodyCountAppState extends ConsumerState<BodyCountApp>
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
       routerConfig: router,
+      // L'animation de lancement se pose par dessus le routeur, le temps
+      // qu'elle dure : l'écran d'ouverture est déjà dessous, prêt.
+      builder: (context, enfant) => Stack(
+        children: [
+          ?enfant,
+          const AnimationLancement(),
+        ],
+      ),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

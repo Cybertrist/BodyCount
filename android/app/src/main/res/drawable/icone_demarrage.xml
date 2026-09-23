@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- L'icône de l'écran de démarrage d'Android 12 et plus : le logo seul,
+     sans fond. Android l'étire sur 240 dp et la découpe dans un disque de
+     160 dp ; les marges la ramènent à 112 dp, qui tiennent entiers dans le
+     disque. L'animation de lancement de Flutter reprend le même logo, à la
+     même taille, au même endroit : on ne voit pas le passage. -->
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/logo_demarrage"
+    android:inset="26.67%" />
