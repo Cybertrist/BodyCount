@@ -11,6 +11,7 @@ import '../ecrans/legende_calendrier.dart';
 import '../ecrans/repertoire.dart';
 import '../ecrans/statistiques.dart';
 import '../ecrans/verrouillage.dart';
+import '../ecrans/visionneuse.dart';
 import '../ecrans/reglages.dart';
 import '../security/lock_state.dart';
 import '../widgets/common/app_scaffold.dart';
@@ -129,6 +130,14 @@ final router = GoRouter(
         GoRoute(
           path: 'photos',
           builder: (context, state) => EcranPhotos(personneId: _id(state)),
+        ),
+        // Plein écran, ouvert sur le média de ce rang dans la galerie.
+        GoRoute(
+          path: 'medias/:rang',
+          builder: (context, state) => EcranVisionneuse(
+            personneId: _id(state),
+            depart: int.tryParse(state.pathParameters['rang'] ?? '') ?? 0,
+          ),
         ),
       ],
     ),

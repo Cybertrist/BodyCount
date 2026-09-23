@@ -6,11 +6,10 @@ import '../config/theme.dart';
 import '../domaine/etiquette.dart';
 import '../domaine/note.dart';
 import '../providers/donnees.dart';
-import '../security/photo_vault.dart';
-import '../security/vault_image.dart';
-import '../utils/image_helper.dart';
+import '../utils/medias.dart';
 import '../widgets/pastilles.dart';
 import '../widgets/echec.dart';
+import '../widgets/vignette_media.dart';
 
 /// Les étiquettes d'une personne.
 ///
@@ -448,22 +447,55 @@ class _EcranNoteState extends ConsumerState<EcranNote> {
   }
 }
 
-/// Les photos d'une personne.
-class EcranPhotos extends ConsumerWidget {
+/// Les photos et vidéos d'une personne.
+///
+/// Toucher ouvre en plein écran, l'appui long garde le menu rapide.
+class EcranPhotos extends ConsumerStatefulWidget {
   const EcranPhotos({super.key, required this.personneId});
 
   final int personneId;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<EcranPhotos> createState() => _EcranPhotosState();
+}
+
+class _EcranPhotosState extends ConsumerState<EcranPhotos> {
+  /// Ce qui s'affiche pendant l'import, null le reste du temps.
+  String? _import;
+
+  int get personneId => widget.personneId;
+
+  @override
+  Widget build(BuildContext context) {
     final photos = ref.watch(photosProvider(personneId));
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Photos'), centerTitle: true),
+      appBar: AppBar(
+        title: const Text('Photos et vidéos'),
+        centerTitle: true,
+        bottom: _import == null
+            ? null
+            : PreferredSize(
+                preferredSize: const Size.fromHeight(34),
+                child: Column(
+                  children: [
+                    Text(
+                      _import!,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    const LinearProgressIndicator(minHeight: 2),
+                  ],
+                ),
+              ),
+      ),
       body: photos.when(
         loading: () =>
             const Center(child: CircularProgressIndicator(strokeWidth: 2.4)),
-        error: (e, _) => Echec(titre: 'Impossible de lire les photos', erreur: e),
+        error: (e, _) => Echec(titre: 'Impossible de lire la galerie', erreur: e),
         data: (liste) => GridView.builder(
           padding: const EdgeInsets.fromLTRB(18, 8, 18, 110),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -476,13 +508,14 @@ class EcranPhotos extends ConsumerWidget {
           itemBuilder: (context, index) {
             final photo = liste[index];
             return GestureDetector(
-              onLongPress: () => _menu(context, ref, photo),
+              onTap: () => context.push('/personne/$personneId/medias/$index'),
+              onLongPress: () => _menu(photo),
               child: Stack(
                 fit: StackFit.expand,
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(AppRadius.panel),
-                    child: VaultImage(path: photo.chemin),
+                    child: VignetteMedia(media: photo),
                   ),
                   if (photo.principale)
                     Positioned(
@@ -507,31 +540,39 @@ class EcranPhotos extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         heroTag: 'ajout-photos',
-        onPressed: () => _ajouter(context, ref),
+        onPressed: _import == null ? _ajouter : null,
         icon: const Icon(Icons.add_photo_alternate_outlined, size: 20),
         label: const Text('Ajouter'),
       ),
     );
   }
 
-  Future<void> _ajouter(BuildContext context, WidgetRef ref) async {
-    final fichiers = await ImageHelper.pickMultipleFromGallery();
-    if (fichiers.isEmpty) return;
-
-    for (final fichier in fichiers) {
-      final chemin = await PhotoVault.instance.absorb(fichier);
-      await depotPhotos.ajouter(Photo(
-        personneId: personneId,
-        chemin: chemin,
-        ajouteeLe: DateTime.now(),
-      ));
+  Future<void> _ajouter() async {
+    try {
+      await Medias.importer(
+        personneId,
+        progression: (rang, total, video) {
+          if (!mounted) return;
+          final quoi = video ? 'Chiffrement de la vidéo' : 'Chiffrement';
+          setState(() => _import =
+              total == 1 ? '$quoi…' : '$quoi, $rang sur $total…');
+        },
+      );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Import interrompu : $e')),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _import = null);
     }
 
-    if (!context.mounted) return;
+    if (!mounted) return;
     rafraichir(ref, personneId: personneId);
   }
 
-  Future<void> _menu(BuildContext context, WidgetRef ref, Photo photo) async {
+  Future<void> _menu(Photo photo) async {
     final choix = await showModalBottomSheet<String>(
       context: context,
       backgroundColor: AppColors.card,
@@ -539,7 +580,7 @@ class EcranPhotos extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (!photo.principale)
+            if (!photo.video && !photo.principale)
               ListTile(
                 leading: const Icon(Icons.star_outline_rounded),
                 title: const Text('Mettre en avant'),
@@ -565,7 +606,7 @@ class EcranPhotos extends ConsumerWidget {
       return;
     }
 
-    if (!context.mounted) return;
+    if (!mounted) return;
     rafraichir(ref, personneId: personneId);
   }
 }

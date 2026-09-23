@@ -4,6 +4,7 @@ import '../domaine/etiquette.dart';
 import '../domaine/note.dart';
 import '../domaine/personne.dart';
 import '../domaine/rencontre.dart';
+import '../donnees/coordonnees.dart';
 import '../donnees/depots.dart';
 import '../donnees/statistiques.dart';
 
@@ -51,7 +52,9 @@ final rencontresProvider =
   return depotRencontres.pourPersonne(personneId);
 });
 
-final journalProvider = FutureProvider<List<EntreeJournal>>((ref) {
+final journalProvider = FutureProvider<List<EntreeJournal>>((ref) async {
+  // Les marques du calendrier mesurent des distances entre villes.
+  await chargerCommunes();
   return depotRencontres.journal();
 });
 
@@ -87,8 +90,10 @@ final anneesProvider = FutureProvider<List<int>>((ref) {
   return depotStatistiques.anneesRenseignees();
 });
 
-final statistiquesProvider = FutureProvider<Statistiques>((ref) {
+final statistiquesProvider = FutureProvider<Statistiques>((ref) async {
   final annee = ref.watch(anneeProvider);
+  // Le classement des lieux distingue une ville de « chez lui ».
+  await chargerCommunes();
   return depotStatistiques.pourAnnee(annee);
 });
 

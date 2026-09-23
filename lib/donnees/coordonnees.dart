@@ -3,33 +3,231 @@
 /// Une carte qui charge des tuiles enverrait à un serveur, à chaque
 /// déplacement, la liste exacte des endroits regardés. Pour une
 /// application dont toute la promesse est que rien ne sort du téléphone,
-/// c'est la seule chose à ne pas faire. La table ci-dessous est donc
-/// embarquée : aucune requête, aucune clé d'API, et les positions sont
-/// les vraies.
+/// c'est la seule chose à ne pas faire. Les positions sont donc
+/// embarquées : aucune requête, aucune clé d'API, et elles sont vraies.
 ///
-/// Elle couvre les grandes villes françaises, la Bretagne et le Morbihan
-/// dans le détail, et quelques capitales proches. Une ville absente
-/// n'est pas perdue : elle est listée à part, sous la carte, plutôt que
-/// posée au hasard.
+/// Trois sources, lues dans cet ordre :
+///
+/// 1. les 34 836 communes de métropole et de Corse, du référentiel
+///    officiel (`assets/carte/communes.txt`, construit par
+///    `tool/communes.mjs`). Le plus petit village y est, et c'est lui qui
+///    fait qu'une ville saisie tombe presque toujours quelque part ;
+/// 2. quelques noms d'usage que le référentiel écrit autrement, « Brive »
+///    pour Brive-la-Gaillarde ;
+/// 3. une poignée de villes étrangères, qui servent aux distances mais
+///    que la carte, dessinée pour la France, ne pose pas.
+///
+/// Une ville mal orthographiée tombe quand même sur la commune la plus
+/// proche par le nom : la carte pose tout ce qui est en France.
 library;
+
+import 'package:flutter/services.dart' show rootBundle;
 
 /// Une position sur le globe, en degrés.
 typedef Coordonnee = ({double latitude, double longitude});
 
-/// Cherche une ville dans la table.
+/// Une commune du référentiel.
+class Commune {
+  const Commune(this.nom, this.departement, this.position);
+
+  final String nom;
+
+  /// Code du département, « 56 », « 2A ».
+  final String departement;
+
+  final Coordonnee position;
+}
+
+/// Les communes, de la plus peuplée à la moins peuplée.
+List<Commune> _communes = const [];
+
+/// Même ordre que [_communes], la clé normalisée de chacune.
+List<String> _clefs = const [];
+
+/// Première commune pour chaque clé, donc la plus peuplée des homonymes.
+Map<String, Commune> _parClef = const {};
+
+Future<void>? _chargement;
+
+/// Lit le référentiel des communes. Lancé au démarrage sans l'attendre,
+/// pendant que l'écran de verrouillage demande l'empreinte ; ce qui lit
+/// des villes l'attend ensuite. Les appels suivants rendent le même
+/// futur.
+Future<void> chargerCommunes() => _chargement ??= _lireCommunes();
+
+Future<void> _lireCommunes() async {
+  final texte = await rootBundle.loadString('assets/carte/communes.txt');
+  final communes = <Commune>[];
+  final clefs = <String>[];
+  final parClef = <String, Commune>{};
+
+  for (final ligne in texte.split('\n')) {
+    final champs = ligne.split(';');
+    if (champs.length != 4) continue;
+    final latitude = int.tryParse(champs[2]);
+    final longitude = int.tryParse(champs[3]);
+    if (latitude == null || longitude == null) continue;
+
+    final commune = Commune(
+      champs[0],
+      champs[1],
+      (latitude: latitude / 1000, longitude: longitude / 1000),
+    );
+    final clef = _normaliser(commune.nom);
+    communes.add(commune);
+    clefs.add(clef);
+    parClef.putIfAbsent(clef, () => commune);
+  }
+
+  _communes = communes;
+  _clefs = clefs;
+  _parClef = parClef;
+  _resolues.clear();
+}
+
+/// Les réponses déjà calculées par [coordonneesEnFrance]. La recherche
+/// approchée parcourt trente-cinq mille noms, et la carte la redemande
+/// à chaque image de pincement.
+final _resolues = <String, Coordonnee?>{};
+
+/// Cherche une ville, en France comme à l'étranger, sans approximation.
 ///
 /// La comparaison ignore la casse, les accents, les traits d'union et
 /// les espaces, parce que personne ne saisit « Saint-Brieuc » deux fois
 /// de la même manière. « St Malo » et « saint-malo » tombent sur la même
-/// entrée.
-Coordonnee? coordonneesDe(String ville) {
-  final clef = _normaliser(ville);
-  final trouve = _table[clef];
-  if (trouve != null) return trouve;
+/// entrée. Un département entre parenthèses, « Saint-Denis (11) »,
+/// départage les homonymes. Sert à décider si un lieu est une ville :
+/// « chez lui » n'en est pas une, même à une lettre près d'un village.
+Coordonnee? coordonneesDe(String ville) =>
+    _exacte(ville) ?? _chercher(_etranger, _normaliser(ville));
 
-  // Deuxième essai, avec « st » développé en « saint ».
+/// Où poser une ville sur la carte de France. Rend null seulement pour
+/// l'étranger et pour un nom vide.
+///
+/// Tout ce qui ressemble à une commune y tombe : le nom exact d'abord,
+/// puis un début de nom (« Plougastel » pour Plougastel-Daoulas), puis
+/// une faute de frappe d'une ou deux lettres (« Locmariaqer »), puis un
+/// nom de commune suivi d'autre chose (« Vannes centre »). À chaque
+/// étape, la plus peuplée l'emporte.
+Coordonnee? coordonneesEnFrance(String ville) {
+  final clef = _normaliser(ville);
+  if (clef.isEmpty) return null;
+  if (_resolues.containsKey(ville)) return _resolues[ville];
+
+  final exacte = _exacte(ville);
+  final trouve = exacte ??
+      (_chercher(_etranger, clef) != null
+          ? null
+          : _approchee(_normaliser(_decouper(ville).nom)));
+  return _resolues[ville] = trouve;
+}
+
+Coordonnee? _exacte(String ville) {
+  final saisie = _decouper(ville);
+  final clef = _normaliser(saisie.nom);
+  if (clef.isEmpty) return null;
+
+  for (final essai in _variantes(clef)) {
+    final departement = saisie.departement;
+    if (departement != null) {
+      for (var i = 0; i < _clefs.length; i++) {
+        if (_clefs[i] == essai && _communes[i].departement == departement) {
+          return _communes[i].position;
+        }
+      }
+    }
+    final commune = _parClef[essai];
+    if (commune != null) return commune.position;
+    final alias = _alias[essai];
+    if (alias != null) return alias;
+  }
+  return null;
+}
+
+Coordonnee? _approchee(String clef) {
+  if (clef.length < 3) return null;
+  final variantes = _variantes(clef).toList();
+
+  // Un début de nom. Les communes sont rangées par population : la
+  // première qui convient est la plus probable.
+  for (var i = 0; i < _clefs.length; i++) {
+    if (variantes.any(_clefs[i].startsWith)) return _communes[i].position;
+  }
+
+  // Une faute de frappe : une lettre d'écart sur un nom court, deux au
+  // delà de huit lettres.
+  final tolerance = clef.length >= 8 ? 2 : 1;
+  Commune? proche;
+  var meilleur = tolerance + 1;
+  for (var i = 0; i < _clefs.length && meilleur > 1; i++) {
+    final c = _clefs[i];
+    if ((c.length - clef.length).abs() > tolerance) continue;
+    final d = _ecart(c, clef, meilleur);
+    if (d < meilleur) {
+      meilleur = d;
+      proche = _communes[i];
+    }
+  }
+  if (proche != null) return proche.position;
+
+  // Un nom de commune suivi d'un quartier ou d'une précision. On garde
+  // le plus long, pour que « Saint-Malo plage » ne tombe pas sur une
+  // commune qui s'appellerait « Saint ».
+  Commune? prefixe;
+  var longueur = 0;
+  for (var i = 0; i < _clefs.length; i++) {
+    final c = _clefs[i];
+    if (c.length >= 4 &&
+        c.length > longueur &&
+        variantes.any((v) => v.startsWith(c))) {
+      prefixe = _communes[i];
+      longueur = c.length;
+    }
+  }
+  return prefixe?.position;
+}
+
+/// Distance de Levenshtein, abandonnée dès qu'elle atteint [plafond].
+int _ecart(String a, String b, int plafond) {
+  var avant = List<int>.generate(b.length + 1, (j) => j);
+  for (var i = 1; i <= a.length; i++) {
+    final ligne = List<int>.filled(b.length + 1, 0)..[0] = i;
+    var minimum = i;
+    for (var j = 1; j <= b.length; j++) {
+      final cout = a.codeUnitAt(i - 1) == b.codeUnitAt(j - 1) ? 0 : 1;
+      final v = [avant[j] + 1, ligne[j - 1] + 1, avant[j - 1] + cout]
+          .reduce((x, y) => x < y ? x : y);
+      ligne[j] = v;
+      if (v < minimum) minimum = v;
+    }
+    if (minimum >= plafond) return plafond;
+    avant = ligne;
+  }
+  return avant[b.length];
+}
+
+/// « Saint-Denis (93) » : le nom d'un côté, le département de l'autre.
+({String nom, String? departement}) _decouper(String ville) {
+  final m = RegExp(r'^(.*?)\s*\(\s*(\w{2,3})\s*\)\s*$').firstMatch(ville);
+  if (m == null) return (nom: ville, departement: null);
+  return (nom: m.group(1)!, departement: m.group(2)!.toUpperCase());
+}
+
+/// La clé telle quelle, puis avec « st » et « ste » développés.
+Iterable<String> _variantes(String clef) sync* {
+  yield clef;
+  if (clef.startsWith('ste') && !clef.startsWith('stet')) {
+    yield 'sainte${clef.substring(3)}';
+  }
   if (clef.startsWith('st') && !clef.startsWith('sta')) {
-    return _table['saint${clef.substring(2)}'];
+    yield 'saint${clef.substring(2)}';
+  }
+}
+
+Coordonnee? _chercher(Map<String, Coordonnee> table, String clef) {
+  for (final essai in _variantes(clef)) {
+    final trouve = table[essai];
+    if (trouve != null) return trouve;
   }
   return null;
 }
@@ -37,16 +235,21 @@ Coordonnee? coordonneesDe(String ville) {
 String _normaliser(String valeur) {
   final sansAccent = valeur
       .toLowerCase()
-      .replaceAll(RegExp('[àâä]'), 'a')
+      .replaceAll(RegExp('[àâäá]'), 'a')
       .replaceAll(RegExp('[éèêë]'), 'e')
-      .replaceAll(RegExp('[îï]'), 'i')
-      .replaceAll(RegExp('[ôö]'), 'o')
-      .replaceAll(RegExp('[ùûü]'), 'u')
-      .replaceAll('ç', 'c');
+      .replaceAll(RegExp('[îïí]'), 'i')
+      .replaceAll(RegExp('[ôöó]'), 'o')
+      .replaceAll(RegExp('[ùûüú]'), 'u')
+      .replaceAll('ÿ', 'y')
+      .replaceAll('ç', 'c')
+      .replaceAll('œ', 'oe')
+      .replaceAll('æ', 'ae');
   return sansAccent.replaceAll(RegExp('[^a-z0-9]'), '');
 }
 
-const _table = <String, Coordonnee>{
+/// Noms d'usage, et positions déjà vérifiées à la main. Lu après le
+/// référentiel : il ne sert plus que pour ce que celui-ci écrit autrement.
+const _alias = <String, Coordonnee>{
   // ------------------------------------------------ Morbihan et Bretagne
   'vannes': (latitude: 47.658, longitude: -2.760),
   'auray': (latitude: 47.667, longitude: -2.982),
@@ -202,8 +405,10 @@ const _table = <String, Coordonnee>{
   'arras': (latitude: 50.291, longitude: 2.778),
   'valenciennes': (latitude: 50.357, longitude: 3.523),
   'lens': (latitude: 50.430, longitude: 2.832),
+};
 
-  // --------------------------------------------------- un peu plus loin
+/// Hors de France : utile aux distances, jamais posé sur la carte.
+const _etranger = <String, Coordonnee>{
   'londres': (latitude: 51.507, longitude: -0.128),
   'bruxelles': (latitude: 50.851, longitude: 4.352),
   'amsterdam': (latitude: 52.370, longitude: 4.895),

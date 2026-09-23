@@ -233,6 +233,22 @@ class DepotRencontres {
   /// mois anciens paraissaient vides et le total affiché en tête était
   /// faux. Le plafond reste très haut, par sécurité, mais il n'est plus
   /// censé être atteint.
+  /// Reporte un changement de ville sur les rencontres qui portaient
+  /// l'ancienne.
+  ///
+  /// Le lieu d'une rencontre est prérempli avec la ville de la fiche. Si
+  /// cette ville change, ces rencontres gardaient l'ancienne et la carte
+  /// comme le classement des lieux continuaient d'afficher Londres alors
+  /// que la fiche disait Vannes. Seules celles qui portent exactement
+  /// l'ancienne ville suivent : un lieu saisi à part reste où il est.
+  Future<void> renommerLieu(int personneId, String ancien, String? nouveau) async {
+    final base = await Base.instance.db;
+    await base.rawUpdate('''
+      UPDATE rencontres SET lieu = ?
+      WHERE personne_id = ? AND LOWER(TRIM(lieu)) = LOWER(TRIM(?))
+    ''', [nouveau, personneId, ancien]);
+  }
+
   Future<List<EntreeJournal>> journal({int limite = 5000}) async {
     final base = await Base.instance.db;
 
@@ -484,13 +500,15 @@ class DepotPhotos {
   /// Range une photo déjà chiffrée dans le coffre.
   ///
   /// La première photo d'une personne devient sa photo principale : sans
-  /// ça, une fiche resterait grise alors qu'elle a une image.
+  /// ça, une fiche resterait grise alors qu'elle a une image. Une vidéo ne
+  /// compte pas : la vignette d'une fiche est une image.
   Future<int> ajouter(Photo photo) async {
     final base = await Base.instance.db;
     final id = await base.insert('photos', photo.versMap());
+    if (photo.video) return id;
 
     final compte = Sqflite.firstIntValue(await base.rawQuery(
-      'SELECT COUNT(*) FROM photos WHERE personne_id = ?',
+      "SELECT COUNT(*) FROM photos WHERE personne_id = ? AND type = 'photo'",
       [photo.personneId],
     ));
     if (compte == 1 || photo.principale) {
@@ -522,7 +540,9 @@ class DepotPhotos {
     await PhotoVault.instance.delete(photo.chemin);
 
     if (!photo.principale) return;
-    final restantes = await pourPersonne(photo.personneId);
+    final restantes = (await pourPersonne(photo.personneId))
+        .where((p) => !p.video)
+        .toList();
     if (restantes.isEmpty) {
       await base.update('personnes', {'photo_principale': null},
           where: 'id = ?', whereArgs: [photo.personneId]);

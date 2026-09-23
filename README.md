@@ -80,7 +80,7 @@ Aucune pastille n'est déplacée d'un pixel : à l'échelle d'un pays, écarter 
 
 À fort grossissement, seuls les contours qui touchent la fenêtre sont dessinés. Payer les quarante-cinq mille points à chaque image faisait tomber l'affichage à quelques images par seconde, et le halo de côte, qui était un flou de masque, obligeait le moteur à rendre le pays dans une couche à part avant de la flouter.
 
-Les villes viennent d'une table de coordonnées embarquée elle aussi, qui couvre la France et quelques capitales proches. Une ville absente de cette table n'est pas posée au hasard quelque part : elle est listée sous la carte, avec son nombre. Inventer une position serait pire que de dire qu'on ne l'a pas.
+Les villes viennent du référentiel officiel des communes, embarqué lui aussi : les 34 836 communes de métropole et de Corse, du plus petit village à Paris, 420 Ko une fois compressées dans l'APK. `tool/communes.mjs` le reconstruit depuis geo.api.gouv.fr, c'est le seul endroit du projet qui touche au réseau, et il tourne sur la machine du développeur, pas sur le téléphone. Tout ce qui est en France est posé : une faute de frappe, un nom coupé ou suivi d'un quartier tombent sur la commune la plus proche par le nom, et un département entre parenthèses, « Saint-Denis (11) », départage les homonymes. Un lieu de rencontre qui n'est pas une ville, « chez lui », compte pour la ville de la fiche. L'étranger reste hors de la carte, qui ne dessine que la France.
 
 <img src="docs/sections/s07.png" alt="07 Le calendrier" width="100%">
 

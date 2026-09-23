@@ -80,7 +80,7 @@ No pin is moved by a single pixel: at country scale, nudging a point by forty po
 
 At high magnification only the outlines touching the window are drawn. Paying for all forty-five thousand points every frame dropped the display to a few frames per second, and the coastal glow, which was a mask blur, forced the engine to render the country into a separate layer before blurring it.
 
-Cities come from a coordinate table that ships with the app as well, covering France and a few nearby capitals. A city missing from that table is not dropped somewhere at random: it is listed under the map, with its count. Inventing a position would be worse than admitting there isn't one.
+Cities come from the official register of French communes, shipped with the app as well: all 34,836 communes of mainland France and Corsica, from the smallest village to Paris, 420 KB once compressed in the APK. `tool/communes.mjs` rebuilds it from geo.api.gouv.fr; it is the only part of the project that touches the network, and it runs on the developer's machine, not the phone. Everything in France gets placed: a typo, a truncated name or one followed by a neighbourhood lands on the closest commune by name, and a department in brackets, « Saint-Denis (11) », settles namesakes. An encounter place that is not a city, « chez lui », counts for the person's city. Places abroad stay off the map, which only draws France.
 
 <img src="docs/en/sections/s07.png" alt="07 The calendar" width="100%">
 

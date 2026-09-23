@@ -7,6 +7,7 @@ import '../donnees/base.dart';
 import '../security/key_vault.dart';
 import '../security/lock_state.dart';
 import '../security/photo_vault.dart';
+import '../security/video_vault.dart';
 
 final localAuthProvider = Provider<LocalAuthentication>((ref) {
   return LocalAuthentication();
@@ -131,6 +132,7 @@ class AuthService {
     EtatVerrou.instance.setUnlocked(false);
     await Base.instance.fermer();
     PhotoVault.instance.forget();
+    await VideoVault.instance.oublierLectures();
     imageCache.clear();
     imageCache.clearLiveImages();
     KeyVault.instance.lock();

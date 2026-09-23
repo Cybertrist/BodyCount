@@ -97,19 +97,19 @@ class _PlanFranceState extends State<PlanFrance>
 
   @override
   Widget build(BuildContext context) {
+    // Tout ce qui est en France est posé : un nom mal orthographié tombe
+    // sur la commune la plus proche par le nom. Seul l'étranger reste à
+    // l'écart, la carte ne dessine que la France, et il figure déjà dans
+    // le classement des lieux.
     final situees = <_Ville>[];
-    final ailleurs = <({String ville, int nombre})>[];
-
     for (final v in widget.villes) {
-      final ou = coordonneesDe(v.ville);
-      if (ou == null) {
-        ailleurs.add(v);
-      } else if (situees.length < 16) {
+      final ou = coordonneesEnFrance(v.ville);
+      if (ou != null) {
         situees.add(_Ville(v.ville, v.nombre, ou.longitude, ou.latitude));
       }
     }
 
-    if (situees.isEmpty) return _HorsCarte(villes: ailleurs, seul: true);
+    if (situees.isEmpty) return const SizedBox.shrink();
 
     final maximum = situees.first.nombre;
     for (final v in situees) {
@@ -189,10 +189,6 @@ class _PlanFranceState extends State<PlanFrance>
             ),
           ),
         ),
-        if (ailleurs.isNotEmpty) ...[
-          const SizedBox(height: 12),
-          _HorsCarte(villes: ailleurs, seul: false),
-        ],
       ],
     );
   }
@@ -1360,78 +1356,6 @@ class _Etiquette extends StatelessWidget {
           letterSpacing: 0.55,
           color: Colors.white.withValues(alpha: 0.92),
         ),
-      ),
-    );
-  }
-}
-
-/// Les villes dont on ne connaît pas les coordonnées.
-///
-/// Les poser au hasard serait pire que de le dire : elles sont listées,
-/// avec leur nombre, sous la carte.
-class _HorsCarte extends StatelessWidget {
-  const _HorsCarte({required this.villes, required this.seul});
-
-  final List<({String ville, int nombre})> villes;
-  final bool seul;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(15, 13, 15, 14),
-      decoration: BoxDecoration(
-        color: const Color(0x0BFFFFFF),
-        borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(color: AppColors.cardBorder),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            seul ? 'TES LIEUX' : 'PAS SUR LA CARTE',
-            style: Theme.of(context).textTheme.labelSmall,
-          ),
-          const SizedBox(height: 11),
-          Wrap(
-            spacing: 7,
-            runSpacing: 7,
-            children: [
-              for (final v in villes.take(12))
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 11, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: 0.13),
-                    borderRadius: BorderRadius.circular(999),
-                    border: Border.all(
-                      color: AppColors.primary.withValues(alpha: 0.26),
-                    ),
-                  ),
-                  child: Text(
-                    '${v.ville}  ${v.nombre}',
-                    style: const TextStyle(
-                      fontSize: 12.5,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Text(
-            seul
-                ? 'La carte se dessine dès qu\'une ville figure dans la '
-                    'table des coordonnées.'
-                : 'Coordonnées inconnues, donc pas de place honnête sur la '
-                    'carte.',
-            style: const TextStyle(
-              fontSize: 11.5,
-              height: 1.4,
-              color: AppColors.textTertiary,
-            ),
-          ),
-        ],
       ),
     );
   }

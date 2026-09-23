@@ -72,7 +72,11 @@ class ExportHelper {
       final id = fiche.personne.id!;
       final rencontres = await _rencontres.pourPersonne(id);
       final notes = await _notes.pourPersonne(id);
-      final photos = await _photos.pourPersonne(id);
+      // Les vidéos restent hors de la sauvegarde : l'archive entière est
+      // chiffrée en mémoire, et une seule vidéo suffirait à l'épuiser.
+      final photos = (await _photos.pourPersonne(id))
+          .where((p) => !p.video)
+          .toList();
       final etiquettes = await _etiquettes.pourPersonne(id);
 
       final parRencontre = <Map<String, Object?>>[];

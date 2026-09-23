@@ -1,5 +1,6 @@
 import '../domaine/personne.dart';
 import 'base.dart';
+import 'coordonnees.dart';
 
 /// Ce que l'écran des statistiques a besoin de savoir.
 ///
@@ -200,23 +201,43 @@ class DepotStatistiques {
     }).toList();
 
     // Le lieu d'une rencontre prime sur la ville de la personne : on peut
-    // habiter Vannes et s'être vus à Rennes.
+    // habiter Vannes et s'être vus à Rennes. Mais un lieu qui n'est pas une
+    // ville, « chez lui », « Le Fébrile », ne dit rien de l'endroit : c'est
+    // alors la ville de la fiche qui compte, sinon la carte perdrait la
+    // rencontre et le classement afficherait « chez lui » comme une ville.
     //
-    // L'alias s'appelait « ville », comme la colonne de la table, et SQLite
-    // ne résolvait pas le nom de la même façon dans le WHERE et dans le
-    // GROUP BY : la même ville se retrouvait coupée en deux lignes. Le nom
-    // est donc distinct, et le regroupement se fait sur une forme
-    // normalisée, pour que « vannes » et « Vannes  » n'en fassent qu'une.
-    final lignesVilles = await base.rawQuery('''
-      SELECT TRIM(COALESCE(NULLIF(TRIM(r.lieu), ''), p.ville)) AS nom,
+    // Ce tri demande la table des communes, qui vit dans Dart : SQL rend
+    // les couples (lieu, ville) déjà comptés, et le regroupement se fait
+    // ici, sur une forme normalisée, pour que « vannes » et « Vannes  »
+    // n'en fassent qu'une.
+    final couples = await base.rawQuery('''
+      SELECT TRIM(COALESCE(r.lieu, '')) AS lieu,
+             TRIM(COALESCE(p.ville, '')) AS ville,
              COUNT(*) AS n
       FROM rencontres r
       JOIN personnes p ON p.id = r.personne_id
-      WHERE TRIM(COALESCE(NULLIF(TRIM(r.lieu), ''), p.ville)) <> ''
-        AND COALESCE(NULLIF(TRIM(r.lieu), ''), p.ville) IS NOT NULL
-      GROUP BY LOWER(TRIM(COALESCE(NULLIF(TRIM(r.lieu), ''), p.ville)))
-      ORDER BY n DESC, nom ASC
+      GROUP BY LOWER(TRIM(COALESCE(r.lieu, ''))), LOWER(TRIM(COALESCE(p.ville, '')))
     ''');
+    final parVille = <String, ({String ville, int nombre})>{};
+    for (final c in couples) {
+      final lieu = c['lieu'] as String;
+      final ville = c['ville'] as String;
+      final nom = lieu.isEmpty
+          ? ville
+          : (ville.isNotEmpty && coordonneesDe(lieu) == null ? ville : lieu);
+      if (nom.isEmpty) continue;
+      final clef = nom.toLowerCase();
+      final avant = parVille[clef];
+      parVille[clef] = (
+        ville: avant?.ville ?? nom,
+        nombre: (avant?.nombre ?? 0) + (c['n'] as int),
+      );
+    }
+    final lignesVilles = parVille.values.toList()
+      ..sort((x, y) {
+        final parNombre = y.nombre.compareTo(x.nombre);
+        return parNombre != 0 ? parNombre : x.ville.compareTo(y.ville);
+      });
 
     final lignesRoles = await base.rawQuery('''
       SELECT role, COUNT(*) AS n FROM personnes
@@ -231,9 +252,7 @@ class DepotStatistiques {
       variation: precedent == 0 ? null : (total - precedent) * 100 / precedent,
       parMois: mois,
       podium: podium,
-      parVille: lignesVilles
-          .map((l) => (ville: l['nom'] as String, nombre: l['n'] as int))
-          .toList(),
+      parVille: lignesVilles,
       parRole: lignesRoles
           .map((l) => (role: l['role'] as String, nombre: l['n'] as int))
           .toList(),

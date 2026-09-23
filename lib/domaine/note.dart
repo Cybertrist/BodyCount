@@ -52,6 +52,8 @@ class Photo {
     required this.chemin,
     this.principale = false,
     required this.ajouteeLe,
+    this.video = false,
+    this.dureeMs,
   });
 
   final int? id;
@@ -64,6 +66,13 @@ class Photo {
   final bool principale;
   final DateTime ajouteeLe;
 
+  /// Une vidéo plutôt qu'une photo. Elle vit dans la même galerie, mais
+  /// ne devient jamais le visage de la fiche.
+  final bool video;
+
+  /// Durée d'une vidéo, mesurée à l'import.
+  final int? dureeMs;
+
   Map<String, Object?> versMap() => {
         if (id != null) 'id': id,
         'personne_id': personneId,
@@ -71,6 +80,8 @@ class Photo {
         'chemin': chemin,
         'principale': principale ? 1 : 0,
         'ajoutee_le': ajouteeLe.toIso8601String(),
+        'type': video ? 'video' : 'photo',
+        'duree_ms': dureeMs,
       };
 
   factory Photo.depuisMap(Map<String, Object?> map) => Photo(
@@ -80,5 +91,7 @@ class Photo {
         chemin: map['chemin'] as String,
         principale: (map['principale'] as int? ?? 0) == 1,
         ajouteeLe: DateTime.parse(map['ajoutee_le'] as String),
+        video: map['type'] == 'video',
+        dureeMs: map['duree_ms'] as int?,
       );
 }

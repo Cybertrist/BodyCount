@@ -41,6 +41,9 @@ class _EcranFormulairePersonneState
   Genre? _genre;
   RoleSexuel? _role;
   bool _charge = false;
+
+  /// La fiche telle qu'elle était à l'ouverture, en modification.
+  Personne? _avant;
   bool _enregistre = false;
 
   static const _sources = [
@@ -62,6 +65,7 @@ class _EcranFormulairePersonneState
     if (fiche == null || !mounted) return;
     final p = fiche.personne;
     setState(() {
+      _avant = p;
       _prenom.text = p.prenom;
       _age.text = p.age?.toString() ?? '';
       _ville.text = p.ville ?? '';
@@ -116,7 +120,9 @@ class _EcranFormulairePersonneState
       photoPrincipale: _photo,
       genre: _genre,
       role: _role,
-      creeLe: maintenant,
+      // La date de création est celle d'origine : la remplacer à chaque
+      // modification faisait passer une vieille fiche pour une nouvelle.
+      creeLe: _avant?.creeLe ?? maintenant,
       modifieLe: maintenant,
     );
 
@@ -124,6 +130,12 @@ class _EcranFormulairePersonneState
     if (widget.estModification) {
       await depotPersonnes.modifier(personne);
       id = widget.personneId!;
+      final ancienne = _avant?.ville;
+      if (ancienne != null &&
+          ancienne.trim().toLowerCase() !=
+              (personne.ville ?? '').trim().toLowerCase()) {
+        await depotRencontres.renommerLieu(id, ancienne, personne.ville);
+      }
     } else {
       id = await depotPersonnes.creer(personne);
     }

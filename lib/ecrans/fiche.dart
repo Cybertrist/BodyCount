@@ -14,6 +14,7 @@ import '../utils/date_formatter.dart';
 import '../widgets/etoiles.dart';
 import '../widgets/pastilles.dart';
 import '../widgets/echec.dart';
+import '../widgets/vignette_media.dart';
 
 /// La fiche d'une personne.
 ///
@@ -174,103 +175,110 @@ class _PhotoEnTete extends ConsumerWidget {
         const SizedBox(width: 10),
       ],
       flexibleSpace: FlexibleSpaceBar(
-        background: Stack(
-          fit: StackFit.expand,
-          children: [
-            if (photo != null)
-              VaultImage(path: photo, fit: BoxFit.cover)
-            else
+        // Toucher la photo l'ouvre en grand. Elle est la principale, donc
+        // la première de la galerie.
+        background: GestureDetector(
+          onTap: photo == null
+              ? null
+              : () => context.push('/personne/${personne.id}/medias/0'),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              if (photo != null)
+                VaultImage(path: photo, fit: BoxFit.cover)
+              else
+                const DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: RadialGradient(
+                      center: Alignment(-0.3, -0.5),
+                      radius: 1.2,
+                      colors: [Color(0xFF7C3AED), Color(0xFF3B1D6E)],
+                    ),
+                  ),
+                ),
+              if (photo != null)
+                const DecoratedBox(
+                  decoration: BoxDecoration(gradient: AppColors.photoGrade),
+                ),
               const DecoratedBox(
                 decoration: BoxDecoration(
-                  gradient: RadialGradient(
-                    center: Alignment(-0.3, -0.5),
-                    radius: 1.2,
-                    colors: [Color(0xFF7C3AED), Color(0xFF3B1D6E)],
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [0.0, 0.26, 0.5, 0.9, 1.0],
+                    colors: [
+                      Color(0x940B0616),
+                      Color(0x000B0616),
+                      Color(0x1A0B0616),
+                      Color(0xDB0B0616),
+                      Color(0xFF0B0616),
+                    ],
                   ),
                 ),
               ),
-            if (photo != null)
-              const DecoratedBox(
-                decoration: BoxDecoration(gradient: AppColors.photoGrade),
-              ),
-            const DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [0.0, 0.26, 0.5, 0.9, 1.0],
-                  colors: [
-                    Color(0x940B0616),
-                    Color(0x000B0616),
-                    Color(0x1A0B0616),
-                    Color(0xDB0B0616),
-                    Color(0xFF0B0616),
+              Positioned(
+                left: 22,
+                right: 22,
+                bottom: 20,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Wrap(
+                      spacing: 7,
+                      runSpacing: 7,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        if (rang != null) BadgeRang(rang: rang.rang),
+                        if (personne.age != null)
+                          Pastille(
+                            texte: '${personne.age} ans',
+                            ton: TonPastille.sombre,
+                            hauteur: 24,
+                          ),
+                        if (personne.ville != null)
+                          Pastille(
+                            texte: personne.ville!,
+                            ton: TonPastille.sombre,
+                            hauteur: 24,
+                            icone: const Icon(
+                              Icons.place_outlined,
+                              size: 12,
+                              color: Colors.white,
+                            ),
+                          ),
+                        if (personne.role != null)
+                          Pastille(
+                            texte: personne.role!.libelle,
+                            ton: TonPastille.sombre,
+                            hauteur: 24,
+                          ),
+                        if (personne.genre != null)
+                          Pastille(
+                            texte: personne.genre!.libelle,
+                            ton: TonPastille.sombre,
+                            hauteur: 24,
+                          ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      personne.prenom,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 42,
+                        height: 0.98,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: -1.5,
+                        color: Colors.white,
+                      ),
+                    ),
                   ],
                 ),
               ),
-            ),
-            Positioned(
-              left: 22,
-              right: 22,
-              bottom: 20,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Wrap(
-                    spacing: 7,
-                    runSpacing: 7,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      if (rang != null) BadgeRang(rang: rang.rang),
-                      if (personne.age != null)
-                        Pastille(
-                          texte: '${personne.age} ans',
-                          ton: TonPastille.sombre,
-                          hauteur: 24,
-                        ),
-                      if (personne.ville != null)
-                        Pastille(
-                          texte: personne.ville!,
-                          ton: TonPastille.sombre,
-                          hauteur: 24,
-                          icone: const Icon(
-                            Icons.place_outlined,
-                            size: 12,
-                            color: Colors.white,
-                          ),
-                        ),
-                      if (personne.role != null)
-                        Pastille(
-                          texte: personne.role!.libelle,
-                          ton: TonPastille.sombre,
-                          hauteur: 24,
-                        ),
-                      if (personne.genre != null)
-                        Pastille(
-                          texte: personne.genre!.libelle,
-                          ton: TonPastille.sombre,
-                          hauteur: 24,
-                        ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    personne.prenom,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 42,
-                      height: 0.98,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: -1.5,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -773,7 +781,7 @@ class _Galerie extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _Titre(photos.isEmpty ? 'Photos' : 'Photos · ${photos.length}'),
+        _Titre(photos.isEmpty ? 'Galerie' : 'Galerie · ${photos.length}'),
         SizedBox(
           height: 74,
           child: ListView.separated(
@@ -786,11 +794,15 @@ class _Galerie extends ConsumerWidget {
                   onTap: () => context.push('/personne/$personneId/photos'),
                 );
               }
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(AppRadius.thumb),
-                child: SizedBox(
-                  width: 74,
-                  child: VaultImage(path: photos[index].chemin),
+              return GestureDetector(
+                onTap: () =>
+                    context.push('/personne/$personneId/medias/$index'),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(AppRadius.thumb),
+                  child: SizedBox(
+                    width: 74,
+                    child: VignetteMedia(media: photos[index]),
+                  ),
                 ),
               );
             },
