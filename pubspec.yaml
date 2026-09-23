@@ -19,8 +19,6 @@ dependencies:
   # Chiffrement
   flutter_secure_storage: ^9.2.4
   cryptography: ^2.7.0
-  # AES-GCM natif d'Android, pour chiffrer les vidéos sans y passer la minute
-  cryptography_flutter: ^2.3.4
 
   # State management
   flutter_riverpod: ^2.6.1
@@ -39,12 +37,15 @@ dependencies:
   intl: ^0.20.2
   path: ^1.9.1
   archive: ^4.0.4
-  share_plus: ^10.1.4
   uuid: ^4.5.1
   url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:
+    sdk: flutter
+  # Les tests qui touchent la base, le Keystore et le chiffrement natif
+  # tournent sur un appareil : ni SQLCipher ni Android n'existent ailleurs.
+  integration_test:
     sdk: flutter
   flutter_lints: ^6.0.0
 

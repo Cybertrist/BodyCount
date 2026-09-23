@@ -52,10 +52,18 @@ class _BodyCountAppState extends ConsumerState<BodyCountApp>
   /// On les vide donc à chaque ouverture, au moment précis où la clé
   /// redevient disponible : la première lecture repart du disque, et les
   /// filtres de recherche repartent à zéro par la même occasion.
+  ///
+  /// Le verrou prévient aussi quand un travail relâche sa retenue : ce
+  /// n'est pas une ouverture, il ne faut alors que relancer le compte à
+  /// rebours, sans rien oublier.
   void _surVerrou() {
-    if (EtatVerrou.instance.isUnlocked) toutOublier(ref);
+    final ouvert = EtatVerrou.instance.isUnlocked;
+    if (ouvert && !_etaitOuvert) toutOublier(ref);
+    _etaitOuvert = ouvert;
     _relancer();
   }
+
+  bool _etaitOuvert = false;
 
   /// Repart de zéro à chaque contact avec l'écran.
   ///
@@ -71,6 +79,9 @@ class _BodyCountAppState extends ConsumerState<BodyCountApp>
     if (!reglages.verrouActif) return;
 
     _inactivite = Timer(reglages.delaiVerrou, () {
+      // Un travail en cours repousse le verrou : il se réarme quand
+      // l'écoute de [EtatVerrou] entend la retenue se relâcher.
+      if (EtatVerrou.instance.retenu) return;
       if (EtatVerrou.instance.isUnlocked) {
         ref.read(authServiceProvider).lock();
       }
@@ -101,6 +112,7 @@ class _BodyCountAppState extends ConsumerState<BodyCountApp>
         if (!verrou.isUnlocked || parti == null) return;
         final reglages = ref.read(reglagesProvider);
         if (reglages.verrouActif &&
+            !verrou.retenu &&
             DateTime.now().difference(parti) >= reglages.delaiVerrou) {
           ref.read(authServiceProvider).lock();
         } else {

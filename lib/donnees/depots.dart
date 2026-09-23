@@ -69,8 +69,18 @@ class DepotPersonnes {
 
     final recherche = filtre.recherche.trim();
     if (recherche.isNotEmpty) {
-      conditions.add('(p.prenom LIKE ? OR p.ville LIKE ?)');
-      arguments..add('%$recherche%')..add('%$recherche%');
+      // Le champ promet « nom, ville, étiquette » : les trois y sont.
+      conditions.add('''
+        (p.prenom LIKE ? OR p.ville LIKE ? OR EXISTS (
+          SELECT 1 FROM personne_etiquettes pe
+          JOIN etiquettes e ON e.id = pe.etiquette_id
+          WHERE pe.personne_id = p.id AND e.libelle LIKE ?
+        ))
+      ''');
+      arguments
+        ..add('%$recherche%')
+        ..add('%$recherche%')
+        ..add('%$recherche%');
     }
     if (filtre.ville != null) {
       conditions.add('p.ville = ?');
@@ -177,13 +187,15 @@ class DepotPersonnes {
     final base = await Base.instance.db;
     final photos = await base.query(
       'photos',
-      columns: ['chemin'],
+      columns: ['chemin', 'vignette'],
       where: 'personne_id = ?',
       whereArgs: [personneId],
     );
     await base.delete('personnes', where: 'id = ?', whereArgs: [personneId]);
     for (final photo in photos) {
       await PhotoVault.instance.delete(photo['chemin'] as String);
+      final vignette = photo['vignette'] as String?;
+      if (vignette != null) await PhotoVault.instance.delete(vignette);
     }
   }
 
@@ -538,6 +550,8 @@ class DepotPhotos {
     final base = await Base.instance.db;
     await base.delete('photos', where: 'id = ?', whereArgs: [photo.id]);
     await PhotoVault.instance.delete(photo.chemin);
+    final vignette = photo.vignette;
+    if (vignette != null) await PhotoVault.instance.delete(vignette);
 
     if (!photo.principale) return;
     final restantes = (await pourPersonne(photo.personneId))

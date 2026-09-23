@@ -54,6 +54,7 @@ class Photo {
     required this.ajouteeLe,
     this.video = false,
     this.dureeMs,
+    this.vignette,
   });
 
   final int? id;
@@ -73,6 +74,9 @@ class Photo {
   /// Durée d'une vidéo, mesurée à l'import.
   final int? dureeMs;
 
+  /// Chemin, dans le coffre, de l'image qui représente une vidéo.
+  final String? vignette;
+
   Map<String, Object?> versMap() => {
         if (id != null) 'id': id,
         'personne_id': personneId,
@@ -82,6 +86,7 @@ class Photo {
         'ajoutee_le': ajouteeLe.toIso8601String(),
         'type': video ? 'video' : 'photo',
         'duree_ms': dureeMs,
+        'vignette': vignette,
       };
 
   factory Photo.depuisMap(Map<String, Object?> map) => Photo(
@@ -93,5 +98,6 @@ class Photo {
         ajouteeLe: DateTime.parse(map['ajoutee_le'] as String),
         video: map['type'] == 'video',
         dureeMs: map['duree_ms'] as int?,
+        vignette: map['vignette'] as String?,
       );
 }

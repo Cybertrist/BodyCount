@@ -23,7 +23,7 @@ class Base {
   static final Base instance = Base._();
 
   static const _fichier = 'bodycount.db';
-  static const _version = 6;
+  static const _version = 7;
 
   /// L'ouverture en cours ou faite. On garde le futur, pas la base : au
   /// déverrouillage, le répertoire, les villes et les statistiques
@@ -84,6 +84,7 @@ class Base {
         await _migrerVers4(base);
         await _migrerVers5(base);
         await _migrerVers6(base);
+        await _migrerVers7(base);
       },
       onUpgrade: (base, ancienne, nouvelle) async {
         if (ancienne < 2) await _migrerVers2(base);
@@ -91,6 +92,7 @@ class Base {
         if (ancienne < 4) await _migrerVers4(base);
         if (ancienne < 5) await _migrerVers5(base);
         if (ancienne < 6) await _migrerVers6(base);
+        if (ancienne < 7) await _migrerVers7(base);
       },
     );
   }
@@ -189,7 +191,8 @@ class Base {
         principale INTEGER NOT NULL DEFAULT 0,
         ajoutee_le TEXT NOT NULL,
         type TEXT NOT NULL DEFAULT 'photo',
-        duree_ms INTEGER
+        duree_ms INTEGER,
+        vignette TEXT
       )
     ''');
 
@@ -369,6 +372,17 @@ class Base {
   /// range côte à côte. Une colonne dit laquelle est laquelle, une autre
   /// garde la durée, mesurée une fois à l'import plutôt qu'à chaque
   /// affichage de la galerie.
+  /// La vignette d'une vidéo : une image tirée par Android à l'import,
+  /// rangée chiffrée dans le coffre comme une photo. Sans elle, la galerie
+  /// ne montrait qu'un aplat avec un triangle.
+  Future<void> _migrerVers7(Database base) async {
+    final colonnes = await base.rawQuery('PRAGMA table_info(photos)');
+    final noms = colonnes.map((c) => c['name'] as String).toSet();
+    if (!noms.contains('vignette')) {
+      await base.execute('ALTER TABLE photos ADD COLUMN vignette TEXT');
+    }
+  }
+
   Future<void> _migrerVers6(Database base) async {
     final colonnes = await base.rawQuery('PRAGMA table_info(photos)');
     final noms = colonnes.map((c) => c['name'] as String).toSet();

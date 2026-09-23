@@ -1,8 +1,8 @@
 import 'dart:io';
 
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
-import 'package:video_player/video_player.dart';
 
 import '../domaine/note.dart';
 import '../providers/donnees.dart';
@@ -17,9 +17,16 @@ import '../security/video_vault.dart';
 /// et l'original temporaire est effacé.
 class Medias {
   static final ImagePicker _picker = ImagePicker();
+  static const _canal = MethodChannel('bodycount/medias');
 
   static const _extensionsVideo = {
-    '.mp4', '.mov', '.m4v', '.3gp', '.webm', '.mkv', '.avi',
+    '.mp4',
+    '.mov',
+    '.m4v',
+    '.3gp',
+    '.webm',
+    '.mkv',
+    '.avi',
   };
 
   static bool _estVideo(XFile f) {
@@ -51,40 +58,56 @@ class Medias {
       final fichier = File(choisi.path);
 
       if (video) {
-        final duree = await _duree(fichier);
+        // Durée et vignette se lisent sur le fichier encore en clair,
+        // avant qu'il entre au coffre et que l'original soit effacé.
+        final apercu = await _apercu(fichier);
+        final image = apercu?.image;
+        final vignette = image == null
+            ? null
+            : await PhotoVault.instance.store(image);
         final chemin = await VideoVault.instance.absorber(fichier);
-        await depotPhotos.ajouter(Photo(
-          personneId: personneId,
-          chemin: chemin,
-          ajouteeLe: DateTime.now(),
-          video: true,
-          dureeMs: duree?.inMilliseconds,
-        ));
+        await depotPhotos.ajouter(
+          Photo(
+            personneId: personneId,
+            chemin: chemin,
+            ajouteeLe: DateTime.now(),
+            video: true,
+            dureeMs: apercu?.dureeMs,
+            vignette: vignette,
+          ),
+        );
       } else {
         final chemin = await PhotoVault.instance.absorb(fichier);
-        await depotPhotos.ajouter(Photo(
-          personneId: personneId,
-          chemin: chemin,
-          ajouteeLe: DateTime.now(),
-        ));
+        await depotPhotos.ajouter(
+          Photo(
+            personneId: personneId,
+            chemin: chemin,
+            ajouteeLe: DateTime.now(),
+          ),
+        );
       }
       ranges++;
     }
     return ranges;
   }
 
-  /// La durée, lue une fois sur le fichier encore en clair, avant qu'il
-  /// entre au coffre. Null si le lecteur n'y arrive pas : la vidéo est
+  /// La durée et une image de la vidéo, demandées à Android : son
+  /// lecteur de métadonnées lit l'en-tête et décode une seule image, là où
+  /// ouvrir un lecteur vidéo complet prendrait plus longtemps pour ne
+  /// donner que la durée. Null si Android n'y arrive pas : la vidéo est
   /// gardée quand même, sa vignette dira seulement moins de choses.
-  static Future<Duration?> _duree(File fichier) async {
-    final lecteur = VideoPlayerController.file(fichier);
+  static Future<({int? dureeMs, Uint8List? image})?> _apercu(File f) async {
     try {
-      await lecteur.initialize();
-      return lecteur.value.duration;
-    } catch (_) {
+      final r = await _canal.invokeMapMethod<String, Object?>('apercu', {
+        'chemin': f.path,
+      });
+      if (r == null) return null;
+      return (
+        dureeMs: (r['duree'] as num?)?.toInt(),
+        image: r['image'] as Uint8List?,
+      );
+    } on PlatformException {
       return null;
-    } finally {
-      await lecteur.dispose();
     }
   }
 }

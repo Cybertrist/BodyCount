@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -8,7 +11,9 @@ import '../donnees/demonstration.dart';
 import '../providers/auth_provider.dart';
 import '../providers/donnees.dart';
 import '../providers/settings_provider.dart';
+import '../security/lock_state.dart';
 import '../utils/export_helper.dart';
+import '../utils/fichiers.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -86,7 +91,15 @@ class SettingsScreen extends ConsumerWidget {
                   icone: Icons.ios_share_rounded,
                   titre: 'Exporter, chiffré',
                   valeur: 'Phrase de passe',
+                  sousTitre: 'Fiches, photos et vidéos',
                   onTap: () => _exporter(context),
+                ),
+                _LigneChoix(
+                  icone: Icons.settings_backup_restore_rounded,
+                  titre: 'Restaurer une sauvegarde',
+                  valeur: 'Fichier .bcx',
+                  sousTitre: 'Remplace ce qui est sur le téléphone',
+                  onTap: () => _restaurer(context, ref),
                 ),
               ],
             ),
@@ -208,25 +221,184 @@ class SettingsScreen extends ConsumerWidget {
     }
   }
 
+  /// Écrit la sauvegarde, puis demande où elle va.
+  ///
+  /// Enregistrer dans un dossier est proposé en premier : avec des vidéos,
+  /// une sauvegarde pèse vite des centaines de mégaoctets, et la plupart
+  /// des applications de partage refusent un fichier de cette taille.
   Future<void> _exporter(BuildContext context) async {
     final phrase = await _demanderPhrase(context);
     if (phrase == null || !context.mounted) return;
 
-    _patienter(context, 'Chiffrement de la sauvegarde…');
+    final message = ValueNotifier('Chiffrement de la sauvegarde…');
+    _patienter(context, message);
+    String chemin;
     try {
-      final chemin = await ExportHelper.exportEncrypted(phrase);
+      chemin = await EtatVerrou.instance.retenir(
+        () => ExportHelper.exportEncrypted(
+          phrase,
+          progression: (fait, total) =>
+              message.value = 'Chiffrement des médias, $fait sur $total…',
+        ),
+      );
       if (context.mounted) Navigator.pop(context);
-      await ExportHelper.shareFile(chemin);
-      // Le fichier temporaire a fait son travail une fois partagé.
-      await ExportHelper.cleanUp(chemin);
     } catch (e) {
       if (!context.mounted) return;
       Navigator.pop(context);
       _erreur(context, '$e');
+      return;
+    }
+
+    try {
+      final taille = _taille(await File(chemin).length());
+      if (!context.mounted) return;
+      final choix = await showModalBottomSheet<String>(
+        context: context,
+        backgroundColor: AppColors.card,
+        builder: (ctx) => SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(22, 18, 22, 6),
+                child: Text(
+                  'Sauvegarde prête, $taille',
+                  style: Theme.of(ctx).textTheme.titleMedium,
+                ),
+              ),
+              ListTile(
+                leading: const Icon(Icons.save_alt_rounded),
+                title: const Text('Enregistrer sur le téléphone'),
+                subtitle: const Text('Dans le dossier de ton choix'),
+                onTap: () => Navigator.pop(ctx, 'enregistrer'),
+              ),
+              ListTile(
+                leading: const Icon(Icons.ios_share_rounded),
+                title: const Text('Partager'),
+                subtitle: const Text('Vers une autre application'),
+                onTap: () => Navigator.pop(ctx, 'partager'),
+              ),
+            ],
+          ),
+        ),
+      );
+
+      if (choix == 'partager') {
+        // L'application choisie lira le fichier quand elle voudra : il
+        // reste dans le cache jusqu'au prochain export ou lancement.
+        await Fichiers.partager(chemin);
+        return;
+      }
+      if (choix == 'enregistrer') {
+        final ok = await Fichiers.enregistrer(chemin, _nomSauvegarde());
+        if (context.mounted && ok) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Sauvegarde enregistrée.')),
+          );
+        }
+      }
+      await ExportHelper.cleanUp(chemin);
+    } catch (e) {
+      await ExportHelper.cleanUp(chemin);
+      if (context.mounted) _erreur(context, '$e');
     }
   }
 
-  Future<String?> _demanderPhrase(BuildContext context) {
+  static String _nomSauvegarde() {
+    final jour = DateTime.now().toIso8601String().substring(0, 10);
+    return 'bodycount-$jour.bcx';
+  }
+
+  static String _taille(int octets) {
+    if (octets < 1024 * 1024) return '${(octets / 1024).ceil()} Ko';
+    final mo = octets / (1024 * 1024);
+    return mo < 10
+        ? '${mo.toStringAsFixed(1).replaceAll('.', ',')} Mo'
+        : '${mo.round()} Mo';
+  }
+
+  /// Relit une sauvegarde et remplace les données du téléphone.
+  ///
+  /// Rien n'est effacé avant que la sauvegarde ait été lue en entier et
+  /// vérifiée : une phrase fausse ou un fichier abîmé laissent les fiches
+  /// actuelles intactes.
+  Future<void> _restaurer(BuildContext context, WidgetRef ref) async {
+    final sur = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Restaurer une sauvegarde ?'),
+        content: const Text(
+          'Les fiches, rencontres, notes, photos et vidéos du téléphone '
+          'seront remplacées par celles de la sauvegarde. Rien ne change '
+          'tant qu\'elle n\'a pas été lue et vérifiée en entier.',
+          style: TextStyle(height: 1.45),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Annuler'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Choisir le fichier'),
+          ),
+        ],
+      ),
+    );
+    if (sur != true || !context.mounted) return;
+
+    final chemin = await Fichiers.choisir();
+    if (chemin == null) return;
+    if (!context.mounted) {
+      await ExportHelper.cleanUp(chemin);
+      return;
+    }
+
+    final phrase = await _demanderPhrase(context, restauration: true);
+    if (phrase == null || !context.mounted) {
+      await ExportHelper.cleanUp(chemin);
+      return;
+    }
+
+    final message = ValueNotifier('Vérification de la sauvegarde…');
+    _patienter(context, message);
+    try {
+      await EtatVerrou.instance.retenir(
+        () => ExportHelper.importEncrypted(
+          File(chemin),
+          phrase,
+          progression: (fait, total) =>
+              message.value = 'Déchiffrement des vidéos, $fait sur $total…',
+        ),
+      );
+      if (!context.mounted) return;
+      Navigator.pop(context);
+      toutOublier(ref);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Sauvegarde restaurée.')),
+      );
+    } on WrongPassphraseException {
+      if (!context.mounted) return;
+      Navigator.pop(context);
+      _erreur(context, 'Cette phrase de passe n\'ouvre pas la sauvegarde.');
+    } on FormatException catch (e) {
+      if (!context.mounted) return;
+      Navigator.pop(context);
+      _erreur(context, e.message);
+    } catch (e) {
+      if (!context.mounted) return;
+      Navigator.pop(context);
+      _erreur(context, 'Restauration interrompue : $e');
+    } finally {
+      await ExportHelper.cleanUp(chemin);
+    }
+  }
+
+  Future<String?> _demanderPhrase(
+    BuildContext context, {
+    bool restauration = false,
+  }) {
     final champ = TextEditingController();
     return showDialog<String>(
       context: context,
@@ -236,10 +408,12 @@ class SettingsScreen extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Elle protège la sauvegarde, et elle seule permettra de la '
-              'relire. Personne ne peut la retrouver à ta place.',
-              style: TextStyle(fontSize: 13, height: 1.45),
+            Text(
+              restauration
+                  ? 'Celle choisie au moment de l\'export.'
+                  : 'Elle protège la sauvegarde, et elle seule permettra de '
+                      'la relire. Personne ne peut la retrouver à ta place.',
+              style: const TextStyle(fontSize: 13, height: 1.45),
             ),
             const SizedBox(height: 16),
             TextField(
@@ -261,7 +435,7 @@ class SettingsScreen extends ConsumerWidget {
             onPressed: () {
               if (champ.text.length >= 8) Navigator.pop(ctx, champ.text);
             },
-            child: const Text('Exporter'),
+            child: Text(restauration ? 'Restaurer' : 'Exporter'),
           ),
         ],
       ),
@@ -300,7 +474,7 @@ class SettingsScreen extends ConsumerWidget {
 
     if (confirme != true || !context.mounted) return;
 
-    _patienter(context, 'Création des fiches…');
+    _patienter(context, ValueNotifier('Création des fiches…'));
     await const Demonstration().remplir();
     if (!context.mounted) return;
     Navigator.pop(context);
@@ -351,7 +525,7 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  void _patienter(BuildContext context, String message) {
+  void _patienter(BuildContext context, ValueListenable<String> message) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -364,7 +538,12 @@ class SettingsScreen extends ConsumerWidget {
               child: CircularProgressIndicator(strokeWidth: 2.4),
             ),
             const SizedBox(width: 18),
-            Expanded(child: Text(message)),
+            Expanded(
+              child: ValueListenableBuilder<String>(
+                valueListenable: message,
+                builder: (_, texte, _) => Text(texte),
+              ),
+            ),
           ],
         ),
       ),

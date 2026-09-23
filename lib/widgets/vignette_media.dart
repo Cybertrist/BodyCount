@@ -5,9 +5,9 @@ import '../security/vault_image.dart';
 
 /// La vignette d'une photo ou d'une vidéo de la galerie.
 ///
-/// Une vidéo n'a pas d'image à montrer sans être déchiffrée en entier,
-/// ce qu'on ne fait pas pour une vignette : elle s'affiche en aplat, avec
-/// le triangle de lecture et sa durée, ce qui suffit à la reconnaître.
+/// Une vidéo montre l'image tirée à son import, avec le triangle de
+/// lecture et sa durée. Une vidéo importée sans vignette, parce qu'Android
+/// n'a pas su la décoder, garde un aplat.
 class VignetteMedia extends StatelessWidget {
   const VignetteMedia({super.key, required this.media});
 
@@ -18,6 +18,7 @@ class VignetteMedia extends StatelessWidget {
     if (!media.video) return VaultImage(path: media.chemin);
 
     final duree = media.dureeMs;
+    final vignette = media.vignette;
     return DecoratedBox(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -29,6 +30,12 @@ class VignetteMedia extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
+          if (vignette != null) ...[
+            VaultImage(path: vignette),
+            // Un voile, pour que le triangle et la durée se lisent sur
+            // n'importe quelle image.
+            const ColoredBox(color: Color(0x33000000)),
+          ],
           const Center(
             child: Icon(
               Icons.play_circle_fill_rounded,

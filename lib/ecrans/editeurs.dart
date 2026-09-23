@@ -6,6 +6,7 @@ import '../config/theme.dart';
 import '../domaine/etiquette.dart';
 import '../domaine/note.dart';
 import '../providers/donnees.dart';
+import '../security/lock_state.dart';
 import '../utils/medias.dart';
 import '../widgets/pastilles.dart';
 import '../widgets/echec.dart';
@@ -549,7 +550,9 @@ class _EcranPhotosState extends ConsumerState<EcranPhotos> {
 
   Future<void> _ajouter() async {
     try {
-      await Medias.importer(
+      // Retenu : le sélecteur met l'application en arrière-plan, et une
+      // longue vidéo se chiffre sans qu'on touche l'écran.
+      await EtatVerrou.instance.retenir(() => Medias.importer(
         personneId,
         progression: (rang, total, video) {
           if (!mounted) return;
@@ -557,7 +560,7 @@ class _EcranPhotosState extends ConsumerState<EcranPhotos> {
           setState(() => _import =
               total == 1 ? '$quoi…' : '$quoi, $rang sur $total…');
         },
-      );
+      ));
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

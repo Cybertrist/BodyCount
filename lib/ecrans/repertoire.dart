@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../config/layout.dart';
 import '../config/theme.dart';
+import '../domaine/etiquette.dart';
 import '../domaine/personne.dart';
 import '../donnees/depots.dart';
 import '../providers/donnees.dart';
@@ -223,6 +224,19 @@ class _Filtres extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final filtre = ref.watch(filtreProvider);
     final villes = ref.watch(villesProvider).valueOrNull ?? const <String>[];
+    // Les étiquettes portées par au moins une fiche, les plus courantes
+    // d'abord. Une étiquette du vocabulaire que personne ne porte
+    // filtrerait vers une grille vide.
+    final etiquettes = (ref
+                .watch(vocabulaireProvider(PorteeEtiquette.personne))
+                .valueOrNull ??
+            const <Etiquette>[])
+        .where((e) => e.usages > 0)
+        .take(8)
+        .toList();
+    final cleFiltre = filtre.etiquette == null
+        ? null
+        : Etiquette.normaliser(filtre.etiquette!);
 
     return SizedBox(
       height: 33,
@@ -252,6 +266,19 @@ class _Filtres extends ConsumerWidget {
             ),
             const SizedBox(width: 7),
           ],
+          for (final etiquette in etiquettes) ...[
+            _Chip(
+              libelle: etiquette.libelle,
+              icone: Icons.sell_outlined,
+              actif: cleFiltre == Etiquette.normaliser(etiquette.libelle),
+              onTap: () => ref.read(filtreProvider.notifier).update(
+                    (f) => cleFiltre == Etiquette.normaliser(etiquette.libelle)
+                        ? f.copyWith(viderEtiquette: true)
+                        : f.copyWith(etiquette: etiquette.libelle),
+                  ),
+            ),
+            const SizedBox(width: 7),
+          ],
         ],
       ),
     );
@@ -263,9 +290,13 @@ class _Chip extends StatelessWidget {
     required this.libelle,
     required this.actif,
     required this.onTap,
+    this.icone,
   });
 
   final String libelle;
+
+  /// Distingue les étiquettes des villes et des tris.
+  final IconData? icone;
   final bool actif;
   final VoidCallback onTap;
 
@@ -284,13 +315,29 @@ class _Chip extends StatelessWidget {
         ),
         child: Center(
           widthFactor: 1,
-          child: Text(
-            libelle,
-            style: TextStyle(
-              fontSize: 12.5,
-              fontWeight: actif ? FontWeight.w800 : FontWeight.w600,
-              color: actif ? const Color(0xFF12071F) : AppColors.textSecondary,
-            ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (icone != null) ...[
+                Icon(
+                  icone,
+                  size: 13,
+                  color: actif
+                      ? const Color(0xFF12071F)
+                      : AppColors.textTertiary,
+                ),
+                const SizedBox(width: 5),
+              ],
+              Text(
+                libelle,
+                style: TextStyle(
+                  fontSize: 12.5,
+                  fontWeight: actif ? FontWeight.w800 : FontWeight.w600,
+                  color:
+                      actif ? const Color(0xFF12071F) : AppColors.textSecondary,
+                ),
+              ),
+            ],
           ),
         ),
       ),

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Ce que le partage peut montrer à une autre application : le seul dossier
+  des sauvegardes, dans le cache. Ni la base, ni le coffre, ni le reste du
+  cache n'y sont exposés.
+-->
+<paths>
+    <cache-path name="sauvegardes" path="sauvegardes/" />
+</paths>
