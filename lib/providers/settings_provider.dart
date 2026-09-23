@@ -16,6 +16,8 @@ class ReglagesStore {
   static const _cleEcran = 'reglage_ecran_protege';
   static const _cleDelai = 'reglage_delai_verrou';
   static const _cleVerrou = 'reglage_verrou_actif';
+  static const _cleSauvegarde = 'derniere_sauvegarde';
+  static const _cleRappel = 'rappel_sauvegarde_repousse';
 
   /// Éteint par défaut pendant la phase d'essai, pour laisser passer les
   /// captures d'écran. À rebasculer avant un usage réel.
@@ -39,6 +41,26 @@ class ReglagesStore {
 
   static Future<void> setVerrouActif(bool actif) async {
     await _storage.write(key: _cleVerrou, value: actif ? 'oui' : 'non');
+  }
+
+  /// Le dernier export mené à son terme, enregistré ou partagé.
+  static Future<DateTime?> derniereSauvegarde() async {
+    final valeur = await _storage.read(key: _cleSauvegarde);
+    return valeur == null ? null : DateTime.tryParse(valeur);
+  }
+
+  static Future<void> noterSauvegarde(DateTime quand) async {
+    await _storage.write(key: _cleSauvegarde, value: quand.toIso8601String());
+  }
+
+  /// Jusqu'à quand le rappel se tait, après un « plus tard ».
+  static Future<DateTime?> rappelRepousse() async {
+    final valeur = await _storage.read(key: _cleRappel);
+    return valeur == null ? null : DateTime.tryParse(valeur);
+  }
+
+  static Future<void> repousserRappel(DateTime jusqua) async {
+    await _storage.write(key: _cleRappel, value: jusqua.toIso8601String());
   }
 
   static Future<int> delaiVerrouSecondes() async {
@@ -119,4 +141,36 @@ class Reglages {
 final reglagesProvider =
     StateNotifierProvider<ReglagesNotifier, Reglages>((ref) {
   return ReglagesNotifier();
+});
+
+/// Où en est la sauvegarde, pour le rappel du répertoire et les réglages.
+class EtatSauvegarde {
+  const EtatSauvegarde({this.derniere, this.repousseJusqua});
+
+  /// Au delà, une sauvegarde est jugée ancienne. Un mois : assez long pour
+  /// ne pas harceler, assez court pour que perdre le téléphone ne coûte
+  /// qu'un mois.
+  static const perime = Duration(days: 30);
+
+  /// Un « plus tard » tait le rappel une semaine.
+  static const repit = Duration(days: 7);
+
+  final DateTime? derniere;
+  final DateTime? repousseJusqua;
+
+  /// Vrai quand il faut en parler : jamais faite, ou trop vieille, et pas
+  /// repoussée.
+  bool aRappeler(DateTime maintenant) {
+    final repousse = repousseJusqua;
+    if (repousse != null && maintenant.isBefore(repousse)) return false;
+    final d = derniere;
+    return d == null || maintenant.difference(d) > perime;
+  }
+}
+
+final sauvegardeProvider = FutureProvider<EtatSauvegarde>((ref) async {
+  return EtatSauvegarde(
+    derniere: await ReglagesStore.derniereSauvegarde(),
+    repousseJusqua: await ReglagesStore.rappelRepousse(),
+  );
 });

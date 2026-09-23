@@ -23,6 +23,7 @@ class SettingsScreen extends ConsumerWidget {
     final reglages = ref.watch(reglagesProvider);
     final personnes = ref.watch(repertoireProvider).valueOrNull?.length;
     final rencontres = ref.watch(journalProvider).valueOrNull?.length;
+    final sauvegarde = ref.watch(sauvegardeProvider).valueOrNull;
 
     return Scaffold(
       body: SafeArea(
@@ -91,8 +92,8 @@ class SettingsScreen extends ConsumerWidget {
                   icone: Icons.ios_share_rounded,
                   titre: 'Exporter, chiffré',
                   valeur: 'Phrase de passe',
-                  sousTitre: 'Fiches, photos et vidéos',
-                  onTap: () => _exporter(context),
+                  sousTitre: _libelleSauvegarde(sauvegarde?.derniere),
+                  onTap: () => _exporter(context, ref),
                 ),
                 _LigneChoix(
                   icone: Icons.settings_backup_restore_rounded,
@@ -226,7 +227,26 @@ class SettingsScreen extends ConsumerWidget {
   /// Enregistrer dans un dossier est proposé en premier : avec des vidéos,
   /// une sauvegarde pèse vite des centaines de mégaoctets, et la plupart
   /// des applications de partage refusent un fichier de cette taille.
-  Future<void> _exporter(BuildContext context) async {
+  /// « Dernière : aujourd'hui », « il y a 12 jours », ou « jamais faite ».
+  static String _libelleSauvegarde(DateTime? derniere) {
+    if (derniere == null) return 'Aucune sauvegarde pour l\'instant';
+    final jours = DateTime.now().difference(derniere).inDays;
+    final quand = switch (jours) {
+      0 => 'aujourd\'hui',
+      1 => 'hier',
+      _ => 'il y a $jours jours',
+    };
+    return 'Dernière sauvegarde $quand';
+  }
+
+  /// Retient qu'une sauvegarde a quitté le téléphone, ce qui fait taire le
+  /// rappel du répertoire pour un mois.
+  static Future<void> _noterSauvegarde(WidgetRef ref) async {
+    await ReglagesStore.noterSauvegarde(DateTime.now());
+    ref.invalidate(sauvegardeProvider);
+  }
+
+  Future<void> _exporter(BuildContext context, WidgetRef ref) async {
     final phrase = await _demanderPhrase(context);
     if (phrase == null || !context.mounted) return;
 
@@ -288,10 +308,12 @@ class SettingsScreen extends ConsumerWidget {
         // L'application choisie lira le fichier quand elle voudra : il
         // reste dans le cache jusqu'au prochain export ou lancement.
         await Fichiers.partager(chemin);
+        await _noterSauvegarde(ref);
         return;
       }
       if (choix == 'enregistrer') {
         final ok = await Fichiers.enregistrer(chemin, _nomSauvegarde());
+        if (ok) await _noterSauvegarde(ref);
         if (context.mounted && ok) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Sauvegarde enregistrée.')),

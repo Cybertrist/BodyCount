@@ -11,6 +11,7 @@ import '../providers/donnees.dart';
 import '../widgets/animations.dart';
 import '../widgets/titre_ecran.dart';
 import '../widgets/carte_personne.dart';
+import '../widgets/rappel_sauvegarde.dart';
 import '../widgets/echec.dart';
 
 /// Le répertoire : la grille des fiches.
@@ -40,6 +41,7 @@ class EcranRepertoire extends ConsumerWidget {
                   : const _EnTeteLarge(),
             ),
             const SizedBox(height: 14),
+            RappelSauvegarde(marge: marge),
             _Filtres(marge: marge),
             const SizedBox(height: 14),
             Expanded(
