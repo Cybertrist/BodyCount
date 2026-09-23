@@ -9,7 +9,7 @@ n=0
 pose () { [ -f "$1" ] || { echo "  manquant : $1"; return; }; cp "$1" "$DEST/$2"; n=$((n+1)); }
 
 pose "png$SUF/f-bodycount.png" banniere.png
-for i in 01 02 03 04 05 06 07 08 09 10 11 12; do
+for i in 01 02 03 04 05 06 07 08 09 10 11 12 13; do
   pose "sec$SUF/r-bodycount-$i.png" "sections/s$i.png"
 done
 
@@ -23,10 +23,11 @@ pose "flow$SUF/bc-couches.png"  schemas/couches.png
 pose "flow$SUF/bc-modele.png"   schemas/modele.png
 pose "flow$SUF/bc-formats.png"  schemas/formats.png
 pose "flow$SUF/bc-carte.png"    schemas/carte.png
-pose "flow$SUF/bc-restauration.png" schemas/restauration.png
 pose "flow$SUF/bc-privacy.png"  schemas/confidentialite.png
 pose "flow$SUF/bc-palette.png"  schemas/palette.png
-pose "flow$SUF/bc-captures.png" schemas/captures.png
+pose "flow$SUF/bc-passeport.png" schemas/captures-passeport.png
+pose "flow$SUF/bc-telephone.png" schemas/captures-telephone.png
+pose "flow$SUF/bc-tablette.png"  schemas/captures-tablette.png
 
 if [ "$LG" != en ]; then
   mkdir -p "$DEST/langues"

@@ -31,6 +31,9 @@ const DISCRET = '#5C6A7A';
 const ACCENT = '#E879F9';
 const FIL = '#2F3A47';
 
+// L'icône « fingerprint » de Material Design, en 24 x 24 (Apache 2.0).
+const EMPREINTE = 'M17.81 4.47c-.08 0-.16-.02-.23-.06C15.66 3.42 14 3 12.01 3c-1.98 0-3.86.47-5.57 1.41-.24.13-.54.04-.68-.2-.13-.24-.04-.55.2-.68C7.82 2.52 9.86 2 12.01 2c2.13 0 3.99.47 6.03 1.52.25.13.34.43.21.67-.09.18-.26.28-.44.28zM3.5 9.72c-.1 0-.2-.03-.29-.09-.23-.16-.28-.47-.12-.7.99-1.4 2.25-2.5 3.75-3.27C9.98 4.04 14 4.03 17.15 5.65c1.5.77 2.76 1.86 3.75 3.25.16.22.11.54-.12.7-.23.16-.54.11-.7-.12-.9-1.26-2.04-2.25-3.39-2.94-2.87-1.47-6.54-1.47-9.4.01-1.36.7-2.5 1.7-3.4 2.96-.08.14-.23.21-.39.21zm6.25 12.07c-.13 0-.26-.05-.35-.15-.87-.87-1.34-1.43-2.01-2.64-.69-1.23-1.05-2.73-1.05-4.34 0-2.97 2.54-5.39 5.66-5.39s5.66 2.42 5.66 5.39c0 .28-.22.5-.5.5s-.5-.22-.5-.5c0-2.42-2.09-4.39-4.66-4.39-2.57 0-4.66 1.97-4.66 4.39 0 1.44.32 2.77.93 3.85.64 1.15 1.08 1.64 1.85 2.42.19.2.19.51 0 .71-.11.1-.24.15-.37.15zm7.17-1.85c-1.19 0-2.24-.3-3.1-.89-1.49-1.01-2.38-2.65-2.38-4.39 0-.28.22-.5.5-.5s.5.22.5.5c0 1.41.72 2.74 1.94 3.56.71.48 1.54.71 2.54.71.24 0 .64-.03 1.04-.1.27-.05.53.13.58.41.05.27-.13.53-.41.58-.57.11-1.07.12-1.21.12zM14.91 22c-.04 0-.09-.01-.13-.02-1.59-.44-2.63-1.03-3.72-2.1-1.4-1.39-2.17-3.24-2.17-5.22 0-1.62 1.38-2.94 3.08-2.94 1.7 0 3.08 1.32 3.08 2.94 0 1.07.93 1.94 2.08 1.94s2.08-.87 2.08-1.94c0-3.77-3.25-6.83-7.25-6.83-2.84 0-5.44 1.58-6.61 4.03-.39.81-.59 1.76-.59 2.8 0 .78.07 2.01.67 3.61.1.26-.03.55-.29.64-.26.1-.55-.04-.64-.29-.49-1.31-.73-2.61-.73-3.96 0-1.2.23-2.29.68-3.24 1.33-2.79 4.28-4.6 7.51-4.6 4.55 0 8.25 3.51 8.25 7.83 0 1.62-1.38 2.94-3.08 2.94s-3.08-1.32-3.08-2.94c0-1.07-.93-1.94-2.08-1.94s-2.08.87-2.08 1.94c0 1.71.66 3.31 1.87 4.51.95.94 1.86 1.46 3.27 1.85.27.07.42.35.35.61-.05.23-.26.38-.47.38z';
+
 /// Une carte du schéma, avec son liseré d'accent à gauche.
 function carte(x, y, l, h, titre, sous, opacite = 1) {
   return `
@@ -98,11 +101,18 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="340"
                values="0.16;0.04;0.16"/>
     </circle>
     <circle r="23" fill="${CARTE}" stroke="${BORD}" stroke-width="1"/>
-    <g stroke="${ACCENT}" stroke-width="1.7" fill="none" stroke-linecap="round">
-      <path d="M -9 4 a 9 11 0 0 1 18 0"/>
-      <path d="M -5.5 6 a 5.5 7 0 0 1 11 0"/>
-      <path d="M -12.5 2 a 12.5 15 0 0 1 25 0"/>
-      <path d="M 0 5 v 7"/>
+    <!-- Le tracé de l'icône « fingerprint » de Material Design (licence
+         Apache 2.0), et une ligne de lecture qui la balaie de haut en bas,
+         comme un capteur qui lit. -->
+    <clipPath id="doigt">
+      <path transform="translate(-15.6 -15.6) scale(1.3)" d="${EMPREINTE}"/>
+    </clipPath>
+    <path transform="translate(-15.6 -15.6) scale(1.3)" fill="${ACCENT}" opacity="0.55" d="${EMPREINTE}"/>
+    <g clip-path="url(#doigt)">
+      <rect x="-16" y="-16" width="32" height="7" fill="#FFFFFF" opacity="0.9">
+        <animate attributeName="y" dur="2.8s" repeatCount="indefinite"
+                 values="-22;16;16" keyTimes="0;0.6;1"/>
+      </rect>
     </g>
   </g>
   <text x="91" y="228" text-anchor="middle" font-family="${SANS}"
@@ -403,6 +413,125 @@ function villes() {
 `;
 }
 
+// ------------------------------------------------ la restauration, animée
+// Deux passages sur le même fichier. Le premier déchiffre et jette : les
+// morceaux s'allument en vert l'un après l'autre. Le second range : les
+// médias descendent dans le coffre. Les fiches ne changent qu'à la fin.
+function restauration() {
+  const H = 330;
+  const total = 10;
+  const n = 8;
+  const x0 = 250;
+  const pas = 96;
+  const y = 70;
+  const morceaux = [];
+  for (let i = 0; i < n; i++) {
+    const x = x0 + i * pas;
+    const verif = 0.6 + i * 0.32;
+    const range = 4.4 + i * 0.32;
+    morceaux.push(`
+  <rect x="${x}" y="${y}" width="84" height="44" rx="8" fill="${CARTE}" stroke="${BORD}"/>
+  <rect x="${x}" y="${y}" width="84" height="44" rx="8" fill="none" stroke="${VERT}" stroke-width="1.6" opacity="0">
+    ${fenetre(verif, 4.2, total, 'opacity', 0.9)}
+  </rect>
+  <g opacity="0">${fenetre(verif, 4.2, total)}
+    <path d="M ${x + 34} ${y + 22} l 5 5 l 10 -10" stroke="${VERT}" stroke-width="2"
+          fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <rect x="${x + 30}" y="${y + 12}" width="24" height="20" rx="4" fill="${ACCENT}" opacity="0">
+    <animate attributeName="y" dur="${total}s" repeatCount="indefinite"
+             values="${y + 12};${y + 12};${y + 146};${y + 146}"
+             keyTimes="0;${(range / total).toFixed(4)};${((range + 0.7) / total).toFixed(4)};1"/>
+    ${fenetre(range, range + 0.8, total, 'opacity', 0.9)}
+  </rect>`);
+  }
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="${H}"
+     viewBox="0 0 1280 ${H}" role="img"
+     aria-label="${t(
+       "La restauration lit la sauvegarde deux fois. Au premier passage, chaque morceau est déchiffré et vérifié, puis jeté. Au second, les médias entrent dans le coffre. Les fiches ne sont remplacées qu'à la fin : jusque-là, rien n'a été touché.",
+       'Restoring reads the backup twice. On the first pass, each chunk is decrypted and checked, then dropped. On the second, the media enter the vault. The people are only replaced at the very end: until then, nothing was touched.',
+     )}">
+  <rect width="1280" height="${H}" fill="${FOND}"/>
+  ${carte(56, y - 14, 170, 72, 'sauvegarde.bcx', t('phrase de passe', 'passphrase'), 1)}
+
+  <g opacity="0">${fenetre(0.2, 4.2, total)}
+    <text x="${x0}" y="${y - 16}" font-family="${MONO}" font-size="12"
+          fill="${VERT}">${t('1er passage : tout vérifier, puis jeter', '1st pass: check it all, then drop it')}</text>
+  </g>
+  <g opacity="0">${fenetre(4.3, 7.6, total)}
+    <text x="${x0}" y="${y - 16}" font-family="${MONO}" font-size="12"
+          fill="${ACCENT}">${t('2e passage : ranger les médias', '2nd pass: store the media')}</text>
+  </g>
+  ${morceaux.join('')}
+
+  ${carte(x0, 200, 180, 64, 'vault/', t('nouveaux noms', 'new names'), 0.6)}
+  <path d="M ${x0 + 180} 232 H ${x0 + 7 * pas + 84}" stroke="${FIL}" stroke-width="1.8" fill="none"/>
+
+  ${carte(1044, y - 14, 180, 72, t('les fiches', 'the people'), t('intactes', 'intact'), 0.4)}
+  <g opacity="0">${fenetre(7.8, 9.8, total)}
+    <rect x="1044" y="${y - 14}" width="180" height="72" rx="11" fill="${CARTE}" stroke="${VERT}" stroke-width="1.6"/>
+    <text x="1064" y="${y + 17}" font-family="${MONO}" font-size="13.5" font-weight="600"
+          fill="${TITRE}">${t('les fiches', 'the people')}</text>
+    <text x="1064" y="${y + 37}" font-family="${SANS}" font-size="12"
+          fill="${VERT}">${t('remplacées, enfin', 'replaced, at last')}</text>
+  </g>
+
+  ${legende(300, t(
+    'Une phrase fausse s’arrête au premier morceau, un octet abîmé au sien : dans les deux cas, les fiches du téléphone n’ont pas bougé.',
+    'A wrong passphrase stops at the first chunk, a damaged byte at its own: either way, the people on the phone have not moved.',
+  ))}
+</svg>
+`;
+}
+
+// ------------------------------------------------ une vidéo allégée
+// La vidéo filmée en 1080p entre, Media3 la réencode sur l'encodeur du
+// téléphone, elle ressort bien plus légère et part au coffre.
+function allegement() {
+  const H = 300;
+  const total = 7;
+  const y = 104;
+  const fil = 'M 250 140 H 1040';
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="${H}"
+     viewBox="0 0 1280 ${H}" role="img"
+     aria-label="${t(
+       "Une vidéo de 20 Mo filmée en 1080p est réencodée par Media3 sur l'encodeur du téléphone : H.264, 720 points sur le petit côté, 2,5 Mb/s. Elle ressort à 3 Mo et entre au coffre, chiffrée par morceaux. La version allégée n'est gardée que si elle gagne au moins un dixième.",
+       'A 20 MB video shot in 1080p is re-encoded by Media3 on the phone encoder: H.264, 720 points on the short side, 2.5 Mb/s. It comes out at 3 MB and enters the vault, encrypted in chunks. The lighter version is only kept if it saves at least a tenth.',
+     )}">
+  <rect width="1280" height="${H}" fill="${FOND}"/>
+  <path d="${fil}" stroke="${FIL}" stroke-width="1.8" fill="none"/>
+  ${billeFenetre(fil, 0.3, 5.2, total)}
+
+  ${carte(56, y, 194, 72, t('vidéo filmée', 'recorded video'), '1080p · 16 Mb/s', 1)}
+  <rect x="80" y="${y + 90}" width="146" height="12" rx="6" fill="${ACCENT}" opacity="0.8"/>
+  <text x="153" y="${y + 124}" text-anchor="middle" font-family="${MONO}" font-size="13"
+        font-weight="600" fill="${TITRE}">20 Mo</text>
+
+  ${carte(470, y, 230, 72, 'Media3 Transformer', t('encodeur du téléphone', 'phone encoder'), 0.8)}
+  <rect x="495" y="${y + 90}" width="180" height="6" rx="3" fill="${BORD}"/>
+  <rect x="495" y="${y + 90}" width="0" height="6" rx="3" fill="${ACCENT}">
+    <animate attributeName="width" dur="${total}s" repeatCount="indefinite"
+             values="0;0;180;180;0" keyTimes="0;${(1.4 / total).toFixed(4)};${(3.6 / total).toFixed(4)};${(6.6 / total).toFixed(4)};1"/>
+  </rect>
+  <text x="585" y="${y + 124}" text-anchor="middle" font-family="${MONO}" font-size="12"
+        fill="${TEXTE}">H.264 · 720p · 2,5 Mb/s</text>
+
+  ${carte(1040, y, 184, 72, t('au coffre', 'into the vault'), t('chiffrée par morceaux', 'chunk-encrypted'), 0.5)}
+  <g opacity="0">${fenetre(3.8, 6.8, total)}
+    <rect x="1064" y="${y + 90}" width="146" height="12" rx="6" fill="${BORD}"/>
+    <rect x="1064" y="${y + 90}" width="22" height="12" rx="6" fill="${VERT}"/>
+    <text x="1137" y="${y + 124}" text-anchor="middle" font-family="${MONO}" font-size="13"
+          font-weight="600" fill="${VERT}">3 Mo</text>
+  </g>
+
+  ${legende(272, t(
+    'Réencoder dégrade toujours un peu : la version allégée n’est gardée que si elle gagne au moins un dixième, sinon l’original entre tel quel.',
+    'Re-encoding always costs a little: the lighter version is only kept if it saves at least a tenth, otherwise the original goes in as it is.',
+  ))}
+</svg>
+`;
+}
+
 // ---------------------------------------------------------------- écriture
 const racine = path.join(__dirname, '..');
 const dest = path.join(racine, LG === 'en' ? 'en' : '.', 'schemas');
@@ -412,6 +541,8 @@ for (const [nom, contenu] of [
   ['ouverture.svg', ouverture()],
   ['flux.svg', flux()],
   ['villes.svg', villes()],
+  ['restauration.svg', restauration()],
+  ['allegement.svg', allegement()],
 ]) {
   fs.writeFileSync(path.join(dest, nom), contenu);
   console.log(

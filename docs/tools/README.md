@@ -27,17 +27,21 @@ ce qui rend impossible d'en corriger une en oubliant l'autre.
 
 ## Ce que fait chaque script
 
-- `figures.sh` : tout le contenu de ce dépôt, la bannière, les douze
+- `figures.sh` : tout le contenu de ce dépôt, la bannière, les treize
   bandeaux de section, les cinq grilles, l'arborescence, les couches, le
   modèle de données, les formats de fichier, la fabrication de la carte,
-  la restauration pas à pas, le modèle de confidentialité et la palette.
+  les tests, le modèle de confidentialité et la palette.
   C'est le seul fichier à ouvrir pour changer un texte.
-- `captures.sh` : la planche de quatre captures d'écran. Les images
-  sources sont dans `src-captures/`, en 1080 x 2340, telles que
-  l'appareil les a rendues ; le rognage est fait en CSS, donc changer la
-  fenêtre retenue ne demande pas de retoucher un fichier. Les quatre
-  écrans choisis sont ceux qui n'affichent aucun visage, les portraits du
-  jeu d'essai restant hors du dépôt.
+- `captures.sh` : les trois planches de captures, format passeport,
+  téléphone 16/9 et tablette 4/3. Les sources sont dans
+  `src-captures/<format>/`, en JPEG, déjà rognées.
+- `rogner.js` : prépare les captures brutes de l'émulateur. Il retire la
+  barre d'état et la barre de navigation d'après un `barres.txt` posé à
+  côté, réduit à 720 points de large et écrit en JPEG, par un canvas de
+  Chrome. `node docs/tools/rogner.js <brut> <src-captures/format>`.
+- `social.sh` : l'aperçu social du dépôt, `docs/social-preview.png`,
+  1280 x 640. À déposer à la main dans Settings > General > Social
+  preview, GitHub ne le lit pas depuis le dépôt.
 - `cartes.sh` : le gabarit des bannières 1280x320.
 - `bandeaux.sh` : le gabarit des bandeaux de section numérotés.
 - `grille.sh` : le gabarit des grilles à deux ou trois colonnes.
@@ -46,9 +50,10 @@ ce qui rend impossible d'en corriger une en oubliant l'autre.
 - `pastilles.sh` : les deux pastilles du sélecteur de langue.
 - `sequence.sh` : le gabarit des enchaînements, des étapes reliées par
   une flèche.
-- `anime.js` : les quatre SVG animés, la chaîne de chiffrement,
-  l'ouverture unique de la base, le flux chiffré par morceaux et la
-  recherche des communes, dans `docs/schemas/`. Pas de police
+- `anime.js` : les six SVG animés, la chaîne de chiffrement,
+  l'ouverture unique de la base, le flux chiffré par morceaux, la
+  recherche des communes, la restauration en deux passes et
+  l'allègement d'une vidéo, dans `docs/schemas/`. Pas de police
   externe : un SVG affiché en `<img>` n'a pas le droit d'aller la
   chercher, et une `@import` ignorée donnerait une figure cassée chez les
   autres et correcte chez soi.

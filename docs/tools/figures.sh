@@ -42,7 +42,8 @@ rep bodycount "$A" \
 "$(t 'Modèle de confidentialité' 'Privacy model')" \
 "$(t 'Les tests' 'The tests')" \
 "$(t 'Feuille de route' 'Roadmap')" \
-"$(t 'Avertissement' 'A word of warning')"
+"$(t 'Avertissement' 'A word of warning')" \
+"$(t 'Licence et auteur' 'Licence and author')"
 
 # ------------------------------------------------------ les fonctionnalités
 grid bc-feat "$A" 2 \
@@ -91,12 +92,10 @@ grid bc-stack "$A" 3 \
 "Chakra Petch|$(t 'La police des titres, embarquée sous licence SIL Open Font.' 'The title typeface, embedded under the SIL Open Font licence.')"
 
 # -------------------------------------------------------- la feuille de route
-grid bc-route "$A" 2 \
-"$(t 'Point précis sur la carte' 'Exact point on the map')|$(t 'La carte descend à la commune. Poser un point à la main en enregistrant une rencontre donnerait la rue, sans rien demander à un serveur.' 'The map goes down to the commune. Dropping a pin by hand when recording an encounter would give the street, without asking a server anything.')" \
-"$(t 'Tests des écrans' 'Screen tests')|$(t 'Les données et le chiffrement sont couverts sur appareil. Les écrans ne le sont pas encore : un test par parcours, de la fiche à la carte.' 'Data and encryption are covered on device. The screens are not yet: one test per journey, from the person to the map.')" \
-"$(t 'Rappel de sauvegarde' 'Backup reminder')|$(t 'Dire quand la dernière sauvegarde date d&#39;un mois. Perdre le téléphone, c&#39;est perdre tout ce qui n&#39;a pas été exporté.' 'Say when the last backup is a month old. Losing the phone means losing everything not exported.')" \
-"$(t 'Vidéos allégées' 'Lighter videos')|$(t 'Une vidéo entre telle quelle dans le coffre. La réencoder à l&#39;import diviserait sa taille, et celle des sauvegardes.' 'A video goes into the vault as it is. Re-encoding it on import would cut its size, and that of backups.')" \
-"$(t 'Clé de publication' 'Release signing key')|$(t 'L&#39;APK est encore signé avec la clé de débogage. Une vraie clé est la condition pour que les mises à jour restent possibles.' 'The APK is still signed with the debug key. A real key is what keeps updates possible.')"
+grid bc-route "$A" 3 \
+"$(t 'Fait' 'Done')|$(t 'Communes de France, photos et vidéos en grand, sauvegarde complète et restauration, point précis, rappel de sauvegarde, vidéos allégées, lancement animé, clé de publication, vingt-quatre tests.' 'French communes, full-size photos and videos, full backup and restore, exact point, backup reminder, lighter videos, animated launch, release key, twenty-four tests.')" \
+"$(t 'Sauvegarde automatique' 'Automatic backup')|$(t 'Un export chiffré posé de lui-même dans un dossier choisi, chaque semaine, plutôt qu&#39;un rappel.' 'An encrypted export dropped by itself into a chosen folder, every week, rather than a reminder.')" \
+"$(t 'Relecture extérieure' 'Outside review')|$(t 'Le chiffrement n&#39;a été relu par personne d&#39;autre que moi. Un regard extérieur sur l&#39;assemblage vaudrait plus que n&#39;importe quel ajout.' 'The encryption has been reviewed by nobody but me. An outside look at how it is put together would be worth more than any feature.')"
 
 # ---------------------------------------------------------- l'arborescence
 treefig bodycount "$A" "lib/" \
@@ -137,7 +136,7 @@ F4="$(t "L'empreinte se coupe dans les réglages. Le chiffrement reste, mais la 
 V5="$(t 'Une restauration vérifie toute la sauvegarde avant d&#39;effacer quoi que ce soit : une phrase fausse ou un fichier abîmé ne touchent à rien.' 'A restore checks the whole backup before erasing anything: a wrong passphrase or a damaged file touch nothing.')"
 F5="$(t 'Pour être lue, une vidéo est déchiffrée dans le cache privé de l&#39;application, le temps de la lecture. La copie part à la fermeture et au verrouillage.' 'To be played, a video is decrypted into the app private cache for as long as it plays. The copy goes on close and on lock.')"
 TV="$(t 'Ce qui est <span>vrai</span>' 'What is <span>true</span>')"
-TF="$(t "Ce qui ne l'est <span>pas</span>" 'What is <span>not</span>')"
+TF="$(t "Ce qui ne l'est <span>pas</span>" 'What is <span>false</span>')"
 OK='<i><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.3l3.4 3.4L13 5" stroke="#4ADE80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></i>'
 KO='<i><svg viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="#E2725F" stroke-width="2" stroke-linecap="round"/></svg></i>'
 
@@ -426,20 +425,12 @@ HTML
   --screenshot="$B/flow$SUF/bc-formats.png" --window-size=1280,716 "file:///$B/html$SUF/s-bc-formats.html" >/dev/null 2>&1
 echo "  bc-formats.png"
 
-# ------------------------------------------------ la restauration, pas à pas
-# Rien n'est effacé avant la dernière étape. C'est tout l'intérêt de
-# l'ordre, et c'est ce qu'une séquence montre mieux qu'une phrase.
-seqfig bc-restauration "$A" \
-"$(t 'Choisir' 'Choose')|$(t 'Le sélecteur du système, qui voit Téléchargements, la carte SD, un dossier synchronisé. Le fichier est recopié dans le cache privé.' 'The system picker, which sees Downloads, the SD card, a synced folder. The file is copied into the private cache.')" \
-"$(t 'Tout vérifier' 'Check it all')|$(t 'Premier passage : chaque morceau est déchiffré puis jeté. Une phrase fausse s&#39;arrête au premier, un octet abîmé au sien.' 'First pass: every chunk is decrypted then dropped. A wrong passphrase stops at the first, a damaged byte at its own.')" \
-"$(t 'Ranger les médias' 'Store the media')|$(t 'Second passage : photos et vidéos entrent dans le coffre sous de nouveaux noms. Si quelque chose échoue, ils sont effacés.' 'Second pass: photos and videos enter the vault under new names. If anything fails, they are erased.')" \
-"$(t 'Remplacer' 'Replace')|$(t 'Alors seulement les fiches changent, et les fichiers des anciennes partent. Jusque là, rien n&#39;a été touché.' 'Only then do the people change, and the old ones files go. Until then, nothing was touched.')"
-
 # ---------------------------------------------------------------- les tests
+
 grid bc-tests "$A" 3 \
 "$(t 'Base' 'Database')|$(t 'Huit ouvertures simultanées rendent une seule connexion. Une écriture se relit partout. Une base sans version est réparée, pas détruite.' 'Eight simultaneous openings give one connection. A write reads back everywhere. A database without a version is repaired, not destroyed.')" \
 "$(t 'Flux chiffré' 'Encrypted stream')|$(t 'Aller-retour de zéro octet à trois mégaoctets. Tronqué, interverti ou modifié d&#39;un octet : refusé. Le natif relit le Dart, et l&#39;inverse.' 'Round trip from zero bytes to three megabytes. Truncated, swapped or one byte changed: refused. Native reads Dart back, and the reverse.')" \
-"$(t 'Coffre vidéo' 'Video vault')|$(t 'Une vidéo entre, se relit à l&#39;identique, l&#39;original disparaît, et la copie de lecture aussi.' 'A video goes in, reads back identical, the original disappears, and so does the playback copy.')" \
 "$(t 'Sauvegarde' 'Backup')|$(t 'Tout revient, fiche, étiquettes, rencontre, photo, vidéo et vignette. Phrase fausse, fichier abîmé, fichier étranger : rien ne bouge.' 'Everything comes back, person, tags, encounter, photo, video and thumbnail. Wrong passphrase, damaged file, foreign file: nothing moves.')" \
-"$(t 'Communes' 'Communes')|$(t 'Un village, une faute de frappe, un homonyme départagé par son département, Londres hors de la carte, « chez lui » qui n&#39;est pas une ville.' 'A village, a typo, a namesake settled by its department, London off the map, « chez lui » not being a city.')" \
-"$(t 'Sur appareil' 'On device')|$(t 'SQLCipher, le Keystore et l&#39;AES natif n&#39;existent que sur Android : les dix-huit tests tournent sur un émulateur.' 'SQLCipher, the Keystore and native AES only exist on Android: the eighteen tests run on an emulator.')"
+"$(t 'Coffre et communes' 'Vault and communes')|$(t 'Une vidéo se relit à l&#39;identique. Un village, une faute, un homonyme : placés. Londres et « chez lui » : non.' 'A video reads back identical. A village, a typo, a namesake: placed. London and « chez lui »: not.')" \
+"$(t 'Parcours d&#39;écrans' 'Screen journeys')|$(t 'L&#39;application entière, pilotée au doigt : changer une ville et la voir au répertoire, filtrer, chercher, ouvrir une photo, la carte, l&#39;agenda, le rappel.' 'The whole app, driven by finger: change a city and see it in the directory, filter, search, open a photo, the map, the calendar, the reminder.')" \
+"$(t 'Sur appareil' 'On device')|$(t 'SQLCipher, le Keystore et l&#39;AES natif n&#39;existent que sur Android : les vingt-quatre tests tournent sur un émulateur.' 'SQLCipher, the Keystore and native AES only exist on Android: the twenty-four tests run on an emulator.')"
