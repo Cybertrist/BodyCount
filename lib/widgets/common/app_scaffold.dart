@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -66,6 +68,46 @@ class AppScaffold extends StatelessWidget {
   }
 }
 
+/// Le style d'un libellé d'onglet, mesuré et affiché avec le même.
+///
+/// La graisse du sélectionné est la plus large des deux : c'est donc
+/// celle qui décide, sinon la barre changerait de forme en passant d'un
+/// onglet à l'autre.
+TextStyle _styleLibelle(BuildContext context, {required bool gras}) {
+  return DefaultTextStyle.of(context).style.merge(
+        TextStyle(
+          fontSize: 12.5,
+          fontWeight: gras ? FontWeight.w800 : FontWeight.w700,
+        ),
+      );
+}
+
+/// La largeur du plus long libellé, à l'échelle de texte du téléphone.
+///
+/// Les quatre mots sont mesurés, pas devinés : un réglage d'accessibilité
+/// qui grossit les textes de moitié doit faire tomber les libellés, et
+/// une police remplacée ne doit pas non plus prendre la barre en traître.
+double _libellePlusLarge(BuildContext context, {required bool majuscules}) {
+  final style = _styleLibelle(context, gras: true);
+  final echelle = MediaQuery.textScalerOf(context);
+  var large = 0.0;
+
+  for (final d in AppScaffold._destinations) {
+    final peintre = TextPainter(
+      text: TextSpan(
+        text: majuscules ? d.label.toUpperCase() : d.label,
+        style: majuscules
+            ? style.copyWith(fontSize: 9, letterSpacing: 0.4)
+            : style,
+      ),
+      textDirection: TextDirection.ltr,
+      textScaler: echelle,
+    )..layout();
+    large = math.max(large, peintre.width);
+  }
+  return large;
+}
+
 class _Destination {
   final String route;
   final IconData icon;
@@ -108,33 +150,60 @@ class _FloatingBar extends StatelessWidget {
           // droite, en bout de rangée, ce qui en faisait un cinquième
           // onglet mal rangé ; au centre, il devient ce qu'il est : la
           // seule action de la barre, et la barre reste symétrique.
-          child: Row(
-            children: [
-              for (var i = 0; i < AppScaffold._destinations.length; i++) ...[
-                if (i == 2) ...[
-                  const SizedBox(width: 6),
-                  const _BoutonAjout(),
-                  const SizedBox(width: 6),
+          child: LayoutBuilder(
+            builder: (context, contraintes) {
+              // Les libellés passent, ou ne passent pas, pour toute la
+              // barre d'un coup. Les mesurer onglet par onglet donnerait
+              // une barre bâtarde, « Stats » écrit et « Agenda » muet,
+              // et un mot qui apparaît en changeant d'onglet décalerait
+              // les quatre emplacements à chaque appui.
+              final libelles = _libellesTiennent(context, contraintes.maxWidth);
+
+              return Row(
+                children: [
+                  for (var i = 0;
+                      i < AppScaffold._destinations.length;
+                      i++) ...[
+                    if (i == 2) ...[
+                      const SizedBox(width: 6),
+                      const _BoutonAjout(),
+                      const SizedBox(width: 6),
+                    ],
+                    Expanded(
+                      child: _BarItem(
+                        destination: AppScaffold._destinations[i],
+                        selected: i == index,
+                        showLabel: libelles,
+                        onTap: () => onTap(i),
+                      ),
+                    ),
+                  ],
                 ],
-                Expanded(
-                  child: _BarItem(
-                    destination: AppScaffold._destinations[i],
-                    selected: i == index,
-                    // Sur un écran étroit, seul l'onglet actif porte son
-                    // libellé : quatre mots côte à côte ne tiennent pas
-                    // sans rétrécir la police au point de l'illisible.
-                    showLabel: i == index ||
-                        AppLayout.of(context) != ScreenFormat.compact,
-                    onTap: () => onTap(i),
-                  ),
-                ),
-              ],
-            ],
+              );
+            },
           ),
         ),
       ),
     );
   }
+}
+
+/// Les libellés tiennent-ils dans la barre du bas ?
+///
+/// La place d'un onglet, c'est la barre moins le bouton d'ajout et ses
+/// deux écarts, divisée par le nombre d'onglets. Il y faut l'icône,
+/// l'écart qui la suit, le mot, et de quoi ne pas coller au bord arrondi
+/// de la pastille allumée. Faute de quoi le mot serait coupé net par des
+/// points de suspension, ce qui est pire que pas de mot du tout.
+bool _libellesTiennent(BuildContext context, double largeur) {
+  const icone = 19.0;
+  const ecart = 7.0;
+  const respiration = 6.0;
+  const ajout = 48.0 + 6.0 + 6.0;
+
+  final dispo = (largeur - ajout) / AppScaffold._destinations.length;
+  return dispo >=
+      icone + ecart + _libellePlusLarge(context, majuscules: false) + respiration;
 }
 
 /// Le bouton d'ajout, logé dans la barre de navigation.
@@ -256,6 +325,12 @@ class _Rail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Même règle que sur téléphone : le mot passe, ou il disparaît. Une
+    // pastille de 56 points laisse peu de marge, et un réglage
+    // d'accessibilité suffit à faire déborder « AGENDA ».
+    final libelles =
+        _libellePlusLarge(context, majuscules: true) <= 56 - 8;
+
     return Container(
       width: 92,
       decoration: const BoxDecoration(
@@ -272,16 +347,32 @@ class _Rail extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 22),
+            // Le logo de l'application, et non plus un cœur : celui-ci ne
+            // venait de nulle part et ne voulait rien dire, alors que cet
+            // emplacement est justement celui de la marque. Même
+            // traitement que sur l'écran d'ouverture, l'arrondi et le
+            // halo raccordant le fond sombre du fichier à celui du rail.
             Container(
-              width: 38,
-              height: 38,
+              width: 40,
+              height: 40,
               decoration: BoxDecoration(
-                gradient: AppColors.brandGradient,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(13),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primary.withValues(alpha: 0.32),
+                    blurRadius: 16,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
               ),
-              alignment: Alignment.center,
-              child: const Icon(Icons.favorite_rounded,
-                  size: 20, color: Color(0xFF12071F)),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(13),
+                child: Image.asset(
+                  'assets/logo.png',
+                  fit: BoxFit.cover,
+                  filterQuality: FilterQuality.medium,
+                ),
+              ),
             ),
             const SizedBox(height: 18),
             const _TraitRail(),
@@ -300,6 +391,7 @@ class _Rail extends StatelessWidget {
                           child: _RailItem(
                             destination: AppScaffold._destinations[i],
                             selected: i == index,
+                            showLabel: libelles,
                             onTap: () => onTap(i),
                           ),
                         ),
@@ -384,11 +476,13 @@ class _RailItem extends StatelessWidget {
   const _RailItem({
     required this.destination,
     required this.selected,
+    required this.showLabel,
     required this.onTap,
   });
 
   final _Destination destination;
   final bool selected;
+  final bool showLabel;
   final VoidCallback onTap;
 
   @override
@@ -421,17 +515,19 @@ class _RailItem extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(destination.icon, size: 19, color: couleur),
-              const SizedBox(height: 4),
-              Text(
-                destination.label.toUpperCase(),
-                style: TextStyle(
-                  fontSize: 9,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 0.4,
-                  color: couleur,
+              Icon(destination.icon, size: showLabel ? 19 : 23, color: couleur),
+              if (showLabel) ...[
+                const SizedBox(height: 4),
+                Text(
+                  destination.label.toUpperCase(),
+                  style: TextStyle(
+                    fontSize: 9,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 0.4,
+                    color: couleur,
+                  ),
                 ),
-              ),
+              ],
             ],
           ),
         ),
