@@ -1,16 +1,34 @@
 package com.bodycount.bodycount
 
+import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.media.MediaMetadataRetriever
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.os.Handler
+import android.os.Looper
+import android.provider.MediaStore
 import android.view.WindowManager
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
+import androidx.media3.common.MediaItem
+import androidx.media3.common.MimeTypes
+import androidx.media3.effect.Presentation
+import androidx.media3.transformer.Composition
+import androidx.media3.transformer.DefaultEncoderFactory
+import androidx.media3.transformer.EditedMediaItem
+import androidx.media3.transformer.Effects
+import androidx.media3.transformer.ExportException
+import androidx.media3.transformer.ExportResult
+import androidx.media3.transformer.ProgressHolder
+import androidx.media3.transformer.Transformer
+import androidx.media3.transformer.VideoEncoderSettings
 import io.flutter.plugin.common.MethodChannel
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -20,6 +38,7 @@ import javax.crypto.Cipher
 import javax.crypto.spec.GCMParameterSpec
 import javax.crypto.spec.SecretKeySpec
 import kotlin.math.max
+import kotlin.math.min
 
 /**
  * FLAG_SECURE bloque deux choses d'un coup : les captures d'écran et
@@ -45,6 +64,9 @@ class MainActivity : FlutterFragmentActivity() {
      * attendre un chiffrement.
      */
     private val filAes = Executors.newSingleThreadExecutor()
+
+    /** Le canal des médias, gardé pour lui renvoyer l'avancement. */
+    private var canalMediasOuvert: MethodChannel? = null
 
     /**
      * Les fichiers passent par le sélecteur du système : il laisse choisir
@@ -196,9 +218,37 @@ class MainActivity : FlutterFragmentActivity() {
                 }
             }
 
-        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, canalMedias)
+        val medias = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, canalMedias)
+        canalMediasOuvert = medias
+        medias
             .setMethodCallHandler { call, result ->
                 when (call.method) {
+                    "alleger" -> {
+                        val chemin = call.argument<String>("chemin")
+                        if (chemin == null) {
+                            result.error("chemin", "Chemin absent", null)
+                        } else {
+                            alleger(File(chemin)) { sortie -> result.success(sortie?.path) }
+                        }
+                    }
+                    "versGalerie" -> {
+                        val nom = call.argument<String>("nom") ?: "bodycount"
+                        val mime = call.argument<String>("mime") ?: "image/jpeg"
+                        val video = call.argument<Boolean>("video") ?: false
+                        val chemin = call.argument<String>("chemin")
+                        val octets = call.argument<ByteArray>("octets")
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                            // Avant Android 10, écrire dans la galerie
+                            // demande un droit sur tout le stockage : le
+                            // Dart passe alors par « enregistrer sous ».
+                            result.success("nonGere")
+                        } else {
+                            Thread {
+                                val ok = versGalerie(nom, mime, video, chemin, octets)
+                                runOnUiThread { result.success(if (ok) "ok" else "echec") }
+                            }.start()
+                        }
+                    }
                     "apercu" -> {
                         val chemin = call.argument<String>("chemin")
                         if (chemin == null) {
@@ -215,6 +265,133 @@ class MainActivity : FlutterFragmentActivity() {
                     else -> result.notImplemented()
                 }
             }
+    }
+
+    /**
+     * Réencode une vidéo trop lourde : H.264, 720 points sur le petit côté,
+     * 2,5 Mb/s, le son tel quel. Le téléphone filme en 4K à 50 Mb/s pour une
+     * vidéo qu'on regardera sur son écran ; la garder telle quelle
+     * remplirait le coffre et rendrait les sauvegardes intransportables.
+     *
+     * Rien n'est fait si la vidéo est déjà légère, et le résultat n'est
+     * gardé que s'il gagne au moins un dixième : réencoder dégrade toujours
+     * un peu, ça doit valoir la peine. Rend null quand l'original reste.
+     */
+    private fun alleger(source: File, fin: (File?) -> Unit) {
+        val lecteur = MediaMetadataRetriever()
+        val (largeur, hauteur, debit) = try {
+            lecteur.setDataSource(source.path)
+            Triple(
+                lecteur.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)?.toIntOrNull() ?: 0,
+                lecteur.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)?.toIntOrNull() ?: 0,
+                lecteur.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE)?.toIntOrNull() ?: 0,
+            )
+        } catch (e: Exception) {
+            Triple(0, 0, 0)
+        } finally {
+            lecteur.release()
+        }
+        val petitCote = min(largeur, hauteur)
+        if (petitCote == 0 || (petitCote <= 720 && debit in 1..4_000_000)) {
+            fin(null)
+            return
+        }
+
+        val sortie = File(cacheDir, "allegee-" + System.nanoTime() + ".mp4")
+        val element = EditedMediaItem.Builder(MediaItem.fromUri(Uri.fromFile(source)))
+            .setEffects(Effects(listOf(), listOf(Presentation.createForShortSide(min(petitCote, 720)))))
+            .build()
+        val encodeur = DefaultEncoderFactory.Builder(this)
+            .setRequestedVideoEncoderSettings(
+                VideoEncoderSettings.Builder().setBitrate(2_500_000).build(),
+            )
+            .build()
+        val principal = Handler(Looper.getMainLooper())
+        var termine = false
+
+        val transformer = Transformer.Builder(this)
+            .setVideoMimeType(MimeTypes.VIDEO_H264)
+            .setEncoderFactory(encodeur)
+            .addListener(object : Transformer.Listener {
+                override fun onCompleted(composition: Composition, resultat: ExportResult) {
+                    termine = true
+                    val gagne = sortie.exists() && sortie.length() < source.length() * 9 / 10
+                    if (!gagne) sortie.delete()
+                    fin(if (gagne) sortie else null)
+                }
+
+                override fun onError(
+                    composition: Composition,
+                    resultat: ExportResult,
+                    erreur: ExportException,
+                ) {
+                    termine = true
+                    sortie.delete()
+                    fin(null)
+                }
+            })
+            .build()
+
+        // L'avancement, remonté au Dart quatre fois par seconde.
+        val progression = ProgressHolder()
+        val suivi = object : Runnable {
+            override fun run() {
+                if (termine) return
+                if (transformer.getProgress(progression) == Transformer.PROGRESS_STATE_AVAILABLE) {
+                    canalMediasOuvert?.invokeMethod("avancement", progression.progress)
+                }
+                principal.postDelayed(this, 250)
+            }
+        }
+        transformer.start(element, sortie.path)
+        principal.post(suivi)
+    }
+
+    /**
+     * Range une photo ou une vidéo dans la galerie, sous Images/BodyCount
+     * ou Films/BodyCount. Le fichier y est en clair : c'est tout l'objet
+     * du geste, sortir un média du coffre pour le garder ailleurs.
+     *
+     * L'entrée est marquée « en cours » le temps de l'écriture, pour que
+     * la galerie ne montre pas une image à moitié écrite ; en cas d'échec,
+     * elle est retirée.
+     */
+    private fun versGalerie(
+        nom: String,
+        mime: String,
+        video: Boolean,
+        chemin: String?,
+        octets: ByteArray?,
+    ): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) return false
+        val dossier = if (video) Environment.DIRECTORY_MOVIES else Environment.DIRECTORY_PICTURES
+        val collection = if (video) {
+            MediaStore.Video.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+        } else {
+            MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+        }
+        val valeurs = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, nom)
+            put(MediaStore.MediaColumns.MIME_TYPE, mime)
+            put(MediaStore.MediaColumns.RELATIVE_PATH, "$dossier/BodyCount")
+            put(MediaStore.MediaColumns.IS_PENDING, 1)
+        }
+        val uri = contentResolver.insert(collection, valeurs) ?: return false
+        return try {
+            contentResolver.openOutputStream(uri)?.use { sortie ->
+                if (octets != null) {
+                    sortie.write(octets)
+                } else {
+                    File(chemin ?: return false).inputStream().use { it.copyTo(sortie, 1 shl 20) }
+                }
+            } ?: throw IllegalStateException("Flux indisponible")
+            val fini = ContentValues().apply { put(MediaStore.MediaColumns.IS_PENDING, 0) }
+            contentResolver.update(uri, fini, null, null)
+            true
+        } catch (e: Exception) {
+            contentResolver.delete(uri, null, null)
+            false
+        }
     }
 
     /**

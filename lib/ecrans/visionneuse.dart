@@ -10,6 +10,7 @@ import '../domaine/note.dart';
 import '../providers/donnees.dart';
 import '../security/vault_image.dart';
 import '../security/video_vault.dart';
+import '../utils/medias.dart';
 import '../widgets/vignette_media.dart';
 
 /// Les photos et vidéos d'une personne, en plein écran.
@@ -46,6 +47,35 @@ class _EcranVisionneuseState extends ConsumerState<EcranVisionneuse> {
   void dispose() {
     _pages.dispose();
     super.dispose();
+  }
+
+  /// Vrai pendant qu'un média sort du coffre vers la galerie.
+  bool _enregistrement = false;
+
+  /// Range une copie en clair dans la galerie du téléphone.
+  ///
+  /// Le message dit où elle est allée, et qu'elle n'est plus protégée :
+  /// une fois dans la galerie, elle est visible des autres applications et
+  /// peut partir avec la sauvegarde de photos du téléphone.
+  Future<void> _versGalerie(Photo media) async {
+    setState(() => _enregistrement = true);
+    final messager = ScaffoldMessenger.of(context);
+    final RangementGalerie r;
+    try {
+      r = await Medias.versGalerie(media);
+    } finally {
+      if (mounted) setState(() => _enregistrement = false);
+    }
+    final dossier = media.video ? 'Films' : 'Images';
+    final texte = switch (r) {
+      RangementGalerie.galerie =>
+        'Enregistrée dans $dossier › BodyCount, en clair, hors du coffre.',
+      RangementGalerie.fichier => 'Copie enregistrée, en clair, hors du coffre.',
+      RangementGalerie.annule => null,
+      RangementGalerie.echec => 'Impossible d\'enregistrer ce média.',
+    };
+    if (texte == null) return;
+    messager.showSnackBar(SnackBar(content: Text(texte)));
   }
 
   Future<void> _menu(Photo media) async {
@@ -118,6 +148,20 @@ class _EcranVisionneuseState extends ConsumerState<EcranVisionneuse> {
           style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
         ),
         actions: [
+          IconButton(
+            icon: _enregistrement
+                ? const SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.white,
+                    ),
+                  )
+                : const Icon(Icons.download_rounded),
+            tooltip: 'Enregistrer dans la galerie',
+            onPressed: _enregistrement ? null : () => _versGalerie(courant),
+          ),
           IconButton(
             icon: const Icon(Icons.more_vert_rounded),
             tooltip: 'Actions',

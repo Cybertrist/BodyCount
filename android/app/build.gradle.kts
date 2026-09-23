@@ -1,8 +1,21 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
+
+// La clé de publication vit hors du dépôt. android/key.properties, ignoré
+// par git, dit où la trouver et avec quel mot de passe. Sans lui, la
+// version de publication est signée avec la clé de débogage, ce qui suffit
+// pour essayer mais pas pour distribuer : une application ne se met à jour
+// que par dessus une version signée de la même clé.
+val proprietesCle = Properties().apply {
+    val fichier = rootProject.file("key.properties")
+    if (fichier.exists()) fichier.inputStream().use { load(it) }
+}
+val clePresente = proprietesCle.containsKey("storeFile")
 
 android {
     namespace = "com.bodycount.bodycount"
@@ -25,11 +38,20 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        if (clePresente) {
+            create("publication") {
+                storeFile = file(proprietesCle.getProperty("storeFile"))
+                storePassword = proprietesCle.getProperty("storePassword")
+                keyAlias = proprietesCle.getProperty("keyAlias")
+                keyPassword = proprietesCle.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName(if (clePresente) "publication" else "debug")
         }
     }
 }
@@ -42,4 +64,12 @@ kotlin {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    // Le réencodage des vidéos à l'import, par la bibliothèque officielle
+    // d'Android : elle passe par l'encodeur matériel du téléphone.
+    implementation("androidx.media3:media3-transformer:1.11.1")
+    implementation("androidx.media3:media3-effect:1.11.1")
+    implementation("androidx.media3:media3-common:1.11.1")
 }

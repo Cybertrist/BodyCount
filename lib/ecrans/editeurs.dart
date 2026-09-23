@@ -560,6 +560,11 @@ class _EcranPhotosState extends ConsumerState<EcranPhotos> {
           setState(() => _import =
               total == 1 ? '$quoi…' : '$quoi, $rang sur $total…');
         },
+        allegement: (part) {
+          if (!mounted) return;
+          setState(() =>
+              _import = 'Allègement de la vidéo, ${(part * 100).round()} %…');
+        },
       ));
     } catch (e) {
       if (mounted) {
