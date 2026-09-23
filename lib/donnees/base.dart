@@ -23,11 +23,34 @@ class Base {
   static final Base instance = Base._();
 
   static const _fichier = 'bodycount.db';
-  static const _version = 5;
+  static const _version = 6;
 
-  Database? _base;
+  /// L'ouverture en cours ou faite. On garde le futur, pas la base : au
+  /// déverrouillage, le répertoire, les villes et les statistiques
+  /// demandent la base au même instant. Avec `_base ??= await _ouvrir()`,
+  /// chacun lançait sa propre ouverture avant que la première n'ait fini.
+  /// L'une fermait la connexion de l'autre en vérifiant la clé, l'autre
+  /// croyait alors la base en clair et la « convertissait » en effaçant
+  /// le fichier. L'application finissait avec deux connexions sur deux
+  /// fichiers différents : la fiche écrivait dans l'un, le répertoire
+  /// lisait l'autre et affichait l'ancienne ville.
+  Future<Database>? _ouverture;
 
-  Future<Database> get db async => _base ??= await _ouvrir();
+  Future<Database> get db {
+    final enCours = _ouverture;
+    if (enCours != null) return enCours;
+    final ouverture = _ouvrir();
+    _ouverture = ouverture;
+    // Une ouverture ratée ne doit pas rester en mémoire : la suivante
+    // retentera au lieu de rendre toujours la même erreur.
+    ouverture.then(
+      (_) {},
+      onError: (Object _) {
+        if (identical(_ouverture, ouverture)) _ouverture = null;
+      },
+    );
+    return ouverture;
+  }
 
   Future<Database> _ouvrir() async {
     if (!KeyVault.instance.isUnlocked) {
@@ -53,26 +76,41 @@ class Base {
       },
       onCreate: (base, version) async {
         await _creerSchema(base);
+        // Une base qui a déjà ses tables mais a perdu son numéro de
+        // version passe aussi par ici : c'est ce que laissait la fausse
+        // conversion décrite sur [_ouverture]. Les migrations suivantes
+        // ne font que ce qui manque, elles la remettent d'aplomb.
+        await _migrerVers3(base);
+        await _migrerVers4(base);
+        await _migrerVers5(base);
+        await _migrerVers6(base);
       },
       onUpgrade: (base, ancienne, nouvelle) async {
         if (ancienne < 2) await _migrerVers2(base);
         if (ancienne < 3) await _migrerVers3(base);
         if (ancienne < 4) await _migrerVers4(base);
         if (ancienne < 5) await _migrerVers5(base);
+        if (ancienne < 6) await _migrerVers6(base);
       },
     );
   }
 
   Future<void> fermer() async {
-    await _base?.close();
-    _base = null;
+    final ouverture = _ouverture;
+    _ouverture = null;
+    if (ouverture == null) return;
+    try {
+      await (await ouverture).close();
+    } catch (_) {
+      // Jamais ouverte : rien à fermer.
+    }
   }
 
   // ---------------------------------------------------------------- schéma
 
   Future<void> _creerSchema(Database base) async {
     await base.execute('''
-      CREATE TABLE personnes (
+      CREATE TABLE IF NOT EXISTS personnes (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         prenom TEXT NOT NULL,
         age INTEGER,
@@ -89,7 +127,7 @@ class Base {
     ''');
 
     await base.execute('''
-      CREATE TABLE rencontres (
+      CREATE TABLE IF NOT EXISTS rencontres (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         personne_id INTEGER NOT NULL REFERENCES personnes(id) ON DELETE CASCADE,
         quand TEXT NOT NULL,
@@ -106,7 +144,7 @@ class Base {
     // bite » ne peuvent pas coexister, mais le libellé garde la casse
     // que l'utilisateur a tapée.
     await base.execute('''
-      CREATE TABLE etiquettes (
+      CREATE TABLE IF NOT EXISTS etiquettes (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         libelle TEXT NOT NULL,
         cle TEXT NOT NULL,
@@ -116,7 +154,7 @@ class Base {
     ''');
 
     await base.execute('''
-      CREATE TABLE personne_etiquettes (
+      CREATE TABLE IF NOT EXISTS personne_etiquettes (
         personne_id INTEGER NOT NULL REFERENCES personnes(id) ON DELETE CASCADE,
         etiquette_id INTEGER NOT NULL REFERENCES etiquettes(id) ON DELETE CASCADE,
         rang INTEGER NOT NULL DEFAULT 0,
@@ -125,7 +163,7 @@ class Base {
     ''');
 
     await base.execute('''
-      CREATE TABLE rencontre_etiquettes (
+      CREATE TABLE IF NOT EXISTS rencontre_etiquettes (
         rencontre_id INTEGER NOT NULL REFERENCES rencontres(id) ON DELETE CASCADE,
         etiquette_id INTEGER NOT NULL REFERENCES etiquettes(id) ON DELETE CASCADE,
         PRIMARY KEY (rencontre_id, etiquette_id)
@@ -133,7 +171,7 @@ class Base {
     ''');
 
     await base.execute('''
-      CREATE TABLE notes (
+      CREATE TABLE IF NOT EXISTS notes (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         personne_id INTEGER NOT NULL REFERENCES personnes(id) ON DELETE CASCADE,
         rencontre_id INTEGER REFERENCES rencontres(id) ON DELETE SET NULL,
@@ -143,25 +181,32 @@ class Base {
     ''');
 
     await base.execute('''
-      CREATE TABLE photos (
+      CREATE TABLE IF NOT EXISTS photos (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         personne_id INTEGER NOT NULL REFERENCES personnes(id) ON DELETE CASCADE,
         rencontre_id INTEGER REFERENCES rencontres(id) ON DELETE SET NULL,
         chemin TEXT NOT NULL,
         principale INTEGER NOT NULL DEFAULT 0,
-        ajoutee_le TEXT NOT NULL
+        ajoutee_le TEXT NOT NULL,
+        type TEXT NOT NULL DEFAULT 'photo',
+        duree_ms INTEGER
       )
     ''');
 
     // Les index suivent les tris réels de l'application : le journal trie
     // par date, la fiche regroupe par personne.
     await base.execute(
-        'CREATE INDEX idx_rencontres_personne ON rencontres(personne_id)');
-    await base
-        .execute('CREATE INDEX idx_rencontres_quand ON rencontres(quand DESC)');
-    await base.execute('CREATE INDEX idx_notes_personne ON notes(personne_id)');
-    await base
-        .execute('CREATE INDEX idx_photos_personne ON photos(personne_id)');
+      'CREATE INDEX IF NOT EXISTS idx_rencontres_personne ON rencontres(personne_id)',
+    );
+    await base.execute(
+      'CREATE INDEX IF NOT EXISTS idx_rencontres_quand ON rencontres(quand DESC)',
+    );
+    await base.execute(
+      'CREATE INDEX IF NOT EXISTS idx_notes_personne ON notes(personne_id)',
+    );
+    await base.execute(
+      'CREATE INDEX IF NOT EXISTS idx_photos_personne ON photos(personne_id)',
+    );
   }
 
   // -------------------------------------------------------------- migration
@@ -210,11 +255,11 @@ class Base {
           libelle,
           PorteeEtiquette.personne,
         );
-        await base.insert(
-          'personne_etiquettes',
-          {'personne_id': id, 'etiquette_id': etiquetteId, 'rang': rang++},
-          conflictAlgorithm: ConflictAlgorithm.ignore,
-        );
+        await base.insert('personne_etiquettes', {
+          'personne_id': id,
+          'etiquette_id': etiquetteId,
+          'rang': rang++,
+        }, conflictAlgorithm: ConflictAlgorithm.ignore);
       }
 
       final description = (c['description'] as String?)?.trim();
@@ -319,6 +364,24 @@ class Base {
     }
   }
 
+  /// Les vidéos rejoignent les photos dans la même table : elles vivent
+  /// au même endroit de la fiche, partent avec elle, et le coffre les
+  /// range côte à côte. Une colonne dit laquelle est laquelle, une autre
+  /// garde la durée, mesurée une fois à l'import plutôt qu'à chaque
+  /// affichage de la galerie.
+  Future<void> _migrerVers6(Database base) async {
+    final colonnes = await base.rawQuery('PRAGMA table_info(photos)');
+    final noms = colonnes.map((c) => c['name'] as String).toSet();
+    if (!noms.contains('type')) {
+      await base.execute(
+        "ALTER TABLE photos ADD COLUMN type TEXT NOT NULL DEFAULT 'photo'",
+      );
+    }
+    if (!noms.contains('duree_ms')) {
+      await base.execute('ALTER TABLE photos ADD COLUMN duree_ms INTEGER');
+    }
+  }
+
   Future<int> _etiquetteId(
     Database base,
     String libelle,
@@ -353,16 +416,18 @@ class Base {
   ) async {
     final fichier = File(chemin);
     if (!await fichier.exists()) return;
-    if (await _sOuvreAvecLaCle(chemin, motDePasse)) return;
+    if (!await _estEnClair(fichier)) return;
 
     final temporaire = join(dossier, 'bodycount.migration.db');
     final tmp = File(temporaire);
     if (await tmp.exists()) await tmp.delete();
 
-    final enClair = await openDatabase(chemin);
+    final enClair = await openDatabase(chemin, singleInstance: false);
     try {
-      await enClair
-          .rawQuery('ATTACH DATABASE ? AS chiffre KEY ?', [temporaire, motDePasse]);
+      await enClair.rawQuery('ATTACH DATABASE ? AS chiffre KEY ?', [
+        temporaire,
+        motDePasse,
+      ]);
       await enClair.rawQuery("SELECT sqlcipher_export('chiffre')");
       await enClair.execute('DETACH DATABASE chiffre');
     } finally {
@@ -373,14 +438,23 @@ class Base {
     await tmp.rename(chemin);
   }
 
-  Future<bool> _sOuvreAvecLaCle(String chemin, String motDePasse) async {
+  /// Vrai seulement si le fichier commence par l'en-tête d'un SQLite en
+  /// clair. Un fichier SQLCipher commence par du bruit : il ne peut pas
+  /// être pris pour une base à convertir, même si une ouverture échoue
+  /// pour une autre raison, un verrou ou une connexion fermée ailleurs.
+  Future<bool> _estEnClair(File fichier) async {
+    // « SQLite format 3 » suivi d'un octet nul.
+    final entete = [...'SQLite format 3'.codeUnits, 0];
+    final flux = await fichier.open();
     try {
-      final base = await openDatabase(chemin, password: motDePasse);
-      await base.rawQuery('SELECT count(*) FROM sqlite_master');
-      await base.close();
+      final debut = await flux.read(entete.length);
+      if (debut.length != entete.length) return false;
+      for (var i = 0; i < entete.length; i++) {
+        if (debut[i] != entete[i]) return false;
+      }
       return true;
-    } catch (_) {
-      return false;
+    } finally {
+      await flux.close();
     }
   }
 
