@@ -6,6 +6,7 @@
 </p>
 
 <img src="docs/en/banniere.png" alt="BodyCount, an encrypted offline personal journal on Android" width="100%">
+<br><br>
 
 </div>
 

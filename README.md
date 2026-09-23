@@ -6,6 +6,7 @@
 </p>
 
 <img src="docs/banniere.png" alt="BodyCount, journal personnel chiffré et hors ligne sur Android" width="100%">
+<br><br>
 
 </div>
 
