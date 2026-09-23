@@ -1,7 +1,7 @@
 name: bodycount
 description: "BodyCount — Répertoire personnel de rencontres"
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ^3.11.0
@@ -54,7 +54,6 @@ flutter:
 
   assets:
     - assets/logo.png
-    - assets/demo/
     - assets/carte/
 
   # Chakra Petch, sous licence SIL Open Font, embarquée plutôt que

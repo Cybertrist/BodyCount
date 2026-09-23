@@ -33,6 +33,7 @@ ban bodycount "$A" "#7C3AED" "#0A0410" \
 rep bodycount "$A" \
 "$(t 'Fonctionnalités' 'Features')" \
 "$(t 'Les écrans' 'The screens')" \
+"$(t 'Installer' 'Install')" \
 "$(t 'La stack' 'The stack')" \
 "$(t 'Architecture' 'Architecture')" \
 "$(t 'Le chiffrement' 'Encryption')" \

@@ -40,6 +40,10 @@ ce qui rend impossible d'en corriger une en oubliant l'autre.
   côté, réduit à 720 points de large et écrit en JPEG, par un canvas de
   Chrome. `node docs/tools/rogner.js <brut> <src-captures/format>`,
   suivi de `1200` pour un écran couché, qui mérite plus de 720 points.
+- `telecharger.sh` : le bouton de la section « Installer », avec la
+  version lue dans `pubspec.yaml` et la taille lue sur l'APK construit.
+  Il pointe vers le dernier APK des Releases, dont l'adresse ne change
+  pas d'une version à l'autre.
 - `social.sh` : l'aperçu social du dépôt, `docs/social-preview.png`,
   1280 x 640. À déposer à la main dans Settings > General > Social
   preview, GitHub ne le lit pas depuis le dépôt.

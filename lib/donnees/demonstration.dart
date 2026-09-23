@@ -1,6 +1,7 @@
+import 'dart:io';
 import 'dart:math';
 
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:path_provider/path_provider.dart';
 
 import '../domaine/note.dart';
 import '../domaine/personne.dart';
@@ -66,8 +67,11 @@ class _Profil {
 
 /// Remplit la base avec un jeu d'essai.
 ///
-/// Les visages viennent de `assets/demo` : ce sont des portraits générés,
-/// ils ne représentent personne de réel.
+/// Les visages sont des portraits générés, qui ne représentent personne de
+/// réel. Ils ne sont pas dans l'APK : on les pose sur le téléphone, dans le
+/// dossier propre à l'application, avant de lancer le remplissage.
+///
+///     adb push assets/demo/. /sdcard/Android/data/com.bodycount.bodycount/files/demo/
 class Demonstration {
   const Demonstration();
 
@@ -519,10 +523,12 @@ class Demonstration {
   /// Si le fichier manque, la fiche se crée quand même, sans photo : le
   /// jeu d'essai ne doit jamais échouer pour une image absente.
   Future<String?> _visage(int numero) async {
-    final nom = 'assets/demo/v${numero.toString().padLeft(2, '0')}.jpg';
     try {
-      final donnees = await rootBundle.load(nom);
-      return await PhotoVault.instance.store(donnees.buffer.asUint8List());
+      final dossier = await getExternalStorageDirectory();
+      if (dossier == null) return null;
+      final nom = 'v${numero.toString().padLeft(2, '0')}.jpg';
+      final fichier = File('${dossier.path}/demo/$nom');
+      return await PhotoVault.instance.store(await fichier.readAsBytes());
     } catch (_) {
       return null;
     }

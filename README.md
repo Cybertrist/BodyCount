@@ -22,7 +22,7 @@ Toute la conception découle de cette contrainte, jusqu'à la carte, qui dessine
 
 <img src="docs/sections/s02.png" alt="02 Les écrans" width="100%">
 
-L'application est pensée d'abord pour le format passeport, l'écran de couverture d'un Galaxy Z Fold : large et court. C'est là qu'elle sert tous les jours, et c'est lui qui porte la planche complète. Les visages sont ceux du jeu d'essai du dépôt, des portraits générés : personne de réel.
+L'application est pensée d'abord pour le format passeport, l'écran de couverture d'un Galaxy Z Fold : large et court. C'est là qu'elle sert tous les jours, et c'est lui qui porte la planche complète. Les visages sont ceux du jeu d'essai, des portraits générés : personne de réel.
 
 <img src="docs/schemas/captures-passeport.png" alt="Douze écrans au format passeport. Lancement : l'icône sur le fond de l'application. Chargement : un anneau se trace autour du logo pendant que le nom monte. Verrou : le logo a glissé à sa place, le bouton d'empreinte attend. Répertoire : trois colonnes de fiches avec photo, tris, villes et étiquettes. Fiche : la photo d'Enzo en grand, ses étiquettes, ses rencontres. Carnet et galerie : les notes datées, une photo et une vidéo. Visionneuse : la vidéo en lecture, avec le bouton de téléchargement. Point précis : la carte autour d'Auray avec les communes voisines et l'épingle. Statistiques : le total de l'année et le podium. Carte : la Bretagne et les villes regroupées. Calendrier : septembre sur sept colonnes. Réglages : le verrou, la sauvegarde, la restauration." width="100%">
 
@@ -44,7 +44,32 @@ La palette reprend le dégradé du logo, du violet au fuchsia, sur des fonds pre
 
 <img src="docs/schemas/palette.png" alt="Palette : primaire violet #A855F7, accent fuchsia #D946EF, fond #0B0616, surface #150C28, cartes #1A1030, texte #F6F2FF." width="100%">
 
-<img src="docs/sections/s03.png" alt="03 La stack" width="100%">
+<img src="docs/sections/s03.png" alt="03 Installer" width="100%">
+
+L'APK se trouve dans les [Releases](https://github.com/Cybertrist/BodyCount/releases/latest) du dépôt, et non dans le code : un binaire de près de trente mégaoctets versionné avec les sources resterait dans l'historique pour toujours, et chaque clone le traînerait, une fois par version. Le lien ci-dessous mène toujours à la dernière.
+
+<p align="center">
+  <a href="https://github.com/Cybertrist/BodyCount/releases/latest/download/BodyCount.apk"><img src="docs/telecharger.png" alt="Télécharger BodyCount, dernière version, Android 7 ou plus, arm64" width="480"></a>
+</p>
+
+Il demande Android 7 ou plus sur un processeur 64 bits, soit tout téléphone de ces dernières années. Comme il ne passe pas par le Play Store, Android fera autoriser l'installation depuis l'application qui l'ouvre, le navigateur ou le gestionnaire de fichiers.
+
+Pour une application qui gardera ce genre de données, deux vérifications valent la minute qu'elles prennent. L'empreinte du fichier doit être celle publiée avec la version :
+
+```bash
+sha256sum BodyCount.apk
+```
+
+Et le certificat qui le signe doit être celui-ci, le même pour toutes les versions. Android refuse une mise à jour signée d'une autre clé, ce qui écarte aussi un APK retouché en chemin :
+
+```bash
+apksigner verify --print-certs BodyCount.apk
+# SHA-256 : ac09674e066658991aeb60f02e1386423b5e14dede4bd6c844f542785fef86d1
+```
+
+L'APK publié ne contient pas le jeu d'essai : ni les dix-huit profils, ni leurs visages, ni la ligne des réglages qui les crée.
+
+<img src="docs/sections/s04.png" alt="04 La stack" width="100%">
 
 <img src="docs/schemas/stack.png" alt="Flutter 3.x le framework en Dart. sqflite_sqlcipher pour SQLite chiffré par SQLCipher. cryptography pour AES-GCM des photos, HKDF et PBKDF2. javax.crypto pour l'AES-GCM natif des vidéos et des sauvegardes. flutter_secure_storage pour la clé maîtresse dans le Keystore Android. local_auth pour l'empreinte qui déverrouille la clé. flutter_riverpod pour l'état et l'invalidation après écriture. go_router pour la navigation et la garde du verrou. image_picker pour les photos et vidéos chiffrées dès leur arrivée. video_player pour la lecture. path_provider pour les dossiers privés. archive pour relire l'ancien format de sauvegarde. uuid pour le nom des fichiers du coffre. intl pour les dates. url_launcher pour l'itinéraire et l'appel. Chakra Petch pour les titres." width="100%">
 
@@ -61,7 +86,7 @@ Pour une version installable, `flutter build apk --release --split-per-abi`. Le 
 
 Quelques lignes de Kotlin dans `MainActivity` remplacent deux paquets. `cryptography_flutter` s'installait comme implémentation de toute la cryptographie, dérivation de clé comprise, et Android refusait la clé HMAC vide d'une extraction sans sel : la base ne s'ouvrait plus. `share_plus` 13 aurait exigé une version majeure de `flutter_secure_storage`, là où vit la clé maîtresse. L'activité porte donc l'AES-GCM natif, le sélecteur de fichiers, le partage, l'enregistrement dans la galerie, la lecture de la durée et d'une image d'une vidéo, et son réencodage par Media3.
 
-<img src="docs/sections/s04.png" alt="04 Architecture" width="100%">
+<img src="docs/sections/s05.png" alt="05 Architecture" width="100%">
 
 Cinq couches, et une règle : une couche ne connaît jamais celle du dessus. Un écran ne voit pas SQLite, un dépôt ne voit pas Riverpod, et rien ne lit un fichier du coffre sans passer par le trousseau.
 
@@ -77,7 +102,7 @@ Six tables, schéma v7. `personnes` est le pivot : tout ce qui s'y rattache part
 
 <img src="docs/schemas/arborescence.png" alt="Arborescence de lib : main.dart le point d'entrée, app.dart l'application son thème et le reverrouillage, config thème routage et formats d'écran, domaine les modèles, donnees le schéma chiffré les dépôts et les statistiques dont base.dart pour l'ouverture unique et les migrations, coordonnees.dart pour les communes et geometrie_france.dart, security trousseau coffres photo et vidéo verrou et protection écran dont flux_chiffre.dart et aes_natif.dart, providers l'état en Riverpod, ecrans les écrans dont calendrier.dart et visionneuse.dart, widgets les composants réutilisables dont la carte, utils médias sauvegarde en flux sélecteur de fichiers et dates." width="100%">
 
-<img src="docs/sections/s05.png" alt="05 Le chiffrement" width="100%">
+<img src="docs/sections/s06.png" alt="06 Le chiffrement" width="100%">
 
 L'empreinte ne déverrouille pas un écran : elle charge la clé maîtresse depuis le Keystore. Tant qu'elle n'a pas été donnée, la base est un fichier illisible, les photos et les vidéos aussi. Deux clés en sont dérivées par HKDF, l'une pour SQLCipher, l'autre pour le coffre, et aucune n'existe en mémoire avant.
 
@@ -89,7 +114,7 @@ Chaque photo est un fichier à part, chiffré en AES-GCM d'un seul bloc, nommé 
 
 Le verrou se referme sans geste à l'écran, ou au retour d'arrière-plan, après un délai réglable. Il attend la fin d'un travail en cours : une sauvegarde, une restauration ou une longue vidéo qui se chiffre ne se touchent pas du doigt, et le sélecteur de fichiers du système passe l'application en arrière-plan. Il se coupe aussi entièrement dans les réglages : le chiffrement reste, mais la clé se charge alors sans preuve d'identité, et l'écran le dit avant de l'accepter. Au verrouillage, les clés sont oubliées, et leurs octets écrasés avant d'être lâchés plutôt que laissés au ramasse-miettes. L'aperçu du multitâche est masqué, les captures d'écran bloquées, et la sauvegarde automatique d'Android refusée : elle recopierait la base chiffrée sur des serveurs qui ne sont pas les tiens.
 
-<img src="docs/sections/s06.png" alt="06 Vidéos et sauvegardes" width="100%">
+<img src="docs/sections/s07.png" alt="07 Vidéos et sauvegardes" width="100%">
 
 Une vidéo pèse cent fois une photo. La chiffrer d'un bloc demandait de la tenir entière en mémoire, et une sauvegarde qui l'emportait devait tenir en mémoire toutes les vidéos à la fois. Les deux passent donc par un flux chiffré par morceaux d'un mégaoctet, écrit et relu sur le disque.
 
@@ -109,7 +134,7 @@ Une restauration ne touche à rien avant d'avoir tout vérifié. Le fichier est 
 
 L'export propose d'enregistrer le fichier dans un dossier avant de le partager : avec des vidéos, une sauvegarde dépasse vite ce que la plupart des applications acceptent. Le partage passe par une URI temporaire limitée au seul dossier des sauvegardes. Quand la dernière sauvegarde a plus d'un mois, ou qu'il n'y en a jamais eu, un bandeau le dit en haut du répertoire. Les sauvegardes de l'ancien format, un ZIP chiffré d'un bloc, se relisent toujours.
 
-<img src="docs/sections/s07.png" alt="07 La carte, sans tuiles" width="100%">
+<img src="docs/sections/s08.png" alt="08 La carte, sans tuiles" width="100%">
 
 Une carte à tuiles enverrait à un serveur, à chaque déplacement du doigt, la liste exacte des endroits regardés. Pour une application dont toute la promesse est que rien ne sort du téléphone, c'était la seule chose à ne pas faire. La France est donc embarquée.
 
@@ -127,7 +152,7 @@ Tout ce qui est en France est posé. Le nom exact d'abord, en ignorant accents, 
 
 Une rencontre peut aussi se poser à la main, à un point précis. Sans tuiles, il n'y a pas de rues à montrer : ce sont les communes voisines, avec leur nom, qui servent de repère. De quoi poser un point « entre Arradon et Séné », qui apparaît sur la carte des lieux une fois qu'on s'est approché.
 
-<img src="docs/sections/s08.png" alt="08 Le calendrier" width="100%">
+<img src="docs/sections/s09.png" alt="09 Le calendrier" width="100%">
 
 La question qu'on se pose le plus souvent n'est pas « combien », mais « quand » : c'était quel soir, il y a combien de temps, est-ce que ça a été une bonne période. Une liste chronologique y répond mal passé quelques dizaines d'entrées : il faut défiler et compter.
 
@@ -137,11 +162,11 @@ Sous chaque jour, jusqu'à trois signes disent ce qu'il a eu de remarquable, du 
 
 Toujours six semaines affichées, même quand le mois n'en occupe que cinq : une grille dont la hauteur dépend du mois fait sauter tout l'écran quand on le feuillette.
 
-<img src="docs/sections/s09.png" alt="09 Modèle de confidentialité" width="100%">
+<img src="docs/sections/s10.png" alt="10 Modèle de confidentialité" width="100%">
 
 <img src="docs/schemas/confidentialite.png" alt="Ce qui est vrai : aucune requête réseau, aucun compte, aucune analytique. La base est chiffrée par SQLCipher, sa clé vit dans le Keystore et n'est chargée qu'après l'empreinte. Chaque photo et chaque vidéo est chiffrée en AES-GCM et reste absente de la galerie du téléphone. L'aperçu du multitâche est masqué, les captures bloquées, la sauvegarde Android refusée. Une restauration vérifie toute la sauvegarde avant d'effacer quoi que ce soit. Ce qui ne l'est pas : une fois l'application ouverte tout est lisible à l'écran, l'empreinte protège l'accès pas ton épaule. Une sauvegarde exportée voyage, elle vaut ce que vaut ta phrase de passe. Perdre le téléphone c'est perdre les données, la clé ne se recopie nulle part. L'empreinte se coupe dans les réglages. Pour être lue, une vidéo est déchiffrée dans le cache privé le temps de la lecture." width="100%">
 
-<img src="docs/sections/s10.png" alt="10 Les tests" width="100%">
+<img src="docs/sections/s11.png" alt="11 Les tests" width="100%">
 
 Ce qui se casse sans bruit est ce qui touche au disque : l'ouverture de la base, ses migrations, le chiffrement, la sauvegarde. Or SQLCipher, le Keystore et l'AES natif n'existent que sur Android. Les tests tournent donc sur un émulateur, avec les vraies bibliothèques, et non contre des imitations qui passeraient là où l'application échoue. Six d'entre eux pilotent l'application entière, au doigt, d'un écran à l'autre.
 
@@ -155,7 +180,7 @@ Ils détruisent les données et la clé de l'application qu'ils visent : à lanc
 
 Ils ont servi dès leur première exécution. Ceux des données ont trouvé une marque de fin de sauvegarde écrite sur onze octets et lue sur un : aucune restauration n'aurait abouti. Ceux des écrans ont trouvé une rangée de chiffres qui débordait de sa hauteur fixe sur la fiche.
 
-<img src="docs/sections/s11.png" alt="11 Sans Internet" width="100%">
+<img src="docs/sections/s12.png" alt="12 Sans Internet" width="100%">
 
 « Aucune requête réseau » s'écrit facilement. Ici, ce n'est pas une promesse du code mais une règle d'Android : l'application ne demande pas la permission `INTERNET`, et sans elle le système refuse d'ouvrir la moindre connexion. Un bug, une bibliothèque trop bavarde, une dépendance piégée à la prochaine mise à jour : tout se heurte au même mur, qui n'est pas dans l'application et qu'elle ne peut pas franchir.
 
@@ -173,13 +198,13 @@ Restent quatre sorties, et aucune ne s'ouvre seule. Chacune attend un doigt, et 
 
 La dernière est la seule à laisser une trace en clair : une photo téléchargée devient une photo comme les autres, visible de la galerie et de tout ce qui la lit. C'est le prix de « je veux la garder ailleurs », et l'application ne le paie qu'à la demande.
 
-<img src="docs/sections/s12.png" alt="12 Avertissement" width="100%">
+<img src="docs/sections/s13.png" alt="13 Avertissement" width="100%">
 
 Ce dépôt est un projet personnel, pas un produit de sécurité. Le chiffrement s'appuie sur des primitives éprouvées et sur le Keystore d'Android, mais l'assemblage, lui, n'a été relu par personne d'autre que moi. Si tu comptes y mettre des données dont la fuite te coûterait quelque chose, lis le code avant, ou ne le fais pas.
 
-Le jeu d'essai attend ses visages dans `assets/demo/`, qui ne fait pas partie du dépôt. Sans eux les dix-huit fiches se créent quand même, simplement sans photo : le générateur se passe de chaque image absente.
+Le jeu d'essai n'existe que dans une version de travail, compilée avec `--dart-define=ESSAIS=true`. Ses visages ne font pas partie du dépôt : ils se posent sur le téléphone, dans le dossier propre à l'application, avec `adb push assets/demo/. /sdcard/Android/data/com.bodycount.bodycount/files/demo/`. Sans eux les dix-huit fiches se créent quand même, simplement sans photo : le générateur se passe de chaque image absente.
 
-<img src="docs/sections/s13.png" alt="13 Licence et auteur" width="100%">
+<img src="docs/sections/s14.png" alt="14 Licence et auteur" width="100%">
 
 BodyCount est conçu et développé par **Tristan Joncour** ([@Cybertrist](https://github.com/Cybertrist)), élève ingénieur en cyberdéfense à l'ENSIBS, pour son propre usage d'abord : c'est l'application qu'il voulait avoir sur son téléphone, et qui n'existait pas.
 

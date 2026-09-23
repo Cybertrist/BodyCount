@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../config/essais.dart';
 import '../config/theme.dart';
 import '../donnees/base.dart';
 import '../donnees/demonstration.dart';
@@ -106,18 +107,20 @@ class SettingsScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 22),
 
-            const _Intitule('Essais'),
-            _Bloc(
-              children: [
-                _LigneChoix(
-                  icone: Icons.auto_awesome_outlined,
-                  titre: 'Remplir avec un jeu d\'essai',
-                  valeur: '18 fiches',
-                  onTap: () => _remplir(context, ref),
-                ),
-              ],
-            ),
-            const SizedBox(height: 22),
+            if (avecEssais) ...[
+              const _Intitule('Essais'),
+              _Bloc(
+                children: [
+                  _LigneChoix(
+                    icone: Icons.auto_awesome_outlined,
+                    titre: 'Remplir avec un jeu d\'essai',
+                    valeur: '18 fiches',
+                    onTap: () => _remplir(context, ref),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 22),
+            ],
 
             _BoutonDanger(onTap: () => _toutEffacer(context, ref)),
             const SizedBox(height: 18),
