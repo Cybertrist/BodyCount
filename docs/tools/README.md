@@ -51,10 +51,10 @@ ce qui rend impossible d'en corriger une en oubliant l'autre.
 - `pastilles.sh` : les deux pastilles du sélecteur de langue.
 - `sequence.sh` : le gabarit des enchaînements, des étapes reliées par
   une flèche.
-- `anime.js` : les six SVG animés, la chaîne de chiffrement,
+- `anime.js` : les sept SVG animés, la chaîne de chiffrement,
   l'ouverture unique de la base, le flux chiffré par morceaux, la
-  recherche des communes, la restauration en deux passes et
-  l'allègement d'une vidéo, dans `docs/schemas/`. Pas de police
+  recherche des communes, la restauration en deux passes,
+  l'allègement d'une vidéo et le mur qui tient Internet dehors, dans `docs/schemas/`. Pas de police
   externe : un SVG affiché en `<img>` n'a pas le droit d'aller la
   chercher, et une `@import` ignorée donnerait une figure cassée chez les
   autres et correcte chez soi.

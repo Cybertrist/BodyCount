@@ -16,7 +16,6 @@ done
 pose "grid$SUF/bc-feat.png"     schemas/fonctionnalites.png
 pose "grid$SUF/bc-ecrans.png"   schemas/ecrans.png
 pose "grid$SUF/bc-stack.png"    schemas/stack.png
-pose "grid$SUF/bc-route.png"    schemas/feuille-de-route.png
 pose "grid$SUF/bc-tests.png"    schemas/tests.png
 pose "tree$SUF/bodycount.png"   schemas/arborescence.png
 pose "flow$SUF/bc-couches.png"  schemas/couches.png

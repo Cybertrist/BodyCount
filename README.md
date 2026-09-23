@@ -155,9 +155,23 @@ Ils détruisent les données et la clé de l'application qu'ils visent : à lanc
 
 Ils ont servi dès leur première exécution. Ceux des données ont trouvé une marque de fin de sauvegarde écrite sur onze octets et lue sur un : aucune restauration n'aurait abouti. Ceux des écrans ont trouvé une rangée de chiffres qui débordait de sa hauteur fixe sur la fiche.
 
-<img src="docs/sections/s11.png" alt="11 Feuille de route" width="100%">
+<img src="docs/sections/s11.png" alt="11 Sans Internet" width="100%">
 
-<img src="docs/schemas/feuille-de-route.png" alt="Fait : communes de France, photos et vidéos en grand, sauvegarde complète et restauration, point précis, rappel de sauvegarde, vidéos allégées, lancement animé, clé de publication, vingt-quatre tests. Sauvegarde automatique : un export chiffré posé de lui-même dans un dossier choisi chaque semaine. Relecture extérieure : un regard extérieur sur le chiffrement vaudrait plus que n'importe quel ajout." width="100%">
+« Aucune requête réseau » s'écrit facilement. Ici, ce n'est pas une promesse du code mais une règle d'Android : l'application ne demande pas la permission `INTERNET`, et sans elle le système refuse d'ouvrir la moindre connexion. Un bug, une bibliothèque trop bavarde, une dépendance piégée à la prochaine mise à jour : tout se heurte au même mur, qui n'est pas dans l'application et qu'elle ne peut pas franchir.
+
+Ça se vérifie sur l'APK lui-même, sans lire une ligne de code :
+
+```bash
+aapt2 dump permissions app-arm64-v8a-release.apk
+```
+
+La liste est courte : l'empreinte, sous son nom actuel et son ancien, puis `WAKE_LOCK` et `ACCESS_NETWORK_STATE`, qu'ajoutent des bibliothèques. La première empêche le téléphone de s'endormir en plein travail, la seconde dit si le réseau est là, sans permettre de s'en servir.
+
+Restent quatre sorties, et aucune ne s'ouvre seule. Chacune attend un doigt, et passe la main à une autre application, qui répond ensuite de ce qu'elle en fait :
+
+<img src="docs/schemas/reseau.svg" alt="BodyCount ne demande pas la permission INTERNET : chaque tentative de connexion s'écrase sur un mur tenu par Android, et Internet n'est jamais atteint. Il ne reste que quatre sorties, qui s'ouvrent chacune sur un toucher et passent la main à une autre application : l'adresse vers l'appli de cartes, le numéro vers le téléphone, la sauvegarde chiffrée là où tu la poses, et une copie en clair vers la galerie." width="100%">
+
+La dernière est la seule à laisser une trace en clair : une photo téléchargée devient une photo comme les autres, visible de la galerie et de tout ce qui la lit. C'est le prix de « je veux la garder ailleurs », et l'application ne le paie qu'à la demande.
 
 <img src="docs/sections/s12.png" alt="12 Avertissement" width="100%">
 

@@ -1,0 +1,270 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="452"
+     viewBox="0 0 1280 452" role="img"
+     aria-label="BodyCount ne demande pas la permission INTERNET : chaque tentative de connexion s'écrase sur un mur tenu par Android, et Internet n'est jamais atteint. Il ne reste que quatre sorties, qui s'ouvrent chacune sur un toucher et passent la main à une autre application : l'adresse vers l'appli de cartes, le numéro vers le téléphone, la sauvegarde chiffrée là où tu la poses, et une copie en clair vers la galerie.">
+  <rect width="1280" height="452" fill="#0D1117"/>
+
+  <text x="56" y="50" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="12" fill="#5C6A7A">tout seul</text>
+  <path d="M 250 150 H 694" stroke="#2F3A47" stroke-width="1.8" fill="none"/>
+  <path d="M 710 150 H 1044" stroke="#2F3A47" stroke-width="1.8" fill="none"
+        stroke-dasharray="3 7" opacity="0.6"/>
+  
+  <g>
+    <circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
+        path="M 250 150 H 694" keyPoints="0;0;1;1" keyTimes="0;0.0250;0.2125;1" calcMode="linear"/>
+      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+             values="0;0;0.18;0.18;0;0"
+             keyTimes="0;0.0250;0.0563;0.1812;0.2125;1"/></circle>
+    <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
+        path="M 250 150 H 694" keyPoints="0;0;1;1" keyTimes="0;0.0250;0.2125;1" calcMode="linear"/>
+      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.0250;0.0563;0.1812;0.2125;1"/></circle>
+    <circle cx="694" cy="150" r="4" fill="none" stroke="#E2725F" stroke-width="2" opacity="0">
+      <animate attributeName="r" dur="8s" repeatCount="indefinite"
+               values="4;4;26;26" keyTimes="0;0.2125;0.3000;1"/>
+      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+               values="0;0;0.9;0;0" keyTimes="0;0.2125;0.2188;0.3000;1"/>
+    </circle>
+  </g>
+  <g>
+    <circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
+        path="M 250 150 H 694" keyPoints="0;0;1;1" keyTimes="0;0.3625;0.5500;1" calcMode="linear"/>
+      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+             values="0;0;0.18;0.18;0;0"
+             keyTimes="0;0.3625;0.3937;0.5188;0.5500;1"/></circle>
+    <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
+        path="M 250 150 H 694" keyPoints="0;0;1;1" keyTimes="0;0.3625;0.5500;1" calcMode="linear"/>
+      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.3625;0.3937;0.5188;0.5500;1"/></circle>
+    <circle cx="694" cy="150" r="4" fill="none" stroke="#E2725F" stroke-width="2" opacity="0">
+      <animate attributeName="r" dur="8s" repeatCount="indefinite"
+               values="4;4;26;26" keyTimes="0;0.5500;0.6375;1"/>
+      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+               values="0;0;0.9;0;0" keyTimes="0;0.5500;0.5563;0.6375;1"/>
+    </circle>
+  </g>
+  <g>
+    <circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
+        path="M 250 150 H 694" keyPoints="0;0;1;1" keyTimes="0;0.7000;0.8875;1" calcMode="linear"/>
+      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+             values="0;0;0.18;0.18;0;0"
+             keyTimes="0;0.7000;0.7312;0.8562;0.8875;1"/></circle>
+    <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
+        path="M 250 150 H 694" keyPoints="0;0;1;1" keyTimes="0;0.7000;0.8875;1" calcMode="linear"/>
+      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.7000;0.7312;0.8562;0.8875;1"/></circle>
+    <circle cx="694" cy="150" r="4" fill="none" stroke="#E2725F" stroke-width="2" opacity="0">
+      <animate attributeName="r" dur="8s" repeatCount="indefinite"
+               values="4;4;26;26" keyTimes="0;0.8875;0.9750;1"/>
+      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+               values="0;0;0.9;0;0" keyTimes="0;0.8875;0.8937;0.9750;1"/>
+    </circle>
+  </g>
+
+  
+  <g>
+    <rect x="56" y="114" width="194" height="72" rx="11"
+          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
+    <rect x="56" y="126" width="3" height="48" rx="1.5"
+          fill="#E879F9" opacity="1"/>
+    <text x="76" y="145" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
+          font-size="13.5" font-weight="600" fill="#F0F4F8">BodyCount</text>
+    <text x="76" y="165" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+          font-size="12" fill="#8B99A8">aucune permission réseau</text>
+  </g>
+
+  <rect x="694" y="78" width="10" height="144" rx="3" fill="#E2725F" opacity="0.85"/>
+  <text x="700" y="64" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="12"
+        fill="#E2725F">Android : pas de permission INTERNET</text>
+  <text x="700" y="244" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="11.5"
+        fill="#5C6A7A">connexion refusée</text>
+
+  
+  <g>
+    <rect x="1044" y="114" width="180" height="72" rx="11"
+          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
+    <rect x="1044" y="126" width="3" height="48" rx="1.5"
+          fill="#E879F9" opacity="0.15"/>
+    <text x="1064" y="145" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
+          font-size="13.5" font-weight="600" fill="#F0F4F8">Internet</text>
+    <text x="1064" y="165" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+          font-size="12" fill="#8B99A8">jamais atteint</text>
+  </g>
+
+  <text x="170" y="228" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="12" fill="#5C6A7A">sur un toucher, par une autre application</text>
+  <path d="M 153 186 V 272 H 1088 M 192 272 V 308 M 490.6666666666667 272 V 308 M 789.3333333333334 272 V 308 M 1088 272 V 308" stroke="#2F3A47" stroke-width="1.8" fill="none" opacity="0.7"/>
+  
+  
+  <g>
+    <rect x="56" y="308" width="272" height="72" rx="11"
+          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
+    <rect x="56" y="320" width="3" height="48" rx="1.5"
+          fill="#E879F9" opacity="0.35"/>
+    <text x="76" y="339" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
+          font-size="13.5" font-weight="600" fill="#F0F4F8">Y aller</text>
+    <text x="76" y="359" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+          font-size="12" fill="#8B99A8">l’adresse, vers l’appli de cartes</text>
+  </g>
+  <rect x="56" y="308" width="272" height="72" rx="11" fill="none"
+        stroke="#E879F9" stroke-width="1.6" opacity="0"><animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+             values="0;0;0.9;0.9;0;0"
+             keyTimes="0;0.1500;0.1812;0.2437;0.2750;1"/></rect>
+  <g transform="translate(298 344)">
+    <circle r="5" fill="#E879F9" opacity="0"><animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+             values="0;0;0.9;0.9;0;0"
+             keyTimes="0;0.0375;0.0688;0.1187;0.1500;1"/></circle>
+    <circle r="6" fill="none" stroke="#E879F9" stroke-width="1.5" opacity="0">
+      <animate attributeName="r" dur="8s" repeatCount="indefinite"
+               values="6;6;18;18" keyTimes="0;0.0375;0.1375;1"/>
+      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+             values="0;0;0.8;0.8;0;0"
+             keyTimes="0;0.0375;0.0688;0.1063;0.1375;1"/>
+    </circle>
+  </g>
+  
+  <g>
+    <circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
+        path="M 153 186 V 272 H 192 V 308" keyPoints="0;0;1;1" keyTimes="0;0.0750;0.2000;1"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+             values="0;0;0.18;0.18;0;0"
+             keyTimes="0;0.0750;0.1062;0.1688;0.2000;1"/></circle>
+    <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
+        path="M 153 186 V 272 H 192 V 308" keyPoints="0;0;1;1" keyTimes="0;0.0750;0.2000;1"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.0750;0.1062;0.1688;0.2000;1"/></circle>
+  </g>
+  
+  <g>
+    <rect x="354.6666666666667" y="308" width="272" height="72" rx="11"
+          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
+    <rect x="354.6666666666667" y="320" width="3" height="48" rx="1.5"
+          fill="#E879F9" opacity="0.35"/>
+    <text x="374.6666666666667" y="339" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
+          font-size="13.5" font-weight="600" fill="#F0F4F8">Appeler</text>
+    <text x="374.6666666666667" y="359" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+          font-size="12" fill="#8B99A8">le numéro, vers le téléphone</text>
+  </g>
+  <rect x="354.6666666666667" y="308" width="272" height="72" rx="11" fill="none"
+        stroke="#E879F9" stroke-width="1.6" opacity="0"><animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+             values="0;0;0.9;0.9;0;0"
+             keyTimes="0;0.3875;0.4187;0.4812;0.5125;1"/></rect>
+  <g transform="translate(596.6666666666667 344)">
+    <circle r="5" fill="#E879F9" opacity="0"><animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+             values="0;0;0.9;0.9;0;0"
+             keyTimes="0;0.2750;0.3062;0.3562;0.3875;1"/></circle>
+    <circle r="6" fill="none" stroke="#E879F9" stroke-width="1.5" opacity="0">
+      <animate attributeName="r" dur="8s" repeatCount="indefinite"
+               values="6;6;18;18" keyTimes="0;0.2750;0.3750;1"/>
+      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+             values="0;0;0.8;0.8;0;0"
+             keyTimes="0;0.2750;0.3062;0.3438;0.3750;1"/>
+    </circle>
+  </g>
+  
+  <g>
+    <circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
+        path="M 153 186 V 272 H 490.6666666666667 V 308" keyPoints="0;0;1;1" keyTimes="0;0.3125;0.4375;1"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+             values="0;0;0.18;0.18;0;0"
+             keyTimes="0;0.3125;0.3437;0.4063;0.4375;1"/></circle>
+    <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
+        path="M 153 186 V 272 H 490.6666666666667 V 308" keyPoints="0;0;1;1" keyTimes="0;0.3125;0.4375;1"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.3125;0.3437;0.4063;0.4375;1"/></circle>
+  </g>
+  
+  <g>
+    <rect x="653.3333333333334" y="308" width="272" height="72" rx="11"
+          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
+    <rect x="653.3333333333334" y="320" width="3" height="48" rx="1.5"
+          fill="#E879F9" opacity="0.35"/>
+    <text x="673.3333333333334" y="339" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
+          font-size="13.5" font-weight="600" fill="#F0F4F8">Exporter</text>
+    <text x="673.3333333333334" y="359" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+          font-size="12" fill="#8B99A8">la sauvegarde chiffrée, où tu la poses</text>
+  </g>
+  <rect x="653.3333333333334" y="308" width="272" height="72" rx="11" fill="none"
+        stroke="#E879F9" stroke-width="1.6" opacity="0"><animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+             values="0;0;0.9;0.9;0;0"
+             keyTimes="0;0.6250;0.6563;0.7188;0.7500;1"/></rect>
+  <g transform="translate(895.3333333333334 344)">
+    <circle r="5" fill="#E879F9" opacity="0"><animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+             values="0;0;0.9;0.9;0;0"
+             keyTimes="0;0.5125;0.5437;0.5938;0.6250;1"/></circle>
+    <circle r="6" fill="none" stroke="#E879F9" stroke-width="1.5" opacity="0">
+      <animate attributeName="r" dur="8s" repeatCount="indefinite"
+               values="6;6;18;18" keyTimes="0;0.5125;0.6125;1"/>
+      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+             values="0;0;0.8;0.8;0;0"
+             keyTimes="0;0.5125;0.5437;0.5812;0.6125;1"/>
+    </circle>
+  </g>
+  
+  <g>
+    <circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
+        path="M 153 186 V 272 H 789.3333333333334 V 308" keyPoints="0;0;1;1" keyTimes="0;0.5500;0.6750;1"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+             values="0;0;0.18;0.18;0;0"
+             keyTimes="0;0.5500;0.5812;0.6437;0.6750;1"/></circle>
+    <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
+        path="M 153 186 V 272 H 789.3333333333334 V 308" keyPoints="0;0;1;1" keyTimes="0;0.5500;0.6750;1"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.5500;0.5812;0.6437;0.6750;1"/></circle>
+  </g>
+  
+  <g>
+    <rect x="952" y="308" width="272" height="72" rx="11"
+          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
+    <rect x="952" y="320" width="3" height="48" rx="1.5"
+          fill="#E879F9" opacity="0.35"/>
+    <text x="972" y="339" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
+          font-size="13.5" font-weight="600" fill="#F0F4F8">Télécharger</text>
+    <text x="972" y="359" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+          font-size="12" fill="#8B99A8">une copie en clair, vers la galerie</text>
+  </g>
+  <rect x="952" y="308" width="272" height="72" rx="11" fill="none"
+        stroke="#E879F9" stroke-width="1.6" opacity="0"><animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+             values="0;0;0.9;0.9;0;0"
+             keyTimes="0;0.8625;0.8937;0.9562;0.9875;1"/></rect>
+  <g transform="translate(1194 344)">
+    <circle r="5" fill="#E879F9" opacity="0"><animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+             values="0;0;0.9;0.9;0;0"
+             keyTimes="0;0.7500;0.7812;0.8312;0.8625;1"/></circle>
+    <circle r="6" fill="none" stroke="#E879F9" stroke-width="1.5" opacity="0">
+      <animate attributeName="r" dur="8s" repeatCount="indefinite"
+               values="6;6;18;18" keyTimes="0;0.7500;0.8500;1"/>
+      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+             values="0;0;0.8;0.8;0;0"
+             keyTimes="0;0.7500;0.7812;0.8187;0.8500;1"/>
+    </circle>
+  </g>
+  
+  <g>
+    <circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
+        path="M 153 186 V 272 H 1088 V 308" keyPoints="0;0;1;1" keyTimes="0;0.7875;0.9125;1"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+             values="0;0;0.18;0.18;0;0"
+             keyTimes="0;0.7875;0.8187;0.8812;0.9125;1"/></circle>
+    <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
+        path="M 153 186 V 272 H 1088 V 308" keyPoints="0;0;1;1" keyTimes="0;0.7875;0.9125;1"
+        calcMode="linear"/>
+      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.7875;0.8187;0.8812;0.9125;1"/></circle>
+  </g>
+
+  <text x="640" y="424" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+        font-size="12.5" fill="#5C6A7A">Le mur n’est pas dans le code : une bibliothèque bavarde ou une dépendance piégée s’y heurteraient pareil.</text>
+</svg>

@@ -532,6 +532,110 @@ function allegement() {
 `;
 }
 
+// ---------------------------------------------------- sans Internet
+// En haut, des paquets partent vers Internet et s'écrasent sur un mur qui
+// n'est pas dans l'application : Android, faute de permission INTERNET.
+// En bas, les quatre seules sorties s'ouvrent l'une après l'autre, chacune
+// sur un toucher, et chacune vers une autre application.
+function reseau() {
+  const H = 452;
+  const total = 8;
+  const yRoute = 150;
+  const xMur = 700;
+  const route = `M 250 ${yRoute} H ${xMur - 6}`;
+
+  // Trois paquets par boucle, décalés : chacun roule, frappe, éclate.
+  const paquets = [0.2, 2.9, 5.6].map((d) => {
+    const a = (d / total).toFixed(4);
+    const b = ((d + 1.5) / total).toFixed(4);
+    const mouvement = `<animateMotion dur="${total}s" repeatCount="indefinite"
+        path="${route}" keyPoints="0;0;1;1" keyTimes="0;${a};${b};1" calcMode="linear"/>`;
+    const choc = d + 1.5;
+    const c0 = (choc / total).toFixed(4);
+    const c1 = ((choc + 0.7) / total).toFixed(4);
+    return `
+  <g>
+    <circle r="7" fill="${ACCENT}" opacity="0">${mouvement}
+      ${fenetre(d, choc, total, 'opacity', 0.18)}</circle>
+    <circle r="3" fill="#FFFFFF" opacity="0">${mouvement}
+      ${fenetre(d, choc, total)}</circle>
+    <circle cx="${xMur - 6}" cy="${yRoute}" r="4" fill="none" stroke="${ROUGE}" stroke-width="2" opacity="0">
+      <animate attributeName="r" dur="${total}s" repeatCount="indefinite"
+               values="4;4;26;26" keyTimes="0;${c0};${c1};1"/>
+      <animate attributeName="opacity" dur="${total}s" repeatCount="indefinite"
+               values="0;0;0.9;0;0" keyTimes="0;${c0};${((choc + 0.05) / total).toFixed(4)};${c1};1"/>
+    </circle>
+  </g>`;
+  }).join('');
+
+  // Les quatre portes, et le fil qui y mène depuis le téléphone.
+  const portes = [
+    [t('Y aller', 'Directions'), t('l’adresse, vers l’appli de cartes', 'the address, to the maps app')],
+    [t('Appeler', 'Call'), t('le numéro, vers le téléphone', 'the number, to the dialer')],
+    [t('Exporter', 'Export'), t('la sauvegarde chiffrée, où tu la poses', 'the encrypted backup, where you put it')],
+    [t('Télécharger', 'Download'), t('une copie en clair, vers la galerie', 'a plain copy, into the gallery')],
+  ];
+  const yPorte = 308;
+  const largeur = 272;
+  const pas = (1224 - 56 - largeur) / 3;
+  const centres = portes.map((_, i) => 56 + i * pas + largeur / 2);
+  const bus = `M 153 186 V 272 H ${centres[3]}`;
+  const descentes = centres.map((c) => `M ${c} 272 V ${yPorte}`).join(' ');
+  const ouvertures = portes.map(([titre, sous], i) => {
+    const x = 56 + i * pas;
+    const d = 0.3 + i * 1.9;
+    const chemin = `M 153 186 V 272 H ${centres[i]} V ${yPorte}`;
+    return `
+  ${carte(x, yPorte, largeur, 72, titre, sous, 0.35)}
+  <rect x="${x}" y="${yPorte}" width="${largeur}" height="72" rx="11" fill="none"
+        stroke="${ACCENT}" stroke-width="1.6" opacity="0">${fenetre(d + 0.9, d + 1.9, total, 'opacity', 0.9)}</rect>
+  <g transform="translate(${x + largeur - 30} ${yPorte + 36})">
+    <circle r="5" fill="${ACCENT}" opacity="0">${fenetre(d, d + 0.9, total, 'opacity', 0.9)}</circle>
+    <circle r="6" fill="none" stroke="${ACCENT}" stroke-width="1.5" opacity="0">
+      <animate attributeName="r" dur="${total}s" repeatCount="indefinite"
+               values="6;6;18;18" keyTimes="0;${(d / total).toFixed(4)};${((d + 0.8) / total).toFixed(4)};1"/>
+      ${fenetre(d, d + 0.8, total, 'opacity', 0.8)}
+    </circle>
+  </g>
+  ${billeFenetre(chemin, d + 0.3, d + 1.3, total)}`;
+  }).join('');
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="${H}"
+     viewBox="0 0 1280 ${H}" role="img"
+     aria-label="${t(
+       "BodyCount ne demande pas la permission INTERNET : chaque tentative de connexion s'écrase sur un mur tenu par Android, et Internet n'est jamais atteint. Il ne reste que quatre sorties, qui s'ouvrent chacune sur un toucher et passent la main à une autre application : l'adresse vers l'appli de cartes, le numéro vers le téléphone, la sauvegarde chiffrée là où tu la poses, et une copie en clair vers la galerie.",
+       'BodyCount does not ask for the INTERNET permission: every connection attempt crashes into a wall held by Android, and the Internet is never reached. Only four exits remain, each opened by a tap and handing over to another app: the address to the maps app, the number to the dialer, the encrypted backup wherever you put it, and a plain copy into the gallery.',
+     )}">
+  <rect width="1280" height="${H}" fill="${FOND}"/>
+
+  <text x="56" y="50" font-family="${MONO}" font-size="12" fill="${DISCRET}">${t('tout seul', 'on its own')}</text>
+  <path d="${route}" stroke="${FIL}" stroke-width="1.8" fill="none"/>
+  <path d="M ${xMur + 10} ${yRoute} H 1044" stroke="${FIL}" stroke-width="1.8" fill="none"
+        stroke-dasharray="3 7" opacity="0.6"/>
+  ${paquets}
+
+  ${carte(56, 114, 194, 72, 'BodyCount', t('aucune permission réseau', 'no network permission'), 1)}
+
+  <rect x="${xMur - 6}" y="78" width="10" height="144" rx="3" fill="${ROUGE}" opacity="0.85"/>
+  <text x="${xMur}" y="64" text-anchor="middle" font-family="${MONO}" font-size="12"
+        fill="${ROUGE}">${t('Android : pas de permission INTERNET', 'Android: no INTERNET permission')}</text>
+  <text x="${xMur}" y="244" text-anchor="middle" font-family="${MONO}" font-size="11.5"
+        fill="${DISCRET}">${t('connexion refusée', 'connection refused')}</text>
+
+  ${carte(1044, 114, 180, 72, 'Internet', t('jamais atteint', 'never reached'), 0.15)}
+
+  <text x="170" y="228" font-family="${MONO}" font-size="12" fill="${DISCRET}">${t('sur un toucher, par une autre application', 'on a tap, through another app')}</text>
+  <path d="${bus} ${descentes}" stroke="${FIL}" stroke-width="1.8" fill="none" opacity="0.7"/>
+  ${ouvertures}
+
+  ${legende(424, t(
+    'Le mur n’est pas dans le code : une bibliothèque bavarde ou une dépendance piégée s’y heurteraient pareil.',
+    'The wall is not in the code: a chatty library or a poisoned dependency would hit it just the same.',
+  ))}
+</svg>
+`;
+}
+
 // ---------------------------------------------------------------- écriture
 const racine = path.join(__dirname, '..');
 const dest = path.join(racine, LG === 'en' ? 'en' : '.', 'schemas');
@@ -543,6 +647,7 @@ for (const [nom, contenu] of [
   ['villes.svg', villes()],
   ['restauration.svg', restauration()],
   ['allegement.svg', allegement()],
+  ['reseau.svg', reseau()],
 ]) {
   fs.writeFileSync(path.join(dest, nom), contenu);
   console.log(

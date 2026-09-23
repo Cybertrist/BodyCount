@@ -41,7 +41,7 @@ rep bodycount "$A" \
 "$(t 'Le calendrier' 'The calendar')" \
 "$(t 'Modèle de confidentialité' 'Privacy model')" \
 "$(t 'Les tests' 'The tests')" \
-"$(t 'Feuille de route' 'Roadmap')" \
+"$(t 'Sans Internet' 'No Internet')" \
 "$(t 'Avertissement' 'A word of warning')" \
 "$(t 'Licence et auteur' 'Licence and author')"
 
@@ -92,11 +92,6 @@ grid bc-stack "$A" 3 \
 "Chakra Petch|$(t 'La police des titres, embarquée sous licence SIL Open Font.' 'The title typeface, embedded under the SIL Open Font licence.')"
 
 # -------------------------------------------------------- la feuille de route
-grid bc-route "$A" 3 \
-"$(t 'Fait' 'Done')|$(t 'Communes de France, photos et vidéos en grand, sauvegarde complète et restauration, point précis, rappel de sauvegarde, vidéos allégées, lancement animé, clé de publication, vingt-quatre tests.' 'French communes, full-size photos and videos, full backup and restore, exact point, backup reminder, lighter videos, animated launch, release key, twenty-four tests.')" \
-"$(t 'Sauvegarde automatique' 'Automatic backup')|$(t 'Un export chiffré posé de lui-même dans un dossier choisi, chaque semaine, plutôt qu&#39;un rappel.' 'An encrypted export dropped by itself into a chosen folder, every week, rather than a reminder.')" \
-"$(t 'Relecture extérieure' 'Outside review')|$(t 'Le chiffrement n&#39;a été relu par personne d&#39;autre que moi. Un regard extérieur sur l&#39;assemblage vaudrait plus que n&#39;importe quel ajout.' 'The encryption has been reviewed by nobody but me. An outside look at how it is put together would be worth more than any feature.')"
-
 # ---------------------------------------------------------- l'arborescence
 treefig bodycount "$A" "lib/" \
 "1|main.dart|$(t "Le point d'entrée." 'The entry point.')" \

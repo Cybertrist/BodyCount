@@ -36,7 +36,7 @@ FIGURES=(
   "sections/s07.png|"
   "sections/s08.png|schemas/confidentialite.png"
   "|schemas/palette.png"
-  "sections/s09.png|schemas/feuille-de-route.png"
+  "sections/s09.png|schemas/reseau.svg"
   "sections/s10.png|"
 )
 

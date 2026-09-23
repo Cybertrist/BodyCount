@@ -155,9 +155,23 @@ They destroy the data and the key of the app they target: run them on an emulato
 
 They paid off on their first run. The data tests found a backup end marker written on eleven bytes and read on one: no restore would have gone through. The screen tests found a row of figures overflowing its fixed height on the person page.
 
-<img src="docs/en/sections/s11.png" alt="11 Roadmap" width="100%">
+<img src="docs/en/sections/s11.png" alt="11 No Internet" width="100%">
 
-<img src="docs/en/schemas/feuille-de-route.png" alt="Done: French communes, full-size photos and videos, full backup and restore, exact point, backup reminder, lighter videos, animated launch, release key, twenty-four tests. Automatic backup: an encrypted export dropped by itself into a chosen folder every week. Outside review: an outside look at the encryption would be worth more than any feature." width="100%">
+"No network requests" is easy to write. Here it is not a promise made by the code but an Android rule: the app does not ask for the `INTERNET` permission, and without it the system refuses to open any connection at all. A bug, a chatty library, a dependency poisoned in its next update: everything hits the same wall, which is not inside the app and which the app cannot get past.
+
+It can be checked on the APK itself, without reading a line of code:
+
+```bash
+aapt2 dump permissions app-arm64-v8a-release.apk
+```
+
+The list is short: the fingerprint, under its current name and its old one, then `WAKE_LOCK` and `ACCESS_NETWORK_STATE`, added by libraries. The first keeps the phone from falling asleep mid-task, the second tells whether a network is there, without allowing any use of it.
+
+Four exits remain, and none of them opens by itself. Each one waits for a finger, and hands over to another app, which then answers for what it does with it:
+
+<img src="docs/en/schemas/reseau.svg" alt="BodyCount does not ask for the INTERNET permission: every connection attempt crashes into a wall held by Android, and the Internet is never reached. Only four exits remain, each opened by a tap and handing over to another app: the address to the maps app, the number to the dialer, the encrypted backup wherever you put it, and a plain copy into the gallery." width="100%">
+
+The last one is the only one that leaves a plain trace: a downloaded photo becomes a photo like any other, visible to the gallery and to anything that reads it. That is the price of "I want to keep it somewhere else", and the app only pays it on request.
 
 <img src="docs/en/sections/s12.png" alt="12 A word of warning" width="100%">
 
