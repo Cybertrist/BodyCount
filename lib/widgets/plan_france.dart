@@ -21,11 +21,18 @@ class PlanFrance extends StatefulWidget {
   const PlanFrance({
     super.key,
     required this.villes,
+    this.points = const [],
     this.hauteur = 340,
     this.onPrise,
   });
 
   final List<({String ville, int nombre})> villes;
+
+  /// Les rencontres posées à la main, dessinées en points fins une fois
+  /// qu'on s'est approché : à l'échelle du pays, elles se confondraient
+  /// avec les pastilles des villes.
+  final List<Coordonnee> points;
+
   final double hauteur;
 
   /// Prévient quand un doigt tient la carte agrandie.
@@ -156,6 +163,10 @@ class _PlanFranceState extends State<PlanFrance>
                       zoom: _zoom,
                       onRecadrer: _recadrer,
                       charge: geo != null,
+                      points: [
+                        for (final p in widget.points)
+                          cadrage.projeter(p.longitude, p.latitude),
+                      ],
                     );
 
                     void debut(ScaleStartDetails d) {
@@ -674,8 +685,10 @@ class _Carte extends StatelessWidget {
     required this.zoom,
     required this.onRecadrer,
     required this.charge,
+    this.points = const [],
   });
 
+  final List<Offset> points;
   final Path? terre;
   final Path? departements;
   final List<_Groupe> groupes;
@@ -739,6 +752,10 @@ class _Carte extends StatelessWidget {
             vie: vie,
             arrivee: arrivee,
             kmParPixel: cadrage.kmParPixel,
+            points: points,
+            // Les points précis apparaissent entre 2,5 et 4 fois : avant,
+            // ils se perdent dans la bulle de leur ville.
+            opacitePoints: ((zoom - 2.5) / 1.5).clamp(0.0, 1.0),
           ),
           size: taille,
         ),
@@ -972,7 +989,12 @@ class _PeintreVie extends CustomPainter {
     required this.vie,
     required this.arrivee,
     required this.kmParPixel,
+    this.points = const [],
+    this.opacitePoints = 0,
   }) : super(repaint: Listenable.merge([vie, arrivee]));
+
+  final List<Offset> points;
+  final double opacitePoints;
 
   final List<_Groupe> groupes;
   final Animation<double> vie;
@@ -984,7 +1006,29 @@ class _PeintreVie extends CustomPainter {
     _etoiles(toile, taille);
     _liaisons(toile);
     _ondes(toile);
+    _points(toile);
     _regle(toile, taille);
+  }
+
+  /// Les rencontres posées à la main : un point blanc cerclé d'un halo
+  /// fuchsia qui respire, plus discret qu'une ville.
+  void _points(Canvas toile) {
+    if (opacitePoints <= 0) return;
+    final souffle = 0.6 + 0.4 * sin(vie.value * 2 * pi);
+    for (final p in points) {
+      toile.drawCircle(
+        p,
+        7 + 2 * souffle,
+        Paint()
+          ..color = AppColors.accent
+              .withValues(alpha: 0.18 * souffle * opacitePoints),
+      );
+      toile.drawCircle(
+        p,
+        3,
+        Paint()..color = Colors.white.withValues(alpha: opacitePoints),
+      );
+    }
   }
 
   /// Des étoiles dans la mer, qui scintillent lentement et à contretemps.

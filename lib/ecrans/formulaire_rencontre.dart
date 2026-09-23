@@ -10,7 +10,9 @@ import '../domaine/rencontre.dart';
 import '../providers/donnees.dart';
 import '../security/vault_image.dart';
 import '../utils/date_formatter.dart';
+import '../donnees/coordonnees.dart';
 import '../widgets/pastilles.dart';
+import 'choix_point.dart';
 
 /// Enregistrer une rencontre.
 ///
@@ -50,6 +52,9 @@ class _EcranFormulaireRencontreState
   /// La rencontre reprise, une fois chargée. Null en création.
   Rencontre? _existante;
 
+  /// Le point posé à la main sur la carte, s'il y en a un.
+  Coordonnee? _point;
+
   @override
   void initState() {
     super.initState();
@@ -73,6 +78,10 @@ class _EcranFormulaireRencontreState
     setState(() {
       _existante = trouvee;
       _quand = trouvee.quand;
+      final lat = trouvee.latitude, lon = trouvee.longitude;
+      _point = lat == null || lon == null
+          ? null
+          : (latitude: lat, longitude: lon);
       _lieu.text = trouvee.lieu ?? '';
       _demiPoints = trouvee.noteDemiPoints ?? 7;
       _montant.text = trouvee.montantAffiche?.replaceAll(' €', '') ?? '';
@@ -185,6 +194,19 @@ class _EcranFormulaireRencontreState
     return (euros * 100).round();
   }
 
+  /// Ouvre la carte pour poser le point, centrée sur le lieu saisi.
+  Future<void> _choisirPoint() async {
+    final choisi = await Navigator.of(context).push<Coordonnee>(
+      MaterialPageRoute(
+        builder: (_) => EcranChoixPoint(
+          point: _point,
+          depart: coordonneesEnFrance(_lieu.text),
+        ),
+      ),
+    );
+    if (choisi != null && mounted) setState(() => _point = choisi);
+  }
+
   Future<void> _enregistrer() async {
     setState(() => _enregistre = true);
     final maintenant = DateTime.now();
@@ -198,8 +220,8 @@ class _EcranFormulaireRencontreState
         personneId: ancienne.personneId,
         quand: _quand,
         lieu: _lieu.text.trim().isEmpty ? null : _lieu.text.trim(),
-        latitude: ancienne.latitude,
-        longitude: ancienne.longitude,
+        latitude: _point?.latitude,
+        longitude: _point?.longitude,
         noteDemiPoints: _demiPoints,
         montantCentimes: _centimes(),
         creeLe: ancienne.creeLe,
@@ -211,6 +233,8 @@ class _EcranFormulaireRencontreState
         personneId: widget.personneId,
         quand: _quand,
         lieu: _lieu.text.trim().isEmpty ? null : _lieu.text.trim(),
+        latitude: _point?.latitude,
+        longitude: _point?.longitude,
         noteDemiPoints: _demiPoints,
         montantCentimes: _centimes(),
         creeLe: maintenant,
@@ -315,6 +339,12 @@ class _EcranFormulaireRencontreState
               prefixIconConstraints:
                   BoxConstraints(minWidth: 46, minHeight: 46),
             ),
+          ),
+          const SizedBox(height: 10),
+          _LignePoint(
+            point: _point,
+            onPoser: _choisirPoint,
+            onRetirer: () => setState(() => _point = null),
           ),
           const SizedBox(height: 22),
           Text('CE QUE ÇA A RAPPORTÉ',
@@ -655,4 +685,53 @@ class _Moitie extends CustomClipper<Rect> {
 
   @override
   bool shouldReclip(_Moitie ancien) => ancien.part != part;
+}
+
+/// Le point précis, sous le lieu : facultatif, et discret tant qu'il
+/// n'est pas posé. La ville suffit à la carte ; le point sert à qui veut
+/// retrouver la rue.
+class _LignePoint extends StatelessWidget {
+  const _LignePoint({
+    required this.point,
+    required this.onPoser,
+    required this.onRetirer,
+  });
+
+  final Coordonnee? point;
+  final VoidCallback onPoser;
+  final VoidCallback onRetirer;
+
+  @override
+  Widget build(BuildContext context) {
+    final p = point;
+    return Row(
+      children: [
+        Icon(
+          p == null ? Icons.add_location_alt_outlined : Icons.location_on_rounded,
+          size: 18,
+          color: p == null ? AppColors.textTertiary : AppColors.accent,
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            p == null
+                ? 'Pas de point précis'
+                : 'Point posé, ${p.latitude.toStringAsFixed(4)} N '
+                    '${p.longitude.abs().toStringAsFixed(4)} '
+                    '${p.longitude < 0 ? 'O' : 'E'}',
+            style: TextStyle(
+              fontSize: 12.5,
+              color: p == null ? AppColors.textTertiary : AppColors.textSecondary,
+            ),
+          ),
+        ),
+        if (p != null)
+          TextButton(onPressed: onRetirer, child: const Text('Retirer')),
+        TextButton(
+          onPressed: onPoser,
+          child: Text(p == null ? 'Placer sur la carte' : 'Déplacer'),
+        ),
+      ],
+    );
+  }
 }

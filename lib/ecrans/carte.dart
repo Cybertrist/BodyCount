@@ -69,6 +69,7 @@ class _EcranCarteState extends ConsumerState<EcranCarte> {
                 Apparition(
                   child: PlanFrance(
                     villes: valeur.parVille,
+                    points: valeur.points,
                     onPrise: (tenue) {
                       if (tenue == _carteTenue) return;
                       setState(() => _carteTenue = tenue);

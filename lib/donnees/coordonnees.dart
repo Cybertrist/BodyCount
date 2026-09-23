@@ -206,6 +206,28 @@ int _ecart(String a, String b, int plafond) {
   return avant[b.length];
 }
 
+/// Les communes dont le centre tombe dans une zone, en degrés, les plus
+/// peuplées d'abord. Sert de repère au choix d'un point précis : sans
+/// tuiles, pas de rues à montrer, mais les villages voisins et leur nom
+/// suffisent à se situer.
+List<Commune> communesDans(
+  double ouest,
+  double sud,
+  double est,
+  double nord, {
+  int maximum = 80,
+}) {
+  final trouvees = <Commune>[];
+  for (final c in _communes) {
+    final p = c.position;
+    if (p.longitude < ouest || p.longitude > est) continue;
+    if (p.latitude < sud || p.latitude > nord) continue;
+    trouvees.add(c);
+    if (trouvees.length >= maximum) break;
+  }
+  return trouvees;
+}
+
 /// « Saint-Denis (93) » : le nom d'un côté, le département de l'autre.
 ({String nom, String? departement}) _decouper(String ville) {
   final m = RegExp(r'^(.*?)\s*\(\s*(\w{2,3})\s*\)\s*$').firstMatch(ville);

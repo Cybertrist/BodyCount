@@ -18,6 +18,7 @@ class Statistiques {
     required this.podium,
     required this.parVille,
     required this.parRole,
+    this.points = const [],
     required this.gainCentimes,
     required this.gainPrecedentCentimes,
     required this.rencontresPayees,
@@ -42,6 +43,10 @@ class Statistiques {
   /// Les rôles, comptés en personnes et non en rencontres : la question
   /// est « avec qui », pas « combien de fois ».
   final List<({String role, int nombre})> parRole;
+
+  /// Les rencontres posées à la main sur la carte, toutes années
+  /// confondues, comme le classement des lieux.
+  final List<Coordonnee> points;
 
   /// Ce que l'année a rapporté, en centimes, et le même chiffre pour
   /// l'année d'avant : une somme sans point de comparaison ne dit rien.
@@ -256,6 +261,16 @@ class DepotStatistiques {
       parRole: lignesRoles
           .map((l) => (role: l['role'] as String, nombre: l['n'] as int))
           .toList(),
+      points: [
+        for (final l in await base.rawQuery('''
+          SELECT latitude, longitude FROM rencontres
+          WHERE latitude IS NOT NULL AND longitude IS NOT NULL
+        '''))
+          (
+            latitude: (l['latitude'] as num).toDouble(),
+            longitude: (l['longitude'] as num).toDouble(),
+          ),
+      ],
       gainCentimes: gain,
       gainPrecedentCentimes: gainPrecedent,
       rencontresPayees: payees,
