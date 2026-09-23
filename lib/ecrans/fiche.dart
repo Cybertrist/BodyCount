@@ -315,8 +315,10 @@ class _Chiffres extends StatelessWidget {
   Widget build(BuildContext context) {
     final anciennete = fiche.anciennete;
 
-    return SizedBox(
-      height: 46,
+    // Pas de hauteur fixe : le chiffre, l'écart et la légende font un peu
+    // plus de 46 points, et bien plus quand le téléphone grossit les
+    // textes. La rangée prend la hauteur de son contenu.
+    return IntrinsicHeight(
       child: Row(
         children: [
           _Colonne(

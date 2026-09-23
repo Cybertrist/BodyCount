@@ -47,9 +47,9 @@ class AppLayout {
 
   /// Colonnes de la grille des fiches.
   ///
-  /// Sur l'écran intérieur, la grille n'occupe que le volet de gauche,
-  /// d'où deux colonnes et non quatre : c'est la fiche ouverte à droite
-  /// qui prend la place gagnée.
+  /// Sur l'écran intérieur, la grille a toute la largeur à côté du rail :
+  /// quatre colonnes gardent aux cartes la taille qu'elles ont sur le
+  /// téléphone, au lieu de deux cartes géantes.
   static int gridColumns(BuildContext context) {
     switch (of(context)) {
       case ScreenFormat.compact:
@@ -57,7 +57,7 @@ class AppLayout {
       case ScreenFormat.passport:
         return 3;
       case ScreenFormat.expanded:
-        return 2;
+        return 4;
     }
   }
 
