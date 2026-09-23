@@ -4,8 +4,9 @@
 # Les images sources sont dans src-captures/<format>/, déjà rognées de la
 # barre d'état et de la barre de navigation par rogner.js, réduites et en
 # JPEG. Le format passeport, l'écran de couverture du Fold, est celui de
-# tous les jours : il porte la planche complète. Le téléphone en 16/9 et
-# la tablette en 4/3 ne montrent que ce qui change d'un format à l'autre.
+# tous les jours : il porte la planche complète. Le téléphone en 16/9, la
+# tablette en 4/3 et la même tablette couchée ne montrent que ce qui
+# change d'un format à l'autre.
 #
 # Les visages sont ceux du jeu d'essai : des portraits générés, personne
 # de réel.
@@ -99,3 +100,11 @@ planche bc-tablette 3 \
   "43/repertoire|$(t 'Répertoire' 'Directory')|$(t 'Quatre colonnes, tous les filtres sur une ligne.' 'Four columns, every filter on one line.')" \
   "43/carte|$(t 'Carte' 'Map')|$(t 'La carte, le classement et les visages vus à Vannes.' 'The map, the ranking and the faces seen in Vannes.')" \
   "43/fiche|$(t 'Fiche' 'Person')|$(t 'La photo prend la largeur.' 'The photo takes the width.')"
+
+planche bc-paysage 2 \
+  "$(t 'Grand écran couché, 4/3' 'Large screen on its side, 4:3')" \
+  "$(t "l'écran déplié tenu à l'horizontale, 1200 × 900 points" 'the unfolded screen held sideways, 1200 × 900 points')" \
+  "34/repertoire|$(t 'Répertoire' 'Directory')|$(t 'Le rail à gauche, quatre colonnes de cartes plus grandes.' 'The rail on the left, four columns of larger cards.')" \
+  "34/fiche|$(t 'Fiche' 'Person')|$(t 'Deux volets : la photo sur toute la hauteur, la fiche qui défile à côté.' 'Two panes: the photo full height, the page scrolling beside it.')" \
+  "34/stats|$(t 'Statistiques' 'Statistics')|$(t 'Le podium garde sa taille de podium au milieu de la largeur.' 'The podium keeps a podium size in the middle of the width.')" \
+  "34/carte|$(t 'Carte' 'Map')|$(t 'La Bretagne entière d&#39;un coup d&#39;œil, le classement dessous.' 'All of Brittany at a glance, the ranking below.')"

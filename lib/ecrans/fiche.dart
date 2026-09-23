@@ -107,9 +107,81 @@ class _Contenu extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final personne = fiche.personne;
     final id = personne.id!;
+    final taille = MediaQuery.sizeOf(context);
     final hauteurPhoto =
-        MediaQuery.sizeOf(context).height *
-        (AppLayout.isShort(context) ? 0.46 : 0.56);
+        taille.height * (AppLayout.isShort(context) ? 0.46 : 0.56);
+    final sections = [
+      _Chiffres(fiche: fiche),
+      const SizedBox(height: 22),
+      _Etiquettes(personneId: id),
+      const SizedBox(height: 22),
+      _Rencontres(personneId: id),
+      const SizedBox(height: 22),
+      _Notes(personneId: id),
+      const SizedBox(height: 22),
+      _Galerie(personneId: id),
+      const SizedBox(height: 22),
+      _Infos(personne: personne, fiche: fiche),
+    ];
+
+    // Grand écran tenu à l'horizontale : une photo de toute la largeur n'y
+    // garderait du visage qu'une bande, des yeux au menton, et la fiche
+    // s'étirerait d'un bord à l'autre. La photo devient donc un volet fixe
+    // à gauche, sur toute la hauteur, et la fiche défile à côté.
+    if (taille.width > taille.height && taille.width >= 840) {
+      return Row(
+        children: [
+          SizedBox(
+            width: taille.width * 0.42,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                // Le volet descend jusqu'au bord de l'écran : le prénom
+                // remonte au dessus de la barre de navigation.
+                _Portrait(
+                  fiche: fiche,
+                  marge: MediaQuery.paddingOf(context).bottom,
+                ),
+                SafeArea(
+                  right: false,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(4, 4, 10, 0),
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Row(
+                        children: [
+                          const _RondNoir(
+                            child: BackButton(color: Colors.white),
+                          ),
+                          const Spacer(),
+                          _BoutonModifier(personne: personne),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Stack(
+              children: [
+                ListView(
+                  padding: EdgeInsets.fromLTRB(
+                    28,
+                    MediaQuery.paddingOf(context).top + 22,
+                    28 + MediaQuery.paddingOf(context).right,
+                    140,
+                  ),
+                  children: sections,
+                ),
+                _BandeauActions(personne: personne),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
 
     return Stack(
       children: [
@@ -118,21 +190,7 @@ class _Contenu extends ConsumerWidget {
             _PhotoEnTete(fiche: fiche, hauteur: hauteurPhoto),
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(22, 22, 22, 140),
-              sliver: SliverList.list(
-                children: [
-                  _Chiffres(fiche: fiche),
-                  const SizedBox(height: 22),
-                  _Etiquettes(personneId: id),
-                  const SizedBox(height: 22),
-                  _Rencontres(personneId: id),
-                  const SizedBox(height: 22),
-                  _Notes(personneId: id),
-                  const SizedBox(height: 22),
-                  _Galerie(personneId: id),
-                  const SizedBox(height: 22),
-                  _Infos(personne: personne, fiche: fiche),
-                ],
-              ),
+              sliver: SliverList.list(children: sections),
             ),
           ],
         ),
@@ -142,18 +200,14 @@ class _Contenu extends ConsumerWidget {
   }
 }
 
-class _PhotoEnTete extends ConsumerWidget {
+class _PhotoEnTete extends StatelessWidget {
   const _PhotoEnTete({required this.fiche, required this.hauteur});
 
   final FichePersonne fiche;
   final double hauteur;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final personne = fiche.personne;
-    final photo = personne.photoPrincipale;
-    final rang = ref.watch(rangProvider(personne.id!)).valueOrNull;
-
+  Widget build(BuildContext context) {
     return SliverAppBar(
       expandedHeight: hauteur,
       pinned: true,
@@ -161,125 +215,150 @@ class _PhotoEnTete extends ConsumerWidget {
       backgroundColor: AppColors.background,
       leading: const _RondNoir(child: BackButton(color: Colors.white)),
       actions: [
-        _RondNoir(
-          child: IconButton(
-            tooltip: 'Modifier la fiche',
-            icon: const Icon(
-              Icons.edit_outlined,
-              color: Colors.white,
-              size: 19,
-            ),
-            onPressed: () => context.push('/personne/${personne.id}/modifier'),
-          ),
-        ),
+        _BoutonModifier(personne: fiche.personne),
         const SizedBox(width: 10),
       ],
-      flexibleSpace: FlexibleSpaceBar(
-        // Toucher la photo l'ouvre en grand. Elle est la principale, donc
-        // la première de la galerie.
-        background: GestureDetector(
-          onTap: photo == null
-              ? null
-              : () => context.push('/personne/${personne.id}/medias/0'),
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              if (photo != null)
-                VaultImage(path: photo, fit: BoxFit.cover)
-              else
-                const DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: RadialGradient(
-                      center: Alignment(-0.3, -0.5),
-                      radius: 1.2,
-                      colors: [Color(0xFF7C3AED), Color(0xFF3B1D6E)],
-                    ),
-                  ),
-                ),
-              if (photo != null)
-                const DecoratedBox(
-                  decoration: BoxDecoration(gradient: AppColors.photoGrade),
-                ),
-              const DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    stops: [0.0, 0.26, 0.5, 0.9, 1.0],
-                    colors: [
-                      Color(0x940B0616),
-                      Color(0x000B0616),
-                      Color(0x1A0B0616),
-                      Color(0xDB0B0616),
-                      Color(0xFF0B0616),
-                    ],
-                  ),
+      flexibleSpace: FlexibleSpaceBar(background: _Portrait(fiche: fiche)),
+    );
+  }
+}
+
+class _BoutonModifier extends StatelessWidget {
+  const _BoutonModifier({required this.personne});
+
+  final Personne personne;
+
+  @override
+  Widget build(BuildContext context) {
+    return _RondNoir(
+      child: IconButton(
+        tooltip: 'Modifier la fiche',
+        icon: const Icon(Icons.edit_outlined, color: Colors.white, size: 19),
+        onPressed: () => context.push('/personne/${personne.id}/modifier'),
+      ),
+    );
+  }
+}
+
+/// La photo principale, ses dégradés, les pastilles et le prénom : l'en-tête
+/// qui se replie sur téléphone, le volet de gauche sur grand écran couché.
+class _Portrait extends ConsumerWidget {
+  const _Portrait({required this.fiche, this.marge = 0});
+
+  final FichePersonne fiche;
+
+  /// Ce qu'il faut laisser sous le prénom en plus de l'air habituel.
+  final double marge;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final personne = fiche.personne;
+    final photo = personne.photoPrincipale;
+    final rang = ref.watch(rangProvider(personne.id!)).valueOrNull;
+
+    // Toucher la photo l'ouvre en grand. Elle est la principale, donc la
+    // première de la galerie.
+    return GestureDetector(
+      onTap: photo == null
+          ? null
+          : () => context.push('/personne/${personne.id}/medias/0'),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          if (photo != null)
+            VaultImage(path: photo, fit: BoxFit.cover)
+          else
+            const DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: RadialGradient(
+                  center: Alignment(-0.3, -0.5),
+                  radius: 1.2,
+                  colors: [Color(0xFF7C3AED), Color(0xFF3B1D6E)],
                 ),
               ),
-              Positioned(
-                left: 22,
-                right: 22,
-                bottom: 20,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
+            ),
+          if (photo != null)
+            const DecoratedBox(
+              decoration: BoxDecoration(gradient: AppColors.photoGrade),
+            ),
+          const DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: [0.0, 0.26, 0.5, 0.9, 1.0],
+                colors: [
+                  Color(0x940B0616),
+                  Color(0x000B0616),
+                  Color(0x1A0B0616),
+                  Color(0xDB0B0616),
+                  Color(0xFF0B0616),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            left: 22,
+            right: 22,
+            bottom: 20 + marge,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Wrap(
+                  spacing: 7,
+                  runSpacing: 7,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
-                    Wrap(
-                      spacing: 7,
-                      runSpacing: 7,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                        if (rang != null) BadgeRang(rang: rang.rang),
-                        if (personne.age != null)
-                          Pastille(
-                            texte: '${personne.age} ans',
-                            ton: TonPastille.sombre,
-                            hauteur: 24,
-                          ),
-                        if (personne.ville != null)
-                          Pastille(
-                            texte: personne.ville!,
-                            ton: TonPastille.sombre,
-                            hauteur: 24,
-                            icone: const Icon(
-                              Icons.place_outlined,
-                              size: 12,
-                              color: Colors.white,
-                            ),
-                          ),
-                        if (personne.role != null)
-                          Pastille(
-                            texte: personne.role!.libelle,
-                            ton: TonPastille.sombre,
-                            hauteur: 24,
-                          ),
-                        if (personne.genre != null)
-                          Pastille(
-                            texte: personne.genre!.libelle,
-                            ton: TonPastille.sombre,
-                            hauteur: 24,
-                          ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      personne.prenom,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 42,
-                        height: 0.98,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: -1.5,
-                        color: Colors.white,
+                    if (rang != null) BadgeRang(rang: rang.rang),
+                    if (personne.age != null)
+                      Pastille(
+                        texte: '${personne.age} ans',
+                        ton: TonPastille.sombre,
+                        hauteur: 24,
                       ),
-                    ),
+                    if (personne.ville != null)
+                      Pastille(
+                        texte: personne.ville!,
+                        ton: TonPastille.sombre,
+                        hauteur: 24,
+                        icone: const Icon(
+                          Icons.place_outlined,
+                          size: 12,
+                          color: Colors.white,
+                        ),
+                      ),
+                    if (personne.role != null)
+                      Pastille(
+                        texte: personne.role!.libelle,
+                        ton: TonPastille.sombre,
+                        hauteur: 24,
+                      ),
+                    if (personne.genre != null)
+                      Pastille(
+                        texte: personne.genre!.libelle,
+                        ton: TonPastille.sombre,
+                        hauteur: 24,
+                      ),
                   ],
                 ),
-              ),
-            ],
+                const SizedBox(height: 12),
+                Text(
+                  personne.prenom,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 42,
+                    height: 0.98,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: -1.5,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

@@ -36,6 +36,10 @@ And on the unfolded 4:3 screen, navigation becomes a rail on the left and the di
 
 <img src="docs/en/schemas/captures-tablette.png" alt="Three screens on a large 4:3 screen: the directory in four columns with every filter on one line, the map with the ranking and the faces seen in Vannes, and Enzo's page with the photo across the full width." width="100%">
 
+The same screen on its side is 1200 points wide. The person page then splits into two panes, the photo on the left at full height:
+
+<img src="docs/en/schemas/captures-paysage.png" alt="Four screens on a large screen held sideways: the directory in four columns next to the rail, Enzo's page in two panes with the photo on the left and the encounters on the right, the statistics with the podium centred, and the map of Brittany above the city ranking." width="100%">
+
 The palette follows the logo's gradient, from violet to fuchsia, on near-black backgrounds.
 
 <img src="docs/en/schemas/palette.png" alt="Palette: primary violet #A855F7, accent fuchsia #D946EF, background #0B0616, surface #150C28, cards #1A1030, text #F6F2FF." width="100%">

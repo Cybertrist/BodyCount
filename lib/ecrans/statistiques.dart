@@ -617,25 +617,41 @@ class _Podium extends StatelessWidget {
     const hauteurs = [112.0, 148.0, 94.0];
     const rangs = [2, 1, 3];
 
+    // Sur grand écran, trois marches de toute la largeur deviendraient
+    // des bandeaux où il ne reste du visage que la bouche. Le podium garde
+    // donc une largeur de podium, et la hauteur des marches suit celle de
+    // leurs colonnes : sur téléphone, où elles font moins de 130 points,
+    // rien ne change.
     return _Panneau(
       titre: 'Les mieux notés',
-      enfant: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          for (var i = 0; i < 3; i++)
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: ordre[i] == null
-                    ? const SizedBox.shrink()
-                    : _Marche(
-                        fiche: ordre[i]!,
-                        rang: rangs[i],
-                        hauteur: hauteurs[i],
+      enfant: LayoutBuilder(
+        builder: (context, contraintes) {
+          final largeur = min(contraintes.maxWidth, 560.0);
+          final echelle = max(1.0, largeur / 3 / 130);
+          return Center(
+            child: SizedBox(
+              width: largeur,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  for (var i = 0; i < 3; i++)
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: ordre[i] == null
+                            ? const SizedBox.shrink()
+                            : _Marche(
+                                fiche: ordre[i]!,
+                                rang: rangs[i],
+                                hauteur: hauteurs[i] * echelle,
+                              ),
                       ),
+                    ),
+                ],
               ),
             ),
-        ],
+          );
+        },
       ),
     );
   }

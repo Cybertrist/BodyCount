@@ -1,13 +1,14 @@
 // Prépare les captures d'écran brutes de l'appareil pour le dépôt.
 //
-//   node docs/tools/rogner.js <dossier source> <dossier de destination>
+//   node docs/tools/rogner.js <dossier source> <dossier de destination> [largeur]
 //
 // La source porte les captures telles que l'émulateur les rend, et un
 // barres.txt : la hauteur de la barre d'état, puis l'ordonnée où commence
 // la barre de navigation, en pixels. Les deux sont retirées : l'heure, le
 // réseau et la batterie n'ont rien à faire sur une page de présentation.
 //
-// Chaque image est ensuite réduite à 720 points de large et écrite en
+// Chaque image est ensuite réduite à 720 points de large, ou à la largeur
+// donnée en troisième argument pour un écran à l'horizontale, et écrite en
 // JPEG : une capture brute pèse un mégaoctet et demi, la version réduite
 // quinze fois moins, sans différence visible à la taille où la page
 // l'affiche. Le travail se fait dans un canvas de Chrome sans affichage,
@@ -16,11 +17,11 @@ const fs = require('fs');
 const path = require('path');
 const { execFileSync } = require('child_process');
 
-const [, , source, dest] = process.argv;
+const [, , source, dest, largeur] = process.argv;
 const CHROME =
   process.env.CHROME ||
   'C:/Program Files/Google/Chrome/Application/chrome.exe';
-const LARGEUR = 720;
+const LARGEUR = Number(largeur) || 720;
 
 const [haut, bas] = fs
   .readFileSync(path.join(source, 'barres.txt'), 'utf8')

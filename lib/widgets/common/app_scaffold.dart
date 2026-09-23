@@ -51,7 +51,16 @@ class AppScaffold extends StatelessWidget {
         body: Row(
           children: [
             _Rail(index: index, onTap: (i) => _onTap(context, i)),
-            Expanded(child: child),
+            // Le rail absorbe la marge de gauche, celle de l'encoche quand
+            // l'écran est tourné : l'écran qu'il borde ne la compte pas une
+            // seconde fois.
+            Expanded(
+              child: MediaQuery.removePadding(
+                context: context,
+                removeLeft: true,
+                child: child,
+              ),
+            ),
           ],
         ),
       );
@@ -331,8 +340,13 @@ class _Rail extends StatelessWidget {
     final libelles =
         _libellePlusLarge(context, majuscules: true) <= 56 - 8;
 
+    // À l'horizontale, l'encoche passe à gauche et le SafeArea la retire
+    // de la largeur : sans l'ajouter ici, les onglets de 56 points
+    // n'auraient plus la place et leurs libellés se couperaient en deux.
+    final encoche = MediaQuery.paddingOf(context).left;
+
     return Container(
-      width: 92,
+      width: 92 + encoche,
       decoration: const BoxDecoration(
         color: Color(0x9E100920),
         border: Border(right: BorderSide(color: AppColors.cardBorder)),

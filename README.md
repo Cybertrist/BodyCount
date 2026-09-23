@@ -36,6 +36,10 @@ Et sur l'écran déplié, en 4/3, la navigation devient un rail à gauche et le 
 
 <img src="docs/schemas/captures-tablette.png" alt="Trois écrans sur grand écran 4/3 : le répertoire en quatre colonnes avec tous les filtres sur une ligne, la carte avec le classement et les visages vus à Vannes, et la fiche d'Enzo avec la photo sur toute la largeur." width="100%">
 
+Le même écran couché passe à 1200 points de large. La fiche se partage alors en deux volets, la photo à gauche sur toute la hauteur :
+
+<img src="docs/schemas/captures-paysage.png" alt="Quatre écrans sur grand écran tenu à l'horizontale : le répertoire en quatre colonnes à côté du rail, la fiche d'Enzo en deux volets avec la photo à gauche et les rencontres à droite, les statistiques avec le podium centré, et la carte de la Bretagne au dessus du classement des villes." width="100%">
+
 La palette reprend le dégradé du logo, du violet au fuchsia, sur des fonds presque noirs.
 
 <img src="docs/schemas/palette.png" alt="Palette : primaire violet #A855F7, accent fuchsia #D946EF, fond #0B0616, surface #150C28, cartes #1A1030, texte #F6F2FF." width="100%">

@@ -28,6 +28,7 @@ pose "flow$SUF/bc-palette.png"  schemas/palette.png
 pose "flow$SUF/bc-passeport.png" schemas/captures-passeport.png
 pose "flow$SUF/bc-telephone.png" schemas/captures-telephone.png
 pose "flow$SUF/bc-tablette.png"  schemas/captures-tablette.png
+pose "flow$SUF/bc-paysage.png"   schemas/captures-paysage.png
 
 if [ "$LG" != en ]; then
   mkdir -p "$DEST/langues"

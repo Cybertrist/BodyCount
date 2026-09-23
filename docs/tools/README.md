@@ -32,13 +32,14 @@ ce qui rend impossible d'en corriger une en oubliant l'autre.
   modèle de données, les formats de fichier, la fabrication de la carte,
   les tests, le modèle de confidentialité et la palette.
   C'est le seul fichier à ouvrir pour changer un texte.
-- `captures.sh` : les trois planches de captures, format passeport,
-  téléphone 16/9 et tablette 4/3. Les sources sont dans
+- `captures.sh` : les quatre planches de captures, format passeport,
+  téléphone 16/9, tablette 4/3 et tablette couchée. Les sources sont dans
   `src-captures/<format>/`, en JPEG, déjà rognées.
 - `rogner.js` : prépare les captures brutes de l'émulateur. Il retire la
   barre d'état et la barre de navigation d'après un `barres.txt` posé à
   côté, réduit à 720 points de large et écrit en JPEG, par un canvas de
-  Chrome. `node docs/tools/rogner.js <brut> <src-captures/format>`.
+  Chrome. `node docs/tools/rogner.js <brut> <src-captures/format>`,
+  suivi de `1200` pour un écran couché, qui mérite plus de 720 points.
 - `social.sh` : l'aperçu social du dépôt, `docs/social-preview.png`,
   1280 x 640. À déposer à la main dans Settings > General > Social
   preview, GitHub ne le lit pas depuis le dépôt.
