@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="340"
+     viewBox="0 0 1280 340" role="img"
+     aria-label="L'empreinte charge la clé maîtresse depuis le Keystore Android. HKDF-SHA256 en dérive deux clés : le mot de passe SQLCipher qui ouvre le journal chiffré, et la clé AES-GCM qui ouvre le coffre à photos.">
+  <rect width="1280" height="340" fill="#0D1117"/>
+
+  <!-- Les fils, posés sous les cartes : une bille qui passe derrière une
+       carte disparaît, ce qui donne l'impression qu'elle la traverse. -->
+  <path d="M 130 170 H 664 V 88 H 1224" stroke="#2F3A47" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M 130 170 H 664 V 252 H 1224" stroke="#2F3A47" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+
+  
+  <g>
+    <circle r="7" fill="#E879F9" opacity="0.18">
+      <animateMotion dur="4.2s" begin="0s" repeatCount="indefinite"
+                     path="M 130 170 H 664 V 88 H 1224" calcMode="spline"
+                     keyTimes="0;1" keySplines="0.4 0 0.6 1"/>
+    </circle>
+    <circle r="3" fill="#FFFFFF">
+      <animateMotion dur="4.2s" begin="0s" repeatCount="indefinite"
+                     path="M 130 170 H 664 V 88 H 1224" calcMode="spline"
+                     keyTimes="0;1" keySplines="0.4 0 0.6 1"/>
+      <animate attributeName="opacity" dur="4.2s" begin="0s"
+               repeatCount="indefinite"
+               values="0;1;1;1;0" keyTimes="0;0.08;0.5;0.9;1"/>
+    </circle>
+  </g>
+  
+  <g>
+    <circle r="7" fill="#E879F9" opacity="0.18">
+      <animateMotion dur="4.2s" begin="1.4s" repeatCount="indefinite"
+                     path="M 130 170 H 664 V 252 H 1224" calcMode="spline"
+                     keyTimes="0;1" keySplines="0.4 0 0.6 1"/>
+    </circle>
+    <circle r="3" fill="#FFFFFF">
+      <animateMotion dur="4.2s" begin="1.4s" repeatCount="indefinite"
+                     path="M 130 170 H 664 V 252 H 1224" calcMode="spline"
+                     keyTimes="0;1" keySplines="0.4 0 0.6 1"/>
+      <animate attributeName="opacity" dur="4.2s" begin="1.4s"
+               repeatCount="indefinite"
+               values="0;1;1;1;0" keyTimes="0;0.08;0.5;0.9;1"/>
+    </circle>
+  </g>
+
+  <!-- L'empreinte, qui respire. Rien ne circule avant elle. -->
+  <g transform="translate(91 170)">
+    <circle r="30" fill="#E879F9" opacity="0.10">
+      <animate attributeName="r" dur="2.8s" repeatCount="indefinite"
+               values="26;33;26" calcMode="spline"
+               keyTimes="0;0.5;1" keySplines="0.4 0 0.6 1;0.4 0 0.6 1"/>
+      <animate attributeName="opacity" dur="2.8s" repeatCount="indefinite"
+               values="0.16;0.04;0.16"/>
+    </circle>
+    <circle r="23" fill="#131A24" stroke="#1F2833" stroke-width="1"/>
+    <g stroke="#E879F9" stroke-width="1.7" fill="none" stroke-linecap="round">
+      <path d="M -9 4 a 9 11 0 0 1 18 0"/>
+      <path d="M -5.5 6 a 5.5 7 0 0 1 11 0"/>
+      <path d="M -12.5 2 a 12.5 15 0 0 1 25 0"/>
+      <path d="M 0 5 v 7"/>
+    </g>
+  </g>
+  <text x="91" y="228" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+        font-size="11.5" fill="#5C6A7A">empreinte</text>
+
+  
+  <g>
+    <rect x="190" y="134" width="214" height="72" rx="11"
+          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
+    <rect x="190" y="146" width="3" height="48" rx="1.5"
+          fill="#E879F9" opacity="1"/>
+    <text x="210" y="165" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
+          font-size="13.5" font-weight="600" fill="#F0F4F8">Keystore Android</text>
+    <text x="210" y="185" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+          font-size="12" fill="#8B99A8">clé maîtresse, 256 bits</text>
+  </g>
+  
+  <g>
+    <rect x="464" y="134" width="200" height="72" rx="11"
+          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
+    <rect x="464" y="146" width="3" height="48" rx="1.5"
+          fill="#E879F9" opacity="0.8"/>
+    <text x="484" y="165" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
+          font-size="13.5" font-weight="600" fill="#F0F4F8">HKDF-SHA256</text>
+    <text x="484" y="185" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+          font-size="12" fill="#8B99A8">deux clés dérivées</text>
+  </g>
+
+  
+  <g>
+    <rect x="730" y="52" width="258" height="72" rx="11"
+          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
+    <rect x="730" y="64" width="3" height="48" rx="1.5"
+          fill="#E879F9" opacity="0.6"/>
+    <text x="750" y="83" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
+          font-size="13.5" font-weight="600" fill="#F0F4F8">bodycount/db/v1</text>
+    <text x="750" y="103" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+          font-size="12" fill="#8B99A8">mot de passe SQLCipher</text>
+  </g>
+  
+  <g>
+    <rect x="730" y="216" width="258" height="72" rx="11"
+          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
+    <rect x="730" y="228" width="3" height="48" rx="1.5"
+          fill="#E879F9" opacity="0.6"/>
+    <text x="750" y="247" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
+          font-size="13.5" font-weight="600" fill="#F0F4F8">bodycount/photos/v1</text>
+    <text x="750" y="267" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+          font-size="12" fill="#8B99A8">clé AES-GCM</text>
+  </g>
+
+  
+  <g>
+    <rect x="1044" y="52" width="180" height="72" rx="11"
+          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
+    <rect x="1044" y="64" width="3" height="48" rx="1.5"
+          fill="#E879F9" opacity="0.4"/>
+    <text x="1064" y="83" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
+          font-size="13.5" font-weight="600" fill="#F0F4F8">journal.db</text>
+    <text x="1064" y="103" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+          font-size="12" fill="#8B99A8">chiffré au repos</text>
+  </g>
+  
+  <g>
+    <rect x="1044" y="216" width="180" height="72" rx="11"
+          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
+    <rect x="1044" y="228" width="3" height="48" rx="1.5"
+          fill="#E879F9" opacity="0.4"/>
+    <text x="1064" y="247" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
+          font-size="13.5" font-weight="600" fill="#F0F4F8">vault/*.bcx</text>
+    <text x="1064" y="267" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+          font-size="12" fill="#8B99A8">une photo, un fichier</text>
+  </g>
+
+  <text x="640" y="322" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
+        font-size="12.5" fill="#5C6A7A">Rien de cette chaîne n’existe en mémoire avant l’empreinte.</text>
+</svg>

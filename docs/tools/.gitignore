@@ -13,3 +13,7 @@ grid-en/
 tree-en/
 flow/
 flow-en/
+
+# Aperçu local, régénéré par apercu.sh
+apercu-*.html
+apercu-*.png

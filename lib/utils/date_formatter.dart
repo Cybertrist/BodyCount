@@ -21,6 +21,16 @@ class DateFormatter {
     return DateFormat('d MMM yyyy', 'fr_FR').format(date);
   }
 
+
+  /// « 19 sept. », sans l'année quand c'est l'année en cours.
+  ///
+  /// Dans un journal où tout date de cette année, répéter « 2026 » à
+  /// chaque ligne n'apprend rien et allonge le texte.
+  static String jourCourt(DateTime date) {
+    final memeAnnee = date.year == DateTime.now().year;
+    final motif = memeAnnee ? 'd MMM' : 'd MMM yyyy';
+    return DateFormat(motif, 'fr_FR').format(date);
+  }
   /// "15 jan. 2025 à 21h30"
   static String formatDateTime(DateTime date) {
     final datePart = DateFormat('d MMM yyyy', 'fr_FR').format(date);

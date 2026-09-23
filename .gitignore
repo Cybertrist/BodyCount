@@ -35,3 +35,11 @@ coverage/
 
 # Notes de conception locales, hors dépôt
 prompt-claude-code.md
+
+# Visages du jeu d'essai : des portraits générés, gardés hors du dépôt.
+# Le générateur se passe de chaque image manquante, la fiche se crée
+# simplement sans photo.
+assets/demo/
+
+# Généré par flutter pub get
+.flutter-plugins-dependencies
