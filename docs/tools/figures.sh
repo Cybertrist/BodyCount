@@ -27,7 +27,7 @@ ban bodycount "$A" "#7C3AED" "#0A0410" \
 "$(t 'Journal personnel chiffré, hors ligne, sur Android.' 'An encrypted personal journal, offline, on Android.')" \
 "$(t 'Aucun serveur, aucun compte, aucune télémétrie.' 'No server, no account, no telemetry.')" \
 "$(P 'FLUTTER' 'SQLCIPHER' "$(t 'BIOMÉTRIE' 'BIOMETRICS')")" \
-'MOBILE' ""
+"$(C 'MOBILE' "$(t 'ADULTE' 'ADULT')")" ""
 
 # ------------------------------------------------ les bandeaux de section
 rep bodycount "$A" \
