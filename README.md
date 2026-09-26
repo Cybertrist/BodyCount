@@ -36,7 +36,8 @@ Toute la conception découle de cette contrainte, jusqu'à la carte, qui dessine
 <a href="#sans-internet"><img src="docs/sommaire/12.png" alt="12 Sans Internet" width="31%"></a>
 <br>
 <a href="#avertissement"><img src="docs/sommaire/13.png" alt="13 Avertissement" width="31%"></a>
-<a href="#licence"><img src="docs/sommaire/14.png" alt="14 Licence" width="31%"></a>
+<a href="#versions"><img src="docs/sommaire/14.png" alt="14 Les versions" width="31%"></a>
+<a href="#licence"><img src="docs/sommaire/15.png" alt="15 Licence" width="31%"></a>
 </p>
 
 <a id="fonctionnalites"></a>
@@ -277,8 +278,16 @@ Ce dépôt est un projet personnel, pas un produit de sécurité. Le chiffrement
 
 Le jeu d'essai n'existe que dans la démo, et dans une version de travail compilée avec `--dart-define=ESSAIS=true`. Ses visages, des portraits générés qui ne représentent personne, ne font pas partie du dépôt : pour construire la démo, ils se posent dans `assets/demo/` ; pour une version de travail, sur le téléphone, avec `adb push assets/demo/. /sdcard/Android/data/com.bodycount.bodycount/files/demo/`. Sans eux les dix-huit fiches se créent quand même, simplement sans photo : le générateur se passe de chaque image absente.
 
+<a id="versions"></a>
+<img src="docs/sections/s14.png" alt="14 Les versions" width="100%">
+
+Chaque version s'installe par-dessus la précédente sans rien perdre, signée de la même clé. Le détail, avec les empreintes SHA-256, est sur la page de chaque Release.
+
+- **[1.1.0](https://github.com/Cybertrist/BodyCount/releases/tag/v1.1.0)**, 26 septembre 2026 : la démo, une seconde application remplie des dix-huit fiches du jeu d'essai, qui s'installe à côté de la vraie sans la toucher.
+- **[1.0.0](https://github.com/Cybertrist/BodyCount/releases/tag/v1.0.0)**, 23 septembre 2026 : la première version publiée, sans jeu d'essai. Le répertoire, les statistiques, la carte de France embarquée, le calendrier, la galerie chiffrée, la sauvegarde et la restauration.
+
 <a id="licence"></a>
-<img src="docs/sections/s14.png" alt="14 Licence et auteur" width="100%">
+<img src="docs/sections/s15.png" alt="15 Licence et auteur" width="100%">
 
 BodyCount est conçu et développé par **Tristan Joncour** ([@Cybertrist](https://github.com/Cybertrist)), élève ingénieur en cyberdéfense à l'ENSIBS, pour son propre usage d'abord : c'est l'application qu'il voulait avoir sur son téléphone, et qui n'existait pas.
 

@@ -11,7 +11,7 @@ pose () { [ -f "$1" ] || { echo "  manquant : $1"; return; }; cp "$1" "$DEST/$2"
 pose "png$SUF/f-bodycount.png" banniere.png
 pose "png$SUF/telecharger.png" telecharger.png
 pose "png$SUF/telecharger-demo.png" telecharger-demo.png
-for i in 01 02 03 04 05 06 07 08 09 10 11 12 13 14; do
+for i in 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15; do
   pose "sec$SUF/r-bodycount-$i.png" "sections/s$i.png"
 done
 

@@ -53,7 +53,7 @@ ce qui rend impossible d'en corriger une en oubliant l'autre.
 - `grille.sh` : le gabarit des grilles à deux ou trois colonnes.
 - `arbre.sh` : le gabarit des arborescences, dont les traits de liaison
   sont calculés et non écrits à la main.
-- `sommaire.sh` : le bandeau « 00 Sommaire » et les quatorze tuiles
+- `sommaire.sh` : le bandeau « 00 Sommaire » et les quinze tuiles
   cliquables qui mènent chacune à sa section, dans `docs/sommaire/`.
 - `pastilles.sh` : les deux pastilles du sélecteur de langue.
 - `sequence.sh` : le gabarit des enchaînements, des étapes reliées par

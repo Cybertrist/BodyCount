@@ -44,6 +44,7 @@ rep bodycount "$A" \
 "$(t 'Les tests' 'The tests')" \
 "$(t 'Sans Internet' 'No Internet')" \
 "$(t 'Avertissement' 'A word of warning')" \
+"$(t 'Les versions' 'Versions')" \
 "$(t 'Licence et auteur' 'Licence and author')"
 
 # ------------------------------------------------------ les fonctionnalités

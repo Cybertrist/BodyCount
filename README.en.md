@@ -36,7 +36,8 @@ Every design decision follows from that constraint, down to the map, which draws
 <a href="#sans-internet"><img src="docs/en/sommaire/12.png" alt="12 No Internet" width="31%"></a>
 <br>
 <a href="#avertissement"><img src="docs/en/sommaire/13.png" alt="13 A word of warning" width="31%"></a>
-<a href="#licence"><img src="docs/en/sommaire/14.png" alt="14 Licence" width="31%"></a>
+<a href="#versions"><img src="docs/en/sommaire/14.png" alt="14 Versions" width="31%"></a>
+<a href="#licence"><img src="docs/en/sommaire/15.png" alt="15 Licence" width="31%"></a>
 </p>
 
 <a id="fonctionnalites"></a>
@@ -277,8 +278,16 @@ This repository is a personal project, not a security product. The encryption re
 
 The sample set only exists in the demo, and in a working build compiled with `--dart-define=ESSAIS=true`. Its faces, generated portraits of no one real, are not part of the repository: to build the demo, they go into `assets/demo/`; for a working build, onto the phone, with `adb push assets/demo/. /sdcard/Android/data/com.bodycount.bodycount/files/demo/`. Without them the eighteen people are still created, simply without a photo: the generator copes with every missing image.
 
+<a id="versions"></a>
+<img src="docs/en/sections/s14.png" alt="14 Versions" width="100%">
+
+Each version installs over the previous one without losing anything, signed with the same key. The details, with the SHA-256 fingerprints, are on each Release page.
+
+- **[1.1.0](https://github.com/Cybertrist/BodyCount/releases/tag/v1.1.0)**, 26 September 2026: the demo, a second app filled with the eighteen sample people, which installs next to the real one without touching it.
+- **[1.0.0](https://github.com/Cybertrist/BodyCount/releases/tag/v1.0.0)**, 23 September 2026: the first published version, without the sample set. The people list, the statistics, the embedded map of France, the calendar, the encrypted gallery, backup and restore.
+
 <a id="licence"></a>
-<img src="docs/en/sections/s14.png" alt="14 Licence and author" width="100%">
+<img src="docs/en/sections/s15.png" alt="15 Licence and author" width="100%">
 
 BodyCount is designed and built by **Tristan Joncour** ([@Cybertrist](https://github.com/Cybertrist)), a cyber defence engineering student at ENSIBS, for his own use first: it is the app he wanted on his phone, and it did not exist.
 
