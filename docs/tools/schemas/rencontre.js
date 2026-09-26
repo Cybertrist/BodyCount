@@ -257,7 +257,6 @@ module.exports = (O) => {
       </circle>
       <rect x="${X0 + long}" y="${y}" width="${RL - 44}" height="48" rx="11" fill="${CARTE}" stroke="${BORD}"/>
       <rect x="${X0 + long}" y="${y}" width="${RL - 44}" height="48" rx="11" fill="none" stroke="${c}" stroke-width="1.5" opacity="0">${visible(C, a, FIN)}</rect>
-      <rect x="${X0 + long}" y="${y + 12}" width="3" height="24" rx="1.5" fill="${c}" opacity="0.35">${paliers('opacity', C, [[0, 0.35], [a, 1], [FIN, 0.35]])}</rect>
       ${texte(X0 + long + 16, y + 20, titre, { taille: 13, couleur: TITRE, poids: 700 })}
       ${entre(C, 0, a, texte(X0 + long + 16, y + 37, t('en attente', 'waiting'), { taille: 11, couleur: DISCRET, police: MONO }), 0.003)}
       ${entre(C, a, FIN, texte(X0 + long + 16, y + 37, sous, { taille: 11.5, couleur: TEXTE }), 0.003)}`;
@@ -266,7 +265,6 @@ module.exports = (O) => {
   // ------------------------------------------------ la carte du bas
   const BY = 574;
   corps += `<rect x="390" y="${BY}" width="830" height="84" rx="13" fill="${CARTE}" stroke="${BORD}"/>
-    <rect x="390" y="${BY + 14}" width="3" height="56" rx="1.5" fill="${OR}"/>
     ${texte(410, BY + 32, t('Rien n’est définitif', 'Nothing is final'), { taille: 14, couleur: TITRE, police: MONO, poids: 700 })}
     ${texte(410, BY + 54, t('Une rencontre se reprend ou se supprime. Supprimée, elle quitte les statistiques, la carte et le calendrier ;', 'An encounter can be edited or deleted. Once deleted, it leaves the statistics, the map and the calendar;'), { taille: 12.5 })}
     ${texte(410, BY + 72, t('les notes écrites ce soir-là restent sur la fiche.', 'the notes written that night stay on the card.'), { taille: 12.5 })}`;

@@ -256,7 +256,7 @@ module.exports = (O) => {
     // ------------------------------------------------------ la bande du bas
     const BY = 574, BH = 104;
     let bas = `<rect x="60" y="${BY}" width="1160" height="${BH}" rx="13" fill="${CARTE}" stroke="${BORD}"/>
-      <rect x="60" y="${BY + 14}" width="3" height="${BH - 28}" rx="1.5" fill="${ACCENT}"/>`;
+`;
     if (o.bas) {
       bas += texte(84, BY + 44, o.bas[0], { taille: 14, couleur: TITRE, poids: 700 });
       bas += texte(84, BY + 72, o.bas[1], { taille: 13 });

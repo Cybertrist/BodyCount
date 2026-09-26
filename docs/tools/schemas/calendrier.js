@@ -266,7 +266,6 @@ module.exports = (O) => {
     const x = 400 + i * 280, y = 598;
     corps += `<rect x="${x}" y="${y}" width="260" height="86" rx="13" fill="${CARTE}" stroke="${BORD}"/>
       ${allume ? `<rect x="${x}" y="${y}" width="260" height="86" rx="13" fill="none" stroke="${c}" stroke-width="1.5" opacity="0">${visible(C, allume[0], allume[1])}</rect>` : ''}
-      <rect x="${x}" y="${y + 14}" width="3" height="58" rx="1.5" fill="${c}"/>
       ${texte(x + 20, y + 30, titre, { taille: 13.5, couleur: TITRE, police: MONO, poids: 700 })}
       ${texte(x + 20, y + 52, l1, { taille: 12 })}
       ${texte(x + 20, y + 70, l2, { taille: 12 })}`;

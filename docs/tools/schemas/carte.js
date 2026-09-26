@@ -551,7 +551,6 @@ module.exports = (O) => {
   bas.forEach(([c, titre, l1, l2], i) => {
     const x = 400 + i * 280, y = 464;
     corps += `<rect x="${x}" y="${y}" width="260" height="92" rx="13" fill="${CARTE}" stroke="${BORD}"/>
-      <rect x="${x}" y="${y + 14}" width="3" height="64" rx="1.5" fill="${c}"/>
       ${texte(x + 20, y + 31, titre, { taille: 13.5, couleur: TITRE, police: MONO, poids: 700 })}
       ${texte(x + 20, y + 53, l1, { taille: 12 })}
       ${texte(x + 20, y + 71, l2, { taille: 12 })}`;
@@ -568,9 +567,13 @@ module.exports = (O) => {
   // Une vignette : les communes voisines comme repères, et l'épingle.
   const vg = O.id('point');
   corps += `<clipPath id="${vg}"><rect x="${PX + 14}" y="${PYb + 12}" width="170" height="88" rx="10"/></clipPath>
-    <g clip-path="url(#${vg})"><rect x="${PX + 14}" y="${PYb + 12}" width="170" height="88" fill="#2C1857"/>`;
+    <g clip-path="url(#${vg})"><rect x="${PX + 14}" y="${PYb + 12}" width="170" height="88" fill="#120B2A"/>`;
+  // La vraie côte du golfe, comme sur l'écran Point précis : la terre
+  // violette, la mer sombre, les communes voisines posées dessus.
+  const vignette = O.france(PX + 14, PYb + 12, 170, 88, [-2.99, 47.555, -2.67, 47.675]);
+  corps += `<path d="${vignette.terre}" fill="#2C1857" stroke="${APP.rose}" stroke-opacity="0.5" stroke-width="0.8" stroke-linejoin="round"/>`;
   const COMMUNES = [['Vannes', -2.748, 47.658], ['Arradon', -2.824, 47.633], ['Séné', -2.739, 47.623], ['Baden', -2.904, 47.606], ['Larmor-Baden', -2.899, 47.586]];
-  const vp = (lon, lat) => [PX + 92 + (lon + 2.82) * COS * 700, PYb + 56 + (47.622 - lat) * 700];
+  const vp = vignette.proj;
   COMMUNES.forEach(([nom, lon, lat]) => {
     const [x, y] = vp(lon, lat);
     corps += `<circle cx="${r1(x)}" cy="${r1(y)}" r="1.8" fill="#FFFFFF" fill-opacity="0.8"/>${texte(r1(x + 5), r1(y + 3.5), nom, { taille: 9, couleur: '#FFFFFF', poids: 700, extra: 'fill-opacity="0.85"' })}`;

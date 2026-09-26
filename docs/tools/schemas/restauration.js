@@ -194,14 +194,12 @@ module.exports = (O) => {
   });
   // La tête de lecture, une barre qui balaie.
   const tete = (p, couleur) => `<g opacity="0">${visible(C, p.de, p.a, 0.004)}
-      <rect y="${MY - 8}" width="3" height="${MH + 16}" rx="1.5" fill="${couleur}" filter="url(#halo)">
-        ${fondu('x', C, [[0, pos[2] - 4], [p.de, pos[2] - 4], [p.a, bout + 2], [1, bout + 2]])}</rect></g>`;
+</g>`;
   corps += tete(UN, VERT) + tete(DEUX, ACCENT);
   // L'échec : la tête s'arrête net sur le premier morceau chiffré.
   const ARRET = ERREUR - 0.012;
   corps += `<g opacity="0">${visible(C, 0.84, FIN, 0.004)}
-      <rect y="${MY - 8}" width="3" height="${MH + 16}" rx="1.5" fill="${ROUGE}" filter="url(#halo)">
-        ${fondu('x', C, [[0, pos[2] - 4], [0.84, pos[2] - 4], [ARRET, pos[2] + 40], [1, pos[2] + 40]])}</rect></g>
+</g>
     <rect x="${pos[2] - 1}" y="${MY - 1}" width="${morceaux[2].l + 2}" height="${MH + 2}" rx="8" fill="${ROUGE}" fill-opacity="0.12" stroke="${ROUGE}" stroke-width="2" opacity="0">${visible(C, ARRET, FIN, 0.004)}</rect>
     <g opacity="0">${visible(C, ARRET, FIN, 0.004)}${icone('croix', pos[2] + morceaux[2].l / 2 - 7, MY - 20, ROUGE, 0.9)}</g>`;
   // Ce que fait le passage en cours, sous le fichier.
@@ -284,7 +282,6 @@ module.exports = (O) => {
     const x = K + i * 280;
     corps += `<rect x="${x}" y="${RY}" width="260" height="86" rx="13" fill="${CARTE}" stroke="${BORD}"/>
       ${allume ? `<rect x="${x}" y="${RY}" width="260" height="86" rx="13" fill="none" stroke="${ROUGE}" stroke-width="1.5" opacity="0">${visible(C, allume, FIN)}</rect>` : ''}
-      <rect x="${x}" y="${RY + 14}" width="3" height="58" rx="1.5" fill="${ROUGE}"/>
       ${texte(x + 20, RY + 28, titre, { taille: 13.5, couleur: TITRE, police: MONO, poids: 700 })}
       ${texte(x + 20, RY + 50, l1, { taille: 12 })}
       ${texte(x + 20, RY + 68, l2, { taille: 12 })}`;
@@ -298,7 +295,6 @@ module.exports = (O) => {
   bas.forEach(([c, titre, l1], i) => {
     const x = K + i * 420, y = 600;
     corps += `<rect x="${x}" y="${y}" width="400" height="76" rx="13" fill="${CARTE}" stroke="${BORD}"/>
-      <rect x="${x}" y="${y + 14}" width="3" height="48" rx="1.5" fill="${c}"/>
       ${texte(x + 20, y + 30, titre, { taille: 13.5, couleur: TITRE, police: MONO, poids: 700 })}
       ${texte(x + 20, y + 54, l1, { taille: 12 })}`;
   });

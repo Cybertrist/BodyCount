@@ -9,7 +9,7 @@
 module.exports = (O) => {
   const { t, svg, texte, entete, rubrique, visible, entre, fondu, telephone, toucher, frappe, visage, etoiles, icone,
     pastille, largeurPastille, barreNav, APP, MONO, SANS, CARTE, BORD, TITRE, TEXTE, DISCRET, FIL, ACCENT, VIOLET,
-    VERT, OR, ROUGE, BLEU } = O;
+    VERT, OR, ROUGE, BLEU, GENS } = O;
   const C = 56;
   const FIN = 0.985;
   let corps = entete(t('LES TESTS', 'THE TESTS'),
@@ -143,26 +143,7 @@ module.exports = (O) => {
   corps += T.cadre;
   let ecran = '';
 
-  // Phase sans écran : ce qui s'éprouve, famille par famille.
   const CX = SX + SL / 2;
-  let sansEcran = `${texte(CX, SY + 46, 'integration_test', { taille: 11, couleur: APP.discret, police: MONO, ancre: 'middle' })}
-    ${texte(CX, SY + 64, 'bodycount_test.dart', { taille: 11, couleur: APP.second, police: MONO, poids: 700, ancre: 'middle' })}`;
-  bornesFamille.forEach(([de, a, f], i) => {
-    const l = SL - 80;
-    sansEcran += entre(C, de, i === bornesFamille.length - 1 ? B0 : a, `
-      <circle cx="${CX}" cy="${SY + 190}" r="58" fill="${APP.violet}" fill-opacity="0.12"/>
-      <circle cx="${CX}" cy="${SY + 190}" r="44" fill="${APP.carte}" stroke="${APP.violet}" stroke-width="1.5"/>
-      ${icone(f.icone, CX - 20, SY + 170, APP.rose, 2.5)}
-      ${texte(CX, SY + 286, f.nom, { taille: 20, couleur: APP.texte, poids: 800, ancre: 'middle' })}
-      ${texte(CX, SY + 308, f.tests.length === 1 ? t('1 test', '1 test') : t(`${f.tests.length} tests`, `${f.tests.length} tests`), { taille: 12, couleur: APP.second, ancre: 'middle' })}
-      <rect x="${SX + 40}" y="${SY + 326}" width="${l}" height="6" rx="3" fill="#FFFFFF" fill-opacity="0.08"/>
-      <rect x="${SX + 40}" y="${SY + 326}" height="6" rx="3" width="0" fill="url(#marque)">${fondu('width', C, [[0, 0], [de, 0], [a, l], [1, l]])}</rect>`, 0.003);
-  });
-  sansEcran += `${texte(CX, SY + 400, t('Rien à regarder pour ceux-là :', 'Nothing to watch for these:'), { taille: 12, couleur: APP.texte, poids: 700, ancre: 'middle' })}
-    ${texte(CX, SY + 420, t('la base, le chiffrement et la sauvegarde', 'the database, the encryption and the backup'), { taille: 11.5, couleur: APP.second, ancre: 'middle' })}
-    ${texte(CX, SY + 437, t('s’éprouvent sous le capot, avec le vrai', 'are put to the test under the hood, with the'), { taille: 11.5, couleur: APP.second, ancre: 'middle' })}
-    ${texte(CX, SY + 454, t('SQLCipher et le vrai Keystore d’Android.', 'real SQLCipher and Android’s real Keystore.'), { taille: 11.5, couleur: APP.second, ancre: 'middle' })}`;
-  ecran += entre(C, 0.012, B0, sansEcran, 0.006);
 
   // ---- ce qu'il faut pour dessiner les écrans du test
   // Les fiches du test n'ont ni rencontre ni note : « jamais », sans étoiles.
@@ -203,6 +184,207 @@ module.exports = (O) => {
   const repertoire = (gens, opts = {}) => `${haut(opts.recherche)}${(opts.rangee || rangee([])).svg}
     ${gens.map((p, i) => carteTest(p, ...cellule(i))).join('')}${barreNav(T, opts.nav || 'Fiches')}`;
   const b = (i, f) => B0 + i * DB + f * DB; // un instant dans le créneau du parcours i
+
+  // ---- les dix-huit tests sans écran
+  // bodycount_test.dart n'affiche rien : ce sont des test(), pas des
+  // testWidgets(). Le téléphone montre donc, famille par famille, l'écran
+  // de l'appli que chaque test garantit, et le dit sous le cadre.
+  const [BASE, FLUX, COFFRE, SAUVE, COMMUNES] = bornesFamille.map(([de, a]) => [de, a]);
+  const debutTest = (i) => A0 + i * DA; // l'instant où le i-ème test sans écran démarre
+  const spinner = (x, y, r = 9) => `<circle cx="${x}" cy="${y}" r="${r}" fill="none" stroke="${APP.violet}" stroke-width="2.6" stroke-dasharray="${r * 3.3} ${r * 2.2}">
+      <animateTransform attributeName="transform" type="rotate" from="0 ${x} ${y}" to="360 ${x} ${y}" dur="0.9s" repeatCount="indefinite"/></circle>`;
+  const retour = (titre) => `<path d="M${SX + 24} ${SY + 38} l-7 7 l7 7" fill="none" stroke="${APP.texte}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    ${texte(SX + 44, SY + 51, titre, { taille: 17, couleur: APP.texte, poids: 800 })}`;
+
+  // Base : le répertoire s'ouvre, les fiches arrivent par la même connexion,
+  // puis une écriture (Enzo, une rencontre de plus) se relit aussitôt.
+  {
+    const gens = [GENS.noa, GENS.lou, GENS.enzo, GENS.jade];
+    const [de, a] = [0.012, BASE[1]];
+    const ecrit = debutTest(1) + DA * 0.6;
+    let s = `${texte(SX + 18, SY + 44, t('RÉPERTOIRE', 'PEOPLE'), { taille: 13, couleur: APP.texte, poids: 800, extra: 'letter-spacing="1.5"' })}
+      <rect x="${SX + 128}" y="${SY + 26}" width="${SL - 146}" height="28" rx="14" fill="${APP.carte}" stroke="${APP.bord}"/>
+      ${icone('loupe', SX + 138, SY + 33, APP.second, 0.8)}
+      ${texte(SX + 156, SY + 44.5, t('Nom, ville, étiquette', 'Name, city, tag'), { taille: 10, couleur: APP.discret })}
+      ${rangee([]).svg}`;
+    gens.forEach((p, i) => {
+      const [x, y] = cellule(i);
+      const arrive = BASE[0] + 0.004 + i * 0.005;
+      if (p === GENS.enzo) {
+        s += entre(C, arrive, ecrit, O.cartePersonne(p, x, y, CL, CH), 0.003);
+        s += entre(C, ecrit, a, O.cartePersonne({ ...p, fois: 8 }, x, y, CL, CH) +
+          `<rect x="${x}" y="${y}" width="${CL}" height="${CH}" rx="14" fill="none" stroke="${VERT}" stroke-width="2" opacity="0">${visible(C, ecrit, ecrit + 0.02, 0.003)}</rect>`, 0.003);
+      } else {
+        s += entre(C, arrive, a, O.cartePersonne(p, x, y, CL, CH, { premier: i === 0 }), 0.003);
+      }
+      // Avant l'ouverture, la place de la carte, vide.
+      s += entre(C, de, arrive, `<rect x="${x}" y="${y}" width="${CL}" height="${CH}" rx="14" fill="${APP.carte}" stroke="${APP.bord}"/>`, 0.003);
+    });
+    s += barreNav(T, 'Fiches');
+    ecran += entre(C, de, a, s, 0.004);
+  }
+
+  // Flux chiffré : la vidéo d'Enzo entre au coffre un mégaoctet à la fois
+  // pendant les allers-retours, se relit dans la visionneuse (le natif et
+  // le Dart), puis chaque attaque finit sur « Vidéo illisible ».
+  {
+    const [de, a] = FLUX;
+    const lecture = debutTest(8), attaques = [debutTest(9), debutTest(10), debutTest(11)];
+    ecran += entre(C, de, lecture, `${retour(t('Photos et vidéos', 'Photos and videos'))}
+      ${visage(12, SX + 18, SY + 90, SL - 36, 190, 16)}
+      <rect x="${SX + 18}" y="${SY + 90}" width="${SL - 36}" height="190" rx="16" fill="#000000" fill-opacity="0.25"/>
+      <circle cx="${CX}" cy="${SY + 185}" r="20" fill="#000000" fill-opacity="0.45" stroke="#FFFFFF" stroke-opacity="0.9" stroke-width="1.5"/>
+      <path d="M${CX - 6} ${SY + 176} L${CX + 10} ${SY + 185} L${CX - 6} ${SY + 194} Z" fill="#FFFFFF"/>
+      ${texte(SX + SL - 30, SY + 270, '0:42', { taille: 11, couleur: '#FFFFFF', poids: 700, ancre: 'end' })}
+      <rect x="${SX + 18}" y="${SY + 310}" width="${SL - 36}" height="92" rx="16" fill="${APP.surface}" stroke="${APP.bord}"/>
+      ${spinner(SX + 42, SY + 338, 8)}
+      ${texte(SX + 60, SY + 342, t('Chiffrement de la vidéo, 1 sur 1…', 'Encrypting the video, 1 of 1…'), { taille: 11, couleur: APP.texte, poids: 600 })}
+      <rect x="${SX + 36}" y="${SY + 366}" width="${SL - 72}" height="6" rx="3" fill="${APP.bord}"/>
+      <rect x="${SX + 36}" y="${SY + 366}" height="6" rx="3" width="0" fill="url(#marque)">${fondu('width', C, [[0, 0], [de, 0], [lecture - 0.004, SL - 72], [1, SL - 72]])}</rect>
+      ${texte(SX + 36, SY + 390, t('un mégaoctet à la fois', 'one megabyte at a time'), { taille: 10, couleur: APP.discret })}
+      ${toucher(CX, SY + 185, C, lecture - 0.006)}`, 0.004);
+    // La visionneuse.
+    const noir = `<rect x="${SX}" y="${SY}" width="${SL}" height="${SH}" fill="#000000"/>
+      ${icone('croix', SX + 18, SY + 36, '#FFFFFF', 0.9)}
+      ${texte(CX, SY + 48, '1 / 1', { taille: 12.5, couleur: '#FFFFFF', poids: 700, ancre: 'middle' })}
+      ${icone('telecharger', SX + SL - 44, SY + 36, '#FFFFFF', 0.9)}`;
+    const dechiffre = `${spinner(CX, SY + SH / 2 - 16, 13)}
+      ${texte(CX, SY + SH / 2 + 20, t('Déchiffrement…', 'Decrypting…'), { taille: 12.5, couleur: APP.second, ancre: 'middle' })}`;
+    const illisible = `<g transform="translate(${CX - 17} ${SY + SH / 2 - 36})">
+        <rect x="2" y="8" width="22" height="18" rx="3" fill="none" stroke="${APP.discret}" stroke-width="2.2"/>
+        <path d="M24 14 L32 9 V25 L24 20" fill="none" stroke="${APP.discret}" stroke-width="2.2" stroke-linejoin="round"/>
+        <path d="M0 2 L34 32" stroke="${APP.discret}" stroke-width="2.4" stroke-linecap="round"/></g>
+      ${texte(CX, SY + SH / 2 + 20, t('Vidéo illisible', 'Unreadable video'), { taille: 13, couleur: APP.second, ancre: 'middle' })}`;
+    const lu = lecture + DA * 0.3;
+    let v = noir + entre(C, lecture, lu, dechiffre, 0.002);
+    v += entre(C, lu, attaques[0], `${visage(12, SX, SY + SH / 2 - 120, SL, 220, 0)}
+      ${texte(SX + 16, SY + SH - 40, '0:03', { taille: 10.5, couleur: '#FFFFFF' })}
+      ${texte(SX + SL - 16, SY + SH - 40, '0:42', { taille: 10.5, couleur: '#FFFFFF', ancre: 'end' })}
+      <rect x="${SX + 50}" y="${SY + SH - 45}" width="${SL - 100}" height="3" rx="1.5" fill="#FFFFFF" fill-opacity="0.25"/>
+      <rect x="${SX + 50}" y="${SY + SH - 45}" height="3" rx="1.5" width="0" fill="${APP.violet}">${fondu('width', C, [[0, 0], [lu, 0], [attaques[0], (SL - 100) * 0.3], [1, (SL - 100) * 0.3]])}</rect>`, 0.002);
+    attaques.forEach((x, i) => {
+      const fin = i < 2 ? attaques[i + 1] : a;
+      const m = x + DA * 0.35;
+      v += entre(C, x, m, dechiffre, 0.002);
+      v += entre(C, m, fin, illisible, 0.002);
+    });
+    ecran += entre(C, lecture, a, v, 0.003);
+  }
+
+  // Coffre des vidéos : la vidéo arrive dans la galerie d'Enzo, chiffrée.
+  {
+    const [de, a] = COFFRE;
+    const cote = (SL - 48) / 3;
+    const vignette = (i, n, video, dure) => {
+      const x = SX + 12 + i * (cote + 12), y = SY + 96;
+      return `${visage(n, x, y, cote, cote, 12)}${video ? `<circle cx="${x + cote / 2}" cy="${y + cote / 2}" r="13" fill="#000000" fill-opacity="0.5" stroke="#FFFFFF" stroke-opacity="0.9"/>
+        <path d="M${x + cote / 2 - 4} ${y + cote / 2 - 6} L${x + cote / 2 + 7} ${y + cote / 2} L${x + cote / 2 - 4} ${y + cote / 2 + 6} Z" fill="#FFFFFF"/>
+        ${texte(x + cote - 6, y + cote - 7, dure, { taille: 9.5, couleur: '#FFFFFF', poids: 700, ancre: 'end' })}` : ''}`;
+    };
+    ecran += entre(C, de, a, `${retour(t('Photos et vidéos', 'Photos and videos'))}
+      ${vignette(0, 12, false)}${vignette(1, 12, true, '0:10')}
+      ${entre(C, de + DA * 0.45, 1, vignette(2, 12, true, '0:42'), 0.002)}
+      <rect x="${SX + 12}" y="${SY + 96 + cote + 20}" width="${SL - 24}" height="54" rx="16" fill="${APP.surface}" stroke="${APP.bord}"/>
+      ${entre(C, 0, de + DA * 0.45, `${spinner(SX + 36, SY + 96 + cote + 47, 8)}${texte(SX + 54, SY + 96 + cote + 51, t('Chiffrement de la vidéo, 1 sur 1…', 'Encrypting the video, 1 of 1…'), { taille: 11, couleur: APP.texte, poids: 600 })}`, 0.002)}
+      ${entre(C, de + DA * 0.45, 1, `${icone('coche', SX + 28, SY + 96 + cote + 39, APP.vert, 1)}${texte(SX + 54, SY + 96 + cote + 51, t('Au coffre. L’original est effacé.', 'In the vault. The original is gone.'), { taille: 11, couleur: APP.texte, poids: 600 })}`, 0.002)}
+      <rect x="${SX + SL - 118}" y="${SY + SH - 66}" width="104" height="40" rx="14" fill="${APP.violet}" fill-opacity="0.22" stroke="${APP.violet}" stroke-opacity="0.45"/>
+      ${icone('photo', SX + SL - 106, SY + SH - 54, APP.texte, 1)}
+      ${texte(SX + SL - 84, SY + SH - 41, t('Ajouter', 'Add'), { taille: 12, couleur: APP.texte, poids: 700 })}`, 0.004);
+  }
+
+  // Sauvegarde : l'export, la restauration qui ramène tout, puis trois
+  // refus qui ne touchent à rien.
+  {
+    const [de, a] = SAUVE;
+    const ligneReglage = (y, ic, couleurIc, titre, sous, valeur) => `
+      <rect x="${SX + 26}" y="${y + 14}" width="28" height="28" rx="9" fill="${couleurIc}" fill-opacity="0.14"/>
+      ${icone(ic, SX + 32, y + 20, couleurIc)}
+      ${texte(SX + 64, y + 26, titre, { taille: 12, couleur: APP.texte, poids: 600 })}
+      ${texte(SX + 64, y + 42, sous, { taille: 9.5, couleur: APP.discret })}
+      ${valeur ? texte(SX + SL - 26, y + 34, valeur, { taille: 9.5, couleur: APP.second, poids: 700, ancre: 'end' }) : ''}`;
+    const reglages = () => `${texte(SX + 20, SY + 48, '‹', { taille: 24, couleur: APP.texte })}
+      ${texte(SX + 44, SY + 48, t('Réglages', 'Settings'), { taille: 21, couleur: APP.texte, poids: 800 })}
+      <rect x="${SX + 12}" y="${SY + 70}" width="${SL - 24}" height="64" rx="18" fill="${APP.violet}" fill-opacity="0.12" stroke="${APP.bord}"/>
+      ${O.logo(SX + 44, SY + 102, 38)}
+      ${texte(SX + 74, SY + 99, t('18 Personnes', '18 People'), { taille: 14, couleur: APP.texte, poids: 800 })}
+      ${texte(SX + 74, SY + 116, t('111 Rencontres', '111 Encounters'), { taille: 10.5, couleur: APP.second, poids: 600 })}
+      ${texte(SX + 20, SY + 166, t('DONNÉES', 'DATA'), { taille: 10, couleur: APP.second, poids: 700, extra: 'letter-spacing="1.5"' })}
+      <rect x="${SX + 12}" y="${SY + 178}" width="${SL - 24}" height="186" rx="18" fill="${APP.carte}" stroke="${APP.bord}"/>
+      ${ligneReglage(SY + 182, 'cadenas', APP.vert, t('Tout reste sur ce téléphone', 'Everything stays on this phone'), t('Base chiffrée, aucun compte', 'Encrypted database, no account'))}
+      <line x1="${SX + 12}" y1="${SY + 240}" x2="${SX + SL - 12}" y2="${SY + 240}" stroke="${APP.bord}"/>
+      ${ligneReglage(SY + 242, 'telecharger', APP.rose, t('Exporter, chiffré', 'Export, encrypted'), t('Dernière aujourd’hui', 'Last one today'), t('Phrase', 'Passphrase'))}
+      <line x1="${SX + 12}" y1="${SY + 302}" x2="${SX + SL - 12}" y2="${SY + 302}" stroke="${APP.bord}"/>
+      ${ligneReglage(SY + 304, 'fichier', APP.rose, t('Restaurer une sauvegarde', 'Restore a backup'), t('Remplace ce qui est ici', 'Replaces what is here'), '.bcx')}`;
+    const voile = `<rect x="${SX}" y="${SY}" width="${SL}" height="${SH}" fill="#000000" fill-opacity="0.62"/>`;
+    const bandeau = (l1, l2, rouge) => `<rect x="${SX + 12}" y="${SY + SH - 76}" width="${SL - 24}" height="56" rx="10" fill="${rouge ? APP.rouge : '#2E2E3A'}"/>
+      ${texte(SX + 26, SY + SH - 52, l1, { taille: 12, couleur: rouge ? '#2A0A0A' : '#FFFFFF', poids: 700 })}
+      ${l2 ? texte(SX + 26, SY + SH - 35, l2, { taille: 12, couleur: rouge ? '#2A0A0A' : '#FFFFFF', poids: 700 }) : ''}`;
+    const attente = (msg) => `${voile}<rect x="${SX + 16}" y="${SY + 270}" width="${SL - 32}" height="64" rx="20" fill="${APP.surface}" stroke="${APP.bord}"/>
+      ${spinner(SX + 44, SY + 302, 10)}${texte(SX + 64, SY + 306, msg, { taille: 11, couleur: APP.texte, poids: 600 })}`;
+    const [t1, t2, t3, t4] = [0, 1, 2, 3].map((i) => debutTest(13 + i));
+    const milieu = (x) => x + DA * 0.5;
+    // 1. Tout revient.
+    ecran += entre(C, de, milieu(t1), reglages() + attente(t('Vérification de la sauvegarde…', 'Checking the backup…')), 0.003);
+    ecran += entre(C, milieu(t1), t2, reglages() + bandeau(t('Sauvegarde restaurée.', 'Backup restored.'), '', false), 0.003);
+    // 2. Une mauvaise phrase.
+    ecran += entre(C, t2, milieu(t2), `${reglages()}${voile}
+      <rect x="${SX + 16}" y="${SY + 150}" width="${SL - 32}" height="170" rx="24" fill="${APP.surface}" stroke="${APP.bord}"/>
+      ${texte(SX + 38, SY + 190, t('Phrase de passe', 'Passphrase'), { taille: 17, couleur: APP.texte, poids: 800 })}
+      ${frappe(SX + 40, SY + 240, '•••••••••', C, t2 + 0.002, milieu(t2) - 0.004, { taille: 15, couleur: APP.texte })}
+      <line x1="${SX + 38}" y1="${SY + 251}" x2="${SX + SL - 38}" y2="${SY + 251}" stroke="${APP.violet}" stroke-width="2"/>
+      ${texte(SX + SL - 52, SY + 296, t('Restaurer', 'Restore'), { taille: 12, couleur: APP.rose, poids: 700, ancre: 'middle' })}`, 0.002);
+    ecran += entre(C, milieu(t2), t3, reglages() + bandeau(t('Cette phrase de passe n’ouvre', 'This passphrase does not open'), t('pas la sauvegarde.', 'the backup.'), true), 0.002);
+    // 3. Une sauvegarde abîmée.
+    ecran += entre(C, t3, milieu(t3), reglages() + attente(t('Vérification de la sauvegarde…', 'Checking the backup…')), 0.002);
+    ecran += entre(C, milieu(t3), t4, reglages() + bandeau(t('La sauvegarde est abîmée.', 'The backup is damaged.'), '', true), 0.002);
+    // 4. Un fichier étranger.
+    ecran += entre(C, t4, milieu(t4), reglages() + attente(t('Vérification de la sauvegarde…', 'Checking the backup…')), 0.002);
+    ecran += entre(C, milieu(t4), a, reglages() + bandeau(t('Ce fichier n’est pas une', 'This file is not a'), t('sauvegarde BodyCount.', 'BodyCount backup.'), true), 0.002);
+  }
+
+  // Communes : « Locmariaqer » tapé avec une faute, et le point précis
+  // s'ouvre quand même sur Locmariaquer, sur la vraie côte.
+  {
+    const [de] = COMMUNES, a = B0;
+    const carteA = de + (a - de) * 0.5;
+    ecran += entre(C, de, carteA, `${icone('croix', SX + 16, SY + 28, APP.texte, 0.9)}
+      ${texte(SX + 44, SY + 40, t('Nouvelle rencontre', 'New encounter'), { taille: 16, couleur: APP.texte, poids: 800 })}
+      <rect x="${SX + 14}" y="${SY + 62}" width="${SL - 28}" height="60" rx="18" fill="#FFFFFF" fill-opacity="0.05" stroke="${APP.bord}"/>
+      ${visage(GENS.enzo.photo, SX + 21, SY + 69, 46, 46, 13)}
+      ${texte(SX + 78, SY + 89, GENS.enzo.prenom, { taille: 16, couleur: APP.texte, poids: 800 })}
+      ${texte(SX + 78, SY + 106, t('8e fois', '8th time'), { taille: 9.5, couleur: APP.second, poids: 600 })}
+      ${[[t('DATE', 'DATE'), t('26 sept.', '26 Sept.'), 'calendrier'], [t('HEURE', 'TIME'), t('22h40', '22:40'), 'horloge']].map(([l, v, ic], i) => {
+        const w = (SL - 38) / 2, x = SX + 14 + i * (w + 10);
+        return `<rect x="${x}" y="${SY + 134}" width="${w}" height="46" rx="16" fill="#FFFFFF" fill-opacity="0.05" stroke="${APP.bord}"/>
+          ${icone(ic, x + 11, SY + 149, APP.etoile, 0.95)}
+          ${texte(x + 34, SY + 152, l, { taille: 8, couleur: APP.second, poids: 700, extra: 'letter-spacing="1.2"' })}
+          ${texte(x + 34, SY + 168, v, { taille: 13, couleur: APP.texte, poids: 800 })}`;
+      }).join('')}
+      ${texte(SX + 20, SY + 84 + 120, t('OÙ', 'WHERE'), { taille: 10, couleur: APP.second, poids: 700, extra: 'letter-spacing="1.4"' })}
+      <rect x="${SX + 14}" y="${SY + 214}" width="${SL - 28}" height="40" rx="14" fill="#FFFFFF" fill-opacity="0.05" stroke="${APP.violet}" stroke-width="1.5"/>
+      ${icone('epingle', SX + 26, SY + 226, APP.second, 1)}
+      ${frappe(SX + 48, SY + 239, 'Locmariaqer', C, de + 0.002, carteA - 0.006, { taille: 12.5, couleur: APP.texte })}
+      ${icone('epingle', SX + 16, SY + 270, APP.discret, 1)}
+      ${texte(SX + 38, SY + 282, t('Pas de point précis', 'No exact spot'), { taille: 9.5, couleur: APP.discret })}
+      ${texte(SX + SL - 16, SY + 282, t('Placer sur la carte', 'Place on the map'), { taille: 9.5, couleur: APP.violet, poids: 700, ancre: 'end' })}
+      ${toucher(SX + SL - 60, SY + 278, C, carteA - 0.003)}`, 0.002);
+    const MY = SY + 60, MH = SH - 170;
+    const plan = O.france(SX, MY, SL, MH, [-3.2, 47.45, -2.65, 47.72]);
+    const [lx, ly] = plan.proj(-2.945, 47.571);
+    const cid = O.id('pointTest');
+    const voisines = [['Locmariaquer', -2.945, 47.571], ['Crac’h', -2.998, 47.617], ['Auray', -2.99, 47.668], ['Baden', -2.919, 47.617], ['Carnac', -3.078, 47.584], ['Arzon', -2.892, 47.548]];
+    ecran += entre(C, carteA, a, `<clipPath id="${cid}"><rect x="${SX}" y="${MY}" width="${SL}" height="${MH}"/></clipPath>
+      <g clip-path="url(#${cid})">
+        <rect x="${SX}" y="${MY}" width="${SL}" height="${MH}" fill="#07030F"/>
+        <path d="${plan.terre}" fill="#261650" stroke="${APP.fuchsia}" stroke-opacity="0.55" stroke-width="1" stroke-linejoin="round"/>
+        ${voisines.map(([n, lon, lat]) => { const [x, y] = plan.proj(lon, lat); return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2" fill="#FFFFFF" fill-opacity="0.85"/>${texte(Math.round(x + 5), Math.round(y + 3.5), n, { taille: 9, couleur: '#FFFFFF', poids: 700 })}`; }).join('')}
+        <circle cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="9" fill="none" stroke="${ACCENT}" stroke-width="1.6"><animate attributeName="r" dur="1.6s" repeatCount="indefinite" values="6;16"/><animate attributeName="opacity" dur="1.6s" repeatCount="indefinite" values="0.9;0"/></circle>
+      </g>
+      ${icone('croix', SX + 16, SY + 26, APP.texte, 0.9)}
+      ${texte(CX, SY + 38, t('Point précis', 'Exact spot'), { taille: 15, couleur: APP.texte, poids: 800, ancre: 'middle' })}
+      ${texte(CX, SY + SH - 82, t('Touche la carte pour poser le point.', 'Touch the map to set the spot.'), { taille: 10.5, couleur: APP.second, ancre: 'middle' })}
+      <g opacity="0.38">${O.bouton(SX + 20, SY + SH - 62, SL - 40, 42, t('Poser ici', 'Set here'), { taille: 13.5 })}</g>`, 0.002);
+  }
 
   // 1. Nathan, de Londres à Locmariaquer.
   {
@@ -303,34 +485,103 @@ module.exports = (O) => {
     const pas = (SL - 20) / 5;
     const xCarte = SX + 10 + pas * 3.5, xAgenda = SX + 10 + pas * 4.5, yNav = SY + SH - 35;
     ecran += entre(C, b(4, 0), b(4, 0.16), repertoire([lou], { rangee: rangee(['Vannes']) }) + toucher(xCarte, yNav, C, b(4, 0.12)), 0.003);
+    // La vraie carte, comme dans carte.svg : la côte lue dans france.bin,
+    // cadrée sur la seule ville du test, avec ses ondes. Une seule
+    // rencontre à Arradon : une bulle, la plus claire, puisqu'elle est
+    // aussi la plus vue.
+    const MX = SX + 12, MY = SY + 62, MW = SL - 24, MH = 220;
+    const mid = O.id('carteTest');
+    const plan = O.france(0, 0, MW, MH, [-3.55, 47.3, -2.1, 47.98]);
+    const [ax, ay] = plan.proj(-2.824, 47.633);
+    const R = 22;
+    const ouvre = b(4, 0.17);
     const carte = `${texte(SX + 18, SY + 44, t('TES LIEUX', 'YOUR PLACES'), { taille: 13, couleur: APP.texte, poids: 800, extra: 'letter-spacing="1.5"' })}
-      <rect x="${SX + 12}" y="${SY + 62}" width="${SL - 24}" height="220" rx="18" fill="#1B0C36" stroke="${APP.bord}"/>
-      <path d="M${SX + 40} ${SY + 150} C${SX + 80} ${SY + 120} ${SX + 120} ${SY + 170} ${SX + 160} ${SY + 150} S${SX + 220} ${SY + 190} ${SX + 240} ${SY + 170}" fill="none" stroke="#3B2566" stroke-width="2"/>
-      <path d="M${SX + 30} ${SY + 240} C${SX + 90} ${SY + 210} ${SX + 150} ${SY + 250} ${SX + 244} ${SY + 226}" fill="none" stroke="#3B2566" stroke-width="2"/>
-      <circle cx="${SX + 136}" cy="${SY + 176}" r="16" fill="${APP.violet}"/>
-      ${texte(SX + 136, SY + 181, '1', { taille: 12, couleur: '#FFFFFF', poids: 800, ancre: 'middle' })}
-      ${texte(SX + 136, SY + 208, 'ARRADON', { taille: 8.5, couleur: APP.texte, poids: 800, ancre: 'middle', extra: 'letter-spacing="1"' })}
+      <rect x="${SX + SL - 88}" y="${SY + 27}" width="72" height="26" rx="13" fill="#FFFFFF" fill-opacity="0.05" stroke="${APP.bord}"/>
+      ${texte(SX + SL - 80, SY + 44.5, '1', { taille: 13, couleur: APP.texte, poids: 800 })}
+      ${texte(SX + SL - 68, SY + 44.5, t('Ville', 'City'), { taille: 10.5, couleur: APP.second, poids: 700 })}
+      <defs>
+        <radialGradient id="${mid}mer" cx="30%" cy="25%" r="140%"><stop offset="0" stop-color="#1B1044"/><stop offset="0.5" stop-color="#120B2A"/><stop offset="1" stop-color="#090413"/></radialGradient>
+        <linearGradient id="${mid}terre" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3B2470"/><stop offset="0.55" stop-color="#2C1857"/><stop offset="1" stop-color="#1E1040"/></linearGradient>
+        <linearGradient id="${mid}trait" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/><stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0.09"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></linearGradient>
+        <linearGradient id="${mid}bulle" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F7D5FD"/><stop offset="0.46" stop-color="#F0ABFC"/><stop offset="1" stop-color="#8F5EB0"/></linearGradient>
+        <clipPath id="${mid}"><rect x="0" y="0" width="${MW}" height="${MH}" rx="18"/></clipPath>
+      </defs>
+      <g transform="translate(${MX} ${MY})" clip-path="url(#${mid})">
+        <rect width="${MW}" height="${MH}" rx="18" fill="url(#${mid}mer)"/>
+        <g opacity="0">${fondu('opacity', C, [[0, 0], [ouvre, 0], [ouvre + 0.004, 1], [1, 1]])}
+          <path d="${plan.terre}" fill="none" stroke="${VIOLET}" stroke-opacity="0.12" stroke-width="7" stroke-linejoin="round"/>
+          <path d="${plan.terre}" fill="url(#${mid}terre)"/>
+          <path d="${plan.departements}" fill="none" stroke="#FFFFFF" stroke-opacity="0.1" stroke-width="0.6"/>
+          <path d="${plan.terre}" fill="none" stroke="${APP.rose}" stroke-opacity="0.55" stroke-width="1" stroke-linejoin="round"/>
+        </g>
+        <rect x="-120" y="0" width="120" height="${MH}" fill="url(#${mid}trait)" opacity="0">
+          ${fondu('x', C, [[0, -120], [ouvre, -120], [ouvre + 0.012, MW], [1, MW]])}
+          ${visible(C, ouvre, ouvre + 0.012, 0.002)}</rect>
+        <g opacity="0">${fondu('opacity', C, [[0, 0], [ouvre + 0.005, 0], [ouvre + 0.009, 1], [1, 1]])}
+          <g transform="translate(${Math.round(ax)} ${Math.round(ay)})">
+            ${[0, 1].map((k) => `<circle r="${R}" fill="none" stroke="${ACCENT}" stroke-width="1.6" opacity="0">
+              <animate attributeName="r" dur="3.2s" begin="${k * 1.6}s" repeatCount="indefinite" keyTimes="0;0.55;1" values="${R};${R * 3.4};${R * 3.4}"/>
+              <animate attributeName="opacity" dur="3.2s" begin="${k * 1.6}s" repeatCount="indefinite" keyTimes="0;0.55;1" values="0.45;0;0"/></circle>`).join('')}
+            <circle r="${R - 2}" cy="4" fill="#000000" opacity="0.35"/>
+            <circle r="${R + 3}" fill="${APP.rose}" opacity="0.25"/>
+            <circle r="${R}" fill="url(#${mid}bulle)" stroke="#FFFFFF" stroke-opacity="0.42" stroke-width="1.4"/>
+            ${texte(0, 5.2, '1', { taille: 14.5, couleur: '#FFFFFF', poids: 800, ancre: 'middle' })}
+            <rect x="-30" y="${R + 4}" width="60" height="15" rx="7.5" fill="#090413" fill-opacity="0.7" stroke="#FFFFFF" stroke-opacity="0.11"/>
+            ${texte(0, R + 14.8, 'ARRADON', { taille: 8.5, couleur: '#FFFFFF', poids: 800, ancre: 'middle', extra: 'letter-spacing="0.55" fill-opacity="0.92"' })}
+          </g>
+        </g>
+      </g>
       <rect x="${SX + 12}" y="${SY + 296}" width="${SL - 24}" height="80" rx="18" fill="${APP.carte}" stroke="${APP.bord}"/>
       ${texte(SX + 28, SY + 320, t('CLASSEMENT', 'RANKING'), { taille: 9.5, couleur: APP.second, poids: 700, extra: 'letter-spacing="1.4"' })}
       ${texte(SX + 28, SY + 346, 'Arradon', { taille: 12, couleur: APP.texte, poids: 700 })}
       ${texte(SX + SL - 28, SY + 346, '1', { taille: 12, couleur: APP.texte, poids: 800, ancre: 'end' })}
-      <rect x="${SX + 28}" y="${SY + 356}" width="${SL - 56}" height="5" rx="2.5" fill="${APP.fuchsia}"/>
+      <rect x="${SX + 28}" y="${SY + 356}" width="${SL - 56}" height="5" rx="2.5" fill="#FFFFFF" fill-opacity="0.06"/>
+      <rect x="${SX + 28}" y="${SY + 356}" height="5" rx="2.5" width="0" fill="${APP.fuchsia}">${fondu('width', C, [[0, 0], [ouvre + 0.006, 0], [ouvre + 0.016, SL - 56], [1, SL - 56]])}</rect>
       ${barreNav(T, 'Carte')}`;
     ecran += entre(C, b(4, 0.16), b(4, 0.58), carte + toucher(xAgenda, yNav, C, b(4, 0.52)), 0.003);
+    // Le mois comme dans calendrier.svg : la carte du mois, ses boutons,
+    // les jours discrets, et le seul jour plein du test, aujourd'hui, en
+    // disque de la marque avec son signe : une première fois avec Lou.
+    const EMOJI = 'Segoe UI Emoji,Apple Color Emoji,Noto Color Emoji,sans-serif';
+    const KX = SX + 10, KY = SY + 96, KW = SL - 20, KH = 262;
+    const colX = (c) => KX + 12 + ((KW - 24) / 7) * (c + 0.5);
+    const ligneY = (r) => KY + 96 + r * 30;
+    const rond = (x, y, d) => `<circle cx="${x}" cy="${y}" r="13" fill="#FFFFFF" fill-opacity="0.05" stroke="${APP.bord}"/><path d="${d}" fill="none" stroke="${APP.second}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>`;
     let mois = `${texte(SX + 18, SY + 44, t('CALENDRIER', 'CALENDAR'), { taille: 13, couleur: APP.texte, poids: 800, extra: 'letter-spacing="1.5"' })}
-      <rect x="${SX + 12}" y="${SY + 62}" width="${SL - 24}" height="300" rx="18" fill="${APP.carte}" stroke="${APP.bord}"/>
-      ${texte(CX, SY + 92, t('SEPTEMBRE 2026', 'SEPTEMBER 2026'), { taille: 11.5, couleur: APP.texte, poids: 800, ancre: 'middle', extra: 'letter-spacing="1.2"' })}`;
-    const jours = t('LMMJVSD', 'MTWTFSS');
-    const cw = (SL - 44) / 7;
-    [...jours].forEach((j, i) => { mois += texte(SX + 22 + cw * i + cw / 2, SY + 118, j, { taille: 9.5, couleur: APP.discret, poids: 700, ancre: 'middle' }); });
-    // Septembre 2026 commence un mardi.
+      <rect x="${SX + SL - 104}" y="${SY + 27}" width="88" height="26" rx="13" fill="#FFFFFF" fill-opacity="0.05" stroke="${APP.bord}"/>
+      ${texte(SX + SL - 94, SY + 44.5, '1', { taille: 13, couleur: APP.texte, poids: 800 })}
+      ${texte(SX + SL - 82, SY + 44.5, t('Rencontre', 'Encounter'), { taille: 10, couleur: APP.second, poids: 700 })}
+      <rect x="${SX + 16}" y="${SY + 62}" width="54" height="24" rx="12" fill="url(#marque)"/>
+      ${texte(SX + 43, SY + 78, '2026', { taille: 11, couleur: '#FFFFFF', poids: 800, ancre: 'middle' })}
+      <rect x="${KX}" y="${KY}" width="${KW}" height="${KH}" rx="18" fill="#FFFFFF" fill-opacity="0.045" stroke="${APP.bord}"/>
+      ${rond(KX + 22, KY + 26, `M${KX + 24.5} ${KY + 21} L${KX + 19.5} ${KY + 26} L${KX + 24.5} ${KY + 31}`)}
+      ${rond(KX + KW - 50, KY + 26, `M${KX + KW - 52.5} ${KY + 21} L${KX + KW - 47.5} ${KY + 26} L${KX + KW - 52.5} ${KY + 31}`)}
+      <circle cx="${KX + KW - 20}" cy="${KY + 26}" r="13" fill="#FFFFFF" fill-opacity="0.05" stroke="${APP.bord}"/>
+      ${texte(KX + KW - 20, KY + 30.5, '?', { taille: 13, couleur: APP.second, poids: 800, ancre: 'middle' })}
+      ${texte(KX + KW / 2 - 14, KY + 24, t('SEPTEMBRE 2026', 'SEPTEMBER 2026'), { taille: 11.5, couleur: '#E9D5FF', poids: 800, ancre: 'middle', extra: 'letter-spacing="1"' })}
+      ${texte(KX + KW / 2 - 14, KY + 39, t('1 rencontre', '1 encounter'), { taille: 9.5, couleur: APP.discret, ancre: 'middle' })}`;
+    [...t('LMMJVSD', 'MTWTFSS')].forEach((j, c) => { mois += texte(colX(c), KY + 66, j, { taille: 9.5, couleur: APP.discret, poids: 700, ancre: 'middle' }); });
+    // Septembre 2026 commence un mardi : le 1er en deuxième colonne.
+    const pop = b(4, 0.62);
     for (let d = 1; d <= 30; d++) {
-      const pos = d; // lundi 31 août en case 0
-      const col = pos % 7, rang = Math.floor(pos / 7);
-      const x = SX + 22 + cw * col + cw / 2, yy = SY + 146 + rang * 36;
-      if (d === 26) mois += `<circle cx="${x}" cy="${yy - 4}" r="13" fill="${APP.violet}"/>`;
-      mois += texte(x, yy, String(d), { taille: 11, couleur: d === 26 ? '#FFFFFF' : APP.second, poids: d === 26 ? 800 : 500, ancre: 'middle' });
+      const k = d, x = colX(k % 7), y = ligneY(Math.floor(k / 7));
+      if (d !== 26) { mois += texte(x, y + 4, String(d), { taille: 10.5, couleur: APP.discret, poids: 600, ancre: 'middle' }); continue; }
+      mois += `<g transform="translate(${x} ${y})"><g>
+          <animateTransform attributeName="transform" type="scale" dur="${C}s" repeatCount="indefinite" keyTimes="0;${pop.toFixed(4)};${(pop + 0.004).toFixed(4)};${(pop + 0.007).toFixed(4)};1" values="0;0;1.25;1;1"/>
+          <circle r="11.5" fill="url(#marque)"/>${texte(0, 4, '26', { taille: 10.5, couleur: '#12071F', poids: 800, ancre: 'middle' })}</g></g>
+        ${entre(C, pop + 0.006, 1, `<text x="${x}" y="${y + 21}" font-family="${EMOJI}" font-size="7.2" text-anchor="middle">✨</text>`, 0.003)}`;
     }
+    // La liste du dessous : le mois, puis la rencontre du test.
+    const LY = KY + KH + 26;
+    mois += `${texte(SX + 16, LY, t('SEPTEMBRE', 'SEPTEMBER'), { taille: 11.5, couleur: '#C9B8E8', poids: 800, extra: 'letter-spacing="0.6"' })}
+      ${texte(SX + 100, LY, t('1 rencontre', '1 encounter'), { taille: 10, couleur: APP.discret, poids: 600 })}
+      <rect x="${SX + 10}" y="${LY + 12}" width="${SL - 20}" height="60" rx="16" fill="#FFFFFF" fill-opacity="0.045" stroke="${APP.bord}"/>
+      ${visage(1, SX + 18, LY + 20, 44, 44, 11)}
+      ${texte(SX + 72, LY + 36, 'Lou', { taille: 13.5, couleur: APP.texte, poids: 800 })}
+      ${etoiles(SX + 72, LY + 50, 8, { taille: 8 })}
+      ${texte(SX + 72, LY + 64, t('26 sept.  ·  Arradon', '26 Sept.  ·  Arradon'), { taille: 9.5, couleur: APP.second })}
+      <rect x="${SX + SL - 58}" y="${LY + 20}" width="38" height="18" rx="9" fill="${APP.fond}" fill-opacity="0.8" stroke="${APP.bord}"/>
+      <text x="${SX + SL - 39}" y="${LY + 33}" font-family="${EMOJI}" font-size="9.5" text-anchor="middle">✨</text>`;
     mois += barreNav(T, 'Agenda');
     ecran += entre(C, b(4, 0.58), b(5, 0), mois, 0.003);
   }
@@ -362,7 +613,8 @@ module.exports = (O) => {
   corps += T.ecran(ecran);
 
   // Sous le téléphone, le fichier en cours.
-  corps += entre(C, 0.012, B0, texte(200, 666, 'integration_test/bodycount_test.dart', { taille: 10.5, couleur: DISCRET, police: MONO, ancre: 'middle' }), 0.004);
+  corps += entre(C, 0.012, B0, texte(200, 662, 'integration_test/bodycount_test.dart', { taille: 10.5, couleur: DISCRET, police: MONO, ancre: 'middle' }) +
+    texte(200, 681, t('sans écran : ce que le test garantit dans l’appli', 'no screen: what the test guarantees in the app'), { taille: 11, couleur: TEXTE, ancre: 'middle' }), 0.004);
   corps += entre(C, B0, 0.915, texte(200, 666, 'integration_test/ecrans_test.dart', { taille: 10.5, couleur: DISCRET, police: MONO, ancre: 'middle' }), 0.004);
   corps += entre(C, 0.915, FIN, texte(200, 666, 'test/coordonnees_test.dart', { taille: 10.5, couleur: DISCRET, police: MONO, ancre: 'middle' }), 0.004);
 
@@ -378,7 +630,6 @@ module.exports = (O) => {
   bas.forEach(([c, titre, l1, l2], i) => {
     const x = 380 + i * 283, y = 604;
     corps += `<rect x="${x}" y="${y}" width="272" height="90" rx="13" fill="${CARTE}" stroke="${BORD}"/>
-      <rect x="${x}" y="${y + 14}" width="3" height="62" rx="1.5" fill="${c}"/>
       ${texte(x + 20, y + 30, titre, { taille: 13.5, couleur: TITRE, police: MONO, poids: 700 })}
       ${texte(x + 20, y + 52, l1, { taille: 12 })}
       ${texte(x + 20, y + 70, l2, { taille: 12 })}`;

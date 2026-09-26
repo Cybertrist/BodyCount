@@ -14,6 +14,17 @@ module.exports = (O) => {
     APP, MONO, CARTE, BORD, TITRE, TEXTE, DISCRET, FIL, ACCENT, VIOLET, VERT, OR, ROUGE, BLEU } = O;
   const C = 34;
   const r1 = (v) => Math.round(v * 10) / 10;
+  /// Une étape, visible de [de] à [a] sans jamais croiser la suivante :
+  /// elle entre après [de] et sort avant [a], ce qui laisse entre deux
+  /// étapes qui se suivent un noir d'un quart de seconde. Un fondu croisé
+  /// posait l'ancien texte sur le nouveau.
+  const etape = (de, a, contenu) => {
+    const cles = [[0, 0]];
+    if (de > 0) cles.push([de + 0.004, 0]);
+    cles.push([de + 0.012, 1], [a - 0.012, 1], [a - 0.004, 0]);
+    if (a < 1) cles.push([1, 0]);
+    return `<g opacity="0">${fondu('opacity', C, cles)}${contenu}</g>`;
+  };
   const nombre = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, EN ? ',' : ' ');
   const dec = (v, n) => v.toFixed(n).replace('.', EN ? '.' : ',');
 
@@ -116,8 +127,8 @@ module.exports = (O) => {
       <circle cx="${x + 26}" cy="${PY + 27}" r="11" fill="${e.c}" opacity="0">${visible(C, e.de, 0.985, 0.006)}</circle>
       ${texte(x + 26, PY + 31, String(i + 1), { taille: 11, couleur: '#0D1117', police: MONO, poids: 700, ancre: 'middle' })}
       ${texte(x + 44, PY + 32, e.titre, { taille: 13.5, couleur: TITRE, police: MONO, poids: 700 })}
-      ${texte(x + 14, PY + 60, e.l1, { taille: 11.5, couleur: TEXTE })}
-      ${texte(x + 14, PY + 77, e.l2, { taille: 11.5, couleur: DISCRET })}`;
+      ${texte(x + 14, PY + 60, e.l1, { taille: 12, couleur: TEXTE })}
+      ${texte(x + 14, PY + 78, e.l2, { taille: 12, couleur: DISCRET })}`;
     if (i < 4) corps += `<path d="M${x + PL + 1} ${PY + 46} l4 0" stroke="${FIL}" stroke-width="2"/>`;
   });
 
@@ -146,8 +157,8 @@ module.exports = (O) => {
     const clip = id('code');
     const hauteur = lignes.length * 17;
     let code = '';
-    lignes.forEach((l, i) => { code += texte(cx + 14, cy + 22 + i * 17, l, { taille: 10.5, couleur: i < 3 ? TEXTE : BLEU, police: MONO }); });
-    corps += entre(C, e.de, e.a, `${etiquette(e, t('LE POINT DE DÉPART', 'THE STARTING POINT'))}
+    lignes.forEach((l, i) => { code += texte(cx + 14, cy + 22 + i * 17, l, { taille: 11, couleur: i < 3 ? TEXTE : BLEU, police: MONO }); });
+    corps += etape(e.de, e.a, `${etiquette(e, t('LE POINT DE DÉPART', 'THE STARTING POINT'))}
       <clipPath id="${clip}"><rect x="${cx}" y="${cy}" width="${cl}" height="${ch}" rx="10"/></clipPath>
       <rect x="${cx}" y="${cy}" width="${cl}" height="${ch}" rx="10" fill="#0A0F16" stroke="${BORD}"/>
       <g clip-path="url(#${clip})"><g>${code}
@@ -161,7 +172,7 @@ module.exports = (O) => {
       ${texte(AX + 490, AY + 256, t('Lu sur un téléphone, il coûterait', 'Parsed on a phone, it would cost'), { taille: 12.5 })}
       ${texte(AX + 490, AY + 274, t('une seconde à chaque ouverture.', 'a second on every opening.'), { taille: 12.5 })}
       ${texte(AX + 490, AY + 312, t('Préparé une fois, avant la compilation :', 'Prepared once, before the build:'), { taille: 12.5, couleur: e.c })}
-      ${texte(AX + 490, AY + 330, t('le téléphone n’en verra jamais une ligne.', 'the phone never sees a line of it.'), { taille: 12.5, couleur: e.c })}`, 0.006);
+      ${texte(AX + 490, AY + 330, t('le téléphone n’en verra jamais une ligne.', 'the phone never sees a line of it.'), { taille: 12.5, couleur: e.c })}`);
   }
 
   // --------------------------------------------- 2. la quantification
@@ -177,7 +188,7 @@ module.exports = (O) => {
     const bruts = [[40, 250], [83, 214], [118, 198], [150, 160], [197, 150], [228, 118], [262, 96], [300, 84], [345, 52]];
     const cale = (v, o) => Math.round((v - o) / pas) * pas + o;
     const pts = bruts.map(([x, y]) => [[gx + x, gy + y], [cale(gx + x, gx + 19), cale(gy + y, gy + 11)]]);
-    const QA = e.de + 0.05, QB = e.de + 0.09;
+    const QA = e.de + 0.025, QB = e.de + 0.055;
     const ligne = (k) => pts.map((p) => p[k].join(' ')).join(' ');
     g += `<polyline points="${ligne(0)}" fill="none" stroke="${APP.rose}" stroke-width="2" stroke-linejoin="round">
         <animate attributeName="points" dur="${C}s" repeatCount="indefinite" keyTimes="0;${QA};${QB};1" values="${ligne(0)};${ligne(0)};${ligne(1)};${ligne(1)}"/></polyline>`;
@@ -186,7 +197,7 @@ module.exports = (O) => {
         ${fondu('cx', C, [[0, x0], [QA, x0], [QB, x1], [1, x1]])}${fondu('cy', C, [[0, y0], [QA, y0], [QB, y1], [1, y1]])}
         ${paliers('fill', C, [[0, '#0A0F16'], [QB, OR]])}</circle>`;
     });
-    g += `</g>${texte(gx + 12, gy + gh - 12, t('un carreau : 1/2000e de degré, une cinquantaine de mètres', 'one square: 1/2000 of a degree, about fifty metres'), { taille: 10.5, couleur: OR, police: MONO })}`;
+    g += `</g>${texte(gx + 12, gy + gh - 12, t('un carreau = 1/2000e de degré ≈ 50 m', 'one square = 1/2000 of a degree ≈ 50 m'), { taille: 12, couleur: OR, police: MONO })}`;
     // La conversion d'un point, chiffres réels.
     const lon = -4.486124, lat = 48.382914;
     const qx = Math.round((lon + 6) * 2000), qy = Math.round((lat - 41) * 2000);
@@ -199,6 +210,7 @@ module.exports = (O) => {
       ${entre(C, QA, e.a, texte(RX, AY + 146, t(`arrondis : ${qx} et ${qy}, deux entiers de 16 bits`, `rounded: ${qx} and ${qy}, two 16-bit integers`), { taille: 12, couleur: OR, police: MONO }), 0.006)}`;
     octets.forEach((o, i) => {
       const x = RX + i * 58;
+      droite += `<rect x="${x}" y="${AY + 166}" width="50" height="40" rx="8" fill="none" stroke="${FIL}" stroke-dasharray="4 4"/>`;
       droite += entre(C, QB + i * 0.006, e.a, `<rect x="${x}" y="${AY + 166}" width="50" height="40" rx="8" fill="${OR}" fill-opacity="0.12" stroke="${OR}" stroke-opacity="0.6"/>
         ${texte(x + 25, AY + 192, o, { taille: 15, couleur: OR, police: MONO, poids: 700, ancre: 'middle' })}`, 0.004);
     });
@@ -208,7 +220,7 @@ module.exports = (O) => {
       ${texte(RX, AY + 286, t('l’écran d’un téléphone, elle ne se voit pas.', 'a phone screen, it cannot be seen.'), { taille: 12.5 })}
       ${texte(RX, AY + 318, t('Seize bits vont jusqu’à 32,7° depuis (−6°, 41°) :', 'Sixteen bits reach 32.7° from (−6°, 41°):'), { taille: 12.5, couleur: DISCRET })}
       ${texte(RX, AY + 336, t('toute la France, Corse comprise, y tient.', 'all of France, Corsica included, fits.'), { taille: 12.5, couleur: DISCRET })}`;
-    corps += entre(C, e.de, e.a, etiquette(e, t('QUANTIFIER', 'QUANTIZE')) + g + droite, 0.006);
+    corps += etape(e.de, e.a, etiquette(e, t('QUANTIFIER', 'QUANTIZE')) + g + droite);
   }
 
   // ---------------------------------------------------- 3. france.bin
@@ -229,9 +241,9 @@ module.exports = (O) => {
     const wc = Math.round(reste * pc / (pc + pd));
     const tranche = (x0, w, titre, sous, c, de) => entre(C, de, e.a, `<rect x="${x0}" y="${SY0}" width="${w - 4}" height="44" rx="7" fill="${c}" fill-opacity="0.13" stroke="${c}" stroke-opacity="0.6"/>
       ${texte(x0 + 12, SY0 + 19, titre, { taille: 12, couleur: TITRE, police: MONO, poids: 700 })}
-      ${texte(x0 + 12, SY0 + 36, sous, { taille: 11, couleur: TEXTE })}`, 0.006);
+      ${texte(x0 + 12, SY0 + 37, sous, { taille: 12, couleur: TEXTE })}`, 0.006);
     s += tranche(x, wc, t('couche 1 : la côte', 'layer 1: the coast'), t(`${COTE.length} anneaux, ${nombre(pc)} points`, `${COTE.length} rings, ${nombre(pc)} points`), ACCENT, e.de + 0.01);
-    s += tranche(x + wc, reste - wc + 4, t('couche 2 : les départements', 'layer 2: departments'), t(`${DEPTS.length} anneaux, ${nombre(pd)} points`, `${DEPTS.length} rings, ${nombre(pd)} points`), VIOLET, e.de + 0.03);
+    s += tranche(x + wc, reste - wc + 4, t('couche 2 : départements', 'layer 2: departments'), t(`${DEPTS.length} anneaux, ${nombre(pd)} points`, `${DEPTS.length} rings, ${nombre(pd)} points`), VIOLET, e.de + 0.03);
     // Les poids, face à face.
     const BX = AX + 20, BY = AY + 130, BL = 400;
     const k = OCTETS / 1.2e6;
@@ -256,7 +268,7 @@ module.exports = (O) => {
         ${fondu('y1', C, [[0, FY - 10], [e.de + 0.03, FY - 10], [e.de + d * 0.75, FY + FH + 10], [1, FY + FH + 10]])}
         ${fondu('y2', C, [[0, FY - 10], [e.de + 0.03, FY - 10], [e.de + d * 0.75, FY + FH + 10], [1, FY + FH + 10]])}
         ${visible(C, e.de + 0.03, e.de + d * 0.75, 0.004)}</line>`;
-    corps += entre(C, e.de, e.a, etiquette(e, t('LE FICHIER, TEL QU’IL EST DANS L’APK', 'THE FILE, AS IT SITS IN THE APK')) + s, 0.006);
+    corps += etape(e.de, e.a, etiquette(e, t('LE FICHIER, TEL QU’IL EST DANS L’APK', 'THE FILE, AS IT SITS IN THE APK')) + s);
   }
 
   // ------------------------------------------------------- 4. le cadrage
@@ -310,7 +322,7 @@ module.exports = (O) => {
     });
     s += entre(C, T1, e.a, `${texte(RX, AY + 322, t('Marseille, Lyon et Paris restent hors du cadre :', 'Marseille, Lyon and Paris stay out of frame:'), { taille: 12.5, couleur: DISCRET })}
       ${texte(RX, AY + 340, t('un seul week-end ne doit pas rouvrir sur la France entière.', 'one weekend must not reopen on all of France.'), { taille: 12.5, couleur: DISCRET })}`, 0.006);
-    corps += entre(C, e.de, e.a, etiquette(e, t('LE CADRAGE, À L’OUVERTURE', 'THE FRAMING, ON OPENING')) + s, 0.006);
+    corps += etape(e.de, e.a, etiquette(e, t('LE CADRAGE, À L’OUVERTURE', 'THE FRAMING, ON OPENING')) + s);
   }
 
   // --------------------------------------------------- 5. la peinture
@@ -333,10 +345,10 @@ module.exports = (O) => {
     });
     let s = couche(LY, 110, VERT, t('LA TERRE', 'THE LAND'), t('Un CustomPaint dans un RepaintBoundary.', 'A CustomPaint inside a RepaintBoundary.'),
       t('Ses chemins sont bâtis une fois par cadrage.', 'Its paths are built once per framing.'),
-      `${texte(LX + LL - 18, LY + 30, '1', { taille: 22, couleur: VERT, police: MONO, poids: 700, ancre: 'end' })}${texte(LX + LL - 18, LY + 48, t('peinture', 'paint'), { taille: 10.5, couleur: DISCRET, ancre: 'end' })}`);
+      `${texte(LX + LL - 18, LY + 30, '1', { taille: 22, couleur: VERT, police: MONO, poids: 700, ancre: 'end' })}${texte(LX + LL - 18, LY + 50, t('peinture', 'paint'), { taille: 11.5, couleur: DISCRET, ancre: 'end' })}`);
     s += couche(LY + 126, 110, ACCENT, t('LA VIE', 'THE MOTION'), t('Étoiles, ondes, navettes vers chaque ville.', 'Stars, ripples, shuttles to every city.'),
       t('Repeinte à chaque image, par-dessus.', 'Repainted every frame, on top.'),
-      `${vie}${texte(LX + LL - 18, LY + 196, t('images', 'frames'), { taille: 10.5, couleur: DISCRET, ancre: 'end' })}`);
+      `${vie}${texte(LX + LL - 18, LY + 198, t('images', 'frames'), { taille: 11.5, couleur: DISCRET, ancre: 'end' })}`);
     s += `${texte(LX, LY + 272, t('La frontière entre les deux isole la terre : les ondes', 'The boundary between the two shields the land: the'), { taille: 12.5 })}
       ${texte(LX, LY + 290, t('qui tournent ne la font jamais repeindre.', 'turning ripples never make it repaint.'), { taille: 12.5 })}`;
     const RX = AX + 430;
@@ -348,12 +360,11 @@ module.exports = (O) => {
     regles.forEach(([titre, l1, l2], i) => {
       const y = AY + 46 + i * 98;
       s += entre(C, e.de + 0.02 + i * 0.03, e.a, `<rect x="${RX}" y="${y}" width="370" height="86" rx="12" fill="#0A0F16" stroke="${BORD}"/>
-        <rect x="${RX}" y="${y + 14}" width="3" height="58" rx="1.5" fill="${VERT}"/>
         ${texte(RX + 18, y + 28, titre, { taille: 13.5, couleur: TITRE, poids: 700 })}
         ${texte(RX + 18, y + 50, l1, { taille: 12.5 })}
         ${texte(RX + 18, y + 68, l2, { taille: 12.5 })}`, 0.006);
     });
-    corps += entre(C, e.de, e.a, etiquette(e, t('LA PEINTURE', 'THE PAINTING')) + s, 0.006);
+    corps += etape(e.de, e.a, etiquette(e, t('LA PEINTURE', 'THE PAINTING')) + s);
   }
 
   // ------------------------------------------------------------ le téléphone
@@ -377,21 +388,29 @@ module.exports = (O) => {
     const y = SY + 116 + i * 52;
     const ligne = `<rect x="${SX + 12}" y="${y}" width="${SL - 24}" height="44" rx="12" fill="${APP.carte}" stroke="${quand ? APP.fuchsia : APP.bord}" ${quand ? 'stroke-opacity="0.8"' : ''}/>
       ${icone('fichier', SX + 24, y + 14, quand ? APP.fuchsia : APP.second, 1)}
-      ${texte(SX + 48, y + 20, nom, { taille: 10, couleur: APP.texte, police: MONO, poids: 700 })}
-      ${texte(SX + 48, y + 35, taille, { taille: 9.5, couleur: quand ? APP.rose : APP.discret })}`;
+      ${texte(SX + 48, y + 20, nom, { taille: 10.5, couleur: APP.texte, police: MONO, poids: 700 })}
+      ${texte(SX + 48, y + 36, taille, { taille: 10, couleur: quand ? APP.rose : APP.discret })}`;
     apk += quand ? entre(C, quand, CARTE_A, ligne, 0.006) : ligne;
   });
   apk += `<rect x="${SX + 12}" y="${SY + 392}" width="${SL - 24}" height="64" rx="14" fill="${APP.vert}" fill-opacity="0.08" stroke="${APP.vert}" stroke-opacity="0.4"/>
     ${texte(SX + 26, SY + 418, t('Permission INTERNET : aucune', 'INTERNET permission: none'), { taille: 11.5, couleur: APP.vert, poids: 700 })}
-    ${texte(SX + 26, SY + 438, t('Ni tuile, ni police à aller chercher.', 'No tile, no font to fetch.'), { taille: 10.5, couleur: APP.second })}`;
-  ecran += entre(C, 0, CARTE_A, apk, 0.006);
+    ${texte(SX + 26, SY + 438, t('Ni tuile, ni police à aller chercher.', 'No tile, no font to fetch.'), { taille: 10.5, couleur: APP.second })}
+    <rect x="${SX + 12}" y="${SY + 468}" width="${SL - 24}" height="70" rx="14" fill="${APP.carte}" stroke="${APP.bord}"/>
+    ${texte(SX + 26, SY + 490, t('LA CARTE DANS L’APK', 'THE MAP IN THE APK'), { taille: 9.5, couleur: APP.second, poids: 700, extra: 'letter-spacing="1.6"' })}
+    ${texte(SX + SL - 26, SY + 490, t('600 Ko sur 27 Mo', '600 KB of 27 MB'), { taille: 10.5, couleur: APP.texte, poids: 700, ancre: 'end' })}
+    <rect x="${SX + 26}" y="${SY + 504}" width="${SL - 52}" height="8" rx="4" fill="#FFFFFF" fill-opacity="0.07"/>
+    <rect x="${SX + 26}" y="${SY + 504}" width="${r1((SL - 52) * 0.022) + 4}" height="8" rx="4" fill="${APP.fuchsia}"/>
+    ${texte(SX + 26, SY + 528, t('la côte, les départements et 34 836 communes', 'the coast, departments and 34,836 towns'), { taille: 10, couleur: APP.second })}`;
+  ecran += etape(0, CARTE_A, apk);
 
   // Puis l'écran Carte : la terre monte, se cadre, la vie s'allume.
   const MX = SX + 12, MY = SY + 72, MW = SL - 24, MH = 300;
   const mer = id('mer'), clipCarte = id('carte');
-  const k0 = MH / VBH * 0.96;
+  // La France entière tient dans le cadre à 1,0× : on se cale sur le côté
+  // le plus contraint, pas seulement sur la hauteur.
+  const k0 = Math.min(MH / VBH, MW / VBW) * 0.94;
   const L0 = VBW * k0;
-  const ox = MX + (MW - L0) / 2, oy = MY + MH * 0.02;
+  const ox = MX + (MW - L0) / 2, oy = MY + (MH - VBH * k0) / 2;
   const Pm = (lon, lat) => { const [x, y] = U(lon, lat); return [ox + x * k0, oy + y * k0]; };
   // Le zoom d'ouverture, 4,3 fois autour du cœur breton.
   const Z = 4.3, foyer = Pm(-3.05, 47.72), cible = [MX + MW / 2, MY + MH / 2];
@@ -432,15 +451,15 @@ module.exports = (O) => {
     </g>
     <rect x="${MX}" y="${MY}" width="${MW}" height="${MH}" rx="18" fill="none" stroke="${APP.bord}"/>
     <rect x="${MX + MW - 58}" y="${MY + 10}" width="48" height="22" rx="11" fill="${APP.fond}" fill-opacity="0.7"/>
-    ${[[0, ZA, '1,0×', '1.0×'], [ZB, PA, '4,3×', '4.3×'], [PB, PC, '6,2×', '6.2×'], [PD, 1.2, '4,3×', '4.3×']].map(([de, a, fr, en]) =>
-      entre(C, Math.max(de, CARTE_A), a, texte(MX + MW - 34, MY + 25, t(fr, en), { taille: 10.5, couleur: APP.texte, police: MONO, poids: 700, ancre: 'middle' }), 0.004)).join('')}
+    ${[[0, ZB, '1,0×', '1.0×'], [ZB, PB, '4,3×', '4.3×'], [PB, PD, '6,2×', '6.2×'], [PD, 1, '4,3×', '4.3×']].map(([de, a, fr, en]) =>
+      `<g opacity="${de === 0 ? 1 : 0}">${paliers('opacity', C, de === 0 ? [[0, 1], [a, 0]] : a >= 1 ? [[0, 0], [de, 1]] : [[0, 0], [de, 1], [a, 0]])}${texte(MX + MW - 34, MY + 25, t(fr, en), { taille: 10.5, couleur: APP.texte, police: MONO, poids: 700, ancre: 'middle' })}</g>`).join('')}
     <rect x="${SX + 12}" y="${MY + MH + 14}" width="${SL - 24}" height="84" rx="16" fill="${APP.carte}" stroke="${APP.bord}"/>
     ${texte(SX + 26, MY + MH + 40, t('RÉSEAU', 'NETWORK'), { taille: 9.5, couleur: APP.second, poids: 700, extra: 'letter-spacing="1.6"' })}
     ${texte(SX + 26, MY + MH + 76, '0', { taille: 30, couleur: APP.vert, poids: 800 })}
     ${texte(SX + 56, MY + MH + 66, t('requête pour dessiner', 'requests to draw'), { taille: 11, couleur: APP.texte, poids: 600 })}
     ${texte(SX + 56, MY + MH + 82, t('la France et ses villes', 'France and its cities'), { taille: 11, couleur: APP.second })}
     ${O.barreNav(T, 'Carte')}`;
-  ecran += entre(C, CARTE_A, 0.985, carte, 0.006);
+  ecran += etape(CARTE_A, 0.985, carte);
   // Le pincement, deux doigts qui s'écartent.
   const doigt = (dx0, dy0, dx1, dy1) => `<circle r="13" fill="#FFFFFF" fill-opacity="0.28" stroke="#FFFFFF" stroke-opacity="0.7" stroke-width="1.5" opacity="0">
       ${visible(C, PA - 0.005, PB + 0.004, 0.004)}
@@ -459,7 +478,6 @@ module.exports = (O) => {
   bas.forEach(([c, titre, l1, l2], i) => {
     const x = 400 + i * 280, y = 576;
     corps += `<rect x="${x}" y="${y}" width="260" height="96" rx="13" fill="${CARTE}" stroke="${BORD}"/>
-      <rect x="${x}" y="${y + 14}" width="3" height="68" rx="1.5" fill="${c}"/>
       ${texte(x + 20, y + 32, titre, { taille: 13.5, couleur: TITRE, police: MONO, poids: 700 })}
       ${texte(x + 20, y + 55, l1, { taille: 12 })}
       ${texte(x + 20, y + 73, l2, { taille: 12 })}`;

@@ -134,7 +134,6 @@ module.exports = (O) => {
   demandeurs.forEach(([nom, sous], i) => {
     const y = RANG[i];
     corps += `<rect x="${AX}" y="${y}" width="${AL}" height="${H}" rx="12" fill="${CARTE}" stroke="${BORD}"/>
-      <rect x="${AX}" y="${y + 12}" width="3" height="${H - 24}" rx="1.5" fill="${VIOLET}"/>
       ${texte(AX + 16, y + 22, nom, { taille: 12, couleur: TITRE, police: MONO, poids: 700 })}
       ${texte(AX + 16, y + 40, sous, { taille: 11.5 })}
       ${ACTES.map((a) => `<rect x="${AX}" y="${y}" width="${AL}" height="${H}" rx="12" fill="none" stroke="${VIOLET}" stroke-width="1.5" opacity="0">${visible(C, a.demande, a.demande + 0.05)}</rect>`).join('')}`;
@@ -275,7 +274,6 @@ module.exports = (O) => {
   bas.forEach(([c, titre, l1, l2], i) => {
     const x = 400 + i * 280, y = 516;
     corps += `<rect x="${x}" y="${y}" width="260" height="92" rx="13" fill="${CARTE}" stroke="${BORD}"/>
-      <rect x="${x}" y="${y + 14}" width="3" height="64" rx="1.5" fill="${c}"/>
       ${texte(x + 20, y + 30, titre, { taille: 13.5, couleur: TITRE, police: MONO, poids: 700 })}
       ${texte(x + 20, y + 53, l1, { taille: 12 })}
       ${texte(x + 20, y + 71, l2, { taille: 12 })}`;

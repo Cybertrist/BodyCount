@@ -146,7 +146,6 @@ module.exports = (O) => {
   const bloc = (x, l, titre, s1, couleur, de, contenuTitre = null) => `
     <rect x="${x}" y="${KY + 18}" width="${l}" height="78" rx="13" fill="${CARTE}" stroke="${BORD}"/>
     <rect x="${x}" y="${KY + 18}" width="${l}" height="78" rx="13" fill="none" stroke="${couleur}" stroke-width="1.5" opacity="0">${visible(C, de, FIN)}</rect>
-    <rect x="${x}" y="${KY + 32}" width="3" height="50" rx="1.5" fill="${couleur}"/>
     ${contenuTitre || texte(x + 20, KY + 52, titre, { taille: 14, couleur: TITRE, police: MONO, poids: 700 })}
     ${texte(x + 20, KY + 74, s1, { taille: 12 })}`;
   corps += bloc(K, 230, '', t('au moins 8 caractères, jamais gardée', 'at least 8 characters, never stored'), ACCENT, PHRASE_DE,
@@ -270,7 +269,6 @@ module.exports = (O) => {
   bas.forEach(([c, titre, l1, l2], i) => {
     const x = K + i * 280, y = 594;
     corps += `<rect x="${x}" y="${y}" width="260" height="92" rx="13" fill="${CARTE}" stroke="${BORD}"/>
-      <rect x="${x}" y="${y + 14}" width="3" height="64" rx="1.5" fill="${c}"/>
       ${texte(x + 20, y + 30, titre, { taille: 13.5, couleur: TITRE, police: MONO, poids: 700 })}
       ${texte(x + 20, y + 53, l1, { taille: 12 })}
       ${texte(x + 20, y + 71, l2, { taille: 12 })}`;

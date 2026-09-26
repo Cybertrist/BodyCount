@@ -261,7 +261,6 @@ module.exports = (O) => {
     const x = 400 + k * 280, y = 504, a = ATT[k];
     corps += `<rect x="${x}" y="${y}" width="260" height="100" rx="13" fill="${CARTE}" stroke="${BORD}"/>
       <rect x="${x}" y="${y}" width="260" height="100" rx="13" fill="none" stroke="${ROUGE}" stroke-width="1.5" opacity="0">${visible(C, a, a + 0.112, 0.006)}</rect>
-      <rect x="${x}" y="${y + 14}" width="3" height="72" rx="1.5" fill="${c}"/>
       ${texte(x + 20, y + 30, titre, { taille: 13.5, couleur: TITRE, police: MONO, poids: 700 })}
       ${texte(x + 20, y + 54, l1, { taille: 12 })}
       ${texte(x + 20, y + 72, l2, { taille: 12 })}

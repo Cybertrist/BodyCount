@@ -225,7 +225,6 @@ module.exports = (O) => {
   const MX = 390, ML = 460;
   corps += rubrique(MX, 108, t('CE QUI EST TAPÉ, PUIS SA CLÉ', 'WHAT IS TYPED, THEN ITS KEY'));
   corps += `<rect x="${MX}" y="120" width="${ML}" height="70" rx="13" fill="${CARTE}" stroke="${BORD}"/>
-    <rect x="${MX}" y="134" width="3" height="42" rx="1.5" fill="${ACCENT}"/>
     <path d="M${MX + 212} 155 h26 m-7 -6 l7 6 l-7 6" fill="none" stroke="${FIL}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     ${texte(MX + 20, 181, t('tel que tapé', 'as typed'), { taille: 10.5, couleur: DISCRET })}
     ${texte(MX + 256, 181, t('minuscules, sans accents, tirets ni espaces', 'lower case, no accents, hyphens or spaces'), { taille: 10.5, couleur: DISCRET })}`;
@@ -380,7 +379,6 @@ module.exports = (O) => {
   bas.forEach(([c, titre, l1, l2], i) => {
     const x = 390 + i * 283, y = 548;
     corps += `<rect x="${x}" y="${y}" width="264" height="100" rx="13" fill="${CARTE}" stroke="${BORD}"/>
-      <rect x="${x}" y="${y + 14}" width="3" height="72" rx="1.5" fill="${c}"/>
       ${texte(x + 20, y + 33, titre, { taille: 13.5, couleur: TITRE, police: MONO, poids: 700 })}
       ${texte(x + 20, y + 57, l1, { taille: 12 })}
       ${texte(x + 20, y + 76, l2, { taille: 12 })}`;

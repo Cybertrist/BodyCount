@@ -117,12 +117,21 @@ ${corps}
   }
 
   /// Apparaît à [de], disparaît à [a].
+  //
+  // Le fondu entrant se fait après [de], le sortant avant [a] : deux
+  // éléments qui se passent le relais à un même instant ne sont donc jamais
+  // visibles ensemble. Quand les fondus débordaient de part et d'autre, deux
+  // écrans du téléphone se superposaient pendant la transition, leurs
+  // titres l'un sur l'autre.
   function visible(cycle, de, a, douceur = 0.012) {
-    const e = [[0, 0]];
-    if (de > douceur) e.push([de - douceur, 0]);
-    e.push([de, 1], [Math.min(a, 1), 1]);
-    if (a + douceur < 1) e.push([a + douceur, 0], [1, 0]);
-    else if (a < 1) e.push([1, 1]);
+    const e = [];
+    if (de <= 0) e.push([0, 1]);
+    else e.push([0, 0], [de, 0], [Math.min(de + douceur, a, 1), 1]);
+    if (a >= 1) e.push([1, 1]);
+    else {
+      const debut = Math.max(a - douceur, e[e.length - 1][0]);
+      e.push([debut, 1], [a, 0], [1, 0]);
+    }
     return fondu('opacity', cycle, e);
   }
 
@@ -144,7 +153,6 @@ ${corps}
     return `<g>
   <rect x="${x}" y="${y}" width="${l}" height="${h}" rx="13" fill="${CARTE}" stroke="${BORD}"/>
   ${bord}
-  <rect x="${x}" y="${y + 14}" width="3" height="${h - 28}" rx="1.5" fill="${accent}"/>
   ${texte(x + 20, y + h / 2 - 3 + dy, titre, { taille: 14, couleur: TITRE, police: MONO, poids: 700 })}
   ${texte(x + 20, y + h / 2 + 16 + dy, sous, { taille: 12.5 })}
   ${sous2 ? texte(x + 20, y + h / 2 + 34 + dy, sous2, { taille: 12.5 }) : ''}
@@ -331,12 +339,101 @@ ${corps}
   ${texte(x + 19, y + h - 7, p.ville, { taille: 8.5 * k, couleur: '#C9BBE0', poids: 600 })}`;
   }
 
+  // ------------------------------------------------------------ la France
+  // La vraie géométrie, lue dans assets/carte/france.bin comme le fait
+  // l'application : le format FRA1, des couches d'anneaux (la côte, puis
+  // les départements), chaque point sur deux entiers de seize bits au
+  // 1/2000e de degré depuis (-6°, 41°). Tout schéma qui montre une carte
+  // passe par ici : une côte dessinée à la main jurerait avec les autres.
+  const FRANCE = (() => {
+    const bin = fs.readFileSync(path.join(__dirname, '..', '..', '..', 'assets', 'carte', 'france.bin'));
+    const couches = [];
+    let p = 8;
+    const nc = bin.readUInt32LE(4);
+    for (let c = 0; c < nc; c++) {
+      const na = bin.readUInt32LE(p); p += 4;
+      const anneaux = [];
+      for (let a = 0; a < na; a++) {
+        const n = bin.readUInt32LE(p); p += 4;
+        const pts = [];
+        for (let i = 0; i < n; i++, p += 4) pts.push([bin.readUInt16LE(p) / 2000 - 6, bin.readUInt16LE(p + 2) / 2000 + 41]);
+        anneaux.push(pts);
+      }
+      couches.push(anneaux);
+    }
+    return { cote: couches[0], departements: couches[1] || [] };
+  })();
+  /// Coupe un anneau à un rectangle en degrés [ouest, sud, est, nord].
+  function couperAnneau(pts, [o, s, e, n]) {
+    const bords = [
+      [(q) => q[0] >= o, (a, b) => { const k = (o - a[0]) / (b[0] - a[0]); return [o, a[1] + k * (b[1] - a[1])]; }],
+      [(q) => q[0] <= e, (a, b) => { const k = (e - a[0]) / (b[0] - a[0]); return [e, a[1] + k * (b[1] - a[1])]; }],
+      [(q) => q[1] >= s, (a, b) => { const k = (s - a[1]) / (b[1] - a[1]); return [a[0] + k * (b[0] - a[0]), s]; }],
+      [(q) => q[1] <= n, (a, b) => { const k = (n - a[1]) / (b[1] - a[1]); return [a[0] + k * (b[0] - a[0]), n]; }],
+    ];
+    let sortie = pts;
+    for (const [dedans, croise] of bords) {
+      const entree = sortie;
+      sortie = [];
+      for (let i = 0; i < entree.length; i++) {
+        const a = entree[(i + entree.length - 1) % entree.length], b = entree[i];
+        if (dedans(b)) { if (!dedans(a)) sortie.push(croise(a, b)); sortie.push(b); }
+        else if (dedans(a)) sortie.push(croise(a, b));
+      }
+      if (!sortie.length) break;
+    }
+    return sortie;
+  }
+  /// Allège un tracé, Douglas-Peucker, tolérance en degrés.
+  function allegerAnneau(pts, tol) {
+    if (pts.length < 4) return pts;
+    const garde = new Uint8Array(pts.length);
+    garde[0] = garde[pts.length - 1] = 1;
+    const pile = [[0, pts.length - 1]];
+    while (pile.length) {
+      const [i, j] = pile.pop();
+      const [ax, ay] = pts[i], [bx, by] = pts[j];
+      const dx = bx - ax, dy = by - ay, l = Math.hypot(dx, dy);
+      let max = 0, k = -1;
+      for (let m = i + 1; m < j; m++) {
+        const d = l < 1e-9 ? Math.hypot(pts[m][0] - ax, pts[m][1] - ay)
+          : Math.abs(dy * pts[m][0] - dx * pts[m][1] + bx * ay - by * ax) / l;
+        if (d > max) { max = d; k = m; }
+      }
+      if (max > tol && k > 0) { garde[k] = 1; pile.push([i, k], [k, j]); }
+    }
+    return pts.filter((_, i) => garde[i]);
+  }
+  /// Une carte de la vraie France dans le cadre (x, y, l, h), cadrée sur
+  /// la fenêtre [ouest, sud, est, nord] en degrés, sans déformation (la
+  /// longitude est resserrée par le cosinus de la latitude moyenne, comme
+  /// dans lib/widgets/plan_france.dart).
+  ///
+  /// Rend { terre, departements, proj } : deux chemins SVG prêts à poser,
+  /// et proj(lon, lat) → [x, y] pour placer les villes au bon endroit.
+  /// Le cadre n'est pas coupé ici : poser le résultat dans un clipPath.
+  function france(x, y, l, h, fenetre = [-5.2, 46.2, -0.9, 48.95], { tolerance = null } = {}) {
+    const [o, s, e, n] = fenetre;
+    const cos = Math.cos((((s + n) / 2) * Math.PI) / 180);
+    const lx = (e - o) * cos, ly = n - s;
+    const k = Math.min(l / lx, h / ly);
+    const dx = x + (l - lx * k) / 2, dy = y + (h - ly * k) / 2;
+    const proj = (lon, lat) => [dx + (lon - o) * cos * k, dy + (n - lat) * k];
+    const tol = tolerance ?? 0.9 / k; // moins d'un point d'écran
+    const marge = [o - 0.3, s - 0.3, e + 0.3, n + 0.3];
+    const chemin = (anneaux, ferme) => anneaux
+      .map((a) => allegerAnneau(couperAnneau(a, marge), tol)).filter((a) => a.length > 2)
+      .map((a) => 'M' + a.map((q) => proj(q[0], q[1]).map((v) => Math.round(v * 10) / 10).join(' ')).join('L') + (ferme ? 'Z' : '')).join('');
+    return { terre: chemin(FRANCE.cote, true), departements: chemin(FRANCE.departements, false), proj };
+  }
+
   /// Le logo de l'application, le vrai, arrondi comme une icône Android.
   const logo = (cx, cy, taille) => visage('logo', cx - taille / 2, cy - taille / 2, taille, taille, taille * 0.24);
 
   return {
     EN, LG, t, esc, id, svg, texte, entete, rubrique, paliers, fondu, visible, entre, glisse, carte, telephone, toucher,
     frappe, visage, etoiles, pastille, largeurPastille, bouton, barreNav, icone, ICONE, empreinte, logo, GENS, cartePersonne,
+    france, FRANCE,
     MONO, SANS, FOND, CARTE, BORD, TITRE, TEXTE, DISCRET, FIL, ACCENT, VIOLET, FUCHSIA, VERT, OR, ROUGE, BLEU, APP,
   };
 };

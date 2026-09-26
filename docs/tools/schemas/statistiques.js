@@ -374,7 +374,6 @@ module.exports = (O) => {
   bas3.forEach(([c, titre, l1, l2], i) => {
     const x = 400 + i * 280, y = 512;
     corps += `<rect x="${x}" y="${y}" width="260" height="104" rx="13" fill="${CARTE}" stroke="${BORD}"/>
-      <rect x="${x}" y="${y + 14}" width="3" height="76" rx="1.5" fill="${c}"/>
       ${texte(x + 20, y + 34, titre, { taille: 13.5, couleur: TITRE, police: MONO, poids: 700 })}
       ${texte(x + 20, y + 60, l1, { taille: 12 })}
       ${texte(x + 20, y + 80, l2, { taille: 12 })}`;

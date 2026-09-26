@@ -2,21 +2,35 @@
 // rencontre d'Enzo.
 //
 // À gauche, le téléphone : le formulaire, le toucher, puis la fiche qui
-// revient et se met à jour. À droite, les couches empilées ; une bille
-// descend pour écrire (l'écran appelle un dépôt, sans passer par un
-// provider), puis remonte pour relire (rafraichir() invalide, les
-// providers relisent par les dépôts, les écrans suivent). Tout vient de
+// revient et se met à jour. À droite, les cinq couches en bandes larges,
+// chacune avec un objet concret : la fiche, le graphe des providers, la
+// requête, la clé, les pages du fichier. Une carte « rencontre » descend
+// par la colonne de gauche en enjambant les providers (l'écran appelle le
+// dépôt directement), puis rafraichir() remonte par la colonne de droite :
+// les douze providers s'invalident en éventail, relisent aux dépôts, et
+// les valeurs remontent jusqu'à la fiche. Tout vient de
 // formulaire_rencontre.dart, depots.dart, base.dart et providers/donnees.dart.
 module.exports = (O) => {
-  const { t, svg, texte, entete, rubrique, fondu, visible, entre, telephone, toucher, visage, etoiles, pastille,
-    largeurPastille, bouton, icone, GENS, APP, MONO, CARTE, BORD, TITRE, TEXTE, DISCRET, FIL, ACCENT, VIOLET, FUCHSIA,
+  const { t, svg, texte, entete, fondu, visible, entre, telephone, toucher, visage, etoiles, pastille,
+    largeurPastille, bouton, icone, GENS, APP, MONO, CARTE, BORD, TITRE, TEXTE, DISCRET, FIL, ACCENT, VIOLET,
     VERT, OR, BLEU } = O;
-  const C = 32;
-  const TOUCHE = 0.1, POP = 0.4, RELU = 0.66, FIN = 0.975;
+  const C = 36;
+  // Le rythme : la descente, un temps, la remontée, un long repos.
+  const TOUCHE = 0.08;
+  const D0 = 0.1, SAUT = [0.13, 0.19], D2 = 0.2, D3 = 0.29, D4 = 0.35, POSE = 0.43;
+  const POP = 0.46, INV = [0.48, 0.53], LIT = [0.55, 0.61], M3 = 0.61, M4 = 0.63, MONTE = [0.67, 0.73];
+  const RELU = 0.74, FIN = 0.975;
   const enzo = GENS.enzo;
   let corps = entete(t('LES COUCHES', 'THE LAYERS'),
     t('Un toucher sur Enregistrer descend jusqu’au disque, puis tout remonte relire.',
       'One tap on Save goes all the way down to the disk, then everything climbs back up to reread.'));
+
+  // Une valeur qui glisse ou saute au fil du cycle.
+  const anime = (attr, e, discret = false) => `<animate attributeName="${attr}" dur="${C}s" repeatCount="indefinite" keyTimes="${e.map((x) => x[0]).join(';')}" values="${e.map((x) => x[1]).join(';')}"${discret ? ' calcMode="discrete"' : ''}/>`;
+  /// Un trait qui se trace de [de] à [a], reste jusqu'à [fin], puis s'efface.
+  const trace = (d, de, a, fin, couleur, { l = 400, epaisseur = 2, extra = '' } = {}) =>
+    `<path d="${d}" fill="none" stroke="${couleur}" stroke-width="${epaisseur}" stroke-linecap="round" stroke-dasharray="${l}" stroke-dashoffset="${l}" opacity="0" ${extra}>
+      ${fondu('stroke-dashoffset', C, [[0, l], [de, l], [a, 0], [1, 0]])}${visible(C, de, fin, 0.006)}</path>`;
 
   // ------------------------------------------------------------ le téléphone
   const T = telephone(60, 96, 290, 580);
@@ -70,21 +84,19 @@ module.exports = (O) => {
     <rect x="${SX}" y="${SY}" width="${SL}" height="${PH}" fill="url(#voile)"/>
     ${texte(SX + 16, SY + 228, enzo.prenom, { taille: 27, couleur: '#FFFFFF', poids: 800, extra: 'letter-spacing="-0.6"' })}
     <rect x="${SX + 12}" y="${SY + 258}" width="${SL - 24}" height="66" rx="16" fill="${APP.carte}" stroke="${APP.bord}"/>
+    <rect x="${SX + 12}" y="${SY + 258}" width="${SL - 24}" height="66" rx="16" fill="none" stroke="${VERT}" stroke-width="1.5" opacity="0">${visible(C, RELU, RELU + 0.05, 0.006)}</rect>
     <text x="${col(2)}" y="${SY + 292}" font-family="${O.SANS}" font-size="23" font-weight="800" fill="${APP.texte}">347<tspan font-size="12" fill="${APP.second}"> ${t('j', 'd')}</tspan></text>
     ${texte(col(2), SY + 309, t('DEPUIS', 'SINCE'), { taille: 8.5, couleur: APP.second, poids: 700, extra: 'letter-spacing="1.2"' })}
     ${entre(C, 0, RELU, chiffres(t('3,8', '3.8'), '7', 8), 0.004)}
     ${entre(C, RELU, 1.2, chiffres(t('3,9', '3.9'), '8', 8), 0.004)}
     ${texte(SX + 18, SY + 350, t('RENCONTRES', 'ENCOUNTERS'), { taille: 9, couleur: APP.second, poids: 700, extra: 'letter-spacing="1.4"' })}`;
-  // La liste : la nouvelle ligne arrive en tête une fois relue, et pousse
-  // les autres.
   const anciennes = `${ligne(SY + 362, t('14 sept.', '14 Sept.'), t('22h22 · Auray', '22:22 · Auray'), 7, false)}
     ${ligne(SY + 414, t('29 août', '29 Aug.'), t('23h05 · Vannes', '23:05 · Vannes'), 8, false)}
     ${ligne(SY + 466, t('3 août', '3 Aug.'), t('21h40 · Vannes', '21:40 · Vannes'), 8, false)}`;
   fiche += `<g>${anciennes}<animateTransform attributeName="transform" type="translate" dur="${C}s" repeatCount="indefinite" keyTimes="0;${RELU};${RELU + 0.012};1" values="0 0;0 0;0 52;0 52"/></g>`;
   fiche += entre(C, RELU + 0.01, 1.2, ligne(SY + 362, t('26 sept.', '26 Sept.'), t('22h48 · Auray', '22:48 · Auray'), 9, true), 0.006);
   fiche += `<rect x="${SX}" y="${SY + SH - 64}" width="${SL}" height="64" fill="${APP.fond}"/>` + bouton(SX + 16, SY + SH - 56, SL - 32, 42, t('+ Nouvelle rencontre', '+ New encounter'), { taille: 13 });
-  // Entre le retour et la relecture, la fiche tient ses anciens chiffres :
-  // un fin trait qui court sous le titre dit qu'elle se relit.
+  // Entre le retour et la relecture, un fin trait qui court dit qu'elle se relit.
   fiche += entre(C, POP + 0.01, RELU, `<rect x="${SX + 12}" y="${SY + 252}" width="${SL - 24}" height="2" rx="1" fill="${APP.bord}"/>
     <rect x="${SX + 12}" y="${SY + 252}" width="60" height="2" rx="1" fill="${APP.violet}">
       <animate attributeName="x" dur="1.1s" repeatCount="indefinite" values="${SX + 12};${SX + SL - 72};${SX + 12}"/></rect>`, 0.004);
@@ -92,110 +104,249 @@ module.exports = (O) => {
   corps += T.ecran(ecran);
 
   // -------------------------------------------------------------- les couches
-  const BX = 400, BL = 820, BH = 88, G = 9, Y0 = 92;
-  const SEP = BX + 262, AX = SEP + 26;
+  // La colonne de gauche porte la descente, celle de droite la remontée ;
+  // entre les deux, les bandes.
+  const DX = 468;                 // l'axe de la descente
+  const BX = 548, BL = 632;       // les bandes
+  const MX = BX + BL + 20;        // l'axe de la remontée
+  const BH = 96, G = 8, Y0 = 84;
+  const OX = BX + 196, OL = BL - 196 - 16; // la zone de l'objet, dans chaque bande
   const yb = (i) => Y0 + i * (BH + G);
-  const couches = [
-    [t('Écrans', 'Screens'), 'lib/ecrans/', t('lisent des providers, écrivent', 'read providers, write through'), t('par un dépôt, jamais de SQL', 'a repository, never any SQL'), VIOLET],
-    [t('Providers', 'Providers'), 'lib/providers/', t('Riverpod : une écriture invalide', 'Riverpod: one write invalidates'), t('tout ce qui en dépend', 'everything that depends on it'), ACCENT],
-    [t('Dépôts', 'Repositories'), 'lib/donnees/depots.dart', t('le seul endroit où s’écrit', 'the only place SQL gets'), t('du SQL, en requêtes groupées', 'written, in grouped queries'), OR],
-    [t('Sécurité', 'Security'), 'lib/security/', t('trousseau, coffres, verrou :', 'keys, vaults, lock: nothing'), t('rien ne passe à côté', 'goes around them'), BLEU],
-    [t('Disque', 'Disk'), 'bodycount.db · vault/', t('SQLite chiffré, et un fichier', 'encrypted SQLite, and one'), t('chiffré par photo ou vidéo', 'encrypted file per media'), VERT],
-  ];
-  // Les fenêtres où chaque couche travaille, à la descente puis à la montée.
-  const actives = [[[TOUCHE, 0.17], [POP, 0.445], [RELU - 0.01, FIN]], [[0.44, 0.53]], [[0.165, 0.235], [0.52, 0.56]], [[0.225, 0.29], [0.55, 0.585]], [[0.285, 0.37], [0.58, 0.63]]];
-  couches.forEach(([nom, chemin, r1, r2, c], i) => {
-    const y = yb(i);
-    corps += `<rect x="${BX}" y="${y}" width="${BL}" height="${BH}" rx="13" fill="${CARTE}" stroke="${BORD}"/>
-      <rect x="${BX}" y="${y + 14}" width="3" height="${BH - 28}" rx="1.5" fill="${c}"/>
-      ${actives[i].map(([a, b]) => `<rect x="${BX}" y="${y}" width="${BL}" height="${BH}" rx="13" fill="${c}" fill-opacity="0.05" stroke="${c}" stroke-width="1.5" opacity="0">${visible(C, a, b, 0.008)}</rect>`).join('')}
-      ${texte(BX + 20, y + 27, nom, { taille: 15, couleur: TITRE, police: MONO, poids: 700 })}
-      ${texte(BX + 20, y + 45, chemin, { taille: 10.5, couleur: c, police: MONO })}
-      ${texte(BX + 20, y + 63, r1, { taille: 11.5 })}
-      ${texte(BX + 20, y + 78, r2, { taille: 11.5 })}
-      <line x1="${SEP}" y1="${y + 12}" x2="${SEP}" y2="${y + BH - 12}" stroke="${BORD}"/>`;
-  });
-
-  // Ce que chaque couche fait à l'instant : deux lignes dans sa moitié droite.
-  const dit = (i, de, a, l1, l2, { c1 = TITRE, c2 = TEXTE, mono1 = true } = {}) => {
-    const y = yb(i);
-    return entre(C, de, a, `${texte(AX, y + 38, l1, { taille: 12.5, couleur: c1, police: mono1 ? MONO : O.SANS, poids: 700 })}
-      ${texte(AX, y + 60, l2, { taille: 12 , couleur: c2 })}`, 0.006);
-  };
-  // Au repos, avant le toucher et après la relecture.
-  const repos = [
-    [t('formulaire_rencontre.dart', 'formulaire_rencontre.dart'), t('le formulaire est rempli, rien n’est écrit', 'the form is filled in, nothing written yet')],
-    [t('fichePersonneProvider(12)', 'fichePersonneProvider(12)'), t('garde la fiche d’Enzo telle qu’elle a été lue', 'holds Enzo’s card as it was read')],
-    ['DepotRencontres', t('attend qu’on l’appelle', 'waits to be called')],
-    ['Base.instance.db', t('la connexion ouverte au déverrouillage', 'the connection opened at unlock')],
-    ['bodycount.db', t('des pages chiffrées, illisibles sans la clé', 'encrypted pages, unreadable without the key')],
-  ];
-  repos.forEach(([l1, l2], i) => {
-    corps += dit(i, 0, [TOUCHE, 0.13, 0.165, 0.225, 0.285][i] - 0.008, l1, l2, { c1: TEXTE, c2: DISCRET });
-  });
-
-  // La descente : écrire.
-  corps += dit(0, TOUCHE, POP, '_enregistrer()', t('appelle depotRencontres.creer(…), pas un provider', 'calls depotRencontres.creer(…), not a provider'), { c1: VIOLET });
-  corps += dit(1, 0.13, 0.44, t('rien, à la descente', 'nothing, on the way down'), t('une écriture ne passe jamais par ici', 'a write never goes through here'), { c1: DISCRET, c2: DISCRET });
-  corps += dit(2, 0.165, 0.52, 'INSERT INTO rencontres (…)', t('puis 2 étiquettes et une note au carnet', 'then 2 tags and a notebook note'), { c1: OR });
-  corps += dit(3, 0.225, 0.55, 'await Base.instance.db', t('la même connexion, clé tirée de bodycount/db/v1', 'the same connection, key from bodycount/db/v1'), { c1: BLEU });
-  // Le disque : des octets qui changent, chiffrés avant d'être écrits.
-  const octets = (graine) => Array.from({ length: 16 }, (_, k) => ((graine * 37 + k * 91 + k * k * 13) % 256).toString(16).padStart(2, '0')).join(' ');
-  corps += entre(C, 0.285, 0.58, `${texte(AX, yb(4) + 38, octets(3), { taille: 12, couleur: TEXTE, police: MONO })}
-    <rect x="${AX + 5 * 21 - 3}" y="${yb(4) + 25}" width="${6 * 21}" height="18" rx="4" fill="${VERT}" fill-opacity="0.14" stroke="${VERT}" stroke-opacity="0.5" opacity="0">${visible(C, 0.3, 0.58, 0.006)}</rect>
-    ${texte(AX, yb(4) + 60, t('une page change, chiffrée avant de toucher le disque', 'one page changes, encrypted before it hits the disk'), { taille: 12 })}`, 0.006);
-
-  // La montée : relire.
-  corps += dit(0, POP, RELU - 0.01, 'rafraichir(ref, personneId: 12)', t('puis context.pop() : on revient sur la fiche', 'then context.pop(): back to the card'), { c1: VIOLET });
-  // Les providers invalidés, en pastilles qui passent au fuchsia.
-  const noms = ['repertoire', 'villes', 'journal', 'statistiques', 'annees', 'vocabulaire', 'fiche(12)', 'rang(12)', 'rencontres(12)', 'notes(12)', 'photos(12)', 'etiquettes(12)'];
-  let pp = '', cx = AX, cy = yb(1) + 30;
-  noms.forEach((n, k) => {
-    const l = Math.round(n.length * 6.2 + 14);
-    if (cx + l > BX + BL - 18) { cx = AX; cy += 26; }
-    const a = 0.445 + k * 0.004;
-    pp += `<rect x="${cx}" y="${cy}" width="${l}" height="20" rx="10" fill="${CARTE}" stroke="${FIL}"/>
-      <rect x="${cx}" y="${cy}" width="${l}" height="20" rx="10" fill="${ACCENT}" fill-opacity="0.16" stroke="${ACCENT}" opacity="0">${visible(C, a, RELU + 0.02, 0.004)}</rect>
-      ${texte(cx + l / 2, cy + 14, n, { taille: 10, couleur: TITRE, police: MONO, ancre: 'middle' })}`;
-    cx += l + 6;
-  });
-  corps += entre(C, 0.44, RELU + 0.03, `${pp}${texte(AX, yb(1) + 22, t('invalidés d’un seul appel', 'invalidated in a single call'), { taille: 11, couleur: ACCENT, poids: 700 })}`, 0.006);
-  corps += dit(2, 0.52, RELU + 0.03, 'lister() · parId(12) · pourPersonne(12)', t('SELECT … GROUP BY p.id : une requête, pas une par fiche', 'SELECT … GROUP BY p.id: one query, not one per card'), { c1: OR });
-  corps += dit(3, 0.55, RELU + 0.03, t('rien à rouvrir', 'nothing to reopen'), t('la connexion est déjà là, la clé aussi', 'the connection is already there, so is the key'), { c1: BLEU });
-  corps += dit(4, 0.58, RELU + 0.03, t('lecture', 'read'), t('les pages se déchiffrent à la volée, en mémoire', 'pages are decrypted on the fly, in memory'), { c1: VERT });
-  // Relu : tout en haut, les écrans suivent.
-  corps += dit(0, RELU, FIN, t('les écrans se relisent', 'the screens reread'), t('8 fois, 3,9, N°11 : aucun chiffre périmé', '8 times, 3.9, No. 11: no stale number'), { c1: VERT, mono1: false });
-  corps += dit(1, RELU + 0.03, FIN, t('relus, en cache jusqu’à la prochaine écriture', 'reread, cached until the next write'), t('fiche, rang, répertoire, statistiques, carte, agenda', 'card, rank, people, statistics, map, agenda'), { c1: TEXTE, c2: DISCRET, mono1: false });
-  corps += dit(2, RELU + 0.03, FIN, 'DepotRencontres', t('a rendu la main', 'has handed back'), { c1: TEXTE, c2: DISCRET });
-  corps += dit(3, RELU + 0.03, FIN, 'Base.instance.db', t('toujours ouverte, jusqu’au verrou', 'still open, until the lock'), { c1: TEXTE, c2: DISCRET });
-  corps += dit(4, RELU + 0.03, FIN, 'bodycount.db', t('une rencontre de plus, chiffrée', 'one more encounter, encrypted'), { c1: TEXTE, c2: DISCRET });
-
-  // La bille : descend sur le trait, saute les providers, puis remonte.
   const yc = (i) => yb(i) + BH / 2;
-  const trajet = [[0, yc(0)], [TOUCHE, yc(0)], [0.165, yc(2)], [0.225, yc(3)], [0.285, yc(4)], [0.37, yc(4)], [0.4, yc(0)],
-    [0.44, yc(1)], [0.52, yc(2)], [0.55, yc(3)], [0.58, yc(4)], [RELU - 0.01, yc(0)], [1, yc(0)]];
-  const vis = [[0, 0], [TOUCHE - 0.004, 0], [TOUCHE, 1], [0.37, 1], [0.375, 0], [POP, 0], [POP + 0.004, 1], [RELU, 1], [RELU + 0.008, 0], [1, 0]];
-  const coul = [[0, VIOLET], [0.165, OR], [0.225, BLEU], [0.285, VERT], [POP, VIOLET], [0.44, ACCENT], [0.52, OR], [0.55, BLEU], [0.58, VERT], [0.6, '#FFFFFF'], [1, '#FFFFFF']];
-  const anime = (attr, e) => `<animate attributeName="${attr}" dur="${C}s" repeatCount="indefinite" keyTimes="${e.map((x) => x[0]).join(';')}" values="${e.map((x) => x[1]).join(';')}"/>`;
-  const discret = (attr, e) => `<animate attributeName="${attr}" dur="${C}s" repeatCount="indefinite" keyTimes="${e.map((x) => x[0]).join(';')}" values="${e.map((x) => x[1]).join(';')}" calcMode="discrete"/>`;
-  // À la descente, un arc contourne les providers : l'écriture les saute.
-  corps += entre(C, TOUCHE, 0.37, `<path d="M${SEP} ${yc(0) + 10} C${SEP - 40} ${yc(1) - 20} ${SEP - 40} ${yc(1) + 20} ${SEP} ${yc(2) - 10}" fill="none" stroke="${VIOLET}" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.8"/>`, 0.006);
-  corps += `<g opacity="0">${anime('opacity', vis)}
-    <circle cx="${SEP}" r="12" fill="${VIOLET}" opacity="0.25" filter="url(#halo)">${anime('cy', trajet)}${discret('fill', coul)}</circle>
-    <circle cx="${SEP}" r="5.5" fill="#FFFFFF">${anime('cy', trajet)}</circle>
+  const couches = [
+    [t('Écrans', 'Screens'), 'lib/ecrans/', t('jamais de SQL', 'never any SQL'), VIOLET, 'telephoneIcone'],
+    [t('Providers', 'Providers'), 'lib/providers/', t('l’état, en cache', 'state, cached'), ACCENT, 'oeil'],
+    [t('Dépôts', 'Repositories'), 'lib/donnees/', t('le seul SQL', 'the only SQL'), OR, 'base'],
+    [t('Sécurité', 'Security'), 'lib/security/', t('clés et coffres', 'keys and vaults'), BLEU, 'cle'],
+    [t('Disque', 'Disk'), 'bodycount.db', t('chiffré au repos', 'encrypted at rest'), VERT, 'fichier'],
+  ];
+  // Quand chaque bande travaille : à la descente, puis à la remontée.
+  const actives = [
+    [[D0 - 0.02, SAUT[0] + 0.01], [POP, INV[0] + 0.02], [MONTE[1] - 0.01, RELU + 0.06]],
+    [[INV[0], LIT[0] + 0.02], [MONTE[0], MONTE[1] + 0.01]],
+    [[D2, D3 + 0.01], [LIT[0], LIT[1] + 0.01]],
+    [[D3, D4 + 0.01], [M3, M3 + 0.03]],
+    [[D4, POSE + 0.01], [M4, MONTE[0] + 0.01]],
+  ];
+  couches.forEach(([nom, chemin, role, c, ic], i) => {
+    const y = yb(i);
+    corps += `<rect x="${BX}" y="${y}" width="${BL}" height="${BH}" rx="14" fill="${CARTE}" stroke="${BORD}"/>
+      ${actives[i].map(([a, b]) => `<rect x="${BX}" y="${y}" width="${BL}" height="${BH}" rx="14" fill="${c}" fill-opacity="0.06" stroke="${c}" stroke-width="1.6" opacity="0">${visible(C, a, b, 0.008)}</rect>`).join('')}
+      <rect x="${BX + 18}" y="${y + 18}" width="34" height="34" rx="10" fill="${c}" fill-opacity="0.13" stroke="${c}" stroke-opacity="0.5"/>
+      ${icone(ic, BX + 26, y + 26, c, 1.1)}
+      ${texte(BX + 64, y + 33, nom, { taille: 16, couleur: TITRE, police: MONO, poids: 700 })}
+      ${texte(BX + 64, y + 51, chemin, { taille: 12, couleur: c, police: MONO })}
+      ${texte(BX + 20, y + 78, role, { taille: 12.5 })}
+      <line x1="${OX - 14}" y1="${y + 14}" x2="${OX - 14}" y2="${y + BH - 14}" stroke="${BORD}"/>`;
+  });
+
+  // ------------------------------------------------ 1. Écrans : la fiche
+  {
+    const y = yb(0), x = OX;
+    const mini = (fois, moy, note, c) => `${texte(x + 64, y + 42, enzo.prenom, { taille: 15, couleur: TITRE, poids: 800 })}
+      ${texte(x + 64, y + 64, fois, { taille: 13, couleur: c, poids: 700 })}
+      ${texte(x + 64 + fois.length * 7.6 + 10, y + 64, moy, { taille: 13, couleur: c, poids: 700 })}
+      ${etoiles(x + 64, y + 82, note, { taille: 10 })}`;
+    corps += `<rect x="${x}" y="${y + 14}" width="190" height="68" rx="12" fill="${APP.carte}" stroke="${APP.bord}"/>
+      ${visage(enzo.photo, x + 10, y + 22, 44, 52, 9)}
+      ${entre(C, 0, RELU, mini(t('7 fois', '7 times'), '3,8'.replace(',', t(',', '.')), 8, TEXTE), 0.004)}
+      ${entre(C, RELU, 1.2, mini(t('8 fois', '8 times'), '3,9'.replace(',', t(',', '.')), 8, VERT), 0.004)}`;
+    // Ce que fait l'écran, à droite de la fiche.
+    const dit = (de, a, l1, l2, c) => entre(C, de, a, `${texte(x + 206, y + 42, l1, { taille: 13, couleur: c, police: MONO, poids: 700 })}
+      ${texte(x + 206, y + 62, l2, { taille: 12.5 })}`, 0.006);
+    corps += dit(0, D0, t('le formulaire', 'the form'), t('rempli, rien n’est écrit', 'filled in, nothing written'), TEXTE);
+    corps += dit(D0, POP, '_enregistrer()', t('appelle depotRencontres.creer', 'calls depotRencontres.creer'), VIOLET);
+    corps += dit(POP, RELU, 'rafraichir(ref, 12)', t('puis context.pop()', 'then context.pop()'), ACCENT);
+    corps += dit(RELU, 1.2, t('relue', 'reread'), t('8 fois, 3,9 : rien de périmé', '8 times, 3.9: nothing stale'), VERT);
+  }
+
+  // ------------------------------------------ 2. Providers : le graphe
+  const NOMS = ['repertoire', 'villes', 'journal', 'statistiques', 'annees', 'vocabulaire',
+    'fiche(12)', 'rang(12)', 'rencontres(12)', 'notes(12)', 'photos(12)', 'etiquettes(12)'];
+  const NL = (OL - 3 * 8) / 4, NH = 22;
+  const noeud = (k) => [OX + (k % 4) * (NL + 8), yb(1) + 10 + Math.floor(k / 4) * (NH + 6)];
+  {
+    NOMS.forEach((n, k) => {
+      const [x, y] = noeud(k);
+      const a = INV[0] + 0.02 + k * 0.0022; // l'éventail : l'un après l'autre
+      const lu = MONTE[0] + 0.005 + k * 0.0015;
+      corps += `<rect x="${x}" y="${y}" width="${NL}" height="${NH}" rx="11" fill="${APP.carte}" stroke="${FIL}"/>
+        <rect x="${x}" y="${y}" width="${NL}" height="${NH}" rx="11" fill="${ACCENT}" fill-opacity="0.22" stroke="${ACCENT}" stroke-width="1.4" opacity="0">
+          ${fondu('opacity', C, [[0, 0], [a - 0.001, 0], [a, 1], [a + 0.006, 0.45], [a + 0.012, 1], [lu, 1], [lu + 0.004, 0], [1, 0]])}</rect>
+        <rect x="${x}" y="${y}" width="${NL}" height="${NH}" rx="11" fill="${VERT}" fill-opacity="0.16" stroke="${VERT}" stroke-width="1.2" opacity="0">${visible(C, lu, RELU + 0.1, 0.006)}</rect>
+        ${texte(x + NL / 2, y + 15, n, { taille: 11, couleur: TITRE, police: MONO, ancre: 'middle' })}`;
+    });
+    // Pendant la descente, la bande reste de côté : un mot le dit.
+    corps += entre(C, SAUT[0], D3, `<rect x="${OX - 4}" y="${yb(1) + 6}" width="${OL + 8}" height="${BH - 12}" rx="10" fill="${CARTE}"/>
+      ${icone('croix', OX + 6, yb(1) + 30, DISCRET, 1)}
+      ${texte(OX + 34, yb(1) + 38, t('Rien, à la descente.', 'Nothing, on the way down.'), { taille: 14, couleur: TITRE, poids: 700 })}
+      ${texte(OX + 34, yb(1) + 60, t('L’écran appelle le dépôt directement : une écriture', 'The screen calls the repository directly: a write'), { taille: 12.5 })}
+      ${texte(OX + 34, yb(1) + 78, t('ne passe jamais par un provider.', 'never goes through a provider.'), { taille: 12.5 })}`, 0.006);
+  }
+
+  // --------------------------------------------- 3. Dépôts : la requête
+  {
+    const y = yb(2), x = OX;
+    corps += `<rect x="${x}" y="${y + 12}" width="${OL}" height="${BH - 24}" rx="10" fill="#0A0E14" stroke="${BORD}"/>`;
+    const code = (de, a, lignes) => entre(C, de, a, lignes.map(([s, c], k) =>
+      O.frappe(x + 14, y + 36 + k * 20, s, C, de + 0.004 + k * 0.018, de + 0.02 + k * 0.018, { taille: 12, couleur: c, police: MONO })).join(''), 0.006);
+    corps += entre(C, 0, D2, texte(x + 14, y + 52, t('-- en attente', '-- waiting'), { taille: 12, couleur: DISCRET, police: MONO }), 0.006);
+    corps += code(D2, LIT[0] - 0.012, [
+      ['INSERT INTO rencontres (personne_id, quand,', OR],
+      ['  lieu, note) VALUES (12, \'2026-09-26T22:48\',', TITRE],
+      ['  \'Auray\', 9)  -- 4,5 : neuf demi-points'.replace('4,5 : neuf demi-points', t('4,5 : neuf demi-points', '4.5: nine half points')), TEXTE],
+    ]);
+    corps += code(LIT[0] - 0.004, RELU + 0.08, [
+      ['SELECT p.*, COUNT(r.id), AVG(r.note)', OR],
+      ['  FROM personnes p LEFT JOIN rencontres r', TITRE],
+      ['  GROUP BY p.id  -- ' + t('une requête, pas une par fiche', 'one query, not one per card'), TEXTE],
+    ]);
+    corps += entre(C, RELU + 0.08, 1.2, texte(x + 14, y + 52, t('-- a rendu la main', '-- has handed back'), { taille: 12, couleur: DISCRET, police: MONO }), 0.006);
+  }
+
+  // --------------------------------------------- 4. Sécurité : la clé
+  {
+    const y = yb(3), x = OX;
+    // La clé, puis le fil qui la relie à la connexion ouverte.
+    corps += `<rect x="${x}" y="${y + 20}" width="150" height="56" rx="12" fill="${APP.carte}" stroke="${APP.bord}"/>
+      ${icone('cle', x + 12, y + 36, BLEU, 1.5)}
+      ${texte(x + 48, y + 44, 'bodycount/db/v1', { taille: 11, couleur: TITRE, police: MONO, poids: 700 })}
+      ${texte(x + 48, y + 62, t('clé dérivée, HKDF', 'derived key, HKDF'), { taille: 11 })}
+      <rect x="${x + OL - 170}" y="${y + 20}" width="170" height="56" rx="12" fill="${APP.carte}" stroke="${APP.bord}"/>
+      ${icone('base', x + OL - 158, y + 36, BLEU, 1.4)}
+      ${texte(x + OL - 124, y + 44, 'Base.instance.db', { taille: 11, couleur: TITRE, police: MONO, poids: 700 })}
+      ${texte(x + OL - 124, y + 62, t('ouverte au déverrouillage', 'opened at unlock'), { taille: 11 })}
+      <line x1="${x + 158}" y1="${y + 48}" x2="${x + OL - 178}" y2="${y + 48}" stroke="${FIL}" stroke-width="2" stroke-dasharray="3 5"/>`;
+    // La même connexion sert l'écriture puis la lecture : le fil s'éclaire.
+    for (const [de, a] of [[D3, D4 + 0.02], [M3, M3 + 0.04]]) {
+      corps += `<line x1="${x + 158}" y1="${y + 48}" x2="${x + OL - 178}" y2="${y + 48}" stroke="${BLEU}" stroke-width="2.5" opacity="0">${visible(C, de, a, 0.006)}</line>
+        <circle cy="${y + 48}" r="4" fill="#FFFFFF" opacity="0">${visible(C, de, a, 0.004)}${fondu('cx', C, [[0, x + 158], [de, x + 158], [a, x + OL - 178], [1, x + OL - 178]])}</circle>`;
+    }
+    corps += entre(C, D3, POP, texte(x + OL / 2 - 16, y + 88, t('la même connexion', 'the same connection'), { taille: 11.5, couleur: BLEU, ancre: 'middle' }), 0.006);
+    corps += entre(C, M3, RELU, texte(x + OL / 2 - 16, y + 88, t('rien à rouvrir', 'nothing to reopen'), { taille: 11.5, couleur: BLEU, ancre: 'middle' }), 0.006);
+  }
+
+  // --------------------------------------------- 5. Disque : les pages
+  {
+    const y = yb(4), x = OX;
+    const N = 14, PL = (OL - (N - 1) * 5) / N;
+    for (let k = 0; k < N; k++) {
+      const px = x + k * (PL + 5);
+      corps += `<rect x="${px}" y="${y + 14}" width="${PL}" height="26" rx="4" fill="${APP.carte}" stroke="${FIL}"/>`;
+    }
+    // La page qui change : elle s'allume, puis se chiffre.
+    const K = 9, kx = x + K * (PL + 5);
+    corps += `<rect x="${kx}" y="${y + 14}" width="${PL}" height="26" rx="4" fill="${VERT}" fill-opacity="0.2" stroke="${VERT}" stroke-width="1.5" opacity="0">${visible(C, D4 + 0.01, POP + 0.02, 0.006)}</rect>
+      <path d="M${kx + PL / 2} ${y + 42} v8" stroke="${VERT}" stroke-width="1.5" opacity="0">${visible(C, D4 + 0.01, POSE + 0.02, 0.006)}</path>`;
+    // La lecture : un balayage passe sur toutes les pages.
+    corps += `<rect y="${y + 12}" width="${PL + 6}" height="30" rx="5" fill="${VERT}" fill-opacity="0.14" stroke="${VERT}" stroke-opacity="0.6" opacity="0">
+        ${visible(C, M4, MONTE[0], 0.006)}${fondu('x', C, [[0, x - 3], [M4, x - 3], [MONTE[0], x + OL - PL - 3], [1, x + OL - PL - 3]])}</rect>`;
+    // Les octets de la page : clairs un instant, puis brouillés.
+    const hex = (g) => Array.from({ length: 16 }, (_, k) => ((g * 53 + k * 97 + k * k * 29) % 256).toString(16).padStart(2, '0')).join(' ');
+    const clair = t('26 sept. · Auray · 9 · 12', '26 Sept. · Auray · 9 · 12');
+    const lignes = [
+      [0, D4 + 0.015, hex(2), DISCRET],
+      [D4 + 0.015, D4 + 0.045, clair, OR],
+      [D4 + 0.045, D4 + 0.055, hex(7), VERT],
+      [D4 + 0.055, D4 + 0.065, hex(11), VERT],
+      [D4 + 0.065, 1.2, hex(19), TEXTE],
+    ];
+    for (const [de, a, s, c] of lignes) corps += entre(C, de, a, texte(x, y + 68, s, { taille: 12.5, couleur: c, police: MONO }), 0.002);
+    corps += entre(C, 0, D4 + 0.015, texte(x, y + 86, t('des pages chiffrées, illisibles sans la clé', 'encrypted pages, unreadable without the key'), { taille: 12 }), 0.006);
+    corps += entre(C, D4 + 0.015, D4 + 0.045, texte(x, y + 86, t('la rencontre, en mémoire seulement', 'the encounter, in memory only'), { taille: 12, couleur: OR }), 0.006);
+    corps += entre(C, D4 + 0.045, M4, texte(x, y + 86, t('chiffrée par SQLCipher avant de toucher le disque', 'encrypted by SQLCipher before it hits the disk'), { taille: 12, couleur: VERT }), 0.006);
+    corps += entre(C, M4, 1.2, texte(x, y + 86, t('relue, déchiffrée à la volée en mémoire', 'reread, decrypted on the fly in memory'), { taille: 12 }), 0.006);
+  }
+
+  // ------------------------------------------------ la descente, à gauche
+  // Le rail, puis la carte « rencontre » qui tombe de bande en bande. Entre
+  // les Écrans et les Dépôts, elle enjambe les Providers par un arc.
+  const RL = 118, RH = 50; // la carte qui descend
+  corps += `<line x1="${DX}" y1="${yc(0)}" x2="${DX}" y2="${yc(4)}" stroke="${FIL}" stroke-width="1.5" stroke-dasharray="2 6"/>`;
+  corps += texte(DX, Y0 - 8, t('ÉCRIRE', 'WRITE'), { taille: 11, couleur: OR, police: MONO, poids: 700, ancre: 'middle', extra: 'letter-spacing="2"' });
+  const arc = `M${DX} ${yc(0) + 26} C${DX - 70} ${yc(0) + 60} ${DX - 70} ${yc(2) - 60} ${DX} ${yc(2) - 26}`;
+  corps += trace(arc, SAUT[0], SAUT[0] + 0.03, POP, VIOLET, { l: 260, epaisseur: 2.5 });
+  corps += entre(C, SAUT[0] + 0.02, D3, `<rect x="${DX - 78}" y="${yc(1) - 13}" width="74" height="26" rx="13" fill="${VIOLET}" fill-opacity="0.18" stroke="${VIOLET}"/>
+    ${texte(DX - 41, yc(1) + 4.5, t('saute', 'skips'), { taille: 11.5, couleur: '#E9D5FF', poids: 700, ancre: 'middle' })}`, 0.006);
+  // Les flèches entre les dépôts, la sécurité et le disque.
+  corps += trace(`M${DX} ${yc(2) + 26} V${yc(3) - 26}`, D3 - 0.01, D3 + 0.01, POP, OR, { l: 60, epaisseur: 2.5 });
+  corps += trace(`M${DX} ${yc(3) + 26} V${yc(4) - 26}`, D4 - 0.01, D4 + 0.01, POP, BLEU, { l: 60, epaisseur: 2.5 });
+  // Le paquet : position par étapes, en suivant l'arc pour le saut.
+  const posPaquet = [[0, yc(0)], [D0, yc(0)], [SAUT[0], yc(0)]];
+  for (let k = 1; k <= 8; k++) {
+    // L'arc, échantillonné : la carte s'écarte à gauche puis revient.
+    const u = k / 8, s0 = SAUT[0] + (SAUT[1] - SAUT[0]) * u;
+    posPaquet.push([s0, null, u]);
+  }
+  const bez = (u, a, b, c, d) => (1 - u) ** 3 * a + 3 * (1 - u) ** 2 * u * b + 3 * (1 - u) * u * u * c + u ** 3 * d;
+  const xy = posPaquet.map(([tt, y, u]) => {
+    if (y !== null) return [tt, DX, y];
+    const bx = bez(u, DX, DX - 70, DX - 70, DX), by = bez(u, yc(0) + 26, yc(0) + 60, yc(2) - 60, yc(2) - 26);
+    return [tt, bx, u === 1 ? yc(2) : by];
+  });
+  xy.push([D3 - 0.012, DX, yc(2)], [D3 + 0.012, DX, yc(3)], [D4 - 0.012, DX, yc(3)], [D4 + 0.012, DX, yc(4)], [1, DX, yc(4)]);
+  const trans = xy.map(([, x, y]) => `${Math.round(x - RL / 2)} ${Math.round(y - RH / 2)}`).join(';');
+  const temps = xy.map(([tt]) => tt.toFixed(4)).join(';');
+  corps += `<g opacity="0">
+    ${fondu('opacity', C, [[0, 0], [D0 - 0.01, 0], [D0, 1], [POSE, 1], [POSE + 0.015, 0], [1, 0]])}
+    <animateTransform attributeName="transform" type="translate" dur="${C}s" repeatCount="indefinite" keyTimes="${temps}" values="${trans}"/>
+    <rect width="${RL}" height="${RH}" rx="12" fill="#1E1433" stroke="${VIOLET}" stroke-width="1.5" filter="url(#halo)"/>
+    ${texte(12, 19, t('rencontre', 'encounter'), { taille: 10, couleur: '#C4B5FD', police: MONO, poids: 700, extra: 'letter-spacing="1"' })}
+    ${texte(12, 38, 'Auray', { taille: 13, couleur: '#FFFFFF', poids: 800 })}
+    ${etoiles(58, 37, 9, { taille: 9.5 })}
   </g>`;
 
-  // ------------------------------------------------ la règle, en bas
-  const LY = yb(5) + 4;
-  corps += `<rect x="${BX}" y="${LY}" width="${BL}" height="${720 - LY - 24}" rx="13" fill="${CARTE}" stroke="${BORD}"/>
-    <path d="M${BX + 26} ${LY + 18} v16 m-5 -6 l5 6 l5 -6" fill="none" stroke="${OR}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    ${texte(BX + 44, LY + 32, t('Écrire descend :', 'Writing goes down:'), { taille: 13, couleur: TITRE, poids: 700 })}
-    ${texte(BX + 44 + t('Écrire descend :', 'Writing goes down:').length * 7.4 + 8, LY + 32, t('l’écran appelle un dépôt, qui passe par la base chiffrée.', 'the screen calls a repository, which goes through the encrypted database.'), { taille: 12.5 })}
-    <path d="M${BX + 26} ${LY + 64} v-16 m-5 6 l5 -6 l5 6" fill="none" stroke="${ACCENT}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    ${texte(BX + 44, LY + 60, t('Relire remonte :', 'Rereading goes up:'), { taille: 13, couleur: TITRE, poids: 700 })}
-    ${texte(BX + 44 + t('Relire remonte :', 'Rereading goes up:').length * 7.4 + 8, LY + 60, t('rafraichir() invalide, les providers relisent, les écrans suivent.', 'rafraichir() invalidates, providers reread, screens follow.'), { taille: 12.5 })}`;
+  // ------------------------------------------------ la remontée, à droite
+  corps += `<line x1="${MX}" y1="${yc(0)}" x2="${MX}" y2="${yc(4)}" stroke="${FIL}" stroke-width="1.5" stroke-dasharray="2 6"/>`;
+  corps += texte(MX, Y0 - 8, t('RELIRE', 'REREAD'), { taille: 11, couleur: ACCENT, police: MONO, poids: 700, ancre: 'middle', extra: 'letter-spacing="2"' });
+  // rafraichir() : de l'écran vers le rail, puis en éventail sur les
+  // douze providers.
+  const src = [MX, yc(0) + 22];
+  corps += trace(`M${OX + 330} ${yb(0) + 58} H${MX} V${yc(0) + 22}`, INV[0] - 0.02, INV[0], LIT[1], ACCENT, { l: 160, epaisseur: 2 });
+  NOMS.forEach((n, k) => {
+    const [x, y] = noeud(k);
+    const cx = x + NL / 2, cy = y + NH / 2;
+    const d = `M${src[0]} ${src[1]} C${src[0] - 20} ${src[1] + 40} ${cx + 60} ${cy - 30} ${x + NL} ${cy}`;
+    const a = INV[0] + 0.005 + k * 0.0022;
+    corps += trace(d, a, a + 0.012, LIT[0] + 0.02, ACCENT, { l: 420, epaisseur: 1.2, extra: 'stroke-opacity="0.55"' });
+  });
+  // Les providers descendent lire aux dépôts : des fils verticaux.
+  for (let k = 0; k < 4; k++) {
+    const x = OX + k * (NL + 8) + NL / 2;
+    corps += trace(`M${x} ${yb(1) + BH - 4} V${yb(2) + 8}`, LIT[0], LIT[0] + 0.015, M4, OR, { l: 30, epaisseur: 2 });
+  }
+  // Les valeurs remontent le rail, du disque jusqu'à la fiche.
+  for (let k = 0; k < 4; k++) {
+    const de = MONTE[0] + k * 0.012;
+    corps += `<circle cx="${MX}" r="5" fill="${VERT}" opacity="0" filter="url(#halo)">
+      ${fondu('opacity', C, [[0, 0], [de, 0], [de + 0.004, 1], [de + 0.045, 1], [de + 0.05, 0], [1, 0]])}
+      ${fondu('cy', C, [[0, yc(4)], [de, yc(4)], [de + 0.05, yc(0)], [1, yc(0)]])}</circle>`;
+  }
+  corps += trace(`M${MX} ${yc(4)} V${yc(0)}`, MONTE[0], MONTE[1], RELU + 0.06, VERT, { l: 420, epaisseur: 2.5 });
+  corps += trace(`M${MX} ${yc(0)} H${OX + 196}`, MONTE[1] - 0.01, RELU, RELU + 0.06, VERT, { l: 300, epaisseur: 2.5 });
+
+  // ------------------------------------------------ la règle et l'étape
+  const LY = yb(5) + 6, LH = 720 - LY - 22;
+  corps += `<rect x="400" y="${LY}" width="820" height="${LH}" rx="13" fill="${CARTE}" stroke="${BORD}"/>
+    <path d="M422 ${LY + 17} v14 m-5 -6 l5 6 l5 -6" fill="none" stroke="${OR}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    ${texte(436, LY + 30, t('Écrire descend.', 'Writing goes down.'), { taille: 13.5, couleur: TITRE, poids: 700 })}
+    <path d="M${596} ${LY + 31} v-14 m-5 6 l5 -6 l5 6" fill="none" stroke="${ACCENT}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    ${texte(610, LY + 30, t('Relire remonte.', 'Rereading goes up.'), { taille: 13.5, couleur: TITRE, poids: 700 })}
+    ${texte(772, LY + 30, t('Aucun écran n’écrit de SQL.', 'No screen writes SQL.'), { taille: 13.5, couleur: VERT, poids: 700 })}`;
+  const etapes = [
+    [0, D0, t('Le formulaire est rempli : Auray, 4,5 sur 5, Chez lui, Toute la nuit.', 'The form is filled in: Auray, 4.5 out of 5, His place, All night.')],
+    [D0, D2, t('Enregistrer : l’écran appelle le dépôt directement, sans passer par un provider.', 'Save: the screen calls the repository directly, without a provider.')],
+    [D2, D3, t('Le dépôt écrit l’INSERT, puis les étiquettes du soir et la note au carnet.', 'The repository writes the INSERT, then the evening tags and the notebook note.')],
+    [D3, D4, t('La sécurité prête la connexion, ouverte avec la clé tirée de bodycount/db/v1.', 'Security lends the connection, opened with the key from bodycount/db/v1.')],
+    [D4, POP, t('Sur le disque, une page change, chiffrée avant d’être écrite.', 'On the disk, one page changes, encrypted before it is written.')],
+    [POP, LIT[0], t('rafraichir() invalide douze providers d’un seul appel, en éventail.', 'rafraichir() invalidates twelve providers in a single call, fanning out.')],
+    [LIT[0], MONTE[0], t('Ils relisent par les dépôts, en requêtes groupées, sur la même connexion.', 'They reread through the repositories, grouped queries, same connection.')],
+    [MONTE[0], RELU, t('Les valeurs remontent jusqu’à l’écran.', 'The values climb back up to the screen.')],
+    [RELU, 1.2, t('La fiche revient à jour : 8 fois, 3,9, la rencontre du 26 sept. en tête.', 'The card comes back up to date: 8 times, 3.9, the 26 Sept. encounter on top.')],
+  ];
+  for (const [de, a, s] of etapes) corps += entre(C, de, a, texte(422, LY + 56, s, { taille: 12.5, couleur: TEXTE }), 0.006);
 
   svg('couches.svg', 1280, 720, corps, t(
-    'Les cinq couches de BodyCount, traversées par un toucher sur Enregistrer. Le formulaire d’une rencontre d’Enzo est rempli : Auray, 4,5 sur 5, Chez lui et Toute la nuit. À la descente, l’écran appelle directement depotRencontres.creer, sans passer par les providers ; le dépôt, seul endroit où s’écrit du SQL, fait l’INSERT, puis les étiquettes et la note au carnet ; la sécurité fournit la connexion ouverte avec la clé tirée de bodycount/db/v1 ; sur le disque, une page de bodycount.db change, chiffrée avant d’être écrite. À la montée, l’écran appelle rafraichir, qui invalide d’un seul appel douze providers, du répertoire aux étiquettes d’Enzo ; ils relisent par les dépôts, en requêtes groupées, sur la même connexion, et la fiche revient à jour : 8 fois, 3,9, la rencontre du 26 septembre en tête. Écrire descend, relire remonte, et aucun écran n’écrit de SQL.',
-    'The five layers of BodyCount, crossed by one tap on Save. The form for an encounter with Enzo is filled in: Auray, 4.5 out of 5, His place and All night. On the way down, the screen calls depotRencontres.creer directly, without going through the providers; the repository, the only place SQL is written, runs the INSERT, then the tags and the notebook note; the security layer hands over the connection opened with the key from bodycount/db/v1; on the disk, one page of bodycount.db changes, encrypted before it is written. On the way up, the screen calls rafraichir, which invalidates twelve providers in a single call, from the people list to Enzo’s tags; they reread through the repositories, with grouped queries, on the same connection, and the card comes back up to date: 8 times, 3.9, the encounter of 26 September on top. Writing goes down, rereading goes up, and no screen writes SQL.'));
+    'Les cinq couches de BodyCount, traversées par un toucher sur Enregistrer. Le formulaire d’une rencontre d’Enzo est rempli : Auray, 4,5 sur 5, Chez lui et Toute la nuit. À la descente, une carte « rencontre » tombe de couche en couche : l’écran appelle directement depotRencontres.creer et enjambe les providers ; le dépôt, seul endroit où s’écrit du SQL, fait l’INSERT, puis les étiquettes et la note au carnet ; la sécurité prête la connexion ouverte avec la clé tirée de bodycount/db/v1 ; sur le disque, une page de bodycount.db change et se chiffre avant d’être écrite. À la remontée, l’écran appelle rafraichir, qui invalide d’un seul appel douze providers, du répertoire aux étiquettes d’Enzo ; ils relisent par les dépôts, en requêtes groupées, sur la même connexion, et les valeurs remontent jusqu’à la fiche, qui revient à jour : 8 fois, 3,9, la rencontre du 26 septembre en tête. Écrire descend, relire remonte, et aucun écran n’écrit de SQL.',
+    'The five layers of BodyCount, crossed by one tap on Save. The form for an encounter with Enzo is filled in: Auray, 4.5 out of 5, His place and All night. On the way down, an “encounter” card drops from layer to layer: the screen calls depotRencontres.creer directly and jumps over the providers; the repository, the only place SQL is written, runs the INSERT, then the tags and the notebook note; the security layer lends the connection opened with the key from bodycount/db/v1; on the disk, one page of bodycount.db changes and is encrypted before it is written. On the way up, the screen calls rafraichir, which invalidates twelve providers in a single call, from the people list to Enzo’s tags; they reread through the repositories, with grouped queries, on the same connection, and the values climb back to the card, which comes back up to date: 8 times, 3.9, the encounter of 26 September on top. Writing goes down, rereading goes up, and no screen writes SQL.'));
 };

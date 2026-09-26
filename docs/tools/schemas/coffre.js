@@ -250,7 +250,6 @@ module.exports = (O) => {
     const y = sortieY(i);
     corps += `<rect x="${SXo}" y="${y}" width="${SLo}" height="92" rx="13" fill="${CARTE}" stroke="${BORD}"/>
       <rect x="${SXo}" y="${y}" width="${SLo}" height="92" rx="13" fill="none" stroke="${c}" stroke-width="1.5" opacity="0">${visible(C, de, a)}</rect>
-      <rect x="${SXo}" y="${y + 14}" width="3" height="64" rx="1.5" fill="${c}"/>
       ${texte(SXo + 18, y + 28, titre, { taille: 13, couleur: TITRE, police: MONO, poids: 700 })}
       ${texte(SXo + 18, y + 50, l1, { taille: 11.5 })}
       ${texte(SXo + 18, y + 67, l2, { taille: 11.5 })}`;
@@ -321,7 +320,6 @@ module.exports = (O) => {
   cartes.forEach(([c, titre, l1, l2], i) => {
     const y = GY + i * 124;
     corps += `<rect x="890" y="${y}" width="330" height="110" rx="13" fill="${CARTE}" stroke="${BORD}"/>
-      <rect x="890" y="${y + 14}" width="3" height="82" rx="1.5" fill="${c}"/>
       ${texte(910, y + 34, titre, { taille: 13.5, couleur: TITRE, police: MONO, poids: 700 })}
       ${texte(910, y + 60, l1, { taille: 12 })}
       ${texte(910, y + 80, l2, { taille: 12 })}`;
