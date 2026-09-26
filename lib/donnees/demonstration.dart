@@ -1,7 +1,10 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
+
+import '../config/essais.dart';
 
 import '../domaine/note.dart';
 import '../domaine/personne.dart';
@@ -68,8 +71,10 @@ class _Profil {
 /// Remplit la base avec un jeu d'essai.
 ///
 /// Les visages sont des portraits générés, qui ne représentent personne de
-/// réel. Ils ne sont pas dans l'APK : on les pose sur le téléphone, dans le
-/// dossier propre à l'application, avant de lancer le remplissage.
+/// réel. La démo les embarque : la variante `demo` seule reçoit
+/// assets/demo. Une version de travail ne les a pas : on les pose sur le
+/// téléphone, dans le dossier propre à l'application, avant de lancer le
+/// remplissage.
 ///
 ///     adb push assets/demo/. /sdcard/Android/data/com.bodycount.bodycount/files/demo/
 class Demonstration {
@@ -524,9 +529,13 @@ class Demonstration {
   /// jeu d'essai ne doit jamais échouer pour une image absente.
   Future<String?> _visage(int numero) async {
     try {
+      final nom = 'v${numero.toString().padLeft(2, '0')}.jpg';
+      if (modeDemo) {
+        final octets = await rootBundle.load('assets/demo/$nom');
+        return await PhotoVault.instance.store(octets.buffer.asUint8List());
+      }
       final dossier = await getExternalStorageDirectory();
       if (dossier == null) return null;
-      final nom = 'v${numero.toString().padLeft(2, '0')}.jpg';
       final fichier = File('${dossier.path}/demo/$nom');
       return await PhotoVault.instance.store(await fichier.readAsBytes());
     } catch (_) {

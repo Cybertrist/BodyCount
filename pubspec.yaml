@@ -1,7 +1,7 @@
 name: bodycount
 description: "BodyCount, répertoire personnel de rencontres"
 publish_to: 'none'
-version: 1.0.0+2
+version: 1.1.0+3
 
 environment:
   sdk: ^3.11.0
@@ -55,6 +55,12 @@ flutter:
   assets:
     - assets/logo.png
     - assets/carte/
+    # Les visages du jeu d'essai, pour la démo seule : la vraie application
+    # (--flavor complete) n'en porte pas un octet. Ils ne sont pas dans le
+    # dépôt, voir assets/demo/LISEZMOI.txt.
+    - path: assets/demo/
+      flavors:
+        - demo
 
   # Chakra Petch, sous licence SIL Open Font, embarquée plutôt que
   # chargée : une police prise sur le réseau serait une requête de plus,

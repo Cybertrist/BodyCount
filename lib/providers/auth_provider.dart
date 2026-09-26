@@ -2,8 +2,11 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:sqflite_sqlcipher/sqflite.dart';
 
+import '../config/essais.dart';
 import '../donnees/base.dart';
+import '../donnees/demonstration.dart';
 import '../security/key_vault.dart';
 import '../security/lock_state.dart';
 import '../security/photo_vault.dart';
@@ -71,6 +74,7 @@ class AuthService {
 
     // La clé n'entre en mémoire qu'ici, une fois l'identité prouvée.
     await KeyVault.instance.unlock();
+    await _remplirDemo();
     _ref.read(isAuthenticatedProvider.notifier).state = true;
     EtatVerrou.instance.setUnlocked(true);
     return const ResultatOuverture.succes();
@@ -85,6 +89,7 @@ class AuthService {
   /// preuve d'identité préalable.
   Future<void> ouvrirSansVerrou() async {
     await KeyVault.instance.unlock();
+    await _remplirDemo();
     _ref.read(isAuthenticatedProvider.notifier).state = true;
     EtatVerrou.instance.setUnlocked(true);
   }
@@ -121,6 +126,20 @@ class AuthService {
       default:
         return '${e.code} · ${e.message ?? "sans détail"}';
     }
+  }
+
+  /// La démo se remplit seule, à la première ouverture.
+  ///
+  /// Avant que l'écran s'ouvre, pour que le répertoire arrive plein au lieu
+  /// de se remplir sous les yeux. Une base vidée par « Tout effacer » se
+  /// remplit de nouveau à l'ouverture suivante : la démo ne reste jamais
+  /// vide. Dans la vraie application, `modeDemo` vaut faux à la
+  /// compilation et tout ce bloc disparaît.
+  Future<void> _remplirDemo() async {
+    if (!modeDemo) return;
+    final base = await Base.instance.db;
+    final fiches = Sqflite.firstIntValue(await base.rawQuery('SELECT COUNT(*) FROM personnes')) ?? 0;
+    if (fiches == 0) await const Demonstration().remplir();
   }
 
   /// Referme tout : la connexion à la base, le cache des photos, les clés.

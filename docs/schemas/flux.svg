@@ -35,13 +35,13 @@
       <rect x="8" y="8" width="4" height="4" fill="#A855F7" fill-opacity="0.5"/><rect x="4" y="8" width="4" height="4" fill="#1F1233"/>
     </pattern>
   </defs><rect x="60" y="96" width="290" height="580" rx="36" fill="#07050C" stroke="#2F2A3F" stroke-width="2"/>
-  <clipPath id="ecran75"><rect x="70" y="110" width="270" height="552" rx="26"/></clipPath>
+  <clipPath id="ecran157"><rect x="70" y="110" width="270" height="552" rx="26"/></clipPath>
   <rect x="70" y="110" width="270" height="552" rx="26" fill="#0B0616"/>
-  <rect x="175" y="101" width="60" height="5" rx="2.5" fill="#1B1726"/><g clip-path="url(#ecran75)"><g opacity="0"><animate attributeName="opacity" dur="36s" repeatCount="indefinite" keyTimes="0;0;0.4;0.406;1" values="0;1;1;0;0"/>
+  <rect x="175" y="101" width="60" height="5" rx="2.5" fill="#1B1726"/><g clip-path="url(#ecran157)"><g opacity="0"><animate attributeName="opacity" dur="36s" repeatCount="indefinite" keyTimes="0;0;0.4;0.406;1" values="0;1;1;0;0"/>
     <path d="M94 148 l-7 7 l7 7" fill="none" stroke="#F6F2FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     <text x="114" y="161" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="17" font-weight="800" fill="#F6F2FF" text-anchor="start" >Photos et vidéos</text>
-    <clipPath id="photo76"><rect x="88" y="200" width="234" height="190" rx="16"/></clipPath>
-  <g clip-path="url(#photo76)"><rect x="88" y="200" width="234" height="190" fill="#1A1030"/><use href="#visage12" xlink:href="#visage12" x="88" y="200" width="234" height="234"/></g>
+    <clipPath id="photo158"><rect x="88" y="200" width="234" height="190" rx="16"/></clipPath>
+  <g clip-path="url(#photo158)"><rect x="88" y="200" width="234" height="190" fill="#1A1030"/><use href="#visage12" xlink:href="#visage12" x="88" y="200" width="234" height="234"/></g>
     <rect x="88" y="200" width="234" height="190" rx="16" fill="#000000" fill-opacity="0.25"/>
     <circle cx="205" cy="295" r="20" fill="#000000" fill-opacity="0.45" stroke="#FFFFFF" stroke-opacity="0.9" stroke-width="1.5"/>
     <path d="M199 286 L215 295 L199 304 Z" fill="#FFFFFF"/>
@@ -68,8 +68,8 @@
     <g transform="translate(282 146) scale(0.9)"><path d="M8 2 V10 M4.5 7 L8 10.5 L11.5 7 M3 13.5 H13" fill="none" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>
     <circle cx="318" cy="148" r="1.6" fill="#FFFFFF"/><circle cx="318" cy="154" r="1.6" fill="#FFFFFF"/><circle cx="318" cy="160" r="1.6" fill="#FFFFFF"/><g opacity="0"><animate attributeName="opacity" dur="36s" repeatCount="indefinite" keyTimes="0;0.396;0.4;0.475;0.479;1" values="0;0;1;1;0;0"/><circle cx="205" cy="370" r="13" fill="none" stroke="#A855F7" stroke-width="2.6" stroke-dasharray="52 30">
       <animateTransform attributeName="transform" type="rotate" from="0 205 370" to="360 205 370" dur="0.9s" repeatCount="indefinite"/></circle>
-    <text x="205" y="406" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12.5" font-weight="400" fill="#9B8CB8" text-anchor="middle" >Déchiffrement…</text></g><g opacity="0"><animate attributeName="opacity" dur="36s" repeatCount="indefinite" keyTimes="0;0.471;0.475;0.58;0.584;1" values="0;0;1;1;0;0"/><clipPath id="photo77"><rect x="70" y="266" width="270" height="220" rx="0"/></clipPath>
-  <g clip-path="url(#photo77)"><rect x="70" y="266" width="270" height="220" fill="#1A1030"/><use href="#visage12" xlink:href="#visage12" x="70" y="266" width="270" height="270"/></g>
+    <text x="205" y="406" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12.5" font-weight="400" fill="#9B8CB8" text-anchor="middle" >Déchiffrement…</text></g><g opacity="0"><animate attributeName="opacity" dur="36s" repeatCount="indefinite" keyTimes="0;0.471;0.475;0.58;0.584;1" values="0;0;1;1;0;0"/><clipPath id="photo159"><rect x="70" y="266" width="270" height="220" rx="0"/></clipPath>
+  <g clip-path="url(#photo159)"><rect x="70" y="266" width="270" height="220" fill="#1A1030"/><use href="#visage12" xlink:href="#visage12" x="70" y="266" width="270" height="270"/></g>
     <text x="86" y="622" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#FFFFFF" text-anchor="start" >0:03</text>
     <text x="324" y="622" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#FFFFFF" text-anchor="end" >0:42</text>
     <rect x="120" y="617" width="170" height="3" rx="1.5" fill="#FFFFFF" fill-opacity="0.25"/>

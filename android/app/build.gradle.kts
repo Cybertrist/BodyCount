@@ -22,6 +22,11 @@ android {
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
+    // Pour le nom de l'application, qui change avec la démo.
+    buildFeatures {
+        resValues = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -36,6 +41,26 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+    }
+
+    // Deux applications du même code. « complete », la vraie ; « demo »,
+    // une application à part, qui s'installe à côté sans la toucher et
+    // embarque les visages du jeu d'essai (pubspec.yaml ne les donne qu'à
+    // elle). Chaque construction nomme donc sa variante :
+    //
+    //   flutter build apk --flavor complete
+    //   flutter build apk --flavor demo --dart-define=DEMO=true
+    flavorDimensions += "variante"
+    productFlavors {
+        create("complete") {
+            dimension = "variante"
+            resValue("string", "app_name", "BodyCount")
+        }
+        create("demo") {
+            dimension = "variante"
+            applicationIdSuffix = ".demo"
+            resValue("string", "app_name", "BodyCount démo")
+        }
     }
 
     signingConfigs {

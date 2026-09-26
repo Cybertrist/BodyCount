@@ -40,7 +40,8 @@ ce qui rend impossible d'en corriger une en oubliant l'autre.
   côté, réduit à 720 points de large et écrit en JPEG, par un canvas de
   Chrome. `node docs/tools/rogner.js <brut> <src-captures/format>`,
   suivi de `1200` pour un écran couché, qui mérite plus de 720 points.
-- `telecharger.sh` : le bouton de la section « Installer », avec la
+- `telecharger.sh` : les boutons de la section « Installer », la vraie
+  application et, avec `VARIANTE=demo`, la démo, avec la
   version lue dans `pubspec.yaml` et la taille lue sur l'APK construit.
   Il pointe vers le dernier APK des Releases, dont l'adresse ne change
   pas d'une version à l'autre.
@@ -67,6 +68,12 @@ ce qui rend impossible d'en corriger une en oubliant l'autre.
   Pas de police externe : un SVG affiché en `<img>` n'a pas le droit
   d'aller la chercher, et une `@import` ignorée donnerait une figure
   cassée chez les autres et correcte chez soi.
+- `verifier.js` : passe chaque SVG au DOMParser strict de Chrome et
+  signale les identifiants en double. Un SVG que Chrome affiche malgré une
+  faute peut sortir sur GitHub en « Invalid image source » : à lancer
+  après chaque rendu.
+- `vignettes-captures.js` : réduit les captures de `src-captures/` pour
+  les quatre planches d'écrans, dans `schemas/captures.json`.
 - `visages.js` : réduit les photos du jeu d'essai et le logo à 160 points
   et les range dans `schemas/visages.json`, en adresses data: que les SVG
   embarquent. À relancer seulement si `assets/demo` change.

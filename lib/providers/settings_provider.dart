@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../config/essais.dart';
 import '../security/screen_guard.dart';
 
 /// Réglages persistés.
@@ -33,10 +34,12 @@ class ReglagesStore {
 
   /// Le verrou à l'ouverture. Actif par défaut : sur une application
   /// dont c'est tout le sujet, le réglage sûr est celui qu'on trouve en
-  /// arrivant, pas celui qu'on doit aller chercher.
+  /// arrivant, pas celui qu'on doit aller chercher. Sauf dans la démo,
+  /// qui ne garde rien de réel et doit s'ouvrir d'un geste ; le réglage
+  /// reste là pour essayer l'empreinte.
   static Future<bool> verrouActif() async {
     final valeur = await _storage.read(key: _cleVerrou);
-    return valeur != 'non';
+    return valeur == null ? !modeDemo : valeur != 'non';
   }
 
   static Future<void> setVerrouActif(bool actif) async {
@@ -115,7 +118,7 @@ class Reglages {
   const Reglages({
     this.ecranProtege = false,
     this.delaiVerrou = const Duration(seconds: 45),
-    this.verrouActif = true,
+    this.verrouActif = !modeDemo,
   });
 
   final bool ecranProtege;

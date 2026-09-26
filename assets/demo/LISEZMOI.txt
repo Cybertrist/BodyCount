@@ -1,0 +1,6 @@
+Les visages du jeu d'essai vont ici : v01.jpg à v18.jpg.
+
+Ce sont des portraits générés, qui ne représentent personne de réel. Ils
+ne sont pas versionnés. Seule la démo (--flavor demo) les embarque ; la
+vraie application n'en contient aucun. Sans eux, la démo se construit
+quand même et ses dix-huit fiches se créent sans photo.

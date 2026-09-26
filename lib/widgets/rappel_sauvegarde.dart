@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../config/essais.dart';
 import '../config/theme.dart';
 import '../providers/donnees.dart';
 import '../providers/settings_provider.dart';
@@ -20,6 +21,9 @@ class RappelSauvegarde extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // La démo ne garde rien qui vaille une sauvegarde : le rappel n'y
+    // serait qu'un bandeau de plus entre le visiteur et les fiches.
+    if (modeDemo) return const SizedBox.shrink();
     final etat = ref.watch(sauvegardeProvider).valueOrNull;
     final fiches = ref.watch(repertoireProvider).valueOrNull;
     if (etat == null || fiches == null || fiches.isEmpty) {
