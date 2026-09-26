@@ -247,21 +247,53 @@ ${corps}
   ${texte(x + l / 2, y + h / 2 + taille * 0.36, s, { taille, couleur: '#FFFFFF', poids: 700, ancre: 'middle' })}`;
 
   /// La barre du bas : Fiches, Stats, le +, Carte, Agenda.
-  function barreNav(S, actif = 'Fiches') {
-    const y = S.y + S.h - 58, l = S.l - 20, x = S.x + 10;
-    const items = [[t('Fiches', 'People'), 'Fiches'], [t('Stats', 'Stats'), 'Stats'], ['+', '+'], [t('Carte', 'Map'), 'Carte'], [t('Agenda', 'Agenda'), 'Agenda']];
-    const pas = l / items.length;
-    let s = `<rect x="${x}" y="${y}" width="${l}" height="46" rx="23" fill="${APP.surface}" stroke="${APP.bord}"/>`;
-    items.forEach(([lib, cle], i) => {
-      const cx = x + pas * i + pas / 2;
-      if (cle === '+') {
-        s += `<rect x="${cx - 17}" y="${y + 6}" width="34" height="34" rx="12" fill="url(#marque)"/>
-        <path d="M${cx - 7} ${y + 23} h14 M${cx} ${y + 16} v14" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"/>`;
+  // Les icônes de la barre du bas, redessinées d'après les Material Icons
+  // arrondies de lib/widgets/common/app_scaffold.dart (grid_view_rounded,
+  // bar_chart_rounded, map_rounded, calendar_month_rounded), dans un carré
+  // de 24 dont le coin haut gauche est à l'origine.
+  const ICONE_NAV = {
+    Fiches: (c) => `<rect x="3" y="3" width="8" height="8" rx="2.2" fill="${c}"/><rect x="13" y="3" width="8" height="8" rx="2.2" fill="${c}"/><rect x="3" y="13" width="8" height="8" rx="2.2" fill="${c}"/><rect x="13" y="13" width="8" height="8" rx="2.2" fill="${c}"/>`,
+    Stats: (c) => `<rect x="4" y="11" width="4" height="9" rx="2" fill="${c}"/><rect x="10" y="4" width="4" height="16" rx="2" fill="${c}"/><rect x="16" y="14" width="4" height="6" rx="2" fill="${c}"/>`,
+    Carte: (c) => `<path d="M9.2 4.2 L3.6 6.1 C3.2 6.2 3 6.6 3 7 V19.5 C3 20.2 3.7 20.7 4.3 20.4 L9 18.6 V4.3 Z M10.6 4.3 V18.5 L13.4 19.7 V5.5 Z M14.8 5.4 V19.7 L20.4 17.9 C20.8 17.8 21 17.4 21 17 V4.5 C21 3.8 20.3 3.3 19.7 3.6 Z" fill="${c}"/>`,
+    Agenda: (c) => `<path d="M5.5 4.5 H18.5 C19.9 4.5 21 5.6 21 7 V18.5 C21 19.9 19.9 21 18.5 21 H5.5 C4.1 21 3 19.9 3 18.5 V7 C3 5.6 4.1 4.5 5.5 4.5 Z M5 9.5 V18.3 C5 18.7 5.3 19 5.7 19 H18.3 C18.7 19 19 18.7 19 18.3 V9.5 Z" fill="${c}" fill-rule="evenodd"/><rect x="7" y="2.5" width="2" height="4" rx="1" fill="${c}"/><rect x="15" y="2.5" width="2" height="4" rx="1" fill="${c}"/><circle cx="8.5" cy="12.5" r="1.2" fill="${c}"/><circle cx="12" cy="12.5" r="1.2" fill="${c}"/><circle cx="15.5" cy="12.5" r="1.2" fill="${c}"/><circle cx="8.5" cy="16" r="1.2" fill="${c}"/><circle cx="12" cy="16" r="1.2" fill="${c}"/><circle cx="15.5" cy="16" r="1.2" fill="${c}"/>`,
+  };
+
+  /// La barre du bas, comme lib/widgets/common/app_scaffold.dart : quatre
+  /// onglets à icône autour du bouton d'ajout en dégradé. L'onglet actif
+  /// porte une pastille en dégradé violet. Les libellés ne s'affichent que
+  /// s'ils tiennent, comme dans l'appli (_libellesTiennent) : sur un
+  /// téléphone 16/9, les icônes seules, un peu plus grandes.
+  function barreNav(S, actif = 'Fiches', { libelles = null } = {}) {
+    const y = S.y + S.h - 58, l = S.l - 20, x = S.x + 10, h = 46;
+    const onglets = [['Fiches', t('Fiches', 'People')], ['Stats', t('Stats', 'Stats')], ['Carte', t('Carte', 'Map')], ['Agenda', t('Agenda', 'Agenda')]];
+    const ajout = 40, marge = 6;
+    const place = (l - ajout - 2 * marge) / onglets.length;
+    const avecMots = libelles ?? place >= 19 + 7 + 38 + 6;
+    const gid = id('nav');
+    let s = `<linearGradient id="${gid}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#A855F7" stop-opacity="0.26"/><stop offset="1" stop-color="#D946EF" stop-opacity="0.2"/></linearGradient>
+  <rect x="${x}" y="${y}" width="${l}" height="${h}" rx="${h / 2}" fill="${APP.surface}" stroke="${APP.bord}"/>`;
+    const cxDe = (i) => {
+      // Deux onglets, le bouton, deux onglets.
+      const avant = i < 2 ? i : i + 0;
+      const base = x + marge + place * avant + place / 2;
+      return i < 2 ? base : base + ajout;
+    };
+    onglets.forEach(([cle, mot], i) => {
+      const cx = cxDe(i), choisi = cle === actif;
+      const couleur = choisi ? '#E9D5FF' : '#8B7BA8';
+      if (choisi) s += `<rect x="${cx - place / 2 + 2}" y="${y + 5}" width="${place - 4}" height="${h - 10}" rx="14" fill="url(#${gid})"/>`;
+      if (avecMots) {
+        const lm = mot.length * 6.4, k = 15 / 24, tot = 15 + 5 + lm;
+        s += `<g transform="translate(${cx - tot / 2} ${y + h / 2 - 7.5}) scale(${k})">${ICONE_NAV[cle](couleur)}</g>`;
+        s += texte(cx - tot / 2 + 20, y + h / 2 + 4, mot, { taille: 10.5, couleur, poids: choisi ? 800 : 700 });
       } else {
-        if (cle === actif) s += `<rect x="${cx - pas / 2 + 3}" y="${y + 7}" width="${pas - 6}" height="32" rx="16" fill="${APP.violet}" fill-opacity="0.22"/>`;
-        s += texte(cx, y + 27.5, lib, { taille: 10, couleur: cle === actif ? APP.texte : APP.second, poids: cle === actif ? 700 : 500, ancre: 'middle' });
+        const k = 18 / 24;
+        s += `<g transform="translate(${cx - 9} ${y + h / 2 - 9}) scale(${k})">${ICONE_NAV[cle](couleur)}</g>`;
       }
     });
+    const bx = x + marge + place * 2 + ajout / 2;
+    s += `<rect x="${bx - 18}" y="${y + h / 2 - 18}" width="36" height="36" rx="12" fill="url(#marque)"/>
+  <path d="M${bx - 7} ${y + h / 2} h14 M${bx} ${y + h / 2 - 7} v14" stroke="#12071F" stroke-width="2.6" stroke-linecap="round"/>`;
     return s;
   }
 

@@ -172,7 +172,7 @@ module.exports = (O) => {
   planche('captures-passeport.svg', {
     titre: t('FORMAT PASSEPORT', 'PASSPORT FORMAT'),
     phrase: t('l’écran de couverture du Fold, 460 × 727 points.', 'the Fold cover screen, 460 × 727 points.'),
-    format: 'passeport', sl: 152, rx: 14, colonnes: 6, gapX: 34, gapY: 26, bord: 8, haut: 13, legendeL: 196,
+    format: 'passeport', sl: 228, rx: 18, colonnes: 4, gapX: 64, gapY: 34, bord: 10, haut: 14, legendeL: 250,
     ecrans: [
       ['lancement-1', t('Lancement', 'Launch'), t('L’icône d’Android, sur le fond de l’application.', 'Android’s icon, on the app’s background.')],
       ['lancement-2', t('Chargement', 'Loading'), t('L’anneau se trace, le nom monte, les communes se lisent.', 'The ring draws, the name rises, the communes load.')],
