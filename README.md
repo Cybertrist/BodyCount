@@ -283,6 +283,8 @@ Le jeu d'essai n'existe que dans la démo, et dans une version de travail compil
 
 Chaque version s'installe par-dessus la précédente sans rien perdre, signée de la même clé. Le détail, avec les empreintes SHA-256, est sur la page de chaque Release.
 
+<img src="docs/schemas/versions.svg" alt="Les versions de BodyCount, empilées l’une sur l’autre : chacune tombe sur la précédente, comme elle s’installe. En bas, le socle ne bouge pas : tes données, fiches, rencontres, carnets, photos et vidéos du coffre, et la clé de signature, la même pour toutes, dont le fil monte sceller chaque version. 1.0.0, mercredi 23 septembre 2026 : la première version, répertoire, statistiques, carte et calendrier, galerie chiffrée, sauvegarde et restauration, sans jeu d’essai. 1.1.0, samedi 26 septembre : la démo, une seconde application, BodyCount démo, d’identifiant .demo, qui se pose à côté de la pile avec ses dix-huit fiches d’essai, sans toucher la vraie. 1.1.0 par-dessus 1.0.0 : rien de perdu. Elle reste allumée, avec ses 24 tests au vert." width="100%">
+
 - **[1.1.0](https://github.com/Cybertrist/BodyCount/releases/tag/v1.1.0)**, 26 septembre 2026 : la démo, une seconde application remplie des dix-huit fiches du jeu d'essai, qui s'installe à côté de la vraie sans la toucher.
 - **[1.0.0](https://github.com/Cybertrist/BodyCount/releases/tag/v1.0.0)**, 23 septembre 2026 : la première version publiée, sans jeu d'essai. Le répertoire, les statistiques, la carte de France embarquée, le calendrier, la galerie chiffrée, la sauvegarde et la restauration.
 

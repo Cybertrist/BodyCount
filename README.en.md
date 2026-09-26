@@ -283,6 +283,8 @@ The sample set only exists in the demo, and in a working build compiled with `--
 
 Each version installs over the previous one without losing anything, signed with the same key. The details, with the SHA-256 fingerprints, are on each Release page.
 
+<img src="docs/en/schemas/versions.svg" alt="The BodyCount versions, stacked one on top of the other: each drops onto the previous one, the way it installs. At the bottom, the base never moves: your data, people, encounters, notebooks, vault photos and videos, and the signing key, the same for all, whose thread rises to seal each version. 1.0.0, Wednesday 23 September 2026: the first version, people list, statistics, map and calendar, encrypted gallery, backup and restore, without the sample set. 1.1.0, Saturday 26 September: the demo, a second app, BodyCount demo, identifier .demo, which sits next to the stack with its eighteen sample people, never touching the real one. 1.1.0 over 1.0.0: nothing lost. It stays lit, with its 24 tests green." width="100%">
+
 - **[1.1.0](https://github.com/Cybertrist/BodyCount/releases/tag/v1.1.0)**, 26 September 2026: the demo, a second app filled with the eighteen sample people, which installs next to the real one without touching it.
 - **[1.0.0](https://github.com/Cybertrist/BodyCount/releases/tag/v1.0.0)**, 23 September 2026: the first published version, without the sample set. The people list, the statistics, the embedded map of France, the calendar, the encrypted gallery, backup and restore.
 
