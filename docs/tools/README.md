@@ -55,19 +55,18 @@ ce qui rend impossible d'en corriger une en oubliant l'autre.
 - `pastilles.sh` : les deux pastilles du sélecteur de langue.
 - `sequence.sh` : le gabarit des enchaînements, des étapes reliées par
   une flèche.
-- `anime.js` : les quinze SVG animés. Les sept premiers : la chaîne de chiffrement,
-  l'ouverture unique de la base, le flux chiffré par morceaux, la
-  recherche des communes, la restauration en deux passes,
-  l'allègement d'une vidéo et le mur qui tient Internet dehors, dans `docs/schemas/`. Les huit
-  autres rejouent l'application dans un téléphone, un fichier chacun dans
-  `schemas/` : le verrou, le répertoire, une rencontre, les statistiques,
-  le coffre, la sauvegarde, la carte et le calendrier. Ils partagent
-  `schemas/outils.js` (le téléphone, le toucher, les étoiles, les cartes
-  du répertoire, le jeu d'essai) et portent leurs deux langues sur la même
-  ligne, `t('français', 'english')`. Pas de police
-  externe : un SVG affiché en `<img>` n'a pas le droit d'aller la
-  chercher, et une `@import` ignorée donnerait une figure cassée chez les
-  autres et correcte chez soi.
+- `anime.js` : les quinze SVG animés de `docs/schemas/`. Chacun rejoue
+  l'application dans un téléphone et vit dans son propre fichier de
+  `schemas/` : le chiffrement, le verrou, l'ouverture unique de la base,
+  le répertoire, une rencontre, les statistiques, le coffre, le flux
+  chiffré, l'allègement d'une vidéo, la sauvegarde, la restauration, la
+  carte, la recherche des communes, le calendrier et le mur qui tient
+  Internet dehors. Ils partagent `schemas/outils.js` (le téléphone, le
+  toucher, les étoiles, les cartes du répertoire, le jeu d'essai) et
+  portent leurs deux langues sur la même ligne, `t('français', 'english')`.
+  Pas de police externe : un SVG affiché en `<img>` n'a pas le droit
+  d'aller la chercher, et une `@import` ignorée donnerait une figure
+  cassée chez les autres et correcte chez soi.
 - `visages.js` : réduit les photos du jeu d'essai et le logo à 160 points
   et les range dans `schemas/visages.json`, en adresses data: que les SVG
   embarquent. À relancer seulement si `assets/demo` change.

@@ -1,270 +1,290 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="452"
-     viewBox="0 0 1280 452" role="img"
-     aria-label="BodyCount does not ask for the INTERNET permission: every connection attempt crashes into a wall held by Android, and the Internet is never reached. Only four exits remain, each opened by a tap and handing over to another app: the address to the maps app, the number to the dialer, the encrypted backup wherever you put it, and a plain copy into the gallery.">
-  <rect width="1280" height="452" fill="#0D1117"/>
-
-  <text x="56" y="50" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="12" fill="#5C6A7A">on its own</text>
-  <path d="M 250 150 H 694" stroke="#2F3A47" stroke-width="1.8" fill="none"/>
-  <path d="M 710 150 H 1044" stroke="#2F3A47" stroke-width="1.8" fill="none"
-        stroke-dasharray="3 7" opacity="0.6"/>
-  
-  <g>
-    <circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
-        path="M 250 150 H 694" keyPoints="0;0;1;1" keyTimes="0;0.0250;0.2125;1" calcMode="linear"/>
-      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-             values="0;0;0.18;0.18;0;0"
-             keyTimes="0;0.0250;0.0563;0.1812;0.2125;1"/></circle>
-    <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
-        path="M 250 150 H 694" keyPoints="0;0;1;1" keyTimes="0;0.0250;0.2125;1" calcMode="linear"/>
-      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-             values="0;0;1;1;0;0"
-             keyTimes="0;0.0250;0.0563;0.1812;0.2125;1"/></circle>
-    <circle cx="694" cy="150" r="4" fill="none" stroke="#E2725F" stroke-width="2" opacity="0">
-      <animate attributeName="r" dur="8s" repeatCount="indefinite"
-               values="4;4;26;26" keyTimes="0;0.2125;0.3000;1"/>
-      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-               values="0;0;0.9;0;0" keyTimes="0;0.2125;0.2188;0.3000;1"/>
-    </circle>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1280 700" width="1280" height="700" role="img" aria-label="BodyCount does not ask for the INTERNET permission: Android refuses to open any connection. Map tiles, fonts, analytics or crash reports that other apps send on their own would crash into that wall, and the Internet is never reached. Four doors remain, each opened by a touch and handing over to another app: Directions gives the address to the maps app chosen through geo:, Call gives the number to the dialer through tel:, Export puts the encrypted backup in the folder picked in the system picker, and Download files a plain copy of the photo under Pictures › BodyCount. The manifest writes a single permission, the fingerprint; France ships inside, so does the font, and Android backup is refused.">
+<title>BodyCount does not ask for the INTERNET permission: Android refuses to open any connection. Map tiles, fonts, analytics or crash reports that other apps send on their own would crash into that wall, and the Internet is never reached. Four doors remain, each opened by a touch and handing over to another app: Directions gives the address to the maps app chosen through geo:, Call gives the number to the dialer through tel:, Export puts the encrypted backup in the folder picked in the system picker, and Download files a plain copy of the photo under Pictures › BodyCount. The manifest writes a single permission, the fingerprint; France ships inside, so does the font, and Android backup is refused.</title>
+<defs>
+  <filter id="halo" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur stdDeviation="6" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <pattern id="grille" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M40 0H0V40" fill="none" stroke="#E879F9" stroke-opacity="0.045"/>
+  </pattern>
+  <radialGradient id="lueur" cx="50%" cy="0%" r="80%">
+    <stop offset="0" stop-color="#A855F7" stop-opacity="0.11"/><stop offset="1" stop-color="#A855F7" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="marque" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#A855F7"/><stop offset="1" stop-color="#D946EF"/>
+  </linearGradient>
+  <linearGradient id="voile" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0.38" stop-color="#0B0616" stop-opacity="0"/><stop offset="1" stop-color="#0B0616" stop-opacity="0.88"/>
+  </linearGradient>
+  <symbol id="visage12" viewBox="0 0 160 160"><image width="160" height="160" href="data:image/jpeg;base64,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"/></symbol>
+  <symbol id="visagelogo" viewBox="0 0 160 160"><image width="160" height="160" href="data:image/jpeg;base64,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"/></symbol>
+</defs>
+<rect width="1280" height="700" rx="16" fill="#0D1117"/>
+<rect width="1280" height="700" rx="16" fill="url(#grille)"/>
+<rect width="1280" height="700" rx="16" fill="url(#lueur)"/>
+<text x="60" y="52" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="13" font-weight="700" fill="#E879F9" text-anchor="start" letter-spacing="3">NO INTERNET</text><text x="204" y="52" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#8B99A8" text-anchor="start" >No INTERNET permission: Android refuses every connection. Four doors remain, each opened by a touch.</text><rect x="60" y="96" width="290" height="580" rx="36" fill="#07050C" stroke="#2F2A3F" stroke-width="2"/>
+  <clipPath id="ecran151"><rect x="70" y="110" width="270" height="552" rx="26"/></clipPath>
+  <rect x="70" y="110" width="270" height="552" rx="26" fill="#0B0616"/>
+  <rect x="175" y="101" width="60" height="5" rx="2.5" fill="#1B1726"/><g clip-path="url(#ecran151)"><g opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0;0.25;0.256;1" values="0;1;1;0;0"/><clipPath id="photo152"><rect x="70" y="110" width="270" height="300" rx="0"/></clipPath>
+  <g clip-path="url(#photo152)"><rect x="70" y="110" width="270" height="300" fill="#1A1030"/><use href="#visage12" xlink:href="#visage12" x="55" y="110" width="300" height="300"/></g><rect x="70" y="110" width="270" height="300" fill="url(#voile)"/>
+      <circle cx="96" cy="138" r="15" fill="#0B0616" fill-opacity="0.6"/>
+      <path d="M101 138 h-10 m4 -5 l-5 5 l5 5" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="86" y="348" width="42.8" height="20" rx="10" fill="#1ED760" fill-opacity="1"/>
+        <text x="107.4" y="362" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10" font-weight="700" fill="#04210F" text-anchor="middle" >N°12</text><rect x="134.8" y="348" width="61.4" height="20" rx="10" fill="#0B0616" fill-opacity="0.7"/>
+        <text x="165.5" y="362" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10" font-weight="700" fill="#F6F2FF" text-anchor="middle" >23 y.o.</text><rect x="202.20000000000002" y="348" width="55.2" height="20" rx="10" fill="#0B0616" fill-opacity="0.7"/>
+        <text x="229.8" y="362" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10" font-weight="700" fill="#F6F2FF" text-anchor="middle" >Vannes</text><text x="86" y="400" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="28" font-weight="800" fill="#FFFFFF" text-anchor="start" >Enzo P.</text><text x="86" y="440" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="19" font-weight="800" fill="#F6F2FF" text-anchor="start" >3,8</text><polygon points="90.0,449.0 91.1,451.5 93.8,451.8 91.7,453.6 92.4,456.2 90.0,454.8 87.6,456.2 88.3,453.6 86.2,451.8 88.9,451.5" fill="#3A2D55"/><polygon points="90.0,449.0 91.1,451.5 93.8,451.8 91.7,453.6 92.4,456.2 90.0,454.8 87.6,456.2 88.3,453.6 86.2,451.8 88.9,451.5" fill="#C084FC"/><polygon points="99.2,449.0 100.3,451.5 103.0,451.8 100.9,453.6 101.6,456.2 99.2,454.8 96.8,456.2 97.5,453.6 95.4,451.8 98.1,451.5" fill="#3A2D55"/><polygon points="99.2,449.0 100.3,451.5 103.0,451.8 100.9,453.6 101.6,456.2 99.2,454.8 96.8,456.2 97.5,453.6 95.4,451.8 98.1,451.5" fill="#C084FC"/><polygon points="108.4,449.0 109.5,451.5 112.2,451.8 110.1,453.6 110.8,456.2 108.4,454.8 106.0,456.2 106.7,453.6 104.6,451.8 107.3,451.5" fill="#3A2D55"/><polygon points="108.4,449.0 109.5,451.5 112.2,451.8 110.1,453.6 110.8,456.2 108.4,454.8 106.0,456.2 106.7,453.6 104.6,451.8 107.3,451.5" fill="#C084FC"/><polygon points="117.6,449.0 118.7,451.5 121.4,451.8 119.3,453.6 120.0,456.2 117.6,454.8 115.2,456.2 115.9,453.6 113.8,451.8 116.5,451.5" fill="#3A2D55"/><polygon points="117.6,449.0 118.7,451.5 121.4,451.8 119.3,453.6 120.0,456.2 117.6,454.8 115.2,456.2 115.9,453.6 113.8,451.8 116.5,451.5" fill="#C084FC"/><polygon points="126.8,449.0 127.9,451.5 130.6,451.8 128.5,453.6 129.2,456.2 126.8,454.8 124.4,456.2 125.1,453.6 123.0,451.8 125.7,451.5" fill="#3A2D55"/><text x="172" y="440" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="19" font-weight="800" fill="#F6F2FF" text-anchor="start" >7</text><text x="172" y="456" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="8.5" font-weight="700" fill="#9B8CB8" text-anchor="start" letter-spacing="1.2">TIMES</text><text x="258" y="440" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="19" font-weight="800" fill="#F6F2FF" text-anchor="start" >347 j</text><text x="258" y="456" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="8.5" font-weight="700" fill="#9B8CB8" text-anchor="start" letter-spacing="1.2">SINCE</text><text x="86" y="490" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="700" fill="#9B8CB8" text-anchor="start" letter-spacing="1.6">INFOS</text><rect x="82" y="500" width="246" height="38" rx="12" fill="#1A1030" stroke="#261A45"/>
+        <g transform="translate(92 511) scale(1)"><path d="M4.5 2 L6.5 2 L7.8 5.4 L6.3 6.6 C7 8.4 8 9.4 9.6 10.1 L10.8 8.6 L14 9.9 L14 12 C14 13.1 13.1 14 12 14 C6.5 13.6 2.4 9.5 2 4 C2 2.9 2.9 2 4 2 Z" fill="none" stroke="#9B8CB8" stroke-width="1.5" stroke-linejoin="round"/></g>
+        <text x="116" y="523.5" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#9B8CB8" text-anchor="start" >Phone</text>
+        <text x="316" y="523.5" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10.5" font-weight="700" fill="#F6F2FF" text-anchor="end" >07 15 93 62 08</text><rect x="82" y="544" width="246" height="38" rx="12" fill="#1A1030" stroke="#261A45"/>
+        <g transform="translate(92 555) scale(1)"><path d="M8 1.5 L14.5 8 L8 14.5 L1.5 8 Z" fill="none" stroke="#9B8CB8" stroke-width="1.5" stroke-linejoin="round"/><path d="M6 10 V7.5 H10 M8.6 6 L10 7.5 L8.6 9" fill="none" stroke="#9B8CB8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></g>
+        <text x="116" y="567.5" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#9B8CB8" text-anchor="start" >Address</text>
+        <text x="316" y="567.5" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10.5" font-weight="700" fill="#F6F2FF" text-anchor="end" >Place des Lices, Vannes</text><circle cx="106" cy="622" r="21" fill="#1A1030" stroke="#261A45"/><g transform="translate(98 614) scale(1)"><path d="M4.5 2 L6.5 2 L7.8 5.4 L6.3 6.6 C7 8.4 8 9.4 9.6 10.1 L10.8 8.6 L14 9.9 L14 12 C14 13.1 13.1 14 12 14 C6.5 13.6 2.4 9.5 2 4 C2 2.9 2.9 2 4 2 Z" fill="none" stroke="#C084FC" stroke-width="1.5" stroke-linejoin="round"/></g><circle cx="158" cy="622" r="21" fill="#1A1030" stroke="#261A45"/><g transform="translate(150 614) scale(1)"><path d="M8 1.5 L14.5 8 L8 14.5 L1.5 8 Z" fill="none" stroke="#C084FC" stroke-width="1.5" stroke-linejoin="round"/><path d="M6 10 V7.5 H10 M8.6 6 L10 7.5 L8.6 9" fill="none" stroke="#C084FC" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></g><rect x="186" y="600" width="140" height="44" rx="18" fill="url(#marque)"/>
+  <text x="256" y="626.32" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" >+ New encounter</text><g opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.048;0.052000000000000005;0.082;0.08600000000000001;1" values="0;0;1;1;0;0"/>
+    <circle cx="158" cy="622" r="13" fill="#FFFFFF" fill-opacity="0.28" stroke="#FFFFFF" stroke-opacity="0.7" stroke-width="1.5"/>
   </g>
-  <g>
-    <circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
-        path="M 250 150 H 694" keyPoints="0;0;1;1" keyTimes="0;0.3625;0.5500;1" calcMode="linear"/>
-      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-             values="0;0;0.18;0.18;0;0"
-             keyTimes="0;0.3625;0.3937;0.5188;0.5500;1"/></circle>
-    <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
-        path="M 250 150 H 694" keyPoints="0;0;1;1" keyTimes="0;0.3625;0.5500;1" calcMode="linear"/>
-      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-             values="0;0;1;1;0;0"
-             keyTimes="0;0.3625;0.3937;0.5188;0.5500;1"/></circle>
-    <circle cx="694" cy="150" r="4" fill="none" stroke="#E2725F" stroke-width="2" opacity="0">
-      <animate attributeName="r" dur="8s" repeatCount="indefinite"
-               values="4;4;26;26" keyTimes="0;0.5500;0.6375;1"/>
-      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-               values="0;0;0.9;0;0" keyTimes="0;0.5500;0.5563;0.6375;1"/>
-    </circle>
+  <circle cx="158" cy="622" r="10" fill="none" stroke="#FFFFFF" stroke-width="2" opacity="0">
+    <animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.07;0.07200000000000001;0.10500000000000001;1" values="0;0;0.8;0;0"/>
+    <animate attributeName="r" dur="34s" repeatCount="indefinite" keyTimes="0;0.07;0.10500000000000001;1" values="10;10;30;30"/>
+  </circle>
+    <g opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.086;0.09;0.17;0.17400000000000002;1" values="0;0;1;1;0;0"/><rect x="70" y="110" width="270" height="552" fill="#000000" fill-opacity="0.55"/>
+    <rect x="70" y="432" width="270" height="250" rx="22" fill="#1A1030"/>
+    <rect x="187" y="441" width="36" height="4" rx="2" fill="#261A45"/>
+      <text x="90" y="472" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="15" font-weight="700" fill="#F6F2FF" text-anchor="start" >Open with</text>
+      <text x="90" y="492" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="9.5" font-weight="400" fill="#9B8CB8" text-anchor="start" >geo:0,0?q=Place%20des%20Lices…</text>
+      
+        <rect x="90" y="512" width="30" height="30" rx="8" fill="#34A853" fill-opacity="0.85"/>
+        <text x="132" y="532" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12.5" font-weight="400" fill="#F6F2FF" text-anchor="start" >Google Maps</text>
+        <rect x="90" y="556" width="30" height="30" rx="8" fill="#2E7D32" fill-opacity="0.85"/>
+        <text x="132" y="576" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12.5" font-weight="400" fill="#F6F2FF" text-anchor="start" >Organic Maps</text>
+        <rect x="90" y="600" width="30" height="30" rx="8" fill="#33CCFF" fill-opacity="0.85"/>
+        <text x="132" y="620" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12.5" font-weight="400" fill="#F6F2FF" text-anchor="start" >Waze</text>
+      <g opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.11800000000000001;0.12200000000000001;0.15200000000000002;0.15600000000000003;1" values="0;0;1;1;0;0"/>
+    <circle cx="170" cy="571" r="13" fill="#FFFFFF" fill-opacity="0.28" stroke="#FFFFFF" stroke-opacity="0.7" stroke-width="1.5"/>
   </g>
-  <g>
-    <circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
-        path="M 250 150 H 694" keyPoints="0;0;1;1" keyTimes="0;0.7000;0.8875;1" calcMode="linear"/>
-      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-             values="0;0;0.18;0.18;0;0"
-             keyTimes="0;0.7000;0.7312;0.8562;0.8875;1"/></circle>
-    <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
-        path="M 250 150 H 694" keyPoints="0;0;1;1" keyTimes="0;0.7000;0.8875;1" calcMode="linear"/>
-      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-             values="0;0;1;1;0;0"
-             keyTimes="0;0.7000;0.7312;0.8562;0.8875;1"/></circle>
-    <circle cx="694" cy="150" r="4" fill="none" stroke="#E2725F" stroke-width="2" opacity="0">
-      <animate attributeName="r" dur="8s" repeatCount="indefinite"
-               values="4;4;26;26" keyTimes="0;0.8875;0.9750;1"/>
-      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-               values="0;0;0.9;0;0" keyTimes="0;0.8875;0.8937;0.9750;1"/>
-    </circle>
+  <circle cx="170" cy="571" r="10" fill="none" stroke="#FFFFFF" stroke-width="2" opacity="0">
+    <animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.14;0.14200000000000002;0.17500000000000002;1" values="0;0;0.8;0;0"/>
+    <animate attributeName="r" dur="34s" repeatCount="indefinite" keyTimes="0;0.14;0.17500000000000002;1" values="10;10;30;30"/>
+  </circle></g>
+    <g opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.166;0.17;0.25;0.254;1" values="0;0;1;1;0;0"/><rect x="70" y="110" width="270" height="552" fill="#1E2A22"/>
+      <path d="M50 170 L360 130" stroke="#2B3A30" stroke-width="7"/><path d="M50 232 L360 200" stroke="#2B3A30" stroke-width="3"/><path d="M50 294 L360 270" stroke="#2B3A30" stroke-width="3"/><path d="M50 356 L360 340" stroke="#2B3A30" stroke-width="7"/><path d="M50 418 L360 410" stroke="#2B3A30" stroke-width="3"/><path d="M50 480 L360 480" stroke="#2B3A30" stroke-width="3"/><path d="M50 542 L360 550" stroke="#2B3A30" stroke-width="7"/><path d="M50 604 L360 620" stroke="#2B3A30" stroke-width="3"/><path d="M50 666 L360 690" stroke="#2B3A30" stroke-width="3"/>
+      <path d="M100 110 L80 662" stroke="#2B3A30" stroke-width="6"/><path d="M160 110 L144 662" stroke="#2B3A30" stroke-width="3"/><path d="M220 110 L208 662" stroke="#2B3A30" stroke-width="6"/><path d="M280 110 L272 662" stroke="#2B3A30" stroke-width="3"/><path d="M340 110 L336 662" stroke="#2B3A30" stroke-width="6"/>
+      <path d="M140 580 C160 490 260 470 240 360 S220 280 260 250" fill="none" stroke="#4C8DF6" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="140" cy="580" r="8" fill="#4C8DF6" stroke="#FFFFFF" stroke-width="2.5"/>
+      <path d="M260 250 c0 0 -12 -14 -12 -22 a12 12 0 0 1 24 0 c0 8 -12 22 -12 22 z" fill="#EA4335"/>
+      <rect x="82" y="126" width="246" height="40" rx="20" fill="#FFFFFF"/>
+      <text x="100" y="151" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12.5" font-weight="600" fill="#202124" text-anchor="start" >Place des Lices, Vannes</text>
+      <rect x="70" y="572" width="270" height="90" fill="#FFFFFF"/>
+      <text x="90" y="604" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="18" font-weight="700" fill="#188038" text-anchor="start" >8 min</text>
+      <text x="90" y="626" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#5F6368" text-anchor="start" >Another app: it knows where you are going.</text></g></g><g opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.244;0.25;0.47;0.476;1" values="0;0;1;1;0;0"/><clipPath id="photo153"><rect x="70" y="110" width="270" height="300" rx="0"/></clipPath>
+  <g clip-path="url(#photo153)"><rect x="70" y="110" width="270" height="300" fill="#1A1030"/><use href="#visage12" xlink:href="#visage12" x="55" y="110" width="300" height="300"/></g><rect x="70" y="110" width="270" height="300" fill="url(#voile)"/>
+      <circle cx="96" cy="138" r="15" fill="#0B0616" fill-opacity="0.6"/>
+      <path d="M101 138 h-10 m4 -5 l-5 5 l5 5" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="86" y="348" width="42.8" height="20" rx="10" fill="#1ED760" fill-opacity="1"/>
+        <text x="107.4" y="362" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10" font-weight="700" fill="#04210F" text-anchor="middle" >N°12</text><rect x="134.8" y="348" width="61.4" height="20" rx="10" fill="#0B0616" fill-opacity="0.7"/>
+        <text x="165.5" y="362" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10" font-weight="700" fill="#F6F2FF" text-anchor="middle" >23 y.o.</text><rect x="202.20000000000002" y="348" width="55.2" height="20" rx="10" fill="#0B0616" fill-opacity="0.7"/>
+        <text x="229.8" y="362" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10" font-weight="700" fill="#F6F2FF" text-anchor="middle" >Vannes</text><text x="86" y="400" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="28" font-weight="800" fill="#FFFFFF" text-anchor="start" >Enzo P.</text><text x="86" y="440" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="19" font-weight="800" fill="#F6F2FF" text-anchor="start" >3,8</text><polygon points="90.0,449.0 91.1,451.5 93.8,451.8 91.7,453.6 92.4,456.2 90.0,454.8 87.6,456.2 88.3,453.6 86.2,451.8 88.9,451.5" fill="#3A2D55"/><polygon points="90.0,449.0 91.1,451.5 93.8,451.8 91.7,453.6 92.4,456.2 90.0,454.8 87.6,456.2 88.3,453.6 86.2,451.8 88.9,451.5" fill="#C084FC"/><polygon points="99.2,449.0 100.3,451.5 103.0,451.8 100.9,453.6 101.6,456.2 99.2,454.8 96.8,456.2 97.5,453.6 95.4,451.8 98.1,451.5" fill="#3A2D55"/><polygon points="99.2,449.0 100.3,451.5 103.0,451.8 100.9,453.6 101.6,456.2 99.2,454.8 96.8,456.2 97.5,453.6 95.4,451.8 98.1,451.5" fill="#C084FC"/><polygon points="108.4,449.0 109.5,451.5 112.2,451.8 110.1,453.6 110.8,456.2 108.4,454.8 106.0,456.2 106.7,453.6 104.6,451.8 107.3,451.5" fill="#3A2D55"/><polygon points="108.4,449.0 109.5,451.5 112.2,451.8 110.1,453.6 110.8,456.2 108.4,454.8 106.0,456.2 106.7,453.6 104.6,451.8 107.3,451.5" fill="#C084FC"/><polygon points="117.6,449.0 118.7,451.5 121.4,451.8 119.3,453.6 120.0,456.2 117.6,454.8 115.2,456.2 115.9,453.6 113.8,451.8 116.5,451.5" fill="#3A2D55"/><polygon points="117.6,449.0 118.7,451.5 121.4,451.8 119.3,453.6 120.0,456.2 117.6,454.8 115.2,456.2 115.9,453.6 113.8,451.8 116.5,451.5" fill="#C084FC"/><polygon points="126.8,449.0 127.9,451.5 130.6,451.8 128.5,453.6 129.2,456.2 126.8,454.8 124.4,456.2 125.1,453.6 123.0,451.8 125.7,451.5" fill="#3A2D55"/><text x="172" y="440" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="19" font-weight="800" fill="#F6F2FF" text-anchor="start" >7</text><text x="172" y="456" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="8.5" font-weight="700" fill="#9B8CB8" text-anchor="start" letter-spacing="1.2">TIMES</text><text x="258" y="440" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="19" font-weight="800" fill="#F6F2FF" text-anchor="start" >347 j</text><text x="258" y="456" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="8.5" font-weight="700" fill="#9B8CB8" text-anchor="start" letter-spacing="1.2">SINCE</text><text x="86" y="490" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="700" fill="#9B8CB8" text-anchor="start" letter-spacing="1.6">INFOS</text><rect x="82" y="500" width="246" height="38" rx="12" fill="#1A1030" stroke="#261A45"/>
+        <g transform="translate(92 511) scale(1)"><path d="M4.5 2 L6.5 2 L7.8 5.4 L6.3 6.6 C7 8.4 8 9.4 9.6 10.1 L10.8 8.6 L14 9.9 L14 12 C14 13.1 13.1 14 12 14 C6.5 13.6 2.4 9.5 2 4 C2 2.9 2.9 2 4 2 Z" fill="none" stroke="#9B8CB8" stroke-width="1.5" stroke-linejoin="round"/></g>
+        <text x="116" y="523.5" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#9B8CB8" text-anchor="start" >Phone</text>
+        <text x="316" y="523.5" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10.5" font-weight="700" fill="#F6F2FF" text-anchor="end" >07 15 93 62 08</text><rect x="82" y="544" width="246" height="38" rx="12" fill="#1A1030" stroke="#261A45"/>
+        <g transform="translate(92 555) scale(1)"><path d="M8 1.5 L14.5 8 L8 14.5 L1.5 8 Z" fill="none" stroke="#9B8CB8" stroke-width="1.5" stroke-linejoin="round"/><path d="M6 10 V7.5 H10 M8.6 6 L10 7.5 L8.6 9" fill="none" stroke="#9B8CB8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></g>
+        <text x="116" y="567.5" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#9B8CB8" text-anchor="start" >Address</text>
+        <text x="316" y="567.5" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10.5" font-weight="700" fill="#F6F2FF" text-anchor="end" >Place des Lices, Vannes</text><circle cx="106" cy="622" r="21" fill="#1A1030" stroke="#261A45"/><g transform="translate(98 614) scale(1)"><path d="M4.5 2 L6.5 2 L7.8 5.4 L6.3 6.6 C7 8.4 8 9.4 9.6 10.1 L10.8 8.6 L14 9.9 L14 12 C14 13.1 13.1 14 12 14 C6.5 13.6 2.4 9.5 2 4 C2 2.9 2.9 2 4 2 Z" fill="none" stroke="#C084FC" stroke-width="1.5" stroke-linejoin="round"/></g><circle cx="158" cy="622" r="21" fill="#1A1030" stroke="#261A45"/><g transform="translate(150 614) scale(1)"><path d="M8 1.5 L14.5 8 L8 14.5 L1.5 8 Z" fill="none" stroke="#C084FC" stroke-width="1.5" stroke-linejoin="round"/><path d="M6 10 V7.5 H10 M8.6 6 L10 7.5 L8.6 9" fill="none" stroke="#C084FC" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></g><rect x="186" y="600" width="140" height="44" rx="18" fill="url(#marque)"/>
+  <text x="256" y="626.32" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" >+ New encounter</text><g opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.26799999999999996;0.27199999999999996;0.302;0.306;1" values="0;0;1;1;0;0"/>
+    <circle cx="106" cy="622" r="13" fill="#FFFFFF" fill-opacity="0.28" stroke="#FFFFFF" stroke-opacity="0.7" stroke-width="1.5"/>
   </g>
-
-  
-  <g>
-    <rect x="56" y="114" width="194" height="72" rx="11"
-          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
-    <rect x="56" y="126" width="3" height="48" rx="1.5"
-          fill="#E879F9" opacity="1"/>
-    <text x="76" y="145" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
-          font-size="13.5" font-weight="600" fill="#F0F4F8">BodyCount</text>
-    <text x="76" y="165" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
-          font-size="12" fill="#8B99A8">no network permission</text>
+  <circle cx="106" cy="622" r="10" fill="none" stroke="#FFFFFF" stroke-width="2" opacity="0">
+    <animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.29;0.292;0.32499999999999996;1" values="0;0;0.8;0;0"/>
+    <animate attributeName="r" dur="34s" repeatCount="indefinite" keyTimes="0;0.29;0.32499999999999996;1" values="10;10;30;30"/>
+  </circle>
+    <g opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.306;0.31;0.47;0.474;1" values="0;0;1;1;0;0"/><rect x="70" y="110" width="270" height="552" fill="#111317"/>
+      <text x="205" y="220" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="26" font-weight="400" fill="#E8EAED" text-anchor="middle" >07 15 93 62 08</text>
+      <text x="205" y="248" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="10" font-weight="400" fill="#80868B" text-anchor="middle" >tel:0715936208</text>
+      <text x="130" y="318" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="24" font-weight="400" fill="#E8EAED" text-anchor="middle" >1</text><text x="205" y="318" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="24" font-weight="400" fill="#E8EAED" text-anchor="middle" >2</text><text x="280" y="318" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="24" font-weight="400" fill="#E8EAED" text-anchor="middle" >3</text><text x="130" y="380" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="24" font-weight="400" fill="#E8EAED" text-anchor="middle" >4</text><text x="205" y="380" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="24" font-weight="400" fill="#E8EAED" text-anchor="middle" >5</text><text x="280" y="380" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="24" font-weight="400" fill="#E8EAED" text-anchor="middle" >6</text><text x="130" y="442" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="24" font-weight="400" fill="#E8EAED" text-anchor="middle" >7</text><text x="205" y="442" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="24" font-weight="400" fill="#E8EAED" text-anchor="middle" >8</text><text x="280" y="442" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="24" font-weight="400" fill="#E8EAED" text-anchor="middle" >9</text><text x="130" y="504" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="24" font-weight="400" fill="#E8EAED" text-anchor="middle" >*</text><text x="205" y="504" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="24" font-weight="400" fill="#E8EAED" text-anchor="middle" >0</text><text x="280" y="504" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="24" font-weight="400" fill="#E8EAED" text-anchor="middle" >#</text>
+      <circle cx="205" cy="580" r="30" fill="#1E8E3E"/>
+      <g transform="translate(193 568) scale(1.5)"><path d="M4.5 2 L6.5 2 L7.8 5.4 L6.3 6.6 C7 8.4 8 9.4 9.6 10.1 L10.8 8.6 L14 9.9 L14 12 C14 13.1 13.1 14 12 14 C6.5 13.6 2.4 9.5 2 4 C2 2.9 2.9 2 4 2 Z" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"/></g>
+      <text x="205" y="636" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#80868B" text-anchor="middle" >The dialer, not BodyCount</text></g></g><g opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.46399999999999997;0.47;0.73;0.736;1" values="0;0;1;1;0;0"/><text x="88" y="158" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="21" font-weight="800" fill="#F6F2FF" text-anchor="start" >Settings</text>
+    <rect x="82" y="180" width="246" height="64" rx="16" fill="#150C28" stroke="#261A45"/>
+    <clipPath id="photo154"><rect x="96" y="194" width="36" height="36" rx="8.64"/></clipPath>
+  <g clip-path="url(#photo154)"><rect x="96" y="194" width="36" height="36" fill="#1A1030"/><use href="#visagelogo" xlink:href="#visagelogo" x="96" y="194" width="36" height="36"/></g>
+    <text x="142" y="209" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="800" fill="#F6F2FF" text-anchor="start" >18 People</text>
+    <text x="142" y="226" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10" font-weight="400" fill="#9B8CB8" text-anchor="start" >111 Encounters</text>
+    <text x="88" y="276" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="700" fill="#9B8CB8" text-anchor="start" letter-spacing="1.6">DATA</text>
+    <rect x="82" y="286" width="246" height="182" rx="16" fill="#1A1030" stroke="#261A45"/>
+    <rect x="92" y="303" width="32" height="32" rx="10" fill="#1ED760" fill-opacity="0.12"/><g transform="translate(100 311) scale(1)"><rect x="3" y="7" width="10" height="8" rx="2" fill="none" stroke="#1ED760" stroke-width="1.6"/><path d="M5 7 V5 a3 3 0 0 1 6 0 V7" fill="none" stroke="#1ED760" stroke-width="1.6"/></g>
+        <text x="136" y="317" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="600" fill="#F6F2FF" text-anchor="start" >Everything stays on this phone</text>
+        <text x="136" y="333" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="400" fill="#9B8CB8" text-anchor="start" >Encrypted, no server</text><rect x="92" y="361" width="32" height="32" rx="10" fill="#C084FC" fill-opacity="0.12"/><g transform="translate(100 369) scale(1)"><path d="M8 10 V2 M5 4.8 L8 2 L11 4.8 M4 7 H3 V14 H13 V7 H12" fill="none" stroke="#C084FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+        <text x="136" y="375" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="600" fill="#F6F2FF" text-anchor="start" >Export, encrypted</text>
+        <text x="136" y="391" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="400" fill="#9B8CB8" text-anchor="start" >Last one 3 days ago</text><rect x="92" y="419" width="32" height="32" rx="10" fill="#C084FC" fill-opacity="0.12"/><g transform="translate(100 427) scale(1)"><path d="M1.5 4 V13 H14.5 V5.5 H7.5 L6 4 Z" fill="none" stroke="#C084FC" stroke-width="1.5" stroke-linejoin="round"/></g>
+        <text x="136" y="433" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="600" fill="#F6F2FF" text-anchor="start" >Restore a backup</text>
+        <text x="136" y="449" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="400" fill="#9B8CB8" text-anchor="start" >Replaces what is here</text><g opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.483;0.487;0.517;0.521;1" values="0;0;1;1;0;0"/>
+    <circle cx="200" cy="374" r="13" fill="#FFFFFF" fill-opacity="0.28" stroke="#FFFFFF" stroke-opacity="0.7" stroke-width="1.5"/>
   </g>
-
-  <rect x="694" y="78" width="10" height="144" rx="3" fill="#E2725F" opacity="0.85"/>
-  <text x="700" y="64" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="12"
-        fill="#E2725F">Android: no INTERNET permission</text>
-  <text x="700" y="244" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="11.5"
-        fill="#5C6A7A">connection refused</text>
-
-  
-  <g>
-    <rect x="1044" y="114" width="180" height="72" rx="11"
-          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
-    <rect x="1044" y="126" width="3" height="48" rx="1.5"
-          fill="#E879F9" opacity="0.15"/>
-    <text x="1064" y="145" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
-          font-size="13.5" font-weight="600" fill="#F0F4F8">Internet</text>
-    <text x="1064" y="165" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
-          font-size="12" fill="#8B99A8">never reached</text>
+  <circle cx="200" cy="374" r="10" fill="none" stroke="#FFFFFF" stroke-width="2" opacity="0">
+    <animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.505;0.507;0.54;1" values="0;0;0.8;0;0"/>
+    <animate attributeName="r" dur="34s" repeatCount="indefinite" keyTimes="0;0.505;0.54;1" values="10;10;30;30"/>
+  </circle>
+    <g opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.521;0.525;0.61;0.614;1" values="0;0;1;1;0;0"/><rect x="70" y="110" width="270" height="552" fill="#000000" fill-opacity="0.55"/>
+    <rect x="70" y="462" width="270" height="220" rx="22" fill="#1A1030"/>
+    <rect x="187" y="471" width="36" height="4" rx="2" fill="#261A45"/>
+      <text x="92" y="502" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="700" fill="#F6F2FF" text-anchor="start" >Backup ready, 186 MB</text>
+      <g transform="translate(94 534) scale(1)"><path d="M8 2 V10 M4.5 7 L8 10.5 L11.5 7 M3 13.5 H13" fill="none" stroke="#C084FC" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+      <text x="124" y="540" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#F6F2FF" text-anchor="start" >Save on the phone</text>
+      <text x="124" y="556" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="400" fill="#9B8CB8" text-anchor="start" >In the folder of your choice</text>
+      <g transform="translate(94 586) scale(1)"><path d="M8 10 V2 M5 4.8 L8 2 L11 4.8 M4 7 H3 V14 H13 V7 H12" fill="none" stroke="#C084FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+      <text x="124" y="592" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#F6F2FF" text-anchor="start" >Share</text>
+      <text x="124" y="608" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="400" fill="#9B8CB8" text-anchor="start" >To another app</text>
+      <g opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.563;0.567;0.597;0.601;1" values="0;0;1;1;0;0"/>
+    <circle cx="200" cy="546" r="13" fill="#FFFFFF" fill-opacity="0.28" stroke="#FFFFFF" stroke-opacity="0.7" stroke-width="1.5"/>
   </g>
-
-  <text x="170" y="228" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="12" fill="#5C6A7A">on a tap, through another app</text>
-  <path d="M 153 186 V 272 H 1088 M 192 272 V 308 M 490.6666666666667 272 V 308 M 789.3333333333334 272 V 308 M 1088 272 V 308" stroke="#2F3A47" stroke-width="1.8" fill="none" opacity="0.7"/>
-  
-  
-  <g>
-    <rect x="56" y="308" width="272" height="72" rx="11"
-          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
-    <rect x="56" y="320" width="3" height="48" rx="1.5"
-          fill="#E879F9" opacity="0.35"/>
-    <text x="76" y="339" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
-          font-size="13.5" font-weight="600" fill="#F0F4F8">Directions</text>
-    <text x="76" y="359" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
-          font-size="12" fill="#8B99A8">the address, to the maps app</text>
+  <circle cx="200" cy="546" r="10" fill="none" stroke="#FFFFFF" stroke-width="2" opacity="0">
+    <animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.585;0.587;0.62;1" values="0;0;0.8;0;0"/>
+    <animate attributeName="r" dur="34s" repeatCount="indefinite" keyTimes="0;0.585;0.62;1" values="10;10;30;30"/>
+  </circle></g>
+    <g opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.606;0.61;0.69;0.694;1" values="0;0;1;1;0;0"/><rect x="70" y="110" width="270" height="552" fill="#15171B"/>
+      <text x="88" y="160" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#E8EAED" text-anchor="start" >Downloads</text>
+      
+        <g transform="translate(90 202) scale(1)"><path d="M1.5 4 V13 H14.5 V5.5 H7.5 L6 4 Z" fill="none" stroke="#8AB4F8" stroke-width="1.5" stroke-linejoin="round"/></g>
+        <text x="118" y="214" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5" font-weight="400" fill="#E8EAED" text-anchor="start" >bodycount-2026-08-19.bcx</text>
+        <text x="322" y="214" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10" font-weight="400" fill="#9AA0A6" text-anchor="end" >172 MB</text>
+        <g transform="translate(90 248) scale(1)"><path d="M1.5 4 V13 H14.5 V5.5 H7.5 L6 4 Z" fill="none" stroke="#8AB4F8" stroke-width="1.5" stroke-linejoin="round"/></g>
+        <text x="118" y="260" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5" font-weight="400" fill="#E8EAED" text-anchor="start" >facture-free.pdf</text>
+        <text x="322" y="260" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10" font-weight="400" fill="#9AA0A6" text-anchor="end" >84 KB</text>
+        <g transform="translate(90 294) scale(1)"><path d="M1.5 4 V13 H14.5 V5.5 H7.5 L6 4 Z" fill="none" stroke="#8AB4F8" stroke-width="1.5" stroke-linejoin="round"/></g>
+        <text x="118" y="306" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5" font-weight="400" fill="#E8EAED" text-anchor="start" >IMG_2211.jpg</text>
+        <text x="322" y="306" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10" font-weight="400" fill="#9AA0A6" text-anchor="end" >3.1 MB</text>
+      <rect x="70" y="552" width="270" height="110" fill="#202124"/>
+      <rect x="86" y="566" width="238" height="34" rx="6" fill="#303134"/>
+      <text x="96" y="588" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="11.5" font-weight="400" fill="#E8EAED" text-anchor="start" >bodycount-2026-09-26.bcx</text>
+      <rect x="230" y="612" width="94" height="32" rx="16" fill="#8AB4F8"/>
+      <text x="277" y="632.5" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="700" fill="#062E6F" text-anchor="middle" >Save</text>
+      <g opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.633;0.637;0.667;0.671;1" values="0;0;1;1;0;0"/>
+    <circle cx="277" cy="628" r="13" fill="#FFFFFF" fill-opacity="0.28" stroke="#FFFFFF" stroke-opacity="0.7" stroke-width="1.5"/>
   </g>
-  <rect x="56" y="308" width="272" height="72" rx="11" fill="none"
-        stroke="#E879F9" stroke-width="1.6" opacity="0"><animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-             values="0;0;0.9;0.9;0;0"
-             keyTimes="0;0.1500;0.1812;0.2437;0.2750;1"/></rect>
-  <g transform="translate(298 344)">
-    <circle r="5" fill="#E879F9" opacity="0"><animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-             values="0;0;0.9;0.9;0;0"
-             keyTimes="0;0.0375;0.0688;0.1187;0.1500;1"/></circle>
-    <circle r="6" fill="none" stroke="#E879F9" stroke-width="1.5" opacity="0">
-      <animate attributeName="r" dur="8s" repeatCount="indefinite"
-               values="6;6;18;18" keyTimes="0;0.0375;0.1375;1"/>
-      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-             values="0;0;0.8;0.8;0;0"
-             keyTimes="0;0.0375;0.0688;0.1063;0.1375;1"/>
-    </circle>
+  <circle cx="277" cy="628" r="10" fill="none" stroke="#FFFFFF" stroke-width="2" opacity="0">
+    <animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.655;0.657;0.6900000000000001;1" values="0;0;0.8;0;0"/>
+    <animate attributeName="r" dur="34s" repeatCount="indefinite" keyTimes="0;0.655;0.6900000000000001;1" values="10;10;30;30"/>
+  </circle>
+      <text x="205" y="532" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#9AA0A6" text-anchor="middle" >The system picker</text></g>
+    <g opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.6859999999999999;0.69;0.73;0.734;1" values="0;0;1;1;0;0"/><rect x="82" y="604" width="246" height="42" rx="10" fill="#2E2640"/>
+    <text x="96" y="630" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5" font-weight="400" fill="#F6F2FF" text-anchor="start" >Backup saved.</text>
+    </g></g><g opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.724;0.73;0.985;0.991;1" values="0;0;1;1;0;0"/><rect x="70" y="110" width="270" height="552" fill="#000000"/>
+    <clipPath id="photo155"><rect x="70" y="240" width="270" height="270" rx="0"/></clipPath>
+  <g clip-path="url(#photo155)"><rect x="70" y="240" width="270" height="270" fill="#1A1030"/><use href="#visage12" xlink:href="#visage12" x="70" y="240" width="270" height="270"/></g>
+    <g transform="translate(86 136) scale(1.1)"><path d="M4 4 L12 12 M12 4 L4 12" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/></g>
+    <text x="205" y="150" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle" >1 / 3</text>
+    <g transform="translate(276 135) scale(1.2)"><path d="M8 2 V10 M4.5 7 L8 10.5 L11.5 7 M3 13.5 H13" fill="none" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <circle cx="318" cy="140" r="1.8" fill="#FFFFFF"/><circle cx="318" cy="146" r="1.8" fill="#FFFFFF"/><circle cx="318" cy="134" r="1.8" fill="#FFFFFF"/>
+    <g opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.768;0.772;0.802;0.806;1" values="0;0;1;1;0;0"/>
+    <circle cx="286" cy="145" r="13" fill="#FFFFFF" fill-opacity="0.28" stroke="#FFFFFF" stroke-opacity="0.7" stroke-width="1.5"/>
   </g>
-  
-  <g>
-    <circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
-        path="M 153 186 V 272 H 192 V 308" keyPoints="0;0;1;1" keyTimes="0;0.0750;0.2000;1"
-        calcMode="linear"/>
-      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-             values="0;0;0.18;0.18;0;0"
-             keyTimes="0;0.0750;0.1062;0.1688;0.2000;1"/></circle>
-    <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
-        path="M 153 186 V 272 H 192 V 308" keyPoints="0;0;1;1" keyTimes="0;0.0750;0.2000;1"
-        calcMode="linear"/>
-      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-             values="0;0;1;1;0;0"
-             keyTimes="0;0.0750;0.1062;0.1688;0.2000;1"/></circle>
-  </g>
-  
-  <g>
-    <rect x="354.6666666666667" y="308" width="272" height="72" rx="11"
-          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
-    <rect x="354.6666666666667" y="320" width="3" height="48" rx="1.5"
-          fill="#E879F9" opacity="0.35"/>
-    <text x="374.6666666666667" y="339" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
-          font-size="13.5" font-weight="600" fill="#F0F4F8">Call</text>
-    <text x="374.6666666666667" y="359" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
-          font-size="12" fill="#8B99A8">the number, to the dialer</text>
-  </g>
-  <rect x="354.6666666666667" y="308" width="272" height="72" rx="11" fill="none"
-        stroke="#E879F9" stroke-width="1.6" opacity="0"><animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-             values="0;0;0.9;0.9;0;0"
-             keyTimes="0;0.3875;0.4187;0.4812;0.5125;1"/></rect>
-  <g transform="translate(596.6666666666667 344)">
-    <circle r="5" fill="#E879F9" opacity="0"><animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-             values="0;0;0.9;0.9;0;0"
-             keyTimes="0;0.2750;0.3062;0.3562;0.3875;1"/></circle>
-    <circle r="6" fill="none" stroke="#E879F9" stroke-width="1.5" opacity="0">
-      <animate attributeName="r" dur="8s" repeatCount="indefinite"
-               values="6;6;18;18" keyTimes="0;0.2750;0.3750;1"/>
-      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-             values="0;0;0.8;0.8;0;0"
-             keyTimes="0;0.2750;0.3062;0.3438;0.3750;1"/>
-    </circle>
-  </g>
-  
-  <g>
-    <circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
-        path="M 153 186 V 272 H 490.6666666666667 V 308" keyPoints="0;0;1;1" keyTimes="0;0.3125;0.4375;1"
-        calcMode="linear"/>
-      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-             values="0;0;0.18;0.18;0;0"
-             keyTimes="0;0.3125;0.3437;0.4063;0.4375;1"/></circle>
-    <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
-        path="M 153 186 V 272 H 490.6666666666667 V 308" keyPoints="0;0;1;1" keyTimes="0;0.3125;0.4375;1"
-        calcMode="linear"/>
-      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-             values="0;0;1;1;0;0"
-             keyTimes="0;0.3125;0.3437;0.4063;0.4375;1"/></circle>
-  </g>
-  
-  <g>
-    <rect x="653.3333333333334" y="308" width="272" height="72" rx="11"
-          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
-    <rect x="653.3333333333334" y="320" width="3" height="48" rx="1.5"
-          fill="#E879F9" opacity="0.35"/>
-    <text x="673.3333333333334" y="339" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
-          font-size="13.5" font-weight="600" fill="#F0F4F8">Export</text>
-    <text x="673.3333333333334" y="359" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
-          font-size="12" fill="#8B99A8">the encrypted backup, where you put it</text>
-  </g>
-  <rect x="653.3333333333334" y="308" width="272" height="72" rx="11" fill="none"
-        stroke="#E879F9" stroke-width="1.6" opacity="0"><animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-             values="0;0;0.9;0.9;0;0"
-             keyTimes="0;0.6250;0.6563;0.7188;0.7500;1"/></rect>
-  <g transform="translate(895.3333333333334 344)">
-    <circle r="5" fill="#E879F9" opacity="0"><animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-             values="0;0;0.9;0.9;0;0"
-             keyTimes="0;0.5125;0.5437;0.5938;0.6250;1"/></circle>
-    <circle r="6" fill="none" stroke="#E879F9" stroke-width="1.5" opacity="0">
-      <animate attributeName="r" dur="8s" repeatCount="indefinite"
-               values="6;6;18;18" keyTimes="0;0.5125;0.6125;1"/>
-      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-             values="0;0;0.8;0.8;0;0"
-             keyTimes="0;0.5125;0.5437;0.5812;0.6125;1"/>
-    </circle>
-  </g>
-  
-  <g>
-    <circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
-        path="M 153 186 V 272 H 789.3333333333334 V 308" keyPoints="0;0;1;1" keyTimes="0;0.5500;0.6750;1"
-        calcMode="linear"/>
-      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-             values="0;0;0.18;0.18;0;0"
-             keyTimes="0;0.5500;0.5812;0.6437;0.6750;1"/></circle>
-    <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
-        path="M 153 186 V 272 H 789.3333333333334 V 308" keyPoints="0;0;1;1" keyTimes="0;0.5500;0.6750;1"
-        calcMode="linear"/>
-      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-             values="0;0;1;1;0;0"
-             keyTimes="0;0.5500;0.5812;0.6437;0.6750;1"/></circle>
-  </g>
-  
-  <g>
-    <rect x="952" y="308" width="272" height="72" rx="11"
-          fill="#131A24" stroke="#1F2833" stroke-width="1"/>
-    <rect x="952" y="320" width="3" height="48" rx="1.5"
-          fill="#E879F9" opacity="0.35"/>
-    <text x="972" y="339" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace"
-          font-size="13.5" font-weight="600" fill="#F0F4F8">Download</text>
-    <text x="972" y="359" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
-          font-size="12" fill="#8B99A8">a plain copy, into the gallery</text>
-  </g>
-  <rect x="952" y="308" width="272" height="72" rx="11" fill="none"
-        stroke="#E879F9" stroke-width="1.6" opacity="0"><animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-             values="0;0;0.9;0.9;0;0"
-             keyTimes="0;0.8625;0.8937;0.9562;0.9875;1"/></rect>
-  <g transform="translate(1194 344)">
-    <circle r="5" fill="#E879F9" opacity="0"><animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-             values="0;0;0.9;0.9;0;0"
-             keyTimes="0;0.7500;0.7812;0.8312;0.8625;1"/></circle>
-    <circle r="6" fill="none" stroke="#E879F9" stroke-width="1.5" opacity="0">
-      <animate attributeName="r" dur="8s" repeatCount="indefinite"
-               values="6;6;18;18" keyTimes="0;0.7500;0.8500;1"/>
-      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-             values="0;0;0.8;0.8;0;0"
-             keyTimes="0;0.7500;0.7812;0.8187;0.8500;1"/>
-    </circle>
-  </g>
-  
-  <g>
-    <circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
-        path="M 153 186 V 272 H 1088 V 308" keyPoints="0;0;1;1" keyTimes="0;0.7875;0.9125;1"
-        calcMode="linear"/>
-      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-             values="0;0;0.18;0.18;0;0"
-             keyTimes="0;0.7875;0.8187;0.8812;0.9125;1"/></circle>
-    <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="8s" repeatCount="indefinite"
-        path="M 153 186 V 272 H 1088 V 308" keyPoints="0;0;1;1" keyTimes="0;0.7875;0.9125;1"
-        calcMode="linear"/>
-      <animate attributeName="opacity" dur="8s" repeatCount="indefinite"
-             values="0;0;1;1;0;0"
-             keyTimes="0;0.7875;0.8187;0.8812;0.9125;1"/></circle>
-  </g>
-
-  <text x="640" y="424" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
-        font-size="12.5" fill="#5C6A7A">The wall is not in the code: a chatty library or a poisoned dependency would hit it just the same.</text>
+  <circle cx="286" cy="145" r="10" fill="none" stroke="#FFFFFF" stroke-width="2" opacity="0">
+    <animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.79;0.792;0.8250000000000001;1" values="0;0;0.8;0;0"/>
+    <animate attributeName="r" dur="34s" repeatCount="indefinite" keyTimes="0;0.79;0.8250000000000001;1" values="10;10;30;30"/>
+  </circle>
+    <g opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.8109999999999999;0.815;0.985;0.989;1" values="0;0;1;1;0;0"/><rect x="82" y="588" width="246" height="58" rx="10" fill="#2E2640"/>
+    <text x="96" y="613" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5" font-weight="400" fill="#F6F2FF" text-anchor="start" >Saved to Pictures › BodyCount,</text>
+    <text x="96" y="631" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5" font-weight="400" fill="#F6F2FF" text-anchor="start" >in the clear, outside the vault.</text></g></g></g><text x="400" y="98" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="11.5" font-weight="700" fill="#5C6A7A" text-anchor="start" letter-spacing="2">IF ANYTHING TRIED TO GO OUT ON ITS OWN</text><rect x="400" y="110" width="820" height="220" rx="14" fill="#131A24" stroke="#1F2833"/><rect x="418" y="134" width="230" height="40" rx="10" fill="#2F3A47" fill-opacity="0.25" stroke="#1F2833"/>
+      <rect x="418" y="134" width="230" height="40" rx="10" fill="none" stroke="#F87171" stroke-opacity="0.8" opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.08800000000000001;0.1;0.24;0.252;1" values="0;0;1;1;0;0"/></rect>
+      <g transform="translate(430 145) scale(1)"><circle cx="8" cy="8" r="6.3" fill="none" stroke="#8B99A8" stroke-width="1.4"/><ellipse cx="8" cy="8" rx="2.8" ry="6.3" fill="none" stroke="#8B99A8" stroke-width="1.2"/><path d="M1.8 8 H14.2 M3 4.6 H13 M3 11.4 H13" stroke="#8B99A8" stroke-width="1.1"/></g>
+      <text x="456" y="151" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12.5" font-weight="700" fill="#F0F4F8" text-anchor="start" >Map tiles</text>
+      <text x="456" y="166" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="10" font-weight="400" fill="#5C6A7A" text-anchor="start" >tile.openstreetmap.org</text>
+      <line x1="656" y1="152" x2="948" y2="152" stroke="#2F3A47" stroke-width="1.6" stroke-dasharray="3 6"/><g filter="url(#halo)"><circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="34s" repeatCount="indefinite" path="M662 152 H946" keyPoints="0;0;1;1" keyTimes="0;0.0300;0.1000;1" calcMode="linear"/><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.026;0.03;0.1;0.10400000000000001;1" values="0;0;1;1;0;0"/></circle>
+      <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="34s" repeatCount="indefinite" path="M662 152 H946" keyPoints="0;0;1;1" keyTimes="0;0.0300;0.1000;1" calcMode="linear"/><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.026;0.03;0.1;0.10400000000000001;1" values="0;0;1;1;0;0"/></circle></g>
+      <circle cx="948" cy="152" r="4" fill="none" stroke="#F87171" stroke-width="2" opacity="0">
+        <animate attributeName="r" dur="34s" repeatCount="indefinite" keyTimes="0;0.1;0.14;1" values="4;4;26;26"/>
+        <animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.1;0.10200000000000001;0.14;1" values="0;0;0.95;0;0"/>
+      </circle>
+      <g opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.094;0.1;0.24;0.246;1" values="0;0;1;1;0;0"/><rect x="870" y="142" width="74" height="20" rx="10" fill="#131A24" stroke="#F87171" stroke-opacity="0.5"/><text x="907" y="156" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="10.5" font-weight="700" fill="#F87171" text-anchor="middle" >refused</text></g><rect x="418" y="178" width="230" height="40" rx="10" fill="#2F3A47" fill-opacity="0.25" stroke="#1F2833"/>
+      <rect x="418" y="178" width="230" height="40" rx="10" fill="none" stroke="#F87171" stroke-opacity="0.8" opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.328;0.34;0.48;0.492;1" values="0;0;1;1;0;0"/></rect>
+      <g transform="translate(430 189) scale(1)"><circle cx="8" cy="8" r="6.3" fill="none" stroke="#8B99A8" stroke-width="1.4"/><ellipse cx="8" cy="8" rx="2.8" ry="6.3" fill="none" stroke="#8B99A8" stroke-width="1.2"/><path d="M1.8 8 H14.2 M3 4.6 H13 M3 11.4 H13" stroke="#8B99A8" stroke-width="1.1"/></g>
+      <text x="456" y="195" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12.5" font-weight="700" fill="#F0F4F8" text-anchor="start" >Fonts</text>
+      <text x="456" y="210" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="10" font-weight="400" fill="#5C6A7A" text-anchor="start" >fonts.googleapis.com</text>
+      <line x1="656" y1="196" x2="948" y2="196" stroke="#2F3A47" stroke-width="1.6" stroke-dasharray="3 6"/><g filter="url(#halo)"><circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="34s" repeatCount="indefinite" path="M662 196 H946" keyPoints="0;0;1;1" keyTimes="0;0.2700;0.3400;1" calcMode="linear"/><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.266;0.27;0.34;0.34400000000000003;1" values="0;0;1;1;0;0"/></circle>
+      <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="34s" repeatCount="indefinite" path="M662 196 H946" keyPoints="0;0;1;1" keyTimes="0;0.2700;0.3400;1" calcMode="linear"/><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.266;0.27;0.34;0.34400000000000003;1" values="0;0;1;1;0;0"/></circle></g>
+      <circle cx="948" cy="196" r="4" fill="none" stroke="#F87171" stroke-width="2" opacity="0">
+        <animate attributeName="r" dur="34s" repeatCount="indefinite" keyTimes="0;0.34;0.38;1" values="4;4;26;26"/>
+        <animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.34;0.342;0.38;1" values="0;0;0.95;0;0"/>
+      </circle>
+      <g opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.334;0.34;0.48;0.486;1" values="0;0;1;1;0;0"/><rect x="870" y="186" width="74" height="20" rx="10" fill="#131A24" stroke="#F87171" stroke-opacity="0.5"/><text x="907" y="200" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="10.5" font-weight="700" fill="#F87171" text-anchor="middle" >refused</text></g><rect x="418" y="222" width="230" height="40" rx="10" fill="#2F3A47" fill-opacity="0.25" stroke="#1F2833"/>
+      <rect x="418" y="222" width="230" height="40" rx="10" fill="none" stroke="#F87171" stroke-opacity="0.8" opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.558;0.5700000000000001;0.71;0.722;1" values="0;0;1;1;0;0"/></rect>
+      <g transform="translate(430 233) scale(1)"><circle cx="8" cy="8" r="6.3" fill="none" stroke="#8B99A8" stroke-width="1.4"/><ellipse cx="8" cy="8" rx="2.8" ry="6.3" fill="none" stroke="#8B99A8" stroke-width="1.2"/><path d="M1.8 8 H14.2 M3 4.6 H13 M3 11.4 H13" stroke="#8B99A8" stroke-width="1.1"/></g>
+      <text x="456" y="239" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12.5" font-weight="700" fill="#F0F4F8" text-anchor="start" >Analytics</text>
+      <text x="456" y="254" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="10" font-weight="400" fill="#5C6A7A" text-anchor="start" >app-measurement.com</text>
+      <line x1="656" y1="240" x2="948" y2="240" stroke="#2F3A47" stroke-width="1.6" stroke-dasharray="3 6"/><g filter="url(#halo)"><circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="34s" repeatCount="indefinite" path="M662 240 H946" keyPoints="0;0;1;1" keyTimes="0;0.5000;0.5700;1" calcMode="linear"/><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.496;0.5;0.5700000000000001;0.5740000000000001;1" values="0;0;1;1;0;0"/></circle>
+      <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="34s" repeatCount="indefinite" path="M662 240 H946" keyPoints="0;0;1;1" keyTimes="0;0.5000;0.5700;1" calcMode="linear"/><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.496;0.5;0.5700000000000001;0.5740000000000001;1" values="0;0;1;1;0;0"/></circle></g>
+      <circle cx="948" cy="240" r="4" fill="none" stroke="#F87171" stroke-width="2" opacity="0">
+        <animate attributeName="r" dur="34s" repeatCount="indefinite" keyTimes="0;0.5700000000000001;0.6100000000000001;1" values="4;4;26;26"/>
+        <animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.5700000000000001;0.5720000000000001;0.6100000000000001;1" values="0;0;0.95;0;0"/>
+      </circle>
+      <g opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.5640000000000001;0.5700000000000001;0.71;0.716;1" values="0;0;1;1;0;0"/><rect x="870" y="230" width="74" height="20" rx="10" fill="#131A24" stroke="#F87171" stroke-opacity="0.5"/><text x="907" y="244" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="10.5" font-weight="700" fill="#F87171" text-anchor="middle" >refused</text></g><rect x="418" y="266" width="230" height="40" rx="10" fill="#2F3A47" fill-opacity="0.25" stroke="#1F2833"/>
+      <rect x="418" y="266" width="230" height="40" rx="10" fill="none" stroke="#F87171" stroke-opacity="0.8" opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.808;0.8200000000000001;0.96;0.972;1" values="0;0;1;1;0;0"/></rect>
+      <g transform="translate(430 277) scale(1)"><circle cx="8" cy="8" r="6.3" fill="none" stroke="#8B99A8" stroke-width="1.4"/><ellipse cx="8" cy="8" rx="2.8" ry="6.3" fill="none" stroke="#8B99A8" stroke-width="1.2"/><path d="M1.8 8 H14.2 M3 4.6 H13 M3 11.4 H13" stroke="#8B99A8" stroke-width="1.1"/></g>
+      <text x="456" y="283" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12.5" font-weight="700" fill="#F0F4F8" text-anchor="start" >Crash report</text>
+      <text x="456" y="298" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="10" font-weight="400" fill="#5C6A7A" text-anchor="start" >sentry.io</text>
+      <line x1="656" y1="284" x2="948" y2="284" stroke="#2F3A47" stroke-width="1.6" stroke-dasharray="3 6"/><g filter="url(#halo)"><circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="34s" repeatCount="indefinite" path="M662 284 H946" keyPoints="0;0;1;1" keyTimes="0;0.7500;0.8200;1" calcMode="linear"/><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.746;0.75;0.8200000000000001;0.8240000000000001;1" values="0;0;1;1;0;0"/></circle>
+      <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="34s" repeatCount="indefinite" path="M662 284 H946" keyPoints="0;0;1;1" keyTimes="0;0.7500;0.8200;1" calcMode="linear"/><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.746;0.75;0.8200000000000001;0.8240000000000001;1" values="0;0;1;1;0;0"/></circle></g>
+      <circle cx="948" cy="284" r="4" fill="none" stroke="#F87171" stroke-width="2" opacity="0">
+        <animate attributeName="r" dur="34s" repeatCount="indefinite" keyTimes="0;0.8200000000000001;0.8600000000000001;1" values="4;4;26;26"/>
+        <animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.8200000000000001;0.8220000000000001;0.8600000000000001;1" values="0;0;0.95;0;0"/>
+      </circle>
+      <g opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.8140000000000001;0.8200000000000001;0.96;0.966;1" values="0;0;1;1;0;0"/><rect x="870" y="274" width="74" height="20" rx="10" fill="#131A24" stroke="#F87171" stroke-opacity="0.5"/><text x="907" y="288" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="10.5" font-weight="700" fill="#F87171" text-anchor="middle" >refused</text></g><rect x="952" y="140" width="12" height="15" rx="2" fill="#F87171" fill-opacity="0.55"/><rect x="966" y="140" width="12" height="15" rx="2" fill="#F87171" fill-opacity="0.67"/><rect x="952" y="158" width="12" height="15" rx="2" fill="#F87171" fill-opacity="0.67"/><rect x="960" y="158" width="12" height="15" rx="2" fill="#F87171" fill-opacity="0.79"/><rect x="952" y="176" width="12" height="15" rx="2" fill="#F87171" fill-opacity="0.79"/><rect x="966" y="176" width="12" height="15" rx="2" fill="#F87171" fill-opacity="0.55"/><rect x="952" y="194" width="12" height="15" rx="2" fill="#F87171" fill-opacity="0.55"/><rect x="960" y="194" width="12" height="15" rx="2" fill="#F87171" fill-opacity="0.67"/><rect x="952" y="212" width="12" height="15" rx="2" fill="#F87171" fill-opacity="0.67"/><rect x="966" y="212" width="12" height="15" rx="2" fill="#F87171" fill-opacity="0.79"/><rect x="952" y="230" width="12" height="15" rx="2" fill="#F87171" fill-opacity="0.79"/><rect x="960" y="230" width="12" height="15" rx="2" fill="#F87171" fill-opacity="0.55"/><rect x="952" y="248" width="12" height="15" rx="2" fill="#F87171" fill-opacity="0.55"/><rect x="966" y="248" width="12" height="15" rx="2" fill="#F87171" fill-opacity="0.67"/><rect x="952" y="266" width="12" height="15" rx="2" fill="#F87171" fill-opacity="0.67"/><rect x="960" y="266" width="12" height="15" rx="2" fill="#F87171" fill-opacity="0.79"/><rect x="952" y="284" width="12" height="15" rx="2" fill="#F87171" fill-opacity="0.79"/><rect x="966" y="284" width="12" height="15" rx="2" fill="#F87171" fill-opacity="0.55"/><text x="967" y="134" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="11" font-weight="700" fill="#F87171" text-anchor="middle" >Android</text><text x="967" y="322" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="10.5" font-weight="400" fill="#F87171" text-anchor="middle" >no INTERNET permission</text><line x1="986" y1="228" x2="1004" y2="228" stroke="#2F3A47" stroke-dasharray="3 6" opacity="0.5"/>
+    <rect x="1004" y="188" width="198" height="80" rx="12" fill="#2F3A47" fill-opacity="0.18" stroke="#1F2833" stroke-dasharray="4 4"/>
+    <g transform="translate(1022 206) scale(1.4)"><circle cx="8" cy="8" r="6.3" fill="none" stroke="#5C6A7A" stroke-width="1.4"/><ellipse cx="8" cy="8" rx="2.8" ry="6.3" fill="none" stroke="#5C6A7A" stroke-width="1.2"/><path d="M1.8 8 H14.2 M3 4.6 H13 M3 11.4 H13" stroke="#5C6A7A" stroke-width="1.1"/></g>
+    <text x="1054" y="220" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="14" font-weight="700" fill="#8B99A8" text-anchor="start" >Internet</text>
+    <text x="1022" y="250" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#5C6A7A" text-anchor="start" >never reached</text><text x="418" y="322" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5" font-weight="400" fill="#5C6A7A" text-anchor="start" >The wall is not in the code: even a poisoned dependency hits it.</text><text x="400" y="360" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="11.5" font-weight="700" fill="#5C6A7A" text-anchor="start" letter-spacing="2">THE FOUR DOORS, ON A TOUCH</text><path d="M350 378 H1123.5" stroke="#2F3A47" stroke-width="1.6" fill="none"/><path d="M496.5 378 V396" stroke="#2F3A47" stroke-width="1.6"/>
+      <rect x="400" y="396" width="193" height="146" rx="13" fill="#131A24" stroke="#1F2833"/>
+      <rect x="400" y="396" width="193" height="146" rx="13" fill="#E879F9" fill-opacity="0.05" stroke="#E879F9" stroke-width="1.5" opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.063;0.075;0.246;0.258;1" values="0;0;1;1;0;0"/></rect>
+      <rect x="416" y="412" width="34" height="34" rx="10" fill="#E879F9" fill-opacity="0.12" stroke="#E879F9" stroke-opacity="0.4"/>
+      <g transform="translate(425 421) scale(1)"><path d="M8 1.5 L14.5 8 L8 14.5 L1.5 8 Z" fill="none" stroke="#E879F9" stroke-width="1.5" stroke-linejoin="round"/><path d="M6 10 V7.5 H10 M8.6 6 L10 7.5 L8.6 9" fill="none" stroke="#E879F9" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></g>
+      <text x="460" y="434" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="14" font-weight="700" fill="#F0F4F8" text-anchor="start" >Directions</text>
+      <text x="416" y="472" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="13" font-weight="700" fill="#F0F4F8" text-anchor="start" >the address</text>
+      <text x="416" y="491" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#8B99A8" text-anchor="start" >to the maps app</text>
+      <text x="416" y="508" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="11.5" font-weight="400" fill="#5C6A7A" text-anchor="start" >picked through geo:</text>
+      <rect x="416" y="518" width="94.80000000000001" height="18" rx="9" fill="#FDE68A" fill-opacity="0.12" stroke="#FDE68A" stroke-opacity="0.5"/>
+      <text x="425" y="530.5" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10" font-weight="700" fill="#FDE68A" text-anchor="start" >in the clear</text><g filter="url(#halo)"><circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="34s" repeatCount="indefinite" path="M350 378 H496.5 V398" keyPoints="0;0;1;1" keyTimes="0;0.0750;0.1150;1" calcMode="linear"/><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.072;0.075;0.11499999999999999;0.118;1" values="0;0;1;1;0;0"/></circle>
+      <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="34s" repeatCount="indefinite" path="M350 378 H496.5 V398" keyPoints="0;0;1;1" keyTimes="0;0.0750;0.1150;1" calcMode="linear"/><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.072;0.075;0.11499999999999999;0.118;1" values="0;0;1;1;0;0"/></circle></g><path d="M705.5 378 V396" stroke="#2F3A47" stroke-width="1.6"/>
+      <rect x="609" y="396" width="193" height="146" rx="13" fill="#131A24" stroke="#1F2833"/>
+      <rect x="609" y="396" width="193" height="146" rx="13" fill="#E879F9" fill-opacity="0.05" stroke="#E879F9" stroke-width="1.5" opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.283;0.295;0.46599999999999997;0.478;1" values="0;0;1;1;0;0"/></rect>
+      <rect x="625" y="412" width="34" height="34" rx="10" fill="#E879F9" fill-opacity="0.12" stroke="#E879F9" stroke-opacity="0.4"/>
+      <g transform="translate(634 421) scale(1)"><path d="M4.5 2 L6.5 2 L7.8 5.4 L6.3 6.6 C7 8.4 8 9.4 9.6 10.1 L10.8 8.6 L14 9.9 L14 12 C14 13.1 13.1 14 12 14 C6.5 13.6 2.4 9.5 2 4 C2 2.9 2.9 2 4 2 Z" fill="none" stroke="#E879F9" stroke-width="1.5" stroke-linejoin="round"/></g>
+      <text x="669" y="434" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="14" font-weight="700" fill="#F0F4F8" text-anchor="start" >Call</text>
+      <text x="625" y="472" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="13" font-weight="700" fill="#F0F4F8" text-anchor="start" >the number</text>
+      <text x="625" y="491" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#8B99A8" text-anchor="start" >to the dialer</text>
+      <text x="625" y="508" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="11.5" font-weight="400" fill="#5C6A7A" text-anchor="start" >through tel:</text>
+      <rect x="625" y="518" width="94.80000000000001" height="18" rx="9" fill="#FDE68A" fill-opacity="0.12" stroke="#FDE68A" stroke-opacity="0.5"/>
+      <text x="634" y="530.5" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10" font-weight="700" fill="#FDE68A" text-anchor="start" >in the clear</text><g filter="url(#halo)"><circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="34s" repeatCount="indefinite" path="M350 378 H705.5 V398" keyPoints="0;0;1;1" keyTimes="0;0.2950;0.3350;1" calcMode="linear"/><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.292;0.295;0.33499999999999996;0.33799999999999997;1" values="0;0;1;1;0;0"/></circle>
+      <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="34s" repeatCount="indefinite" path="M350 378 H705.5 V398" keyPoints="0;0;1;1" keyTimes="0;0.2950;0.3350;1" calcMode="linear"/><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.292;0.295;0.33499999999999996;0.33799999999999997;1" values="0;0;1;1;0;0"/></circle></g><path d="M914.5 378 V396" stroke="#2F3A47" stroke-width="1.6"/>
+      <rect x="818" y="396" width="193" height="146" rx="13" fill="#131A24" stroke="#1F2833"/>
+      <rect x="818" y="396" width="193" height="146" rx="13" fill="#E879F9" fill-opacity="0.05" stroke="#E879F9" stroke-width="1.5" opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.498;0.51;0.726;0.738;1" values="0;0;1;1;0;0"/></rect>
+      <rect x="834" y="412" width="34" height="34" rx="10" fill="#E879F9" fill-opacity="0.12" stroke="#E879F9" stroke-opacity="0.4"/>
+      <g transform="translate(843 421) scale(1)"><path d="M8 10 V2 M5 4.8 L8 2 L11 4.8 M4 7 H3 V14 H13 V7 H12" fill="none" stroke="#E879F9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+      <text x="878" y="434" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="14" font-weight="700" fill="#F0F4F8" text-anchor="start" >Export</text>
+      <text x="834" y="472" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="13" font-weight="700" fill="#F0F4F8" text-anchor="start" >the backup</text>
+      <text x="834" y="491" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#8B99A8" text-anchor="start" >to the chosen folder</text>
+      <text x="834" y="508" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5" font-weight="400" fill="#5C6A7A" text-anchor="start" >or to an app</text>
+      <rect x="834" y="518" width="75.6" height="18" rx="9" fill="#1ED760" fill-opacity="0.12" stroke="#1ED760" stroke-opacity="0.5"/>
+      <text x="843" y="530.5" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10" font-weight="700" fill="#1ED760" text-anchor="start" >encrypted</text><g filter="url(#halo)"><circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="34s" repeatCount="indefinite" path="M350 378 H914.5 V398" keyPoints="0;0;1;1" keyTimes="0;0.5100;0.5500;1" calcMode="linear"/><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.507;0.51;0.55;0.553;1" values="0;0;1;1;0;0"/></circle>
+      <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="34s" repeatCount="indefinite" path="M350 378 H914.5 V398" keyPoints="0;0;1;1" keyTimes="0;0.5100;0.5500;1" calcMode="linear"/><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.507;0.51;0.55;0.553;1" values="0;0;1;1;0;0"/></circle></g><path d="M1123.5 378 V396" stroke="#2F3A47" stroke-width="1.6"/>
+      <rect x="1027" y="396" width="193" height="146" rx="13" fill="#131A24" stroke="#1F2833"/>
+      <rect x="1027" y="396" width="193" height="146" rx="13" fill="#E879F9" fill-opacity="0.05" stroke="#E879F9" stroke-width="1.5" opacity="0"><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.783;0.795;0.981;0.993;1" values="0;0;1;1;0;0"/></rect>
+      <rect x="1043" y="412" width="34" height="34" rx="10" fill="#E879F9" fill-opacity="0.12" stroke="#E879F9" stroke-opacity="0.4"/>
+      <g transform="translate(1052 421) scale(1)"><path d="M8 2 V10 M4.5 7 L8 10.5 L11.5 7 M3 13.5 H13" fill="none" stroke="#E879F9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+      <text x="1087" y="434" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="14" font-weight="700" fill="#F0F4F8" text-anchor="start" >Download</text>
+      <text x="1043" y="472" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="13" font-weight="700" fill="#F0F4F8" text-anchor="start" >a photo</text>
+      <text x="1043" y="491" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#8B99A8" text-anchor="start" >to the gallery</text>
+      <text x="1043" y="508" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="11.5" font-weight="400" fill="#5C6A7A" text-anchor="start" >Images › BodyCount</text>
+      <rect x="1043" y="518" width="94.80000000000001" height="18" rx="9" fill="#FDE68A" fill-opacity="0.12" stroke="#FDE68A" stroke-opacity="0.5"/>
+      <text x="1052" y="530.5" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10" font-weight="700" fill="#FDE68A" text-anchor="start" >in the clear</text><g filter="url(#halo)"><circle r="7" fill="#E879F9" opacity="0"><animateMotion dur="34s" repeatCount="indefinite" path="M350 378 H1123.5 V398" keyPoints="0;0;1;1" keyTimes="0;0.7950;0.8350;1" calcMode="linear"/><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.792;0.795;0.8350000000000001;0.8380000000000001;1" values="0;0;1;1;0;0"/></circle>
+      <circle r="3" fill="#FFFFFF" opacity="0"><animateMotion dur="34s" repeatCount="indefinite" path="M350 378 H1123.5 V398" keyPoints="0;0;1;1" keyTimes="0;0.7950;0.8350;1" calcMode="linear"/><animate attributeName="opacity" dur="34s" repeatCount="indefinite" keyTimes="0;0.792;0.795;0.8350000000000001;0.8380000000000001;1" values="0;0;1;1;0;0"/></circle></g><text x="1220" y="562" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11.5" font-weight="400" fill="#5C6A7A" text-anchor="end" >Each hands over to another app, which then answers for what it does with it.</text><rect x="400" y="580" width="193" height="70" rx="13" fill="#131A24" stroke="#1F2833"/>
+      <rect x="400" y="593" width="3" height="44" rx="1.5" fill="#A855F7"/>
+      <text x="416" y="609" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#F0F4F8" text-anchor="start" >The manifest</text>
+      <text x="416" y="630" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11" font-weight="400" fill="#8B99A8" text-anchor="start" >One permission written: fingerprint.</text><rect x="609" y="580" width="193" height="70" rx="13" fill="#131A24" stroke="#1F2833"/>
+      <rect x="609" y="593" width="3" height="44" rx="1.5" fill="#60A5FA"/>
+      <text x="625" y="609" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#F0F4F8" text-anchor="start" >No tiles</text>
+      <text x="625" y="630" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11" font-weight="400" fill="#8B99A8" text-anchor="start" >France is in the APK, 180 KB.</text><rect x="818" y="580" width="193" height="70" rx="13" fill="#131A24" stroke="#1F2833"/>
+      <rect x="818" y="593" width="3" height="44" rx="1.5" fill="#1ED760"/>
+      <text x="834" y="609" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#F0F4F8" text-anchor="start" >No remote fonts</text>
+      <text x="834" y="630" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11" font-weight="400" fill="#8B99A8" text-anchor="start" >Chakra Petch ships inside.</text><rect x="1027" y="580" width="193" height="70" rx="13" fill="#131A24" stroke="#1F2833"/>
+      <rect x="1027" y="593" width="3" height="44" rx="1.5" fill="#FDE68A"/>
+      <text x="1043" y="609" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#F0F4F8" text-anchor="start" >No Android backup</text>
+      <text x="1043" y="630" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="11" font-weight="400" fill="#8B99A8" text-anchor="start" >allowBackup=&quot;false&quot;</text><text x="400" y="676" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#8B99A8" text-anchor="start" >Checkable on the APK, without reading the code:</text><text x="699" y="676" font-family="ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,monospace" font-size="12" font-weight="400" fill="#E879F9" text-anchor="start" >aapt2 dump permissions app-arm64-v8a-release.apk</text>
 </svg>
