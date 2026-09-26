@@ -22,13 +22,23 @@ module.exports = (O) => {
   const FERMER = A(N - 1) + VOL, LECTURE = 0.4, LU = 0.475, FIN_LECTURE = 0.58;
   const ATT = [0.6, 0.72, 0.84], FIN = 0.965;
 
-  // Les motifs : une pellicule pour le clair, des octets en
+  // Les motifs : une vraie pellicule pour le clair (une image
+  // de la vidéo par case, entre ses perforations), des octets en
   // hexadécimal pour le chiffré, comme dans coffre.svg et formats.svg.
   corps += `<defs>
-    <pattern id="pellicule" width="16" height="26" patternUnits="userSpaceOnUse">
-      <rect width="16" height="26" fill="#1D3B5C"/><rect x="2" y="6" width="12" height="14" rx="2" fill="#3F7CB8"/>
-      <rect x="4" y="1.5" width="3" height="2.5" rx="0.8" fill="#0D1F33"/><rect x="10" y="1.5" width="3" height="2.5" rx="0.8" fill="#0D1F33"/>
-      <rect x="4" y="22" width="3" height="2.5" rx="0.8" fill="#0D1F33"/><rect x="10" y="22" width="3" height="2.5" rx="0.8" fill="#0D1F33"/>
+    <pattern id="pellicule" x="0" y="140" width="22" height="26" patternUnits="userSpaceOnUse">
+      <rect width="22" height="26" fill="#0B1522"/>
+      <rect x="3" y="1.2" width="4" height="2.4" rx="0.8" fill="#6FA8DC" fill-opacity="0.55"/><rect x="11" y="1.2" width="4" height="2.4" rx="0.8" fill="#6FA8DC" fill-opacity="0.55"/>
+      <rect x="3" y="22.4" width="4" height="2.4" rx="0.8" fill="#6FA8DC" fill-opacity="0.55"/><rect x="11" y="22.4" width="4" height="2.4" rx="0.8" fill="#6FA8DC" fill-opacity="0.55"/>
+      <use href="#visage12" xlink:href="#visage12" x="2" y="5" width="18" height="16"/>
+      <rect x="2" y="5" width="18" height="16" fill="#60A5FA" fill-opacity="0.12"/>
+    </pattern>
+    <pattern id="pelliculeVol" x="0" y="-13" width="22" height="26" patternUnits="userSpaceOnUse">
+      <rect width="22" height="26" fill="#0B1522"/>
+      <rect x="3" y="1.2" width="4" height="2.4" rx="0.8" fill="#6FA8DC" fill-opacity="0.55"/><rect x="11" y="1.2" width="4" height="2.4" rx="0.8" fill="#6FA8DC" fill-opacity="0.55"/>
+      <rect x="3" y="22.4" width="4" height="2.4" rx="0.8" fill="#6FA8DC" fill-opacity="0.55"/><rect x="11" y="22.4" width="4" height="2.4" rx="0.8" fill="#6FA8DC" fill-opacity="0.55"/>
+      <use href="#visage12" xlink:href="#visage12" x="2" y="5" width="18" height="16"/>
+      <rect x="2" y="5" width="18" height="16" fill="#60A5FA" fill-opacity="0.12"/>
     </pattern>
     <pattern id="bruit" width="66" height="30" patternUnits="userSpaceOnUse">
       <rect width="66" height="30" fill="#1E1235"/>
@@ -129,7 +139,7 @@ module.exports = (O) => {
     const mouvement = `<animateMotion dur="${C}s" repeatCount="indefinite" path="${chemin}" calcMode="linear"
       keyPoints="0;0;${f[1]};${f[1]};${f[2]};${f[2]};1;1" keyTimes="0;${a};${(a + 0.01).toFixed(4)};${(a + 0.016).toFixed(4)};${(a + 0.024).toFixed(4)};${(a + 0.027).toFixed(4)};${(a + VOL).toFixed(4)};1"/>`;
     corps += `<g>${mouvement}
-      <rect x="${-w / 2}" y="${-H / 2}" width="${w}" height="${H}" rx="5" fill="url(#pellicule)" stroke="${BLEU}" opacity="0">${visible(C, a, a + 0.022, 0.003)}</rect>
+      <rect x="${-w / 2}" y="${-H / 2}" width="${w}" height="${H}" rx="5" fill="url(#pelliculeVol)" stroke="${BLEU}" opacity="0">${visible(C, a, a + 0.022, 0.003)}</rect>
       <rect x="${-w / 2}" y="${-H / 2}" width="${w}" height="${H}" rx="5" fill="url(#bruit)" stroke="${VIOLET}" opacity="0" filter="url(#halo)">${visible(C, a + 0.022, a + VOL, 0.003)}</rect>
     </g>`;
   }
