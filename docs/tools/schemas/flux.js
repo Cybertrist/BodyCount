@@ -22,30 +22,9 @@ module.exports = (O) => {
   const FERMER = A(N - 1) + VOL, LECTURE = 0.4, LU = 0.475, FIN_LECTURE = 0.58;
   const ATT = [0.6, 0.72, 0.84], FIN = 0.965;
 
-  // Les motifs : une vraie pellicule pour le clair (une image
-  // de la vidéo par case, entre ses perforations), des octets en
-  // hexadécimal pour le chiffré, comme dans coffre.svg et formats.svg.
-  corps += `<defs>
-    <pattern id="pellicule" x="0" y="140" width="22" height="26" patternUnits="userSpaceOnUse">
-      <rect width="22" height="26" fill="#0B1522"/>
-      <rect x="3" y="1.2" width="4" height="2.4" rx="0.8" fill="#6FA8DC" fill-opacity="0.55"/><rect x="11" y="1.2" width="4" height="2.4" rx="0.8" fill="#6FA8DC" fill-opacity="0.55"/>
-      <rect x="3" y="22.4" width="4" height="2.4" rx="0.8" fill="#6FA8DC" fill-opacity="0.55"/><rect x="11" y="22.4" width="4" height="2.4" rx="0.8" fill="#6FA8DC" fill-opacity="0.55"/>
-      <use href="#visage12" xlink:href="#visage12" x="2" y="5" width="18" height="16"/>
-      <rect x="2" y="5" width="18" height="16" fill="#60A5FA" fill-opacity="0.12"/>
-    </pattern>
-    <pattern id="pelliculeVol" x="0" y="-13" width="22" height="26" patternUnits="userSpaceOnUse">
-      <rect width="22" height="26" fill="#0B1522"/>
-      <rect x="3" y="1.2" width="4" height="2.4" rx="0.8" fill="#6FA8DC" fill-opacity="0.55"/><rect x="11" y="1.2" width="4" height="2.4" rx="0.8" fill="#6FA8DC" fill-opacity="0.55"/>
-      <rect x="3" y="22.4" width="4" height="2.4" rx="0.8" fill="#6FA8DC" fill-opacity="0.55"/><rect x="11" y="22.4" width="4" height="2.4" rx="0.8" fill="#6FA8DC" fill-opacity="0.55"/>
-      <use href="#visage12" xlink:href="#visage12" x="2" y="5" width="18" height="16"/>
-      <rect x="2" y="5" width="18" height="16" fill="#60A5FA" fill-opacity="0.12"/>
-    </pattern>
-    <pattern id="bruit" width="66" height="30" patternUnits="userSpaceOnUse">
-      <rect width="66" height="30" fill="#1E1235"/>
-      <text font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="7.5" fill="#B57CF5" fill-opacity="0.75">
-        <tspan x="2" y="8">a3 f1 9c 4e 07</tspan><tspan x="-12" y="18">5d e2 b8 31 c6</tspan><tspan x="7" y="28">0f 7a 94 d3 2b</tspan></text>
-    </pattern>
-  </defs>`;
+  // Deux couleurs unies, sans motif : le bleu pour le clair, le violet
+  // pour le chiffré. La légende en haut à droite les nomme.
+  const FOND_CLAIR = '#1E3A5F', FOND_CHIFFRE = '#3B1F66';
 
   const coche = (x, y, c = VERT) => `<circle cx="${x}" cy="${y}" r="8" fill="${c}" fill-opacity="0.16" stroke="${c}" stroke-opacity="0.8"/>${icone('coche', x - 6, y - 6, c, 0.75)}`;
   const refus = (x, y) => `<circle cx="${x}" cy="${y}" r="8" fill="${ROUGE}" fill-opacity="0.2" stroke="${ROUGE}"/>${icone('croix', x - 5, y - 5, ROUGE, 0.62)}`;
@@ -115,9 +94,17 @@ module.exports = (O) => {
   corps += texte(400, SY_ + 17, t('clair', 'clear'), { taille: 11, couleur: BLEU, police: MONO, poids: 700 });
   corps += texte(400, FY + 17, 'vault/', { taille: 11, couleur: ACCENT, police: MONO, poids: 700 });
   corps += texte(1220, 108, t('enzo.mp4 · 6,4 Mo', 'enzo.mp4 · 6.4 MB'), { taille: 11, couleur: DISCRET, police: MONO, ancre: 'end' });
+  // La légende des deux couleurs.
+  {
+    const lx = 880, ly = 108;
+    corps += `<rect x="${lx}" y="${ly - 10}" width="16" height="12" rx="3" fill="${FOND_CLAIR}" stroke="${BLEU}"/>`;
+    corps += texte(lx + 22, ly, t('en clair', 'in the clear'), { taille: 11.5, couleur: BLEU });
+    corps += `<rect x="${lx + 100}" y="${ly - 10}" width="16" height="12" rx="3" fill="${FOND_CHIFFRE}" stroke="${VIOLET}"/>`;
+    corps += texte(lx + 122, ly, t('chiffré', 'encrypted'), { taille: 11.5, couleur: VIOLET });
+  }
   // La vidéo en clair : sept tranches, dont une courte.
   for (let i = 0; i < N; i++) {
-    corps += `<rect x="${X(i)}" y="${SY_}" width="${W(i)}" height="${H}" rx="5" fill="url(#pellicule)" opacity="0.9"/>
+    corps += `<rect x="${X(i)}" y="${SY_}" width="${W(i)}" height="${H}" rx="5" fill="${FOND_CLAIR}" stroke="${BLEU}" stroke-opacity="0.6"/>
       <rect x="${X(i)}" y="${SY_}" width="${W(i)}" height="${H}" rx="5" fill="none" stroke="${BLEU}" stroke-width="1.6" opacity="0">${visible(C, A(i), A(i) + 0.012, 0.004)}</rect>
       <rect x="${X(i)}" y="${SY_}" width="${W(i)}" height="${H}" rx="5" fill="${FOND_SOMBRE()}" fill-opacity="0.55" opacity="0">${paliers('opacity', C, [[0, 0], [A(i) + 0.012, 1], [FIN, 0]])}</rect>`;
   }
@@ -139,8 +126,8 @@ module.exports = (O) => {
     const mouvement = `<animateMotion dur="${C}s" repeatCount="indefinite" path="${chemin}" calcMode="linear"
       keyPoints="0;0;${f[1]};${f[1]};${f[2]};${f[2]};1;1" keyTimes="0;${a};${(a + 0.01).toFixed(4)};${(a + 0.016).toFixed(4)};${(a + 0.024).toFixed(4)};${(a + 0.027).toFixed(4)};${(a + VOL).toFixed(4)};1"/>`;
     corps += `<g>${mouvement}
-      <rect x="${-w / 2}" y="${-H / 2}" width="${w}" height="${H}" rx="5" fill="url(#pelliculeVol)" stroke="${BLEU}" opacity="0">${visible(C, a, a + 0.022, 0.003)}</rect>
-      <rect x="${-w / 2}" y="${-H / 2}" width="${w}" height="${H}" rx="5" fill="url(#bruit)" stroke="${VIOLET}" opacity="0" filter="url(#halo)">${visible(C, a + 0.022, a + VOL, 0.003)}</rect>
+      <rect x="${-w / 2}" y="${-H / 2}" width="${w}" height="${H}" rx="5" fill="${FOND_CLAIR}" stroke="${BLEU}" opacity="0">${visible(C, a, a + 0.022, 0.003)}</rect>
+      <rect x="${-w / 2}" y="${-H / 2}" width="${w}" height="${H}" rx="5" fill="${FOND_CHIFFRE}" stroke="${VIOLET}" opacity="0" filter="url(#halo)">${visible(C, a + 0.022, a + VOL, 0.003)}</rect>
     </g>`;
   }
 
@@ -178,7 +165,7 @@ module.exports = (O) => {
   for (let i = 0; i < N; i++) {
     const arrive = A(i) + VOL;
     const der = i === N - 1;
-    let morceau = `<rect x="${X(i)}" y="${FY}" width="${W(i)}" height="${H}" rx="5" fill="url(#bruit)" stroke="${der ? OR : VIOLET}" stroke-opacity="0.8"/>
+    let morceau = `<rect x="${X(i)}" y="${FY}" width="${W(i)}" height="${H}" rx="5" fill="${FOND_CHIFFRE}" stroke="${der ? OR : VIOLET}" stroke-opacity="0.8"/>
       <rect x="${X(i) + 3}" y="${FY + 4}" width="5" height="${H - 8}" rx="1.5" fill="${BLEU}" fill-opacity="0.85"/>
       <rect x="${X(i) + W(i) - 8}" y="${FY + 4}" width="5" height="${H - 8}" rx="1.5" fill="${ACCENT}"/>
       ${texte(X(i) + W(i) / 2, FY + H + 15, der ? `${i} · ${t('dernier', 'last')}` : `${t('rang', 'rank')} ${i}`, { taille: 10, couleur: der ? OR : DISCRET, police: MONO, ancre: 'middle' })}`;
@@ -214,7 +201,7 @@ module.exports = (O) => {
   const champs = [[t('longueur', 'length'), '4', 62, BLEU], ['nonce', '12', 74, BLEU], [t('chiffré', 'ciphertext'), t('≤ 1 Mo', '≤ 1 MB'), 172, VIOLET], ['MAC', '16', 60, ACCENT]];
   let cx = ZX + 16;
   champs.forEach(([nom, taille, l, c]) => {
-    corps += `<rect x="${cx}" y="${ZY + 16}" width="${l - 4}" height="34" rx="6" fill="${c === VIOLET ? 'url(#bruit)' : c}" fill-opacity="${c === VIOLET ? 1 : 0.16}" stroke="${c}" stroke-opacity="0.7"/>
+    corps += `<rect x="${cx}" y="${ZY + 16}" width="${l - 4}" height="34" rx="6" fill="${c === VIOLET ? FOND_CHIFFRE : c}" fill-opacity="${c === VIOLET ? 1 : 0.16}" stroke="${c}" stroke-opacity="0.7"/>
       ${texte(cx + (l - 4) / 2, ZY + 31, nom, { taille: 10.5, couleur: c === VIOLET ? '#FFFFFF' : c, police: MONO, poids: 700, ancre: 'middle' })}
       ${texte(cx + (l - 4) / 2, ZY + 44, taille, { taille: 9.5, couleur: c === VIOLET ? '#E9DEFF' : TEXTE, police: MONO, ancre: 'middle' })}`;
     cx += l;

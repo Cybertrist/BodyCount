@@ -34,13 +34,8 @@ module.exports = (O) => {
   const vignetteVideo = (x, y, s) => cadre(x, y, s, s, { ...VIDEO, rx: 10 }) + lecture(x + s / 2, y + s / 2 - 4, s * 0.17) +
     texte(x + s - 6, y + s - 6, '0:05', { taille: 9, couleur: '#FFFFFF', poids: 700, ancre: 'end' });
 
-  // Un fichier chiffré : des octets illisibles, un cadenas au milieu.
-  corps += `<defs><pattern id="brouille" width="66" height="30" patternUnits="userSpaceOnUse">
-      <rect width="66" height="30" fill="#1E1235"/>
-      <text font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="7.5" fill="#B57CF5" fill-opacity="0.75">
-        <tspan x="2" y="8">a3 f1 9c 4e 07</tspan><tspan x="-12" y="18">5d e2 b8 31 c6</tspan><tspan x="7" y="28">0f 7a 94 d3 2b</tspan></text>
-    </pattern></defs>`;
-  const chiffre = (x, y, s) => `<rect x="${x}" y="${y}" width="${s}" height="${s}" rx="9" fill="url(#brouille)" stroke="${VIOLET}" stroke-opacity="0.7"/>
+  // Un fichier chiffré : un carré violet uni, un cadenas au milieu.
+  const chiffre = (x, y, s) => `<rect x="${x}" y="${y}" width="${s}" height="${s}" rx="9" fill="#3B1F66" stroke="${VIOLET}" stroke-opacity="0.7"/>
     <circle cx="${x + s / 2}" cy="${y + s / 2}" r="${s * 0.24}" fill="#0B0616" fill-opacity="0.75"/>
     ${icone('cadenas', x + s / 2 - s * 0.16, y + s / 2 - s * 0.16, APP.rose, s * 0.02)}`;
   // Une photo de paysage quelconque, pour la galerie du téléphone.
