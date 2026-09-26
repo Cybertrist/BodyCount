@@ -46,13 +46,15 @@ module.exports = (O) => {
     <line x1="${SX + 12}" y1="${SY + 302}" x2="${SX + SL - 12}" y2="${SY + 302}" stroke="${APP.bord}"/>
     ${ligne(SY + 304, 'fichier', APP.rose, t('Restaurer une sauvegarde', 'Restore a backup'), t('Remplace ce qui est ici', 'Replaces what is here'), '.bcx')}`;
   const voile = `<rect x="${SX}" y="${SY}" width="${SL}" height="${SH}" fill="#000000" fill-opacity="0.62"/>`;
-  const AVANT = reglages(12, 70), APRES = reglages(18, 111);
+  // Des fonctions, pas des chaînes : chaque usage doit avoir ses propres
+  // identifiants de clipPath, sinon le fichier en porte deux fois le même.
+  const AVANT = () => reglages(12, 70), APRES = () => reglages(18, 111);
 
   // 1. Les réglages, le toucher sur Restaurer.
-  ecran += entre(C, 0, AVERTIR, AVANT + toucher(SX + 130, SY + 334, C, 0.06), 0.006);
+  ecran += entre(C, 0, AVERTIR, AVANT() + toucher(SX + 130, SY + 334, C, 0.06), 0.006);
 
   // 2. L'avertissement, qui dit déjà la règle.
-  ecran += entre(C, AVERTIR, CHOISIR, `${AVANT}${voile}
+  ecran += entre(C, AVERTIR, CHOISIR, `${AVANT()}${voile}
     <rect x="${SX + 16}" y="${SY + 150}" width="${SL - 32}" height="226" rx="24" fill="${APP.surface}" stroke="${APP.bord}"/>
     ${texte(SX + 36, SY + 188, t('Restaurer une sauvegarde ?', 'Restore a backup?'), { taille: 15.5, couleur: APP.texte, poids: 800 })}
     ${[t('Les fiches, rencontres, notes, photos', 'The cards, encounters, notes, photos'),
@@ -82,7 +84,7 @@ module.exports = (O) => {
     ${texte(SX + 26, SY + SH - 29, t('effacée quoi qu’il arrive.', 'deleted whatever happens.'), { taille: 10.5, couleur: GRIS.second })}`, 0.006);
 
   // La phrase de passe, par-dessus les réglages assombris.
-  const phrase = (de, a, touche, points, fond = AVANT) => `${fond}${voile}
+  const phrase = (de, a, touche, points, fond = AVANT) => `${fond()}${voile}
     <rect x="${SX + 16}" y="${SY + 170}" width="${SL - 32}" height="196" rx="24" fill="${APP.surface}" stroke="${APP.bord}"/>
     ${texte(SX + 38, SY + 210, t('Phrase de passe', 'Passphrase'), { taille: 17, couleur: APP.texte, poids: 800 })}
     ${texte(SX + 38, SY + 234, t('Celle choisie au moment de l’export.', 'The one chosen at export time.'), { taille: 10.5, couleur: APP.second })}
@@ -95,7 +97,7 @@ module.exports = (O) => {
   ecran += entre(C, PHRASE, P1, phrase(0.25, 0.29, 0.305, '••••••••••••••'), 0.006);
 
   // L'attente : un seul message au premier passage, les vidéos au second.
-  const attente = (fond, messages) => `${fond}${voile}
+  const attente = (fond, messages) => `${fond()}${voile}
     <rect x="${SX + 16}" y="${SY + 270}" width="${SL - 32}" height="70" rx="20" fill="${APP.surface}" stroke="${APP.bord}"/>
     <circle cx="${SX + 46}" cy="${SY + 305}" r="11" fill="none" stroke="${APP.violet}" stroke-width="3" stroke-dasharray="44 26">
       <animateTransform attributeName="transform" type="rotate" from="0 ${SX + 46} ${SY + 305}" to="360 ${SX + 46} ${SY + 305}" dur="0.9s" repeatCount="indefinite"/></circle>
@@ -110,7 +112,7 @@ module.exports = (O) => {
     entre(C, VIDEOS[1], 1, msg(t('Déchiffrement des vidéos,', 'Decrypting videos,'), t('2 sur 2…', '2 of 2…')), 0.003)), 0.006);
 
   // Fait : les réglages disent 18, le message confirme.
-  ecran += entre(C, FAIT, REPERT, `${APRES}
+  ecran += entre(C, FAIT, REPERT, `${APRES()}
     <rect x="${SX + 12}" y="${SY + SH - 64}" width="${SL - 24}" height="44" rx="10" fill="#2B2340"/>
     ${texte(SX + 26, SY + SH - 37, t('Sauvegarde restaurée.', 'Backup restored.'), { taille: 12, couleur: APP.texte })}
     ${toucher(SX + 26, SY + 42, C, 0.72)}`, 0.006);
@@ -130,7 +132,7 @@ module.exports = (O) => {
   // Une autre fois : une phrase fausse.
   ecran += entre(C, RATE, 0.835, phrase(0.806, 0.822, 0.83, '•••••••••', APRES), 0.005);
   ecran += entre(C, 0.835, ERREUR, attente(APRES, msg(t('Vérification de la sauvegarde…', 'Checking the backup…'))), 0.004);
-  ecran += entre(C, ERREUR, FIN, `${APRES}
+  ecran += entre(C, ERREUR, FIN, `${APRES()}
     <rect x="${SX + 12}" y="${SY + SH - 76}" width="${SL - 24}" height="56" rx="10" fill="${APP.rouge}"/>
     ${texte(SX + 26, SY + SH - 52, t('Cette phrase de passe n’ouvre', 'This passphrase does not open'), { taille: 12, couleur: '#2A0A0A', poids: 700 })}
     ${texte(SX + 26, SY + SH - 35, t('pas la sauvegarde.', 'the backup.'), { taille: 12, couleur: '#2A0A0A', poids: 700 })}`, 0.006);

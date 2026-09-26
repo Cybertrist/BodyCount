@@ -150,9 +150,13 @@ module.exports = (O) => {
   const lien = (x1, y1, x2, y2, de, a, couleur = FIL, extra = '') => {
     const mx = (x1 + x2) / 2;
     const L = Math.round(Math.hypot(x2 - x1, y2 - y1) * 1.2 + 10);
+    // Un lien en pointillé porte déjà son stroke-dasharray : il apparaît
+    // en fondu au lieu de se tracer. Deux fois le même attribut sur un
+    // élément, et GitHub refuse tout le fichier.
+    const pointille = extra.includes('stroke-dasharray');
     return `<path d="M${x1} ${y1} C${mx} ${y1} ${mx} ${y2} ${x2} ${y2}" fill="none" stroke="${couleur}" stroke-width="2" stroke-linecap="round" ${extra}
-      stroke-dasharray="${L}" stroke-dashoffset="${L}" opacity="0">
-      ${fondu('stroke-dashoffset', C, [[0, L], [de, L], [Math.min(de + 0.02, 1), 0], [1, 0]])}
+      ${pointille ? '' : `stroke-dasharray="${L}" stroke-dashoffset="${L}"`} opacity="0">
+      ${pointille ? '' : fondu('stroke-dashoffset', C, [[0, L], [de, L], [Math.min(de + 0.02, 1), 0], [1, 0]])}
       ${visible(C, de, a, 0.004)}</path>`;
   };
   /// Une bille qui court sur le même tracé, une fois.
