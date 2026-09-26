@@ -385,11 +385,14 @@ module.exports = (O) => {
   const VY = PY + 338;
   page += `<rect x="${SX + 12}" y="${VY}" width="${W}" height="140" rx="18" fill="#FFFFFF" fill-opacity="0.043" stroke="${APP.bord}"/>
     ${texte(SX + 28, VY + 26, t('VU À VANNES', 'SEEN IN VANNES'), { taille: 9.5, couleur: APP.second, poids: 700, extra: 'letter-spacing="1.4"' })}`;
-  [GENS.noa, GENS.lou, GENS.ibrahim, GENS.enzo].forEach((p, i) => {
-    const x = SX + 28 + i * 70, y = VY + 40;
-    page += `${visage(p.photo, x, y, 62, 84, 16)}
-      <rect x="${x}" y="${y}" width="62" height="84" rx="16" fill="url(#voile)"/>
-      ${texte(x + 31, y + 76, p.prenom, { taille: 9.5, couleur: '#FFFFFF', poids: 800, ancre: 'middle' })}`;
+  // Trois visages qui tiennent dans la carte : un quatrième coupé au bord
+  // se lisait comme une erreur.
+  const VL = Math.floor((W - 32 - 2 * 10) / 3);
+  [GENS.noa, GENS.lou, GENS.ibrahim].forEach((p, i) => {
+    const x = SX + 28 + i * (VL + 10), y = VY + 40;
+    page += `${visage(p.photo, x, y, VL, 84, 16)}
+      <rect x="${x}" y="${y}" width="${VL}" height="84" rx="16" fill="url(#voile)"/>
+      ${texte(x + VL / 2, y + 76, p.prenom, { taille: 9.5, couleur: '#FFFFFF', poids: 800, ancre: 'middle' })}`;
   });
 
   // Le défilement vers le classement, puis le retour en haut.
@@ -555,19 +558,19 @@ module.exports = (O) => {
     if (i === 0) {
       const g = O.id('degrade');
       corps += `<linearGradient id="${g}"><stop offset="0" stop-color="${teinte(0)}"/><stop offset="1" stop-color="${teinte(1)}"/></linearGradient>
-        <rect x="${x + 196}" y="${y + 21}" width="48" height="8" rx="4" fill="url(#${g})"/>`;
+        <rect x="${x + 212}" y="${y + 22}" width="34" height="7" rx="4" fill="url(#${g})"/>`;
     }
   });
 
   // ------------------------------------------------ le point précis
   const PX = 400, PYb = 572;
-  corps += `<rect x="${PX}" y="${PYb}" width="820" height="100" rx="13" fill="${CARTE}" stroke="${BORD}"/>`;
+  corps += `<rect x="${PX}" y="${PYb}" width="820" height="112" rx="13" fill="${CARTE}" stroke="${BORD}"/>`;
   // Une vignette : les communes voisines comme repères, et l'épingle.
   const vg = O.id('point');
-  corps += `<clipPath id="${vg}"><rect x="${PX + 14}" y="${PYb + 12}" width="170" height="76" rx="10"/></clipPath>
-    <g clip-path="url(#${vg})"><rect x="${PX + 14}" y="${PYb + 12}" width="170" height="76" fill="#2C1857"/>`;
+  corps += `<clipPath id="${vg}"><rect x="${PX + 14}" y="${PYb + 12}" width="170" height="88" rx="10"/></clipPath>
+    <g clip-path="url(#${vg})"><rect x="${PX + 14}" y="${PYb + 12}" width="170" height="88" fill="#2C1857"/>`;
   const COMMUNES = [['Vannes', -2.748, 47.658], ['Arradon', -2.824, 47.633], ['Séné', -2.739, 47.623], ['Baden', -2.904, 47.606], ['Larmor-Baden', -2.899, 47.586]];
-  const vp = (lon, lat) => [PX + 92 + (lon + 2.82) * COS * 820, PYb + 54 + (47.622 - lat) * 820];
+  const vp = (lon, lat) => [PX + 92 + (lon + 2.82) * COS * 700, PYb + 56 + (47.622 - lat) * 700];
   COMMUNES.forEach(([nom, lon, lat]) => {
     const [x, y] = vp(lon, lat);
     corps += `<circle cx="${r1(x)}" cy="${r1(y)}" r="1.8" fill="#FFFFFF" fill-opacity="0.8"/>${texte(r1(x + 5), r1(y + 3.5), nom, { taille: 9, couleur: '#FFFFFF', poids: 700, extra: 'fill-opacity="0.85"' })}`;
@@ -577,10 +580,10 @@ module.exports = (O) => {
       <path d="M0 0 C0 0 -6 -8 -6 -12 a6 6 0 0 1 12 0 C6 -8 0 0 0 0 Z" fill="${APP.fuchsia}" stroke="#FFFFFF" stroke-width="1"/><circle cy="-12" r="2.2" fill="#FFFFFF"/>
       <animateTransform attributeName="transform" type="translate" dur="${C}s" repeatCount="indefinite" keyTimes="0;0.6;0.63;0.64;1" values="${r1(ex)} ${r1(ey - 16)};${r1(ex)} ${r1(ey - 16)};${r1(ex)} ${r1(ey + 1)};${r1(ex)} ${r1(ey)};${r1(ex)} ${r1(ey)}"/></g>
     </g>`;
-  corps += texte(PX + 204, PYb + 32, t('Point précis, pour une rencontre', 'Exact spot, for an encounter'), { taille: 14, couleur: TITRE, poids: 700 });
-  corps += texte(PX + 204, PYb + 54, t('Sans tuiles, pas de rues : les communes voisines servent de repère, les plus peuplées d’abord.', 'No tiles, so no streets: nearby towns serve as landmarks, the most populated first.'), { taille: 12.5 });
-  corps += texte(PX + 204, PYb + 73, t('De quoi poser un point entre Arradon et Séné. Sur la carte, il s’allume dès 2,5×,', 'Enough to drop a pin between Arradon and Séné. On the map, it lights up from 2.5×,'), { taille: 12.5 });
-  corps += texte(PX + 204, PYb + 90, t('en blanc cerclé de fuchsia : à l’échelle du pays, il se confondrait avec les villes.', 'white ringed with fuchsia: at country scale it would blur into the cities.'), { taille: 12.5 });
+  corps += texte(PX + 204, PYb + 34, t('Point précis, pour une rencontre', 'Exact spot, for an encounter'), { taille: 14, couleur: TITRE, poids: 700 });
+  corps += texte(PX + 204, PYb + 57, t('Sans tuiles, pas de rues : les communes voisines servent de repère, les plus peuplées d’abord.', 'No tiles, so no streets: nearby towns serve as landmarks, the most populated first.'), { taille: 12.5 });
+  corps += texte(PX + 204, PYb + 77, t('De quoi poser un point entre Arradon et Séné. Sur la carte, il s’allume dès 2,5×,', 'Enough to drop a pin between Arradon and Séné. On the map, it lights up from 2.5×,'), { taille: 12.5 });
+  corps += texte(PX + 204, PYb + 96, t('en blanc cerclé de fuchsia : à l’échelle du pays, il se confondrait avec les villes.', 'white ringed with fuchsia: at country scale it would blur into the cities.'), { taille: 12.5 });
 
   svg('carte.svg', 1280, 720, corps, t(
     `L’écran Carte de BodyCount. La vue s’ouvre serrée sur tes villes : de la principale, de proche en proche, jusqu’aux deux tiers des rencontres, ici Vannes, Auray et Lorient, soit ${facteur(Z0)}. La terre monte, les villes tombent en pastilles qui portent leur nombre, les plus grosses d’abord, avec deux ondes sur Vannes et une navette vers chaque autre ville. Vannes et Auray, trop proches à cette échelle, forment une seule bulle de 65. Un pincement sur le golfe approche jusqu’à ${facteur(Z1)} : la bulle se sépare en Vannes 61 et Auray 4, et les points posés à la main apparaissent. Le bouton du zoom ramène la vue d’ouverture. Plus bas, le classement des villes en barres, puis les visages vus à Vannes. Aucune tuile n’est chargée : aucun serveur ne sait quel coin de la carte tu regardes. Le point précis d’une rencontre se pose à la main, les communes voisines servant de repère.`,
