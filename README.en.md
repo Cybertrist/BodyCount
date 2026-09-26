@@ -16,10 +16,35 @@ Nothing out there did both: keep all of it properly organised, and keep it to yo
 
 Every design decision follows from that constraint, down to the map, which draws France and its 34,836 communes from data shipped inside the app rather than fetching tiles from the internet.
 
+<img src="docs/en/sections/s00.png" alt="00 Contents" width="100%">
+
+<p align="center">
+<a href="#fonctionnalites"><img src="docs/en/sommaire/01.png" alt="01 Features" width="31%"></a>
+<a href="#ecrans"><img src="docs/en/sommaire/02.png" alt="02 The screens" width="31%"></a>
+<a href="#installer"><img src="docs/en/sommaire/03.png" alt="03 Install" width="31%"></a>
+<br>
+<a href="#stack"><img src="docs/en/sommaire/04.png" alt="04 The stack" width="31%"></a>
+<a href="#architecture"><img src="docs/en/sommaire/05.png" alt="05 Architecture" width="31%"></a>
+<a href="#chiffrement"><img src="docs/en/sommaire/06.png" alt="06 Encryption" width="31%"></a>
+<br>
+<a href="#videos"><img src="docs/en/sommaire/07.png" alt="07 Videos and backups" width="31%"></a>
+<a href="#carte"><img src="docs/en/sommaire/08.png" alt="08 The map" width="31%"></a>
+<a href="#calendrier"><img src="docs/en/sommaire/09.png" alt="09 The calendar" width="31%"></a>
+<br>
+<a href="#confidentialite"><img src="docs/en/sommaire/10.png" alt="10 Privacy" width="31%"></a>
+<a href="#tests"><img src="docs/en/sommaire/11.png" alt="11 The tests" width="31%"></a>
+<a href="#sans-internet"><img src="docs/en/sommaire/12.png" alt="12 No Internet" width="31%"></a>
+<br>
+<a href="#avertissement"><img src="docs/en/sommaire/13.png" alt="13 A word of warning" width="31%"></a>
+<a href="#licence"><img src="docs/en/sommaire/14.png" alt="14 Licence" width="31%"></a>
+</p>
+
+<a id="fonctionnalites"></a>
 <img src="docs/en/sections/s01.png" alt="01 Features" width="100%">
 
 <img src="docs/en/schemas/fonctionnalites.svg" alt="BodyCount’s features, in eleven animated screens, each with its mechanism. Biometric lock: the fingerprint scanned, the key leaves the Keystore, HKDF derives the database key and the vault key, and the people list fills in. People: “vann” typed in the search, the query is rewritten on every letter and goes from 18 to 7 people, the cards slide, then Top rated reorders them. Statistics: the year’s 78 encounters each fall into their month, the bars rise, +136% against 2025, the podium sorts itself. Map of France: the real coastline read from france.bin, the cities drop in as bubbles with their ripples and shuttles, and a pinch splits the 65 bubble into Vannes 61 and Auray 4. Calendar: busy days take their disc and their signs, the 23rd is touched and its six signs get sorted, three remain. Private gallery: a photo picked in the system picker goes into the vault, blurs, encrypted with AES-GCM, the copy is deleted, nothing in the phone’s gallery, then it is decrypted in memory for the viewer. Backup: the passphrase, PBKDF2 over 210,000 rounds, then the BCEX2 file written chunk by chunk. What it brings in: seven paid nights out of 78 light up, €750 in total, €107.14 on average over paid ones only. Nothing is final: an encounter reopened, its rating corrected, a deletion asked then cancelled. Address and route: only the address goes through the door, to the map app you pick, which draws the route in the real Gulf of Morbihan. Three screen sizes: the same people list in 2, 3 then 4 columns. And nothing leaves: no server, no account, no telemetry." width="100%">
 
+<a id="ecrans"></a>
 <img src="docs/en/sections/s02.png" alt="02 The screens" width="100%">
 
 The app is designed first for the passport format, the cover screen of a Galaxy Z Fold: wide and short. That is where it gets used every day, so it carries the full sheet. The faces come from the demo set, generated portraits: nobody real.
@@ -56,6 +81,7 @@ The palette follows the logo's gradient, from violet to fuchsia, on near-black b
 
 <img src="docs/en/schemas/palette.svg" alt="The BodyCount palette, on Enzo’s card. Each colour lights up in turn and a line ties it to what carries it. Background #0B0616, the floor, a black leaning violet. Edge #261A45, card borders. Card #1A1030, the fill of an encounter. Text #F6F2FF, the name and figures. Secondary text #9B8CB8, the labels. Tertiary text #7D6E99, the time and place. Primary violet #A855F7, links and the start of the gradient. Fuchsia #D946EF, the end of the gradient on the New encounter button. Star #C084FC, ratings. Green #1ED760, the No. 12 rank. Gold #FDE68A, the €50 of a night out. Surface #150C28, the dialog that opens. Red #F87171, the app’s only red, on Delete." width="100%">
 
+<a id="installer"></a>
 <img src="docs/en/sections/s03.png" alt="03 Install" width="100%">
 
 The APK lives in the repository's [Releases](https://github.com/Cybertrist/BodyCount/releases/latest), not in the code: a binary of nearly thirty megabytes versioned with the sources would stay in the history forever, and every clone would drag it along, once per version. Both links below always lead to the latest one.
@@ -88,6 +114,7 @@ The demo is signed with the same key.
 
 The real app does not contain the sample set: not the eighteen people, not their faces, not the settings row that creates them. Only the demo carries them, and since its identifier is different, it never reads or writes the real app's database.
 
+<a id="stack"></a>
 <img src="docs/en/sections/s04.png" alt="04 The stack" width="100%">
 
 <img src="docs/en/schemas/stack.svg" alt="The BodyCount stack, package by package, where each one works. Flutter on Dart 3.11 draws every screen. Open: local_auth lets Android check the fingerprint, flutter_secure_storage takes out the key kept by the Keystore, cryptography derives two keys with HKDF, go_router keeps screens behind the lock. Browse: sqflite_sqlcipher opens the encrypted database in a folder given by path_provider, flutter_riverpod holds state and rereads it after every write, and the big titles are in Chakra Petch, bundled. Add a photo: image_picker hands it over, cryptography encrypts it with AES-GCM, uuid gives it a name unrelated to it. Add a video: media3-transformer shrinks it in Kotlin, javax.crypto encrypts it in chunks with hardware AES, video_player plays it back. Go and see him: intl writes the dates, url_launcher hands directions to the maps app. Back up: cryptography derives the key from the passphrase with PBKDF2, javax.crypto writes the stream, archive still reads the old format. No network package on the list." width="100%">
@@ -105,6 +132,7 @@ For an installable build, `flutter build apk --release --split-per-abi --flavor 
 
 A few lines of Kotlin in `MainActivity` replace two packages. `cryptography_flutter` installed itself as the implementation of all cryptography, key derivation included, and Android refused the empty HMAC key of an unsalted extraction: the database would no longer open. `share_plus` 13 would have required a major version of `flutter_secure_storage`, where the master key lives. The activity therefore carries native AES-GCM, the file picker, sharing, saving to the gallery, reading a video's duration and one of its frames, and re-encoding it with Media3.
 
+<a id="architecture"></a>
 <img src="docs/en/sections/s05.png" alt="05 Architecture" width="100%">
 
 Five layers, and one rule: a layer never knows the one above it. A screen does not see SQLite, a repository does not see Riverpod, and nothing reads a vault file without going through the keyring.
@@ -121,6 +149,7 @@ Seven tables, schema v7: five, plus two link tables for tags. `personnes` is the
 
 <img src="docs/en/schemas/arborescence.svg" alt="The lib tree, 59 Dart files and 18,523 lines, unfolding folder by folder, with each folder’s weight under the tree. At the root, main.dart, the entry point that starts reading the towns, and app.dart, the app, its theme and relocking; at launch, everything leads to the lock. config: the palette, the Fold’s three screen shapes, routing whose only door is the lock, the sample data and the demo. domaine: the models, a card, an encounter with its half-point rating and its amount, a tag and its key, a notebook line. donnees: base.dart for the single opening and schema v7, depots.dart the app’s only SQL, statistics in SQL, the 34,836 towns and the geometry of France. ecrans: the people list, the card, the encounter form, the statistics, the map, the calendar and the rest. providers: Riverpod state, rafraichir() and the twelve providers it invalidates, the fingerprint and lock(), the settings. security: the master key and HKDF, the photo and video vaults, the chunked stream, screen protection. utils: backup and restore, media, the file picker, dates. widgets: the map of France, the people card, the stars, the bottom bar. On the right, one app screen per folder: the lock, the people list in two then three columns, the encounter form, the statistics, the calendar, Enzo’s card going to 8 times, the fingerprint opening the database, the encrypted export, and the real map of Brittany." width="100%">
 
+<a id="chiffrement"></a>
 <img src="docs/en/sections/s06.png" alt="06 Encryption" width="100%">
 
 The fingerprint does not unlock a screen: it is what brings the master key into memory. That 32-byte key, drawn at random on first launch, sleeps in preferences encrypted by the Android Keystore; until Android has recognised your finger or your PIN, the database, the photos and the videos are just noise on the disk. Two keys are derived from it by HKDF, each with its own label, one for SQLCipher, the other for the vault, and neither exists in memory before.
@@ -135,6 +164,7 @@ The lock closes after a spell without a gesture on screen, or on returning from 
 
 <img src="docs/en/schemas/verrou.svg" alt="The BodyCount lock. On touching the sensor, the fingerprint loads the master key from the Keystore, the database opens and the people list appears. Every touch restarts a 45-second countdown, adjustable to 15 s, 2 or 5 minutes. In the recents screen, the app preview stays black and screenshots are blocked. In the background, the time is noted; on return, if the delay has run out, the key, the database connection, the decrypted photos and the videos being played are wiped from memory, and the fingerprint is asked again. A backup, a restore or a video being encrypted holds the lock back." width="100%">
 
+<a id="videos"></a>
 <img src="docs/en/sections/s07.png" alt="07 Videos and backups" width="100%">
 
 A photo or a video never enters BodyCount in the clear. The copy handed over by the Android picker is encrypted into the app's vault, then deleted, and nothing shows up in the phone's gallery. To display it, the photo is decrypted in memory and the video in the private cache while it plays. Only the download button puts a copy in the clear into the gallery, and only when you ask for it.
@@ -163,6 +193,7 @@ A restore touches nothing before it has checked everything. The file is read twi
 
 Export offers to save the file to a folder before sharing it: with videos, a backup quickly exceeds what most apps accept. Sharing goes through a temporary URI limited to the backups folder alone. When the last backup is more than a month old, or there never was one, a banner says so at the top of the directory. Backups in the old format, a ZIP encrypted in one block, still read back.
 
+<a id="carte"></a>
 <img src="docs/en/sections/s08.png" alt="08 The map, without tiles" width="100%">
 
 A tile map would send a server, on every drag of a finger, the exact list of places being looked at. For an app whose whole promise is that nothing leaves the phone, that was the one thing not to do. So France ships with the app.
@@ -185,6 +216,7 @@ Everything in France gets placed. The exact name first, ignoring accents, hyphen
 
 An encounter can also be placed by hand, at an exact point. Without tiles there are no streets to show: nearby communes, with their names, serve as landmarks. Enough to drop a pin « between Arradon and Séné », which shows on the map of places once you zoom in.
 
+<a id="calendrier"></a>
 <img src="docs/en/sections/s09.png" alt="09 The calendar" width="100%">
 
 The question you ask most is not « how many » but « when »: which night was it, how long ago, was that a good stretch. A chronological list answers badly past a few dozen entries: you have to scroll and count.
@@ -199,10 +231,12 @@ A day can earn far more than three signs: the 23rd has six. They get sorted from
 
 Always six weeks on screen, even when the month only fills five: a grid whose height depends on the month makes the whole screen jump as you leaf through it.
 
+<a id="confidentialite"></a>
 <img src="docs/en/sections/s10.png" alt="10 Privacy model" width="100%">
 
 <img src="docs/en/schemas/confidentialite.svg" alt="The BodyCount privacy model, in two columns. What is true: no network request, no account, no analytics, Android refuses any connection for lack of the INTERNET permission. The database is encrypted by SQLCipher, its key lives in the Keystore and is only loaded after the fingerprint. Every photo and video is encrypted with AES-GCM and never shows in the phone gallery. The recents preview is hidden, screenshots blocked, Android backup refused. A restore checks the whole backup before erasing anything. What is not: once the app is open, everything is readable on screen, the fingerprint guards access, not your shoulder. An exported backup travels, it is worth what your passphrase is worth. Losing the phone means losing the data, the key is copied nowhere. The fingerprint can be turned off in the settings, and the key then loads without asking anything. To be played, a video is decrypted into the private cache while it plays." width="100%">
 
+<a id="tests"></a>
 <img src="docs/en/sections/s11.png" alt="11 The tests" width="100%">
 
 What breaks silently is what touches the disk: opening the database, its migrations, encryption, backups. Yet SQLCipher, the Keystore and native AES only exist on Android. The tests therefore run on an emulator, against the real libraries, rather than against stand-ins that would pass where the app fails. Six of them drive the whole app, by finger, from one screen to the next.
@@ -217,6 +251,7 @@ They destroy the data and the key of the app they target: run them on an emulato
 
 They paid off on their first run. The data tests found a backup end marker written on eleven bytes and read on one: no restore would have gone through. The screen tests found a row of figures overflowing its fixed height on the person page.
 
+<a id="sans-internet"></a>
 <img src="docs/en/sections/s12.png" alt="12 No Internet" width="100%">
 
 "No network requests" is easy to write. Here it is not a promise made by the code but an Android rule: the app does not ask for the `INTERNET` permission, and without it the system refuses to open any connection at all. A bug, a chatty library, a dependency poisoned in its next update: everything hits the same wall, which is not inside the app and which the app cannot get past.
@@ -235,12 +270,14 @@ Four exits remain, and none of them opens by itself. Each one waits for a finger
 
 The last one is the only one that leaves a plain trace: a downloaded photo becomes a photo like any other, visible to the gallery and to anything that reads it. That is the price of "I want to keep it somewhere else", and the app only pays it on request.
 
+<a id="avertissement"></a>
 <img src="docs/en/sections/s13.png" alt="13 A word of warning" width="100%">
 
 This repository is a personal project, not a security product. The encryption rests on proven primitives and on Android's Keystore, but the assembly itself has been reviewed by nobody other than me. If you plan to put data in it whose leak would cost you something, read the code first, or don't.
 
 The sample set only exists in the demo, and in a working build compiled with `--dart-define=ESSAIS=true`. Its faces, generated portraits of no one real, are not part of the repository: to build the demo, they go into `assets/demo/`; for a working build, onto the phone, with `adb push assets/demo/. /sdcard/Android/data/com.bodycount.bodycount/files/demo/`. Without them the eighteen people are still created, simply without a photo: the generator copes with every missing image.
 
+<a id="licence"></a>
 <img src="docs/en/sections/s14.png" alt="14 Licence and author" width="100%">
 
 BodyCount is designed and built by **Tristan Joncour** ([@Cybertrist](https://github.com/Cybertrist)), a cyber defence engineering student at ENSIBS, for his own use first: it is the app he wanted on his phone, and it did not exist.

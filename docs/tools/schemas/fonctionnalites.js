@@ -989,7 +989,9 @@ module.exports = (O) => {
       [t('Couverture du Fold', 'Fold cover'), 460, 727, 3, FUCHSIA],
       [t('Écran déplié', 'Unfolded'), 900, 1200, 4, ACCENT],
     ];
-    const ech = 0.2, base = ZY + 300;
+    // Assez bas pour laisser la ligne d'état au-dessus, assez haut pour que
+    // les deux lignes de légende tiennent dans le panneau.
+    const ech = 0.18, base = ZY + 258;
     let ax = ZX + 20;
     appareils.forEach(([nom, l, h, n, c], f) => {
       const w = l * ech, hh = h * ech, x = ax, y = base - hh;

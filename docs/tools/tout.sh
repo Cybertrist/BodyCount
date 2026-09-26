@@ -9,6 +9,7 @@ for LG in fr en; do
   LANGUE=$LG bash "$D/captures.sh"
   LANGUE=$LG bash "$D/telecharger.sh"
   LANGUE=$LG VARIANTE=demo bash "$D/telecharger.sh"
+  LANGUE=$LG bash "$D/sommaire.sh"
   LANGUE=$LG node "$D/anime.js"
   LANGUE=$LG bash "$D/installer.sh"
 done
