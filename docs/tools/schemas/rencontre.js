@@ -113,7 +113,7 @@ module.exports = (O) => {
   // Un champ de saisie, avec son indice et son pictogramme.
   const champ = (y, h, ic, indice) => `
     <rect x="${SX + 14}" y="${y}" width="${SL - 28}" height="${h}" rx="14" fill="#FFFFFF" fill-opacity="0.05" stroke="${APP.bord}"/>
-    ${ic ? icone(ic, SX + 26, y + h / 2 - 8, ic === 'euro' ? APP.or : APP.second, 1) : ''}
+    ${ic ? icone(ic, SX + 26, y + h / 2 - 8, ic === 'savings' ? APP.or : APP.second, 1) : ''}
     ${indice}`;
   const legende = (y, s) => texte(SX + 16, y, s, { taille: 8.5, couleur: APP.second, poids: 700, extra: 'letter-spacing="1.4"' });
   const y0 = SY + 62;
@@ -142,7 +142,7 @@ module.exports = (O) => {
   f += texte(SX + SL - 16, y0 + 208, t('Placer sur la carte', 'Place on the map'), { taille: 9.5, couleur: APP.violet, poids: 700, ancre: 'end' });
   // Ce que ça a rapporté.
   f += legende(y0 + 236, t('CE QUE ÇA A RAPPORTÉ', 'WHAT IT BROUGHT IN'));
-  f += champ(y0 + 244, 40, 'euro',
+  f += champ(y0 + 244, 40, 'savings',
     entre(C, 0, ARGENT[0], texte(SX + 48, y0 + 268, t('Rien, ou 100', 'Nothing, or 100'), { taille: 11, couleur: APP.discret }), 0.004) +
     `<g opacity="0">${visible(C, ARGENT[0], FIN, 0.004)}${frappe(SX + 48, y0 + 268, '50', C, ARGENT[0] + 0.008, ARGENT[1], { taille: 12.5, couleur: APP.texte, poids: 600 })}</g>` +
     texte(SX + SL - 28, y0 + 269, '€', { taille: 14, couleur: APP.or, poids: 800, ancre: 'end' }));

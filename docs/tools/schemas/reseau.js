@@ -20,10 +20,11 @@ module.exports = (O) => {
   const PH = [[0, 0.25], [0.25, 0.47], [0.47, 0.73], [0.73, 0.985]];
 
   // Quelques pictogrammes de plus, au trait, dans un carré de 16.
-  const combine = (c) => `<path d="M4.5 2 L6.5 2 L7.8 5.4 L6.3 6.6 C7 8.4 8 9.4 9.6 10.1 L10.8 8.6 L14 9.9 L14 12 C14 13.1 13.1 14 12 14 C6.5 13.6 2.4 9.5 2 4 C2 2.9 2.9 2 4 2 Z" fill="none" stroke="${c}" stroke-width="1.5" stroke-linejoin="round"/>`;
-  const direction = (c) => `<path d="M8 1.5 L14.5 8 L8 14.5 L1.5 8 Z" fill="none" stroke="${c}" stroke-width="1.5" stroke-linejoin="round"/><path d="M6 10 V7.5 H10 M8.6 6 L10 7.5 L8.6 9" fill="none" stroke="${c}" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>`;
-  const partage = (c) => `<path d="M8 10 V2 M5 4.8 L8 2 L11 4.8 M4 7 H3 V14 H13 V7 H12" fill="none" stroke="${c}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>`;
-  const dossier = (c) => `<path d="M1.5 4 V13 H14.5 V5.5 H7.5 L6 4 Z" fill="none" stroke="${c}" stroke-width="1.5" stroke-linejoin="round"/>`;
+  const combine = (c) => `<g transform="scale(0.6667)">${O.ICONES_APP.call(c)}</g>`;
+  const direction = (c) => `<g transform="scale(0.6667)">${O.ICONES_APP.directions(c)}</g>`;
+  const maison = (c) => `<g transform="scale(0.6667)">${O.ICONES_APP.home(c)}</g>`;
+  const partage = (c) => `<g transform="scale(0.6667)">${O.ICONES_APP.ios_share(c)}</g>`;
+  const dossier = (c) => `<g transform="scale(0.6667)">${O.ICONES_APP.save_alt(c)}</g>`;
   const globe = (c) => `<circle cx="8" cy="8" r="6.3" fill="none" stroke="${c}" stroke-width="1.4"/><ellipse cx="8" cy="8" rx="2.8" ry="6.3" fill="none" stroke="${c}" stroke-width="1.2"/><path d="M1.8 8 H14.2 M3 4.6 H13 M3 11.4 H13" stroke="${c}" stroke-width="1.1"/>`;
   const picto = (f, x, y, c, k = 1) => `<g transform="translate(${x} ${y}) scale(${k})">${f(c)}</g>`;
 
@@ -64,7 +65,7 @@ module.exports = (O) => {
     });
     // Les infos : le numéro et l'adresse.
     s += texte(SX + 16, SY + 380, 'INFOS', { taille: 9.5, couleur: APP.second, poids: 700, extra: 'letter-spacing="1.6"' });
-    [[combine, t('Téléphone', 'Phone'), '07 15 93 62 08'], [direction, t('Adresse', 'Address'), 'Place des Lices, Vannes']].forEach(([f, l, v], i) => {
+    [[combine, t('Téléphone', 'Phone'), '07 15 93 62 08'], [maison, t('Adresse', 'Address'), 'Place des Lices, Vannes']].forEach(([f, l, v], i) => {
       const y = SY + 390 + i * 44;
       s += `<rect x="${SX + 12}" y="${y}" width="${SL - 24}" height="38" rx="12" fill="${APP.carte}" stroke="${APP.bord}"/>
         ${picto(f, SX + 22, y + 11, APP.second, 1)}
@@ -124,11 +125,11 @@ module.exports = (O) => {
     ${texte(SX + 72, SY + 116, t('111 Rencontres', '111 Encounters'), { taille: 10, couleur: APP.second })}
     ${texte(SX + 18, SY + 166, t('DONNÉES', 'DATA'), { taille: 9.5, couleur: APP.second, poids: 700, extra: 'letter-spacing="1.6"' })}
     <rect x="${SX + 12}" y="${SY + 176}" width="${SL - 24}" height="182" rx="16" fill="${APP.carte}" stroke="${APP.bord}"/>
-    ${[[icone.bind(null, 'cadenas'), t('Tout reste sur ce téléphone', 'Everything stays on this phone'), t('Base chiffrée, aucun serveur', 'Encrypted, no server'), APP.vert],
+    ${[[null, t('Tout reste sur ce téléphone', 'Everything stays on this phone'), t('Base chiffrée, aucun serveur', 'Encrypted, no server'), APP.vert],
       [null, t('Exporter, chiffré', 'Export, encrypted'), t('Dernière il y a 3 jours', 'Last one 3 days ago'), APP.etoile],
       [null, t('Restaurer une sauvegarde', 'Restore a backup'), t('Remplace ce qui est ici', 'Replaces what is here'), APP.etoile]].map(([f, l1, l2, c], i) => {
       const y = SY + 190 + i * 58;
-      const ic = i === 0 ? icone('cadenas', SX + 30, y + 11, c) : picto(i === 1 ? partage : dossier, SX + 30, y + 11, c);
+      const ic = icone(['shield', 'ios_share', 'settings_backup_restore'][i], SX + 30, y + 11, c);
       return `<rect x="${SX + 22}" y="${y + 3}" width="32" height="32" rx="10" fill="${c}" fill-opacity="0.12"/>${ic}
         ${texte(SX + 66, y + 17, l1, { taille: 12, couleur: APP.texte, poids: 600 })}
         ${texte(SX + 66, y + 33, l2, { taille: 9.5, couleur: APP.second })}`;
@@ -136,10 +137,10 @@ module.exports = (O) => {
   ecran += entre(C, a3, b3, `${reglages}${toucher(SX + 130, SY + 264, C, 0.505)}
     ${entre(C, 0.525, 0.61, feuille(200, `
       ${texte(SX + 22, SY + SH - 160, t('Sauvegarde prête, 186 Mo', 'Backup ready, 186 MB'), { taille: 14.5, couleur: APP.texte, poids: 700 })}
-      ${picto(O.ICONE.telecharger, SX + 24, SY + SH - 128, APP.etoile)}
+      ${icone('save_alt', SX + 24, SY + SH - 128, APP.etoile)}
       ${texte(SX + 54, SY + SH - 122, t('Enregistrer sur le téléphone', 'Save on the phone'), { taille: 12, couleur: APP.texte })}
       ${texte(SX + 54, SY + SH - 106, t('Dans le dossier de ton choix', 'In the folder of your choice'), { taille: 9.5, couleur: APP.second })}
-      ${picto(partage, SX + 24, SY + SH - 76, APP.etoile)}
+      ${icone('ios_share', SX + 24, SY + SH - 76, APP.etoile)}
       ${texte(SX + 54, SY + SH - 70, t('Partager', 'Share'), { taille: 12, couleur: APP.texte })}
       ${texte(SX + 54, SY + SH - 54, t('Vers une autre application', 'To another app'), { taille: 9.5, couleur: APP.second })}
       ${toucher(SX + 130, SY + SH - 116, C, 0.585)}`), 0.004)}

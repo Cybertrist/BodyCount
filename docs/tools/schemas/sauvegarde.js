@@ -61,11 +61,11 @@ module.exports = (O) => {
     ${texte(SX + 74, SY + 116, t('111 Rencontres', '111 Encounters'), { taille: 10.5, couleur: APP.second, poids: 600 })}
     ${texte(SX + 20, SY + 166, t('DONNÉES', 'DATA'), { taille: 10, couleur: APP.second, poids: 700, extra: 'letter-spacing="1.5"' })}
     <rect x="${SX + 12}" y="${SY + 178}" width="${SL - 24}" height="186" rx="18" fill="${APP.carte}" stroke="${APP.bord}"/>
-    ${ligne(SY + 182, 'cadenas', APP.vert, t('Tout reste sur ce téléphone', 'Everything stays on this phone'), sous(SY + 182, t('Base chiffrée, aucun compte', 'Encrypted database, no account')))}
+    ${ligne(SY + 182, 'shield', APP.vert, t('Tout reste sur ce téléphone', 'Everything stays on this phone'), sous(SY + 182, t('Base chiffrée, aucun compte', 'Encrypted database, no account')))}
     <line x1="${SX + 12}" y1="${SY + 240}" x2="${SX + SL - 12}" y2="${SY + 240}" stroke="${APP.bord}"/>
-    ${ligne(SY + 242, 'telecharger', APP.rose, t('Exporter, chiffré', 'Export, encrypted'), derniere, t('Phrase', 'Passphrase'))}
+    ${ligne(SY + 242, 'ios_share', APP.rose, t('Exporter, chiffré', 'Export, encrypted'), derniere, t('Phrase', 'Passphrase'))}
     <line x1="${SX + 12}" y1="${SY + 302}" x2="${SX + SL - 12}" y2="${SY + 302}" stroke="${APP.bord}"/>
-    ${ligne(SY + 304, 'fichier', APP.rose, t('Restaurer une sauvegarde', 'Restore a backup'), sous(SY + 304, t('Remplace ce qui est ici', 'Replaces what is here')), '.bcx')}`;
+    ${ligne(SY + 304, 'settings_backup_restore', APP.rose, t('Restaurer une sauvegarde', 'Restore a backup'), sous(SY + 304, t('Remplace ce qui est ici', 'Replaces what is here')), '.bcx')}`;
 
   // 2. Les réglages, avant l'export, et le toucher sur Exporter.
   ecran += entre(C, REGLAGES, PHRASE, reglages(sous(SY + 242, t('Dernière il y a 38 jours', 'Last one 38 days ago'))) +
@@ -108,10 +108,10 @@ module.exports = (O) => {
     <rect x="${SX}" y="${SY + SH - 190}" width="${SL}" height="200" rx="22" fill="${APP.carte}"/>
     <rect x="${SX + SL / 2 - 18}" y="${SY + SH - 180}" width="36" height="4" rx="2" fill="${APP.bord}"/>
     ${texte(SX + 22, SY + SH - 150, t('Sauvegarde prête, 186 Mo', 'Backup ready, 186 MB'), { taille: 14.5, couleur: APP.texte, poids: 700 })}
-    ${icone('telecharger', SX + 24, SY + SH - 122, APP.second)}
+    ${icone('save_alt', SX + 24, SY + SH - 122, APP.second)}
     ${texte(SX + 56, SY + SH - 116, t('Enregistrer sur le téléphone', 'Save on the phone'), { taille: 12, couleur: APP.texte, poids: 600 })}
     ${texte(SX + 56, SY + SH - 100, t('Dans le dossier de ton choix', 'In the folder of your choice'), { taille: 10, couleur: APP.discret })}
-    ${icone('fichier', SX + 24, SY + SH - 70, APP.second)}
+    ${icone('ios_share', SX + 24, SY + SH - 70, APP.second)}
     ${texte(SX + 56, SY + SH - 64, t('Partager', 'Share'), { taille: 12, couleur: APP.texte, poids: 600 })}
     ${texte(SX + 56, SY + SH - 48, t('Vers une autre application', 'To another app'), { taille: 10, couleur: APP.discret })}`;
   ecran += entre(C, PRETE, SELECTEUR, reglages(sous(SY + 242, t('Dernière il y a 38 jours', 'Last one 38 days ago'))) + feuille +

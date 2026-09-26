@@ -34,13 +34,12 @@ module.exports = (O) => {
   const vignetteVideo = (x, y, s) => cadre(x, y, s, s, { ...VIDEO, rx: 10 }) + lecture(x + s / 2, y + s / 2 - 4, s * 0.17) +
     texte(x + s - 6, y + s - 6, '0:05', { taille: 9, couleur: '#FFFFFF', poids: 700, ancre: 'end' });
 
-  // Un fichier chiffré : du bruit violet, un cadenas au milieu.
-  corps += `<defs><pattern id="brouille" width="12" height="12" patternUnits="userSpaceOnUse">
-    <rect width="12" height="12" fill="#2A1846"/>
-    <rect width="4" height="4" fill="#5B2A8C"/><rect x="8" y="0" width="4" height="4" fill="#3D2263"/>
-    <rect x="4" y="4" width="4" height="4" fill="#7C3AED" fill-opacity="0.7"/><rect x="0" y="8" width="4" height="4" fill="#4A1F73"/>
-    <rect x="8" y="8" width="4" height="4" fill="#A855F7" fill-opacity="0.5"/><rect x="4" y="8" width="4" height="4" fill="#1F1233"/>
-  </pattern></defs>`;
+  // Un fichier chiffré : des octets illisibles, un cadenas au milieu.
+  corps += `<defs><pattern id="brouille" width="66" height="30" patternUnits="userSpaceOnUse">
+      <rect width="66" height="30" fill="#1E1235"/>
+      <text font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="7.5" fill="#B57CF5" fill-opacity="0.75">
+        <tspan x="2" y="8">a3 f1 9c 4e 07</tspan><tspan x="-12" y="18">5d e2 b8 31 c6</tspan><tspan x="7" y="28">0f 7a 94 d3 2b</tspan></text>
+    </pattern></defs>`;
   const chiffre = (x, y, s) => `<rect x="${x}" y="${y}" width="${s}" height="${s}" rx="9" fill="url(#brouille)" stroke="${VIOLET}" stroke-opacity="0.7"/>
     <circle cx="${x + s / 2}" cy="${y + s / 2}" r="${s * 0.24}" fill="#0B0616" fill-opacity="0.75"/>
     ${icone('cadenas', x + s / 2 - s * 0.16, y + s / 2 - s * 0.16, APP.rose, s * 0.02)}`;
@@ -90,10 +89,10 @@ module.exports = (O) => {
       <path d="M${px + G / 2 - 8} ${gy + G / 2} h16 M${px + G / 2} ${gy + G / 2 - 8} v16" stroke="${APP.second}" stroke-width="2" stroke-linecap="round"/>
       ${texte(SX + 16, SY + 424, 'INFOS', { taille: 10, couleur: APP.second, poids: 700, extra: 'letter-spacing="1.5"' })}
       <rect x="${SX + 12}" y="${SY + 434}" width="${SL - 24}" height="40" rx="12" fill="${APP.carte}"/>
-      ${texte(SX + 26, SY + 458, t('Téléphone', 'Phone'), { taille: 11, couleur: APP.second })}
+      ${O.iconeApp('call', SX + 24, SY + 446, 16, APP.second)}${texte(SX + 48, SY + 458, t('Téléphone', 'Phone'), { taille: 11, couleur: APP.second })}
       ${texte(SX + SL - 26, SY + 458, '07 15 93 62 08', { taille: 11, couleur: APP.texte, poids: 700, ancre: 'end' })}
       <rect x="${SX + 12}" y="${SY + SH - 58}" width="40" height="40" rx="14" fill="${APP.carte}" stroke="${APP.bord}"/>
-      ${icone('telephoneIcone', SX + 24, SY + SH - 46, APP.second)}
+      ${icone('call', SX + 24, SY + SH - 46, APP.second)}
       ${O.bouton(SX + 60, SY + SH - 58, SL - 72, 40, t('+  Nouvelle rencontre', '+  New encounter'), { taille: 12 })}`;
     if (touche) s += toucher(...touche);
     return s;

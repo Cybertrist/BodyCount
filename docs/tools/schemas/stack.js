@@ -165,7 +165,7 @@ module.exports = (O) => {
       <circle cx="${cx}" cy="${cy}" r="58" fill="${VIOLET}" opacity="0.12"><animate attributeName="r" dur="2.6s" repeatCount="indefinite" values="50;62;50"/></circle>
       <circle cx="${cx}" cy="${cy}" r="46" fill="url(#marque)"/>
       ${empreinte(cx, cy, 44, '#FFFFFF')}
-      ${icone('cadenas', SX + 38, SY + SH - 40, APP.vert, 0.75)}
+      ${icone('lock', SX + 38, SY + SH - 40, APP.vert, 0.75)}
       ${texte(SX + 54, SY + SH - 29, t('Base chiffrée, clé rangée dans le Keystore', 'Encrypted database, key kept in the Keystore'), { taille: 10, couleur: APP.second, poids: 600 })}
       ${entre(C, 0, p(0, 0.14), libelle(t('Touche le capteur pour ouvrir', 'Touch the sensor to open')), 0.003)}
       ${toucher(cx, cy, C, p(0, 0.12))}
@@ -267,7 +267,7 @@ module.exports = (O) => {
       ${texte(SX + 26, SY + 458, t('Téléphone', 'Phone'), { taille: 11, couleur: APP.second })}
       ${texte(SX + SL - 26, SY + 458, '07 15 93 62 08', { taille: 11, couleur: APP.texte, poids: 700, ancre: 'end' })}
       <rect x="${SX + 12}" y="${SY + SH - 58}" width="40" height="40" rx="14" fill="${APP.carte}" stroke="${APP.bord}"/>
-      ${icone('telephoneIcone', SX + 24, SY + SH - 46, APP.second)}
+      ${icone('call', SX + 24, SY + SH - 46, APP.second)}
       ${bouton(SX + 60, SY + SH - 58, SL - 72, 40, t('+  Nouvelle rencontre', '+  New encounter'), { taille: 12 })}`;
     if (touche !== undefined) s += toucher(px + G / 2, GYF + G / 2, C, touche);
     return s;
@@ -354,8 +354,9 @@ module.exports = (O) => {
   // La fiche de reseau.svg, ses rencontres datées par intl, « Y aller »,
   // puis l'appli de cartes sur la vraie côte du golfe du Morbihan.
   {
-    const direction = (c) => `<path d="M8 1.5 L14.5 8 L8 14.5 L1.5 8 Z" fill="none" stroke="${c}" stroke-width="1.5" stroke-linejoin="round"/><path d="M6 10 V7.5 H10 M8.6 6 L10 7.5 L8.6 9" fill="none" stroke="${c}" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>`;
-    const combine = (c) => `<path d="M4.5 2 L6.5 2 L7.8 5.4 L6.3 6.6 C7 8.4 8 9.4 9.6 10.1 L10.8 8.6 L14 9.9 L14 12 C14 13.1 13.1 14 12 14 C6.5 13.6 2.4 9.5 2 4 C2 2.9 2.9 2 4 2 Z" fill="none" stroke="${c}" stroke-width="1.5" stroke-linejoin="round"/>`;
+    const direction = (c) => `<g transform="scale(0.6667)">${O.ICONES_APP.directions(c)}</g>`;
+    const maison = (c) => `<g transform="scale(0.6667)">${O.ICONES_APP.home(c)}</g>`;
+    const combine = (c) => `<g transform="scale(0.6667)">${O.ICONES_APP.call(c)}</g>`;
     const picto = (f, x, y, c) => `<g transform="translate(${x} ${y})">${f(c)}</g>`;
     let fiche = enTeteFiche(250);
     fiche += texte(SX + 16, SY + 334, t('RENCONTRES · 7', 'ENCOUNTERS · 7'), { taille: 9.5, couleur: APP.second, poids: 700, extra: 'letter-spacing="1.6"' });
@@ -367,7 +368,7 @@ module.exports = (O) => {
         ${etoiles(SX + SL - 84, y + 27, n, { taille: 9 })}`;
     });
     fiche += `<rect x="${SX + 12}" y="${SY + 446}" width="${SL - 24}" height="36" rx="12" fill="${APP.carte}" stroke="${APP.bord}"/>
-      ${picto(direction, SX + 22, SY + 456, APP.second)}
+      ${picto(maison, SX + 22, SY + 456, APP.second)}
       ${texte(SX + 46, SY + 468.5, t('Adresse', 'Address'), { taille: 10.5, couleur: APP.second })}
       ${texte(SX + SL - 24, SY + 468.5, 'Place des Lices, Vannes', { taille: 10.5, couleur: APP.texte, poids: 700, ancre: 'end' })}`;
     const yb = SY + SH - 58;
@@ -441,11 +442,11 @@ module.exports = (O) => {
       ${texte(SX + 74, SY + 116, t('111 Rencontres', '111 Encounters'), { taille: 10.5, couleur: APP.second, poids: 600 })}
       ${texte(SX + 20, SY + 166, t('DONNÉES', 'DATA'), { taille: 10, couleur: APP.second, poids: 700, extra: 'letter-spacing="1.5"' })}
       <rect x="${SX + 12}" y="${SY + 178}" width="${SL - 24}" height="186" rx="18" fill="${APP.carte}" stroke="${APP.bord}"/>
-      ${ligne(SY + 182, 'cadenas', APP.vert, t('Tout reste sur ce téléphone', 'Everything stays on this phone'), t('Base chiffrée, aucun compte', 'Encrypted database, no account'))}
+      ${ligne(SY + 182, 'shield', APP.vert, t('Tout reste sur ce téléphone', 'Everything stays on this phone'), t('Base chiffrée, aucun compte', 'Encrypted database, no account'))}
       <line x1="${SX + 12}" y1="${SY + 240}" x2="${SX + SL - 12}" y2="${SY + 240}" stroke="${APP.bord}"/>
-      ${ligne(SY + 242, 'telecharger', APP.rose, t('Exporter, chiffré', 'Export, encrypted'), t('Dernière il y a 38 jours', 'Last one 38 days ago'), t('Phrase', 'Passphrase'))}
+      ${ligne(SY + 242, 'ios_share', APP.rose, t('Exporter, chiffré', 'Export, encrypted'), t('Dernière il y a 38 jours', 'Last one 38 days ago'), t('Phrase', 'Passphrase'))}
       <line x1="${SX + 12}" y1="${SY + 302}" x2="${SX + SL - 12}" y2="${SY + 302}" stroke="${APP.bord}"/>
-      ${ligne(SY + 304, 'fichier', APP.rose, t('Restaurer une sauvegarde', 'Restore a backup'), t('Remplace ce qui est ici', 'Replaces what is here'), '.bcx')}`;
+      ${ligne(SY + 304, 'settings_backup_restore', APP.rose, t('Restaurer une sauvegarde', 'Restore a backup'), t('Remplace ce qui est ici', 'Replaces what is here'), '.bcx')}`;
     const phrase = `${voile(0.62)}
       <rect x="${SX + 16}" y="${SY + 150}" width="${SL - 32}" height="236" rx="24" fill="${APP.surface}" stroke="${APP.bord}"/>
       ${texte(SX + 38, SY + 190, t('Phrase de passe', 'Passphrase'), { taille: 17, couleur: APP.texte, poids: 800 })}
@@ -474,10 +475,10 @@ module.exports = (O) => {
       <rect x="${SX}" y="${SY + SH - 190}" width="${SL}" height="200" rx="22" fill="${APP.carte}"/>
       <rect x="${SX + SL / 2 - 18}" y="${SY + SH - 180}" width="36" height="4" rx="2" fill="${APP.bord}"/>
       ${texte(SX + 22, SY + SH - 150, t('Sauvegarde prête, 186 Mo', 'Backup ready, 186 MB'), { taille: 14.5, couleur: APP.texte, poids: 700 })}
-      ${icone('telecharger', SX + 24, SY + SH - 122, APP.second)}
+      ${icone('save_alt', SX + 24, SY + SH - 122, APP.second)}
       ${texte(SX + 56, SY + SH - 116, t('Enregistrer sur le téléphone', 'Save on the phone'), { taille: 12, couleur: APP.texte, poids: 600 })}
       ${texte(SX + 56, SY + SH - 100, t('Dans le dossier de ton choix', 'In the folder of your choice'), { taille: 10, couleur: APP.discret })}
-      ${icone('fichier', SX + 24, SY + SH - 70, APP.second)}
+      ${icone('ios_share', SX + 24, SY + SH - 70, APP.second)}
       ${texte(SX + 56, SY + SH - 64, t('Partager', 'Share'), { taille: 12, couleur: APP.texte, poids: 600 })}
       ${texte(SX + 56, SY + SH - 48, t('Vers une autre application', 'To another app'), { taille: 10, couleur: APP.discret })}
       ${toucher(SX + 130, SY + SH - 110, C, p(5, 0.93))}`;

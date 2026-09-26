@@ -320,14 +320,82 @@ ${corps}
     telecharger: (c) => `<path d="M8 2 V10 M4.5 7 L8 10.5 L11.5 7 M3 13.5 H13" fill="none" stroke="${c}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>`,
     lecture: (c) => `<path d="M5 3 L13 8 L5 13 Z" fill="${c}"/>`,
   };
-  const icone = (nom, x, y, couleur, echelle = 1) =>
-    `<g transform="translate(${x} ${y}) scale(${echelle})">${ICONE[nom](couleur)}</g>`;
+  // Les pictogrammes qui ont leur pendant dans l'appli prennent l'icône
+  // Material de l'appli (ICONES_APP, en 24), ramenée au carré de 16 :
+  // une loupe ou une croix dessinée à part jurait avec celles des écrans.
+  const EQUIVALENTS = {
+    croix: 'close', coche: 'check', telecharger: 'download', loupe: 'search', epingle: 'place',
+    etoile: 'star', horloge: 'schedule', calendrier: 'calendar_today', oeilBarre: 'visibility_off',
+  };
+  const icone = (nom, x, y, couleur, echelle = 1) => (EQUIVALENTS[nom] || (!ICONE[nom] && ICONES_APP[nom]))
+    ? `<g transform="translate(${x} ${y}) scale(${(echelle * 16) / 24})">${ICONES_APP[EQUIVALENTS[nom] || nom](couleur)}</g>`
+    : `<g transform="translate(${x} ${y}) scale(${echelle})">${ICONE[nom](couleur)}</g>`;
 
   // L'icône « fingerprint » de Material Design, en 24 x 24 (Apache 2.0).
   const EMPREINTE = 'M17.81 4.47c-.08 0-.16-.02-.23-.06C15.66 3.42 14 3 12.01 3c-1.98 0-3.86.47-5.57 1.41-.24.13-.54.04-.68-.2-.13-.24-.04-.55.2-.68C7.82 2.52 9.86 2 12.01 2c2.13 0 3.99.47 6.03 1.52.25.13.34.43.21.67-.09.18-.26.28-.44.28zM3.5 9.72c-.1 0-.2-.03-.29-.09-.23-.16-.28-.47-.12-.7.99-1.4 2.25-2.5 3.75-3.27C9.98 4.04 14 4.03 17.15 5.65c1.5.77 2.76 1.86 3.75 3.25.16.22.11.54-.12.7-.23.16-.54.11-.7-.12-.9-1.26-2.04-2.25-3.39-2.94-2.87-1.47-6.54-1.47-9.4.01-1.36.7-2.5 1.7-3.4 2.96-.08.14-.23.21-.39.21zm6.25 12.07c-.13 0-.26-.05-.35-.15-.87-.87-1.34-1.43-2.01-2.64-.69-1.23-1.05-2.73-1.05-4.34 0-2.97 2.54-5.39 5.66-5.39s5.66 2.42 5.66 5.39c0 .28-.22.5-.5.5s-.5-.22-.5-.5c0-2.42-2.09-4.39-4.66-4.39-2.57 0-4.66 1.97-4.66 4.39 0 1.44.32 2.77.93 3.85.64 1.15 1.08 1.64 1.85 2.42.19.2.19.51 0 .71-.11.1-.24.15-.37.15zm7.17-1.85c-1.19 0-2.24-.3-3.1-.89-1.49-1.01-2.38-2.65-2.38-4.39 0-.28.22-.5.5-.5s.5.22.5.5c0 1.41.72 2.74 1.94 3.56.71.48 1.54.71 2.54.71.24 0 .64-.03 1.04-.1.27-.05.53.13.58.41.05.27-.13.53-.41.58-.57.11-1.07.12-1.21.12zM14.91 22c-.04 0-.09-.01-.13-.02-1.59-.44-2.63-1.03-3.72-2.1-1.4-1.39-2.17-3.24-2.17-5.22 0-1.62 1.38-2.94 3.08-2.94 1.7 0 3.08 1.32 3.08 2.94 0 1.07.93 1.94 2.08 1.94s2.08-.87 2.08-1.94c0-3.77-3.25-6.83-7.25-6.83-2.84 0-5.44 1.58-6.61 4.03-.39.81-.59 1.76-.59 2.8 0 .78.07 2.01.67 3.61.1.26-.03.55-.29.64-.26.1-.55-.04-.64-.29-.49-1.31-.73-2.61-.73-3.96 0-1.2.23-2.29.68-3.24 1.33-2.79 4.28-4.6 7.51-4.6 4.55 0 8.25 3.51 8.25 7.83 0 1.62-1.38 2.94-3.08 2.94s-3.08-1.32-3.08-2.94c0-1.07-.93-1.94-2.08-1.94s-2.08.87-2.08 1.94c0 1.71.66 3.31 1.87 4.51.95.94 1.86 1.46 3.27 1.85.27.07.42.35.35.61-.05.23-.26.38-.47.38z';
   /// L'empreinte, centrée sur (cx, cy), de [taille] points.
   const empreinte = (cx, cy, taille, couleur) =>
     `<path transform="translate(${cx - taille / 2} ${cy - taille / 2}) scale(${taille / 24})" fill="${couleur}" d="${EMPREINTE}"/>`;
+
+  // Les icônes de l'application, redessinées d'après les Material Icons
+  // arrondies que lib/ utilise (grep Icons.), dans un carré de 24 dont le
+  // coin haut gauche est à l'origine. Une icône « outlined » est au trait,
+  // une « rounded » pleine, comme dans Flutter.
+  const T_ = (c, d, l = 2) => `<path d="${d}" fill="none" stroke="${c}" stroke-width="${l}" stroke-linecap="round" stroke-linejoin="round"/>`;
+  const P_ = (c, d) => `<path d="${d}" fill="${c}"/>`;
+  const ICONES_APP = {
+    fingerprint: (c) => `<path fill="${c}" d="${EMPREINTE}"/>`,
+    visibility_off: (c) => T_(c, 'M2.5 12 C5 7.5 8.5 5.5 12 5.5 C15.5 5.5 19 7.5 21.5 12 C19 16.5 15.5 18.5 12 18.5 C8.5 18.5 5 16.5 2.5 12 Z') + `<circle cx="12" cy="12" r="3" fill="${c}"/>` + T_(c, 'M4 3.5 L20.5 20', 2.2),
+    timer: (c) => T_(c, 'M12 21 a8 8 0 1 0 0 -16 a8 8 0 1 0 0 16 Z M12 9 V13.2 M9.5 2.5 H14.5 M18.4 6.1 L19.8 4.7'),
+    shield: (c) => T_(c, 'M12 2.8 L19.5 5.8 V11.2 C19.5 15.9 16.3 19.8 12 21.2 C7.7 19.8 4.5 15.9 4.5 11.2 V5.8 Z'),
+    ios_share: (c) => T_(c, 'M12 3 V14 M8 6.8 L12 3 L16 6.8 M8 10 H6.5 C5.7 10 5 10.7 5 11.5 V19.5 C5 20.3 5.7 21 6.5 21 H17.5 C18.3 21 19 20.3 19 19.5 V11.5 C19 10.7 18.3 10 17.5 10 H16'),
+    settings_backup_restore: (c) => T_(c, 'M4.2 12 A7.8 7.8 0 1 0 6.6 6.4 M3.8 3.8 V7.8 H7.8') + `<circle cx="12" cy="12" r="2" fill="${c}"/>`,
+    auto_awesome: (c) => P_(c, 'M10 4 L11.6 8.4 L16 10 L11.6 11.6 L10 16 L8.4 11.6 L4 10 L8.4 8.4 Z M18 2.5 L18.8 4.7 L21 5.5 L18.8 6.3 L18 8.5 L17.2 6.3 L15 5.5 L17.2 4.7 Z M18 14.5 L18.8 16.7 L21 17.5 L18.8 18.3 L18 20.5 L17.2 18.3 L15 17.5 L17.2 16.7 Z'),
+    save_alt: (c) => T_(c, 'M12 3.5 V14.5 M7.5 10.2 L12 14.7 L16.5 10.2 M4.5 14 V18.5 C4.5 19.6 5.4 20.5 6.5 20.5 H17.5 C18.6 20.5 19.5 19.6 19.5 18.5 V14'),
+    chevron_right: (c) => T_(c, 'M9.5 6.5 L15 12 L9.5 17.5', 2.4),
+    chevron_left: (c) => T_(c, 'M14.5 6.5 L9 12 L14.5 17.5', 2.4),
+    arrow_back: (c) => T_(c, 'M15.5 4.5 L8 12 L15.5 19.5', 2.5),
+    delete: (c) => T_(c, 'M4.5 6.5 H19.5 M9.5 6.5 V4.5 H14.5 V6.5 M6.5 6.5 L7.4 19.2 C7.5 20.2 8.3 21 9.3 21 H14.7 C15.7 21 16.5 20.2 16.6 19.2 L17.5 6.5 M10 10.5 V17 M14 10.5 V17'),
+    check: (c) => T_(c, 'M5 12.5 L9.8 17.2 L19 7.5', 2.5),
+    edit: (c) => T_(c, 'M4 20 H8 L18.6 9.4 C19.4 8.6 19.4 7.4 18.6 6.6 L17.4 5.4 C16.6 4.6 15.4 4.6 14.6 5.4 L4 16 Z M13.2 6.8 L17.2 10.8'),
+    place: (c) => T_(c, 'M12 21.5 C12 21.5 5 14.8 5 9.5 A7 7 0 0 1 19 9.5 C19 14.8 12 21.5 12 21.5 Z') + `<circle cx="12" cy="9.5" r="2.6" fill="${c}"/>`,
+    location_on: (c) => `<path d="M12 22 C12 22 4.8 15 4.8 9.5 A7.2 7.2 0 0 1 19.2 9.5 C19.2 15 12 22 12 22 Z M12 12.3 A2.8 2.8 0 1 0 12 6.7 A2.8 2.8 0 1 0 12 12.3 Z" fill="${c}" fill-rule="evenodd"/>`,
+    add_location: (c) => T_(c, 'M12 21.5 C12 21.5 5 14.8 5 9.5 A7 7 0 0 1 19 9.5 C19 14.8 12 21.5 12 21.5 Z M12 6.5 V12.5 M9 9.5 H15'),
+    call: (c) => T_(c, 'M6.6 3.5 H9.3 L10.8 7.6 L8.7 9.3 C9.7 11.5 12.5 14.3 14.7 15.3 L16.4 13.2 L20.5 14.7 V17.4 C20.5 18.9 19.2 20.2 17.7 20.1 C10.2 19.6 4.4 13.8 3.9 6.3 C3.8 4.8 5.1 3.5 6.6 3.5 Z'),
+    home: (c) => T_(c, 'M3.5 11 L12 4 L20.5 11 M6 9 V19.5 C6 20.1 6.4 20.5 7 20.5 H10 V15 H14 V20.5 H17 C17.6 20.5 18 20.1 18 19.5 V9'),
+    chat_bubble: (c) => T_(c, 'M5.5 3.5 H18.5 C19.6 3.5 20.5 4.4 20.5 5.5 V15.5 C20.5 16.6 19.6 17.5 18.5 17.5 H7.5 L3.5 21 V5.5 C3.5 4.4 4.4 3.5 5.5 3.5 Z'),
+    nightlight: (c) => T_(c, 'M14.5 3 C9.6 3.3 6 7.3 6 12 C6 16.7 9.6 20.7 14.5 21 C11.7 19 10 15.7 10 12 C10 8.3 11.7 5 14.5 3 Z'),
+    schedule: (c) => T_(c, 'M12 21 A9 9 0 1 0 12 3 A9 9 0 1 0 12 21 Z M12 7.5 V12.2 L15.3 14.2'),
+    directions: (c) => T_(c, 'M12 2.8 L21.2 12 L12 21.2 L2.8 12 Z M9 14.5 V11.8 C9 11.2 9.4 10.8 10 10.8 H15 M13 8.8 L15 10.8 L13 12.8'),
+    add: (c) => T_(c, 'M12 5 V19 M5 12 H19', 2.5),
+    close: (c) => T_(c, 'M6 6 L18 18 M18 6 L6 18', 2.4),
+    calendar_today: (c) => T_(c, 'M5.5 4.5 H18.5 C19.6 4.5 20.5 5.4 20.5 6.5 V18.5 C20.5 19.6 19.6 20.5 18.5 20.5 H5.5 C4.4 20.5 3.5 19.6 3.5 18.5 V6.5 C3.5 5.4 4.4 4.5 5.5 4.5 Z M3.5 9.5 H20.5 M8 2.5 V6 M16 2.5 V6'),
+    event_note: (c) => T_(c, 'M5.5 4.5 H18.5 C19.6 4.5 20.5 5.4 20.5 6.5 V18.5 C20.5 19.6 19.6 20.5 18.5 20.5 H5.5 C4.4 20.5 3.5 19.6 3.5 18.5 V6.5 C3.5 5.4 4.4 4.5 5.5 4.5 Z M3.5 9.5 H20.5 M8 2.5 V6 M16 2.5 V6 M7.5 13 H16.5 M7.5 16.5 H13'),
+    savings: (c) => T_(c, 'M4.5 11.5 C4.5 8.2 7.8 6 11.5 6 H14 C14.8 5 16 4.5 17.5 4.5 L17 7.3 C18.2 8.1 19 9.1 19.4 10.3 H20.5 V14 H19.2 C18.7 15 18 15.8 17 16.4 V19.5 H14.5 V17.5 H10.5 V19.5 H8 V16.6 C5.8 15.5 4.5 13.7 4.5 11.5 Z') + `<circle cx="15.5" cy="10" r="1.1" fill="${c}"/>`,
+    star: (c) => P_(c, 'M12 3 L14.6 8.5 L20.5 9.2 L16.1 13.2 L17.3 19.1 L12 16.2 L6.7 19.1 L7.9 13.2 L3.5 9.2 L9.4 8.5 Z'),
+    star_outline: (c) => T_(c, 'M12 3.5 L14.4 8.7 L20 9.3 L15.8 13.1 L17 18.7 L12 16 L7 18.7 L8.2 13.1 L4 9.3 L9.6 8.7 Z', 1.8),
+    tune: (c) => T_(c, 'M4 7 H11 M15 7 H20 M13 4.5 V9.5 M4 17 H9 M13 17 H20 M11 14.5 V19.5'),
+    search: (c) => T_(c, 'M10.5 17 A6.5 6.5 0 1 0 10.5 4 A6.5 6.5 0 1 0 10.5 17 Z M15.2 15.2 L20 20', 2.3),
+    sell: (c) => T_(c, 'M3.5 12.2 V5.5 C3.5 4.4 4.4 3.5 5.5 3.5 H12.2 L20.5 11.8 C21.3 12.6 21.3 13.8 20.5 14.6 L14.6 20.5 C13.8 21.3 12.6 21.3 11.8 20.5 Z') + `<circle cx="8" cy="8" r="1.6" fill="${c}"/>`,
+    help: (c) => T_(c, 'M12 21 A9 9 0 1 0 12 3 A9 9 0 1 0 12 21 Z M9.6 9.4 C9.6 8 10.7 7 12 7 C13.3 7 14.4 8 14.4 9.3 C14.4 11.2 12 11.3 12 13.6') + `<circle cx="12" cy="16.8" r="1.2" fill="${c}"/>`,
+    download: (c) => T_(c, 'M12 4 V15 M7.5 10.8 L12 15.3 L16.5 10.8 M5 20 H19', 2.3),
+    more_vert: (c) => `<circle cx="12" cy="5.5" r="2" fill="${c}"/><circle cx="12" cy="12" r="2" fill="${c}"/><circle cx="12" cy="18.5" r="2" fill="${c}"/>`,
+    play_circle: (c) => `<path d="M12 22 A10 10 0 1 0 12 2 A10 10 0 1 0 12 22 Z M9.8 7.6 V16.4 C9.8 17 10.4 17.3 10.9 17 L16.9 12.6 C17.3 12.3 17.3 11.7 16.9 11.4 L10.9 7 C10.4 6.7 9.8 7 9.8 7.6 Z" fill="${c}" fill-rule="evenodd"/>`,
+    trending_up: (c) => T_(c, 'M3 17 L9 11 L13 15 L21 7 M15.5 7 H21 V12.5', 2.3),
+    trending_down: (c) => T_(c, 'M3 7 L9 13 L13 9 L21 17 M15.5 17 H21 V11.5', 2.3),
+    zoom_out_map: (c) => T_(c, 'M4 9 V4 H9 M4 4 L9.5 9.5 M20 9 V4 H15 M20 4 L14.5 9.5 M4 15 V20 H9 M4 20 L9.5 14.5 M20 15 V20 H15 M20 20 L14.5 14.5'),
+    lock: (c) => `<path d="M7 10.5 V8 A5 5 0 0 1 17 8 V10.5 H17.5 C18.6 10.5 19.5 11.4 19.5 12.5 V19.5 C19.5 20.6 18.6 21.5 17.5 21.5 H6.5 C5.4 21.5 4.5 20.6 4.5 19.5 V12.5 C4.5 11.4 5.4 10.5 6.5 10.5 Z M9.3 10.5 H14.7 V8 A2.7 2.7 0 0 0 9.3 8 Z" fill="${c}" fill-rule="evenodd"/>`,
+    photo_camera: (c) => T_(c, 'M4.5 7.5 H7.5 L9 5 H15 L16.5 7.5 H19.5 C20.3 7.5 21 8.2 21 9 V18 C21 18.8 20.3 19.5 19.5 19.5 H4.5 C3.7 19.5 3 18.8 3 18 V9 C3 8.2 3.7 7.5 4.5 7.5 Z M12 16.5 A3.3 3.3 0 1 0 12 9.9 A3.3 3.3 0 1 0 12 16.5 Z'),
+    add_photo: (c) => T_(c, 'M13 4.5 H5.5 C4.4 4.5 3.5 5.4 3.5 6.5 V18.5 C3.5 19.6 4.4 20.5 5.5 20.5 H17.5 C18.6 20.5 19.5 19.6 19.5 18.5 V11 M6.5 17.5 L10 13.5 L12.5 16 L14.5 14 L17 17.5 M18.5 2.5 V8.5 M15.5 5.5 H21.5'),
+    drag_indicator: (c) => [[9, 6], [15, 6], [9, 12], [15, 12], [9, 18], [15, 18]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="1.8" fill="${c}"/>`).join(''),
+    person_off: (c) => T_(c, 'M12 11 A3.5 3.5 0 1 0 12 4 A3.5 3.5 0 1 0 12 11 Z M5 20 C5 16.5 8 14.5 12 14.5 C16 14.5 19 16.5 19 20 M4 3.5 L20.5 20'),
+    circle: (c) => `<circle cx="12" cy="12" r="8" fill="${c}"/>`,
+  };
+  /// Une icône de l'appli, de [taille] points, coin haut gauche en (x, y).
+  const iconeApp = (nom, x, y, taille, couleur) => {
+    if (!ICONES_APP[nom]) throw new Error(`iconeApp : « ${nom} » inconnue`);
+    return `<g transform="translate(${x} ${y}) scale(${taille / 24})">${ICONES_APP[nom](couleur)}</g>`;
+  };
 
   // Le jeu d'essai, pour que les schémas montrent les mêmes personnes que
   // les captures : photo, prénom, âge, ville, rencontres, note moyenne en
@@ -465,7 +533,7 @@ ${corps}
   return {
     EN, LG, t, esc, id, svg, texte, entete, rubrique, paliers, fondu, visible, entre, glisse, carte, telephone, toucher,
     frappe, visage, etoiles, pastille, largeurPastille, bouton, barreNav, icone, ICONE, empreinte, logo, GENS, cartePersonne,
-    france, FRANCE,
+    france, FRANCE, iconeApp, ICONES_APP,
     MONO, SANS, FOND, CARTE, BORD, TITRE, TEXTE, DISCRET, FIL, ACCENT, VIOLET, FUCHSIA, VERT, OR, ROUGE, BLEU, APP,
   };
 };

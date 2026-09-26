@@ -152,7 +152,7 @@ module.exports = (O) => {
       ${entre(C, P(1), touche, texte(SX + SL / 2, SY + 432, t('Touche le capteur pour ouvrir', 'Touch the sensor to open'), { taille: 12.5, couleur: APP.second, poids: 600, ancre: 'middle' }), 0.004)}
       ${entre(C, touche, cle, texte(SX + SL / 2, SY + 432, t('Vérification…', 'Checking…'), { taille: 12.5, couleur: APP.rose, poids: 600, ancre: 'middle' }), 0.004)}
       ${entre(C, cle, P(1) + PAS, bandeau(t('Clé tirée du Keystore, base ouverte.', 'Key pulled from the Keystore, base open.'), VERT, t('Sans l’empreinte, elle reste illisible.', 'Without the fingerprint, it stays unreadable.'), SY + SH - 130), 0.004)}
-      ${icone('cadenas', SX + 38, SY + SH - 42, APP.vert, 0.75)}
+      ${icone('lock', SX + 38, SY + SH - 42, APP.vert, 0.75)}
       ${texte(SX + 54, SY + SH - 31, t('Base chiffrée, clé rangée dans le Keystore', 'Encrypted database, key kept in the Keystore'), { taille: 10, couleur: APP.second, poids: 600 })}`);
   }
 

@@ -140,7 +140,7 @@ module.exports = (O) => {
     ${texte(SX + SL - 16, CY + 68, t('Placer sur la carte', 'Place on the map'), { taille: 9.5, couleur: APP.violet, poids: 700, ancre: 'end' })}`;
   form += legende(CY + 104, t('CE QUE ÇA A RAPPORTÉ', 'WHAT IT BROUGHT IN'));
   form += `<rect x="${SX + 14}" y="${CY + 112}" width="${SL - 28}" height="40" rx="14" fill="#FFFFFF" fill-opacity="0.05" stroke="${APP.bord}"/>
-    ${icone('euro', SX + 26, CY + 124, APP.or, 1)}
+    ${icone('savings', SX + 26, CY + 124, APP.or, 1)}
     ${texte(SX + 48, CY + 136, t('Rien, ou 100', 'Nothing, or 100'), { taille: 11, couleur: APP.discret })}
     ${legende(CY + 176, t('TA NOTE', 'YOUR RATING'))}
     <rect x="${SX + 14}" y="${CY + 184}" width="${SL - 28}" height="70" rx="16" fill="#FFFFFF" fill-opacity="0.05" stroke="${APP.bord}"/>

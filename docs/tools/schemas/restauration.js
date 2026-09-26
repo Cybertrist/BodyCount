@@ -40,11 +40,11 @@ module.exports = (O) => {
     ${texte(SX + 74, SY + 116, t(`${rencontres} Rencontres`, `${rencontres} Encounters`), { taille: 10.5, couleur: APP.second, poids: 600 })}
     ${texte(SX + 20, SY + 166, t('DONNÉES', 'DATA'), { taille: 10, couleur: APP.second, poids: 700, extra: 'letter-spacing="1.5"' })}
     <rect x="${SX + 12}" y="${SY + 178}" width="${SL - 24}" height="186" rx="18" fill="${APP.carte}" stroke="${APP.bord}"/>
-    ${ligne(SY + 182, 'cadenas', APP.vert, t('Tout reste sur ce téléphone', 'Everything stays on this phone'), t('Base chiffrée, aucun compte', 'Encrypted database, no account'))}
+    ${ligne(SY + 182, 'shield', APP.vert, t('Tout reste sur ce téléphone', 'Everything stays on this phone'), t('Base chiffrée, aucun compte', 'Encrypted database, no account'))}
     <line x1="${SX + 12}" y1="${SY + 240}" x2="${SX + SL - 12}" y2="${SY + 240}" stroke="${APP.bord}"/>
-    ${ligne(SY + 242, 'telecharger', APP.rose, t('Exporter, chiffré', 'Export, encrypted'), t('Dernière il y a 12 jours', 'Last one 12 days ago'), t('Phrase', 'Passphrase'))}
+    ${ligne(SY + 242, 'ios_share', APP.rose, t('Exporter, chiffré', 'Export, encrypted'), t('Dernière il y a 12 jours', 'Last one 12 days ago'), t('Phrase', 'Passphrase'))}
     <line x1="${SX + 12}" y1="${SY + 302}" x2="${SX + SL - 12}" y2="${SY + 302}" stroke="${APP.bord}"/>
-    ${ligne(SY + 304, 'fichier', APP.rose, t('Restaurer une sauvegarde', 'Restore a backup'), t('Remplace ce qui est ici', 'Replaces what is here'), '.bcx')}`;
+    ${ligne(SY + 304, 'settings_backup_restore', APP.rose, t('Restaurer une sauvegarde', 'Restore a backup'), t('Remplace ce qui est ici', 'Replaces what is here'), '.bcx')}`;
   const voile = `<rect x="${SX}" y="${SY}" width="${SL}" height="${SH}" fill="#000000" fill-opacity="0.62"/>`;
   // Des fonctions, pas des chaînes : chaque usage doit avoir ses propres
   // identifiants de clipPath, sinon le fichier en porte deux fois le même.

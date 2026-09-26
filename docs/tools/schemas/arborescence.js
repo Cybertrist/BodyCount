@@ -365,7 +365,7 @@ module.exports = (O) => {
         <circle cx="${SX + SL / 2}" cy="${SY + 318}" r="40" fill="url(#marque)"/>
         ${empreinte(SX + SL / 2, SY + 318, 38, '#FFFFFF')}
         ${texte(SX + SL / 2, SY + 392, t('Touche le capteur pour ouvrir', 'Touch the sensor to open'), { taille: 11, couleur: APP.second, poids: 600, ancre: 'middle' })}
-        ${icone('cadenas', SX + 26, SY + SH - 36, APP.vert, 0.7)}
+        ${icone('lock', SX + 26, SY + SH - 36, APP.vert, 0.7)}
         ${texte(SX + 40, SY + SH - 26, t('Base chiffrée, clé rangée dans le Keystore', 'Encrypted database, key in the Keystore'), { taille: 9, couleur: APP.second, poids: 600 })}`, 0.004)}`,
 
     // layout.dart : le même répertoire, deux colonnes puis trois.
@@ -526,7 +526,7 @@ module.exports = (O) => {
         ${entre(C, u(0.42), u(0.55), `<rect x="${SX + SL / 2 - 70}" y="${SY + 340}" width="140" height="26" rx="13" fill="${APP.vert}" fill-opacity="0.14" stroke="${APP.vert}" stroke-opacity="0.6"/>
           ${icone('cle', SX + SL / 2 - 58, SY + 345, APP.vert, 1)}
           ${texte(SX + SL / 2 + 8, SY + 357, t('clé chargée', 'key loaded'), { taille: 10.5, couleur: APP.vert, poids: 700, ancre: 'middle' })}`, 0.003)}
-        ${icone('cadenas', SX + 26, SY + SH - 36, APP.vert, 0.7)}
+        ${icone('lock', SX + 26, SY + SH - 36, APP.vert, 0.7)}
         ${texte(SX + 40, SY + SH - 26, t('Base chiffrée, clé rangée dans le Keystore', 'Encrypted database, key in the Keystore'), { taille: 9, couleur: APP.second, poids: 600 })}`, 0.004)}
       ${entre(C, u(0.55), u(1), `${titreEcran(t('RÉPERTOIRE', 'PEOPLE'))}${recherche(SY + 58)}${tris(SY + 96)}
         ${[GENS.lou, GENS.noa, GENS.jade, GENS.enzo].map((p, i) => {
@@ -550,9 +550,9 @@ module.exports = (O) => {
         ${texte(SX + 66, SY + 88, t('18 Personnes', '18 People'), { taille: 13, couleur: APP.texte, poids: 800 })}
         ${texte(SX + 66, SY + 104, t('111 Rencontres', '111 Encounters'), { taille: 9.5, couleur: APP.second })}
         ${intitule(t('DONNÉES', 'DATA'), SX + 16, SY + 146)}
-        ${ligneReglage(SY + 156, 'cadenas', t('Tout reste sur ce téléphone', 'Everything stays on this phone'), t('base chiffrée, aucun serveur', 'encrypted, no server'), APP.vert)}
-        ${ligneReglage(SY + 212, 'telecharger', t('Exporter, chiffré', 'Export, encrypted'), t('phrase de passe', 'passphrase'))}
-        ${ligneReglage(SY + 268, 'fichier', t('Restaurer une sauvegarde', 'Restore a backup'), t('remplace ce qui est ici', 'replaces what is here'))}
+        ${ligneReglage(SY + 156, 'shield', t('Tout reste sur ce téléphone', 'Everything stays on this phone'), t('base chiffrée, aucun serveur', 'encrypted, no server'), APP.vert)}
+        ${ligneReglage(SY + 212, 'ios_share', t('Exporter, chiffré', 'Export, encrypted'), t('phrase de passe', 'passphrase'))}
+        ${ligneReglage(SY + 268, 'settings_backup_restore', t('Restaurer une sauvegarde', 'Restore a backup'), t('remplace ce qui est ici', 'replaces what is here'))}
         ${toucher(SX + SL / 2, SY + 236, C, u(0.18))}
         ${entre(C, u(0.22), u(0.72), `<rect x="${SX}" y="${SY}" width="${SL}" height="${SH}" fill="#000000" fill-opacity="0.55"/>
           <rect x="${SX + 16}" y="${SY + 200}" width="${SL - 32}" height="92" rx="20" fill="${APP.surface}" stroke="${APP.bord}"/>

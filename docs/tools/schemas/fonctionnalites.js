@@ -67,13 +67,13 @@ module.exports = (O) => {
 
   // Quelques pictogrammes de plus, dans le même carré de 16.
   const PICTO = {
-    grille: (c) => `<rect x="2" y="2" width="5" height="5" rx="1.3" fill="none" stroke="${c}" stroke-width="1.5"/><rect x="9" y="2" width="5" height="5" rx="1.3" fill="none" stroke="${c}" stroke-width="1.5"/><rect x="2" y="9" width="5" height="5" rx="1.3" fill="none" stroke="${c}" stroke-width="1.5"/><rect x="9" y="9" width="5" height="5" rx="1.3" fill="none" stroke="${c}" stroke-width="1.5"/>`,
+    grille: (c) => `<g transform="scale(0.6667)"><rect x="3" y="3" width="8" height="8" rx="2.2" fill="${c}"/><rect x="13" y="3" width="8" height="8" rx="2.2" fill="${c}"/><rect x="3" y="13" width="8" height="8" rx="2.2" fill="${c}"/><rect x="13" y="13" width="8" height="8" rx="2.2" fill="${c}"/></g>`,
     barres: (c) => `<path d="M3 14 V9 M8 14 V3 M13 14 V6" stroke="${c}" stroke-width="2.2" stroke-linecap="round"/>`,
     carte: (c) => `<path d="M1.5 4 L5.5 2.5 L10.5 4 L14.5 2.5 V12 L10.5 13.5 L5.5 12 L1.5 13.5 Z M5.5 2.5 V12 M10.5 4 V13.5" fill="none" stroke="${c}" stroke-width="1.4" stroke-linejoin="round"/>`,
-    reprendre: (c) => `<path d="M3 8 a5 5 0 1 0 1.6 -3.7 M3 2 V5 H6" fill="none" stroke="${c}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>`,
-    itineraire: (c) => `<path d="M8 1.5 L14.5 8 L8 14.5 L1.5 8 Z M6 10 V7.5 H10 M8.5 5.8 L10.2 7.5 L8.5 9.2" fill="none" stroke="${c}" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>`,
+    reprendre: (c) => `<g transform="scale(0.6667)">${O.ICONES_APP.settings_backup_restore(c)}</g>`,
+    itineraire: (c) => `<g transform="scale(0.6667)">${O.ICONES_APP.directions(c)}</g>`,
     ecrans: (c) => `<rect x="1" y="4" width="5" height="9" rx="1.2" fill="none" stroke="${c}" stroke-width="1.4"/><rect x="7.5" y="2" width="7.5" height="11" rx="1.2" fill="none" stroke="${c}" stroke-width="1.4"/>`,
-    mur: (c) => `<path d="M8 1.5 L14 4 V8 C14 11.5 11.3 13.8 8 14.8 C4.7 13.8 2 11.5 2 8 V4 Z" fill="none" stroke="${c}" stroke-width="1.5" stroke-linejoin="round"/><path d="M5.5 8 L7.3 9.8 L10.8 6.2" fill="none" stroke="${c}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>`,
+    mur: (c) => `<g transform="scale(0.6667)">${O.ICONES_APP.shield(c)}</g>`,
   };
   const picto = (nom, x, y, c, k = 1) => (nom === 'empreinte' ? empreinte(x + 8 * k, y + 8 * k, 16 * k, c)
     : PICTO[nom] ? `<g transform="translate(${x} ${y}) scale(${k})">${PICTO[nom](c)}</g>` : icone(nom, x, y, c, k));
@@ -122,7 +122,7 @@ module.exports = (O) => {
       ${entre(C, touche, lu, texte(cx, SY + 470, t('Vérification…', 'Checking…'), { taille: 12.5, couleur: APP.rose, poids: 600, ancre: 'middle' }), 0.002)}
       ${entre(C, lu, B(k), texte(cx, SY + 470, t('Clé chargée', 'Key loaded'), { taille: 12.5, couleur: APP.vert, poids: 700, ancre: 'middle' }), 0.002)}
       ${toucher(cx, cy, C, touche)}
-      ${icone('cadenas', SX + 38, SY + SH - 40, APP.vert, 0.75)}
+      ${icone('lock', SX + 38, SY + SH - 40, APP.vert, 0.75)}
       ${texte(SX + 54, SY + SH - 29, t('Base chiffrée, clé rangée dans le Keystore', 'Encrypted database, key kept in the Keystore'), { taille: 10, couleur: APP.second, poids: 600 })}`;
     // Le répertoire monte par-dessus : des cases vides, puis les prénoms
     // quand la base s'ouvre, puis les visages quand le coffre s'ouvre.
@@ -636,11 +636,11 @@ module.exports = (O) => {
       ${texte(SX + 74, SY + 98, t('18 Personnes', '18 People'), { taille: 14, couleur: APP.texte, poids: 800 })}
       ${texte(SX + 74, SY + 115, t('111 Rencontres', '111 Encounters'), { taille: 9.5, couleur: APP.second })}
       ${petit(SX + 18, SY + 164, t('DONNÉES', 'DATA'))}
-      ${ligne(SY + 176, 'mur', t('Tout reste sur ce téléphone', 'Everything stays on this phone'), t('Base chiffrée, aucun compte', 'Encrypted database, no account'), '', APP.vert)}
-      ${ligne(SY + 240, 'telecharger', t('Exporter, chiffré', 'Export, encrypted'), '', t('Phrase de passe ›', 'Passphrase ›'), APP.violet)}
+      ${ligne(SY + 176, 'shield', t('Tout reste sur ce téléphone', 'Everything stays on this phone'), t('Base chiffrée, aucun compte', 'Encrypted database, no account'), '', APP.vert)}
+      ${ligne(SY + 240, 'ios_share', t('Exporter, chiffré', 'Export, encrypted'), '', t('Phrase de passe ›', 'Passphrase ›'), APP.violet)}
       ${entre(C, A(k), fin, texte(SX + 64, SY + 281, t('Dernière il y a 38 jours', 'Last one 38 days ago'), { taille: 9, couleur: APP.or }), 0.003)}
       ${entre(C, fin, B(k), texte(SX + 64, SY + 281, t('Dernière aujourd’hui', 'Last one today'), { taille: 9, couleur: APP.vert, poids: 700 }), 0.003)}
-      ${ligne(SY + 304, 'fichier', t('Restaurer une sauvegarde', 'Restore a backup'), t('Remplace ce qui est ici', 'Replaces what is here'), '.bcx')}
+      ${ligne(SY + 304, 'settings_backup_restore', t('Restaurer une sauvegarde', 'Restore a backup'), t('Remplace ce qui est ici', 'Replaces what is here'), '.bcx')}
       ${toucher(SX + SL / 2, SY + 268, C, touche)}`;
     const dialogue = `<rect x="${SX}" y="${SY}" width="${SL}" height="${SH}" fill="#000000" fill-opacity="0.55"/>
       <rect x="${SX + 16}" y="${SY + 170}" width="${SL - 32}" height="186" rx="24" fill="${APP.surface}" stroke="${APP.bord}"/>
@@ -876,11 +876,11 @@ module.exports = (O) => {
       ${pastille(SX + 16, SY + 170, 'N°12', { couleur: APP.vert, taille: 9 })}${pastille(SX + 66, SY + 170, t('23 ans', '23 y/o'), { taille: 9 })}${pastille(SX + 124, SY + 170, 'Vannes', { taille: 9 })}
       ${texte(SX + 18, SY + 218, 'Enzo P.', { taille: 26, couleur: '#FFFFFF', poids: 800 })}
       ${petit(SX + 18, SY + 262, 'INFOS')}
-      ${panneau(X, SY + 274, L, 44)}${icone('telephoneIcone', X + 14, SY + 288, APP.second, 0.9)}
+      ${panneau(X, SY + 274, L, 44)}${icone('call', X + 14, SY + 288, APP.second, 0.9)}
       ${texte(X + 38, SY + 300, t('Téléphone', 'Phone'), { taille: 10, couleur: APP.second })}${texte(X + L - 14, SY + 300, '07 15 93 62 08', { taille: 10.5, couleur: APP.texte, poids: 700, ancre: 'end' })}
-      ${panneau(X, SY + 326, L, 44)}${icone('epingle', X + 14, SY + 340, APP.second, 0.9)}
+      ${panneau(X, SY + 326, L, 44)}${icone('home', X + 14, SY + 340, APP.second, 0.9)}
       ${texte(X + 38, SY + 352, t('Adresse', 'Address'), { taille: 10, couleur: APP.second })}${texte(X + L - 14, SY + 352, 'Place des Lices, Vannes', { taille: 10.5, couleur: APP.texte, poids: 700, ancre: 'end' })}
-      <circle cx="${X + 22}" cy="${SY + SH - 38}" r="20" fill="${APP.carte}" stroke="${APP.bord}"/>${icone('telephoneIcone', X + 15, SY + SH - 45, APP.texte, 0.9)}
+      <circle cx="${X + 22}" cy="${SY + SH - 38}" r="20" fill="${APP.carte}" stroke="${APP.bord}"/>${icone('call', X + 15, SY + SH - 45, APP.texte, 0.9)}
       <circle cx="${X + 68}" cy="${SY + SH - 38}" r="20" fill="${APP.carte}" stroke="${APP.bord}"/>${picto('itineraire', X + 60, SY + SH - 46, APP.texte)}
       ${bouton(X + 98, SY + SH - 58, L - 98, 40, t('+ Nouvelle rencontre', '+ New encounter'), { taille: 11 })}
       ${toucher(X + 68, SY + SH - 38, C, touche)}`;

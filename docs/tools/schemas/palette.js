@@ -82,7 +82,7 @@ module.exports = (O) => {
   // Le bas : l'appel et le bouton d'action.
   const BY = SY + SH - 58;
   ecran += `<rect x="${SX + 12}" y="${BY}" width="42" height="42" rx="14" fill="${APP.carte}" stroke="${APP.bord}"/>
-    ${icone('telephoneIcone', SX + 25, BY + 13, APP.second, 1)}
+    ${icone('call', SX + 25, BY + 13, APP.second, 1)}
     ${bouton(SX + 62, BY, SL - 74, 42, t('+  Nouvelle rencontre', '+  New encounter'))}`;
 
   // Les couleurs, dans l'ordre où elles s'allument : [nom, hexa, usage,

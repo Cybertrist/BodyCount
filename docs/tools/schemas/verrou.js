@@ -33,7 +33,7 @@ module.exports = (O) => {
     ${empreinte(SX + SL / 2, SY + 380, 44, '#FFFFFF')}
     ${libelle}
     ${instant !== null ? toucher(SX + SL / 2, SY + 380, C, instant) : ''}
-    ${icone('cadenas', SX + 38, SY + SH - 40, APP.vert, 0.75)}
+    ${icone('lock', SX + 38, SY + SH - 40, APP.vert, 0.75)}
     ${texte(SX + 54, SY + SH - 29, t('Base chiffrée, clé rangée dans le Keystore', 'Encrypted database, key kept in the Keystore'), { taille: 10, couleur: APP.second, poids: 600 })}`;
   const libelle = (s, c = APP.second) => texte(SX + SL / 2, SY + 470, s, { taille: 12.5, couleur: c, poids: 600, ancre: 'middle' });
   ecran += entre(C, 0, OUVRE, verrou(0.05,

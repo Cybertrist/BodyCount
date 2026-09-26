@@ -22,19 +22,18 @@ module.exports = (O) => {
   const FERMER = A(N - 1) + VOL, LECTURE = 0.4, LU = 0.475, FIN_LECTURE = 0.58;
   const ATT = [0.6, 0.72, 0.84], FIN = 0.965;
 
-  // Les motifs : une pellicule pour le clair, du bruit violet pour le
-  // chiffré, comme dans coffre.svg.
+  // Les motifs : une pellicule pour le clair, des octets en
+  // hexadécimal pour le chiffré, comme dans coffre.svg et formats.svg.
   corps += `<defs>
     <pattern id="pellicule" width="16" height="26" patternUnits="userSpaceOnUse">
       <rect width="16" height="26" fill="#1D3B5C"/><rect x="2" y="6" width="12" height="14" rx="2" fill="#3F7CB8"/>
       <rect x="4" y="1.5" width="3" height="2.5" rx="0.8" fill="#0D1F33"/><rect x="10" y="1.5" width="3" height="2.5" rx="0.8" fill="#0D1F33"/>
       <rect x="4" y="22" width="3" height="2.5" rx="0.8" fill="#0D1F33"/><rect x="10" y="22" width="3" height="2.5" rx="0.8" fill="#0D1F33"/>
     </pattern>
-    <pattern id="bruit" width="12" height="12" patternUnits="userSpaceOnUse">
-      <rect width="12" height="12" fill="#2A1846"/>
-      <rect width="4" height="4" fill="#5B2A8C"/><rect x="8" y="0" width="4" height="4" fill="#3D2263"/>
-      <rect x="4" y="4" width="4" height="4" fill="#7C3AED" fill-opacity="0.7"/><rect x="0" y="8" width="4" height="4" fill="#4A1F73"/>
-      <rect x="8" y="8" width="4" height="4" fill="#A855F7" fill-opacity="0.5"/><rect x="4" y="8" width="4" height="4" fill="#1F1233"/>
+    <pattern id="bruit" width="66" height="30" patternUnits="userSpaceOnUse">
+      <rect width="66" height="30" fill="#1E1235"/>
+      <text font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="7.5" fill="#B57CF5" fill-opacity="0.75">
+        <tspan x="2" y="8">a3 f1 9c 4e 07</tspan><tspan x="-12" y="18">5d e2 b8 31 c6</tspan><tspan x="7" y="28">0f 7a 94 d3 2b</tspan></text>
     </pattern>
   </defs>`;
 

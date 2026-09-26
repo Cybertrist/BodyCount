@@ -31,12 +31,12 @@
   <rect x="70" y="110" width="270" height="552" rx="26" fill="#0B0616"/>
   <rect x="175" y="101" width="60" height="5" rx="2.5" fill="#1B1726"/><g clip-path="url(#ecran443)"><g opacity="0"><animate attributeName="opacity" dur="32s" repeatCount="indefinite" keyTimes="0;0.154;0.16;1" values="1;1;0;0"/><text x="88" y="154" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="13" font-weight="800" fill="#F6F2FF" text-anchor="start" letter-spacing="1.5">RÉPERTOIRE</text><rect x="82" y="172" width="246" height="118" rx="18" fill="#A855F7" fill-opacity="0.16" stroke="#A855F7" stroke-opacity="0.35"/>
     <circle cx="108" cy="202" r="15" fill="#A855F7" fill-opacity="0.22"/>
-    <g transform="translate(100 194) scale(1)"><path d="M8 2 V10 M4.5 7 L8 10.5 L11.5 7 M3 13.5 H13" fill="none" stroke="#F0ABFC" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g transform="translate(100 194) scale(0.6666666666666666)"><path d="M12 4 V15 M7.5 10.8 L12 15.3 L16.5 10.8 M5 20 H19" fill="none" stroke="#F0ABFC" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></g>
     <text x="132" y="198" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="700" fill="#F6F2FF" text-anchor="start" >Dernière sauvegarde</text>
     <text x="132" y="214" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="700" fill="#F6F2FF" text-anchor="start" >il y a 38 jours</text>
     <text x="94" y="238" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#9B8CB8" text-anchor="start" >Perdre le téléphone, c’est perdre</text>
     <text x="94" y="252" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10.5" font-weight="400" fill="#9B8CB8" text-anchor="start" >ce qui n’a pas été exporté.</text>
-    <g transform="translate(302 186) scale(0.7)"><path d="M4 4 L12 12 M12 4 L4 12" stroke="#7D6E99" stroke-width="2" stroke-linecap="round"/></g>
+    <g transform="translate(302 186) scale(0.4666666666666666)"><path d="M6 6 L18 18 M18 6 L6 18" fill="none" stroke="#7D6E99" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g>
     <rect x="232" y="256" width="84" height="26" rx="13" fill="#A855F7" fill-opacity="0.25"/>
     <text x="274" y="273" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="11" font-weight="700" fill="#F0ABFC" text-anchor="middle" >Sauvegarder</text>
     <g opacity="0"><animate attributeName="opacity" dur="32s" repeatCount="indefinite" keyTimes="0;0.102;0.106;0.128;0.132;1" values="0;0;1;1;0;0"/>
@@ -51,10 +51,10 @@
   <rect x="82" y="304" width="117" height="150" rx="14" fill="none" stroke="#FFFFFF" stroke-opacity="0.07"/>
   <rect x="90" y="312" width="53.199999999999996" height="17" rx="8.5" fill="#0B0616" fill-opacity="0.56"/>
   <text x="97" y="324" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9" font-weight="700" fill="#E9DEFF" text-anchor="start" >14 fois</text>
-  <circle cx="182" cy="320.5" r="8.5" fill="#FDE68A"/><g transform="translate(176.5 315) scale(0.7)"><path d="M8 1.5 L9.9 5.8 L14.5 6.2 L11 9.3 L12 13.8 L8 11.4 L4 13.8 L5 9.3 L1.5 6.2 L6.1 5.8 Z" fill="#3A2606"/></g>
+  <circle cx="182" cy="320.5" r="8.5" fill="#FDE68A"/><g transform="translate(176.5 315) scale(0.4666666666666666)"><path d="M12 3 L14.6 8.5 L20.5 9.2 L16.1 13.2 L17.3 19.1 L12 16.2 L6.7 19.1 L7.9 13.2 L3.5 9.2 L9.4 8.5 Z" fill="#3A2606"/></g>
   <text x="91" y="420" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="800" fill="#FFFFFF" text-anchor="start" >Noa J.</text>
   <polygon points="95.3,425.5 96.4,428.2 99.3,428.4 97.1,430.3 97.7,433.2 95.3,431.7 92.8,433.2 93.4,430.3 91.2,428.4 94.1,428.2" fill="#3A2D55"/><polygon points="95.3,425.5 96.4,428.2 99.3,428.4 97.1,430.3 97.7,433.2 95.3,431.7 92.8,433.2 93.4,430.3 91.2,428.4 94.1,428.2" fill="#C084FC"/><polygon points="105.0,425.5 106.1,428.2 109.1,428.4 106.8,430.3 107.5,433.2 105.0,431.7 102.5,433.2 103.2,430.3 101.0,428.4 103.9,428.2" fill="#3A2D55"/><polygon points="105.0,425.5 106.1,428.2 109.1,428.4 106.8,430.3 107.5,433.2 105.0,431.7 102.5,433.2 103.2,430.3 101.0,428.4 103.9,428.2" fill="#C084FC"/><polygon points="114.8,425.5 115.9,428.2 118.8,428.4 116.6,430.3 117.3,433.2 114.8,431.7 112.3,433.2 113.0,430.3 110.8,428.4 113.7,428.2" fill="#3A2D55"/><polygon points="114.8,425.5 115.9,428.2 118.8,428.4 116.6,430.3 117.3,433.2 114.8,431.7 112.3,433.2 113.0,430.3 110.8,428.4 113.7,428.2" fill="#C084FC"/><polygon points="124.6,425.5 125.7,428.2 128.6,428.4 126.4,430.3 127.1,433.2 124.6,431.7 122.1,433.2 122.8,430.3 120.5,428.4 123.5,428.2" fill="#3A2D55"/><polygon points="124.6,425.5 125.7,428.2 128.6,428.4 126.4,430.3 127.1,433.2 124.6,431.7 122.1,433.2 122.8,430.3 120.5,428.4 123.5,428.2" fill="#C084FC"/><polygon points="134.3,425.5 135.5,428.2 138.4,428.4 136.2,430.3 136.8,433.2 134.3,431.7 131.9,433.2 132.5,430.3 130.3,428.4 133.2,428.2" fill="#3A2D55"/><polygon points="134.3,425.5 135.5,428.2 138.4,428.4 136.2,430.3 136.8,433.2 134.3,431.7 131.9,433.2 132.5,430.3 130.3,428.4 133.2,428.2" fill="#C084FC"/>
-  <g transform="translate(90 440) scale(0.55)"><path d="M8 15 C8 15 3 9.5 3 6.2 a5 5 0 0 1 10 0 C13 9.5 8 15 8 15 Z" fill="none" stroke="#C9BBE0" stroke-width="1.5"/><circle cx="8" cy="6.2" r="1.8" fill="#C9BBE0"/></g>
+  <g transform="translate(90 440) scale(0.3666666666666667)"><path d="M12 21.5 C12 21.5 5 14.8 5 9.5 A7 7 0 0 1 19 9.5 C19 14.8 12 21.5 12 21.5 Z" fill="none" stroke="#C9BBE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.6" fill="#C9BBE0"/></g>
   <text x="101" y="447" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="8.5" font-weight="600" fill="#C9BBE0" text-anchor="start" >Vannes</text><clipPath id="photo445"><rect x="211" y="304" width="117" height="150" rx="14"/></clipPath>
   <g clip-path="url(#photo445)"><rect x="211" y="304" width="117" height="150" fill="#1A1030"/><use href="#visage1" xlink:href="#visage1" x="194.5" y="304" width="150" height="150"/></g>
   <rect x="211" y="304" width="117" height="150" rx="14" fill="url(#voile)"/>
@@ -64,7 +64,7 @@
   
   <text x="220" y="420" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="800" fill="#FFFFFF" text-anchor="start" >Lou M.</text>
   <polygon points="224.3,425.5 225.4,428.2 228.3,428.4 226.1,430.3 226.7,433.2 224.3,431.7 221.8,433.2 222.4,430.3 220.2,428.4 223.1,428.2" fill="#3A2D55"/><polygon points="224.3,425.5 225.4,428.2 228.3,428.4 226.1,430.3 226.7,433.2 224.3,431.7 221.8,433.2 222.4,430.3 220.2,428.4 223.1,428.2" fill="#C084FC"/><polygon points="234.0,425.5 235.1,428.2 238.1,428.4 235.8,430.3 236.5,433.2 234.0,431.7 231.5,433.2 232.2,430.3 230.0,428.4 232.9,428.2" fill="#3A2D55"/><polygon points="234.0,425.5 235.1,428.2 238.1,428.4 235.8,430.3 236.5,433.2 234.0,431.7 231.5,433.2 232.2,430.3 230.0,428.4 232.9,428.2" fill="#C084FC"/><polygon points="243.8,425.5 244.9,428.2 247.8,428.4 245.6,430.3 246.3,433.2 243.8,431.7 241.3,433.2 242.0,430.3 239.8,428.4 242.7,428.2" fill="#3A2D55"/><polygon points="243.8,425.5 244.9,428.2 247.8,428.4 245.6,430.3 246.3,433.2 243.8,431.7 241.3,433.2 242.0,430.3 239.8,428.4 242.7,428.2" fill="#C084FC"/><polygon points="253.6,425.5 254.7,428.2 257.6,428.4 255.4,430.3 256.1,433.2 253.6,431.7 251.1,433.2 251.8,430.3 249.5,428.4 252.5,428.2" fill="#3A2D55"/><polygon points="253.6,425.5 254.7,428.2 257.6,428.4 255.4,430.3 256.1,433.2 253.6,431.7 251.1,433.2 251.8,430.3 249.5,428.4 252.5,428.2" fill="#C084FC"/><polygon points="263.4,425.5 264.5,428.2 267.4,428.4 265.2,430.3 265.8,433.2 263.4,431.7 260.9,433.2 261.5,430.3 259.3,428.4 262.2,428.2" fill="#3A2D55"/><clipPath id="demi446"><rect x="259.1" y="425.5" width="4.25" height="8.5"/></clipPath><polygon clip-path="url(#demi446)" points="263.4,425.5 264.5,428.2 267.4,428.4 265.2,430.3 265.8,433.2 263.4,431.7 260.9,433.2 261.5,430.3 259.3,428.4 262.2,428.2" fill="#C084FC"/>
-  <g transform="translate(219 440) scale(0.55)"><path d="M8 15 C8 15 3 9.5 3 6.2 a5 5 0 0 1 10 0 C13 9.5 8 15 8 15 Z" fill="none" stroke="#C9BBE0" stroke-width="1.5"/><circle cx="8" cy="6.2" r="1.8" fill="#C9BBE0"/></g>
+  <g transform="translate(219 440) scale(0.3666666666666667)"><path d="M12 21.5 C12 21.5 5 14.8 5 9.5 A7 7 0 0 1 19 9.5 C19 14.8 12 21.5 12 21.5 Z" fill="none" stroke="#C9BBE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.6" fill="#C9BBE0"/></g>
   <text x="230" y="447" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="8.5" font-weight="600" fill="#C9BBE0" text-anchor="start" >Vannes</text><clipPath id="photo447"><rect x="82" y="466" width="117" height="150" rx="14"/></clipPath>
   <g clip-path="url(#photo447)"><rect x="82" y="466" width="117" height="150" fill="#1A1030"/><use href="#visage12" xlink:href="#visage12" x="65.5" y="466" width="150" height="150"/></g>
   <rect x="82" y="466" width="117" height="150" rx="14" fill="url(#voile)"/>
@@ -74,7 +74,7 @@
   
   <text x="91" y="582" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="800" fill="#FFFFFF" text-anchor="start" >Enzo P.</text>
   <polygon points="95.3,587.5 96.4,590.2 99.3,590.4 97.1,592.3 97.7,595.2 95.3,593.7 92.8,595.2 93.4,592.3 91.2,590.4 94.1,590.2" fill="#3A2D55"/><polygon points="95.3,587.5 96.4,590.2 99.3,590.4 97.1,592.3 97.7,595.2 95.3,593.7 92.8,595.2 93.4,592.3 91.2,590.4 94.1,590.2" fill="#C084FC"/><polygon points="105.0,587.5 106.1,590.2 109.1,590.4 106.8,592.3 107.5,595.2 105.0,593.7 102.5,595.2 103.2,592.3 101.0,590.4 103.9,590.2" fill="#3A2D55"/><polygon points="105.0,587.5 106.1,590.2 109.1,590.4 106.8,592.3 107.5,595.2 105.0,593.7 102.5,595.2 103.2,592.3 101.0,590.4 103.9,590.2" fill="#C084FC"/><polygon points="114.8,587.5 115.9,590.2 118.8,590.4 116.6,592.3 117.3,595.2 114.8,593.7 112.3,595.2 113.0,592.3 110.8,590.4 113.7,590.2" fill="#3A2D55"/><polygon points="114.8,587.5 115.9,590.2 118.8,590.4 116.6,592.3 117.3,595.2 114.8,593.7 112.3,595.2 113.0,592.3 110.8,590.4 113.7,590.2" fill="#C084FC"/><polygon points="124.6,587.5 125.7,590.2 128.6,590.4 126.4,592.3 127.1,595.2 124.6,593.7 122.1,595.2 122.8,592.3 120.5,590.4 123.5,590.2" fill="#3A2D55"/><polygon points="124.6,587.5 125.7,590.2 128.6,590.4 126.4,592.3 127.1,595.2 124.6,593.7 122.1,595.2 122.8,592.3 120.5,590.4 123.5,590.2" fill="#C084FC"/><polygon points="134.3,587.5 135.5,590.2 138.4,590.4 136.2,592.3 136.8,595.2 134.3,593.7 131.9,595.2 132.5,592.3 130.3,590.4 133.2,590.2" fill="#3A2D55"/>
-  <g transform="translate(90 602) scale(0.55)"><path d="M8 15 C8 15 3 9.5 3 6.2 a5 5 0 0 1 10 0 C13 9.5 8 15 8 15 Z" fill="none" stroke="#C9BBE0" stroke-width="1.5"/><circle cx="8" cy="6.2" r="1.8" fill="#C9BBE0"/></g>
+  <g transform="translate(90 602) scale(0.3666666666666667)"><path d="M12 21.5 C12 21.5 5 14.8 5 9.5 A7 7 0 0 1 19 9.5 C19 14.8 12 21.5 12 21.5 Z" fill="none" stroke="#C9BBE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.6" fill="#C9BBE0"/></g>
   <text x="101" y="609" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="8.5" font-weight="600" fill="#C9BBE0" text-anchor="start" >Vannes</text><clipPath id="photo448"><rect x="211" y="466" width="117" height="150" rx="14"/></clipPath>
   <g clip-path="url(#photo448)"><rect x="211" y="466" width="117" height="150" fill="#1A1030"/><use href="#visage5" xlink:href="#visage5" x="194.5" y="466" width="150" height="150"/></g>
   <rect x="211" y="466" width="117" height="150" rx="14" fill="url(#voile)"/>
@@ -84,7 +84,7 @@
   
   <text x="220" y="582" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="14" font-weight="800" fill="#FFFFFF" text-anchor="start" >Jade L.</text>
   <polygon points="224.3,587.5 225.4,590.2 228.3,590.4 226.1,592.3 226.7,595.2 224.3,593.7 221.8,595.2 222.4,592.3 220.2,590.4 223.1,590.2" fill="#3A2D55"/><polygon points="224.3,587.5 225.4,590.2 228.3,590.4 226.1,592.3 226.7,595.2 224.3,593.7 221.8,595.2 222.4,592.3 220.2,590.4 223.1,590.2" fill="#C084FC"/><polygon points="234.0,587.5 235.1,590.2 238.1,590.4 235.8,592.3 236.5,595.2 234.0,593.7 231.5,595.2 232.2,592.3 230.0,590.4 232.9,590.2" fill="#3A2D55"/><polygon points="234.0,587.5 235.1,590.2 238.1,590.4 235.8,592.3 236.5,595.2 234.0,593.7 231.5,595.2 232.2,592.3 230.0,590.4 232.9,590.2" fill="#C084FC"/><polygon points="243.8,587.5 244.9,590.2 247.8,590.4 245.6,592.3 246.3,595.2 243.8,593.7 241.3,595.2 242.0,592.3 239.8,590.4 242.7,590.2" fill="#3A2D55"/><polygon points="243.8,587.5 244.9,590.2 247.8,590.4 245.6,592.3 246.3,595.2 243.8,593.7 241.3,595.2 242.0,592.3 239.8,590.4 242.7,590.2" fill="#C084FC"/><polygon points="253.6,587.5 254.7,590.2 257.6,590.4 255.4,592.3 256.1,595.2 253.6,593.7 251.1,595.2 251.8,592.3 249.5,590.4 252.5,590.2" fill="#3A2D55"/><polygon points="253.6,587.5 254.7,590.2 257.6,590.4 255.4,592.3 256.1,595.2 253.6,593.7 251.1,595.2 251.8,592.3 249.5,590.4 252.5,590.2" fill="#C084FC"/><polygon points="263.4,587.5 264.5,590.2 267.4,590.4 265.2,592.3 265.8,595.2 263.4,593.7 260.9,595.2 261.5,592.3 259.3,590.4 262.2,590.2" fill="#3A2D55"/>
-  <g transform="translate(219 602) scale(0.55)"><path d="M8 15 C8 15 3 9.5 3 6.2 a5 5 0 0 1 10 0 C13 9.5 8 15 8 15 Z" fill="none" stroke="#C9BBE0" stroke-width="1.5"/><circle cx="8" cy="6.2" r="1.8" fill="#C9BBE0"/></g>
+  <g transform="translate(219 602) scale(0.3666666666666667)"><path d="M12 21.5 C12 21.5 5 14.8 5 9.5 A7 7 0 0 1 19 9.5 C19 14.8 12 21.5 12 21.5 Z" fill="none" stroke="#C9BBE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.6" fill="#C9BBE0"/></g>
   <text x="230" y="609" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="8.5" font-weight="600" fill="#C9BBE0" text-anchor="start" >Lorient</text><linearGradient id="nav449" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#A855F7" stop-opacity="0.26"/><stop offset="1" stop-color="#D946EF" stop-opacity="0.2"/></linearGradient>
   <rect x="80" y="604" width="250" height="46" rx="23" fill="#150C28" stroke="#261A45"/><rect x="88" y="609" width="45.5" height="36" rx="14" fill="url(#nav449)"/><g transform="translate(101.75 618) scale(0.75)"><rect x="3" y="3" width="8" height="8" rx="2.2" fill="#E9D5FF"/><rect x="13" y="3" width="8" height="8" rx="2.2" fill="#E9D5FF"/><rect x="3" y="13" width="8" height="8" rx="2.2" fill="#E9D5FF"/><rect x="13" y="13" width="8" height="8" rx="2.2" fill="#E9D5FF"/></g><g transform="translate(151.25 618) scale(0.75)"><rect x="4" y="11" width="4" height="9" rx="2" fill="#8B7BA8"/><rect x="10" y="4" width="4" height="16" rx="2" fill="#8B7BA8"/><rect x="16" y="14" width="4" height="6" rx="2" fill="#8B7BA8"/></g><g transform="translate(240.75 618) scale(0.75)"><path d="M9.2 4.2 L3.6 6.1 C3.2 6.2 3 6.6 3 7 V19.5 C3 20.2 3.7 20.7 4.3 20.4 L9 18.6 V4.3 Z M10.6 4.3 V18.5 L13.4 19.7 V5.5 Z M14.8 5.4 V19.7 L20.4 17.9 C20.8 17.8 21 17.4 21 17 V4.5 C21 3.8 20.3 3.3 19.7 3.6 Z" fill="#8B7BA8"/></g><g transform="translate(290.25 618) scale(0.75)"><path d="M5.5 4.5 H18.5 C19.9 4.5 21 5.6 21 7 V18.5 C21 19.9 19.9 21 18.5 21 H5.5 C4.1 21 3 19.9 3 18.5 V7 C3 5.6 4.1 4.5 5.5 4.5 Z M5 9.5 V18.3 C5 18.7 5.3 19 5.7 19 H18.3 C18.7 19 19 18.7 19 18.3 V9.5 Z" fill="#8B7BA8" fill-rule="evenodd"/><rect x="7" y="2.5" width="2" height="4" rx="1" fill="#8B7BA8"/><rect x="15" y="2.5" width="2" height="4" rx="1" fill="#8B7BA8"/><circle cx="8.5" cy="12.5" r="1.2" fill="#8B7BA8"/><circle cx="12" cy="12.5" r="1.2" fill="#8B7BA8"/><circle cx="15.5" cy="12.5" r="1.2" fill="#8B7BA8"/><circle cx="8.5" cy="16" r="1.2" fill="#8B7BA8"/><circle cx="12" cy="16" r="1.2" fill="#8B7BA8"/><circle cx="15.5" cy="16" r="1.2" fill="#8B7BA8"/></g><rect x="187" y="609" width="36" height="36" rx="12" fill="url(#marque)"/>
   <path d="M198 627 h14 M205 620 v14" stroke="#12071F" stroke-width="2.6" stroke-linecap="round"/></g><g opacity="0"><animate attributeName="opacity" dur="32s" repeatCount="indefinite" keyTimes="0;0.16;0.166;0.264;0.27;1" values="0;0;1;1;0;0"/>
@@ -99,21 +99,21 @@
     <rect x="82" y="288" width="246" height="186" rx="18" fill="#1A1030" stroke="#261A45"/>
     
     <rect x="96" y="306" width="28" height="28" rx="8" fill="#1ED760" fill-opacity="0.14"/>
-    <g transform="translate(102 312) scale(1)"><rect x="3" y="7" width="10" height="8" rx="2" fill="none" stroke="#1ED760" stroke-width="1.6"/><path d="M5 7 V5 a3 3 0 0 1 6 0 V7" fill="none" stroke="#1ED760" stroke-width="1.6"/></g>
+    <g transform="translate(102 312) scale(0.6666666666666666)"><path d="M12 2.8 L19.5 5.8 V11.2 C19.5 15.9 16.3 19.8 12 21.2 C7.7 19.8 4.5 15.9 4.5 11.2 V5.8 Z" fill="none" stroke="#1ED760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
     <text x="134" y="318" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="600" fill="#F6F2FF" text-anchor="start" >Tout reste sur ce téléphone</text>
     <text x="134" y="334" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="400" fill="#7D6E99" text-anchor="start" >Base chiffrée, aucun compte</text>
     
     <line x1="82" y1="350" x2="328" y2="350" stroke="#261A45"/>
     
     <rect x="96" y="366" width="28" height="28" rx="8" fill="#F0ABFC" fill-opacity="0.14"/>
-    <g transform="translate(102 372) scale(1)"><path d="M8 2 V10 M4.5 7 L8 10.5 L11.5 7 M3 13.5 H13" fill="none" stroke="#F0ABFC" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g transform="translate(102 372) scale(0.6666666666666666)"><path d="M12 3 V14 M8 6.8 L12 3 L16 6.8 M8 10 H6.5 C5.7 10 5 10.7 5 11.5 V19.5 C5 20.3 5.7 21 6.5 21 H17.5 C18.3 21 19 20.3 19 19.5 V11.5 C19 10.7 18.3 10 17.5 10 H16" fill="none" stroke="#F0ABFC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
     <text x="134" y="378" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="600" fill="#F6F2FF" text-anchor="start" >Exporter, chiffré</text>
     <text x="134" y="394" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="400" fill="#7D6E99" text-anchor="start" >Dernière il y a 38 jours</text>
     <text x="314" y="386" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="700" fill="#9B8CB8" text-anchor="end" letter-spacing="0.8">Phrase</text>
     <line x1="82" y1="412" x2="328" y2="412" stroke="#261A45"/>
     
     <rect x="96" y="428" width="28" height="28" rx="8" fill="#F0ABFC" fill-opacity="0.14"/>
-    <g transform="translate(102 434) scale(1)"><path d="M4 1.5 H10 L13 4.5 V14.5 H4 Z M10 1.5 V4.5 H13" fill="none" stroke="#F0ABFC" stroke-width="1.5" stroke-linejoin="round"/></g>
+    <g transform="translate(102 434) scale(0.6666666666666666)"><path d="M4.2 12 A7.8 7.8 0 1 0 6.6 6.4 M3.8 3.8 V7.8 H7.8" fill="none" stroke="#F0ABFC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="2" fill="#F0ABFC"/></g>
     <text x="134" y="440" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="600" fill="#F6F2FF" text-anchor="start" >Restaurer une sauvegarde</text>
     <text x="134" y="456" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="400" fill="#7D6E99" text-anchor="start" >Remplace ce qui est ici</text>
     <text x="314" y="448" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="700" fill="#9B8CB8" text-anchor="end" letter-spacing="0.8">.bcx</text><g opacity="0"><animate attributeName="opacity" dur="32s" repeatCount="indefinite" keyTimes="0;0.217;0.221;0.243;0.247;1" values="0;0;1;1;0;0"/>
@@ -134,21 +134,21 @@
     <rect x="82" y="288" width="246" height="186" rx="18" fill="#1A1030" stroke="#261A45"/>
     
     <rect x="96" y="306" width="28" height="28" rx="8" fill="#1ED760" fill-opacity="0.14"/>
-    <g transform="translate(102 312) scale(1)"><rect x="3" y="7" width="10" height="8" rx="2" fill="none" stroke="#1ED760" stroke-width="1.6"/><path d="M5 7 V5 a3 3 0 0 1 6 0 V7" fill="none" stroke="#1ED760" stroke-width="1.6"/></g>
+    <g transform="translate(102 312) scale(0.6666666666666666)"><path d="M12 2.8 L19.5 5.8 V11.2 C19.5 15.9 16.3 19.8 12 21.2 C7.7 19.8 4.5 15.9 4.5 11.2 V5.8 Z" fill="none" stroke="#1ED760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
     <text x="134" y="318" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="600" fill="#F6F2FF" text-anchor="start" >Tout reste sur ce téléphone</text>
     <text x="134" y="334" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="400" fill="#7D6E99" text-anchor="start" >Base chiffrée, aucun compte</text>
     
     <line x1="82" y1="350" x2="328" y2="350" stroke="#261A45"/>
     
     <rect x="96" y="366" width="28" height="28" rx="8" fill="#F0ABFC" fill-opacity="0.14"/>
-    <g transform="translate(102 372) scale(1)"><path d="M8 2 V10 M4.5 7 L8 10.5 L11.5 7 M3 13.5 H13" fill="none" stroke="#F0ABFC" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g transform="translate(102 372) scale(0.6666666666666666)"><path d="M12 3 V14 M8 6.8 L12 3 L16 6.8 M8 10 H6.5 C5.7 10 5 10.7 5 11.5 V19.5 C5 20.3 5.7 21 6.5 21 H17.5 C18.3 21 19 20.3 19 19.5 V11.5 C19 10.7 18.3 10 17.5 10 H16" fill="none" stroke="#F0ABFC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
     <text x="134" y="378" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="600" fill="#F6F2FF" text-anchor="start" >Exporter, chiffré</text>
     <text x="134" y="394" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="400" fill="#7D6E99" text-anchor="start" >Dernière il y a 38 jours</text>
     <text x="314" y="386" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="700" fill="#9B8CB8" text-anchor="end" letter-spacing="0.8">Phrase</text>
     <line x1="82" y1="412" x2="328" y2="412" stroke="#261A45"/>
     
     <rect x="96" y="428" width="28" height="28" rx="8" fill="#F0ABFC" fill-opacity="0.14"/>
-    <g transform="translate(102 434) scale(1)"><path d="M4 1.5 H10 L13 4.5 V14.5 H4 Z M10 1.5 V4.5 H13" fill="none" stroke="#F0ABFC" stroke-width="1.5" stroke-linejoin="round"/></g>
+    <g transform="translate(102 434) scale(0.6666666666666666)"><path d="M4.2 12 A7.8 7.8 0 1 0 6.6 6.4 M3.8 3.8 V7.8 H7.8" fill="none" stroke="#F0ABFC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="2" fill="#F0ABFC"/></g>
     <text x="134" y="440" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="600" fill="#F6F2FF" text-anchor="start" >Restaurer une sauvegarde</text>
     <text x="134" y="456" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="400" fill="#7D6E99" text-anchor="start" >Remplace ce qui est ici</text>
     <text x="314" y="448" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="700" fill="#9B8CB8" text-anchor="end" letter-spacing="0.8">.bcx</text>
@@ -183,21 +183,21 @@
     <rect x="82" y="288" width="246" height="186" rx="18" fill="#1A1030" stroke="#261A45"/>
     
     <rect x="96" y="306" width="28" height="28" rx="8" fill="#1ED760" fill-opacity="0.14"/>
-    <g transform="translate(102 312) scale(1)"><rect x="3" y="7" width="10" height="8" rx="2" fill="none" stroke="#1ED760" stroke-width="1.6"/><path d="M5 7 V5 a3 3 0 0 1 6 0 V7" fill="none" stroke="#1ED760" stroke-width="1.6"/></g>
+    <g transform="translate(102 312) scale(0.6666666666666666)"><path d="M12 2.8 L19.5 5.8 V11.2 C19.5 15.9 16.3 19.8 12 21.2 C7.7 19.8 4.5 15.9 4.5 11.2 V5.8 Z" fill="none" stroke="#1ED760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
     <text x="134" y="318" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="600" fill="#F6F2FF" text-anchor="start" >Tout reste sur ce téléphone</text>
     <text x="134" y="334" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="400" fill="#7D6E99" text-anchor="start" >Base chiffrée, aucun compte</text>
     
     <line x1="82" y1="350" x2="328" y2="350" stroke="#261A45"/>
     
     <rect x="96" y="366" width="28" height="28" rx="8" fill="#F0ABFC" fill-opacity="0.14"/>
-    <g transform="translate(102 372) scale(1)"><path d="M8 2 V10 M4.5 7 L8 10.5 L11.5 7 M3 13.5 H13" fill="none" stroke="#F0ABFC" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g transform="translate(102 372) scale(0.6666666666666666)"><path d="M12 3 V14 M8 6.8 L12 3 L16 6.8 M8 10 H6.5 C5.7 10 5 10.7 5 11.5 V19.5 C5 20.3 5.7 21 6.5 21 H17.5 C18.3 21 19 20.3 19 19.5 V11.5 C19 10.7 18.3 10 17.5 10 H16" fill="none" stroke="#F0ABFC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
     <text x="134" y="378" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="600" fill="#F6F2FF" text-anchor="start" >Exporter, chiffré</text>
     <text x="134" y="394" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="400" fill="#7D6E99" text-anchor="start" >Dernière il y a 38 jours</text>
     <text x="314" y="386" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="700" fill="#9B8CB8" text-anchor="end" letter-spacing="0.8">Phrase</text>
     <line x1="82" y1="412" x2="328" y2="412" stroke="#261A45"/>
     
     <rect x="96" y="428" width="28" height="28" rx="8" fill="#F0ABFC" fill-opacity="0.14"/>
-    <g transform="translate(102 434) scale(1)"><path d="M4 1.5 H10 L13 4.5 V14.5 H4 Z M10 1.5 V4.5 H13" fill="none" stroke="#F0ABFC" stroke-width="1.5" stroke-linejoin="round"/></g>
+    <g transform="translate(102 434) scale(0.6666666666666666)"><path d="M4.2 12 A7.8 7.8 0 1 0 6.6 6.4 M3.8 3.8 V7.8 H7.8" fill="none" stroke="#F0ABFC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="2" fill="#F0ABFC"/></g>
     <text x="134" y="440" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="600" fill="#F6F2FF" text-anchor="start" >Restaurer une sauvegarde</text>
     <text x="134" y="456" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="400" fill="#7D6E99" text-anchor="start" >Remplace ce qui est ici</text>
     <text x="314" y="448" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="700" fill="#9B8CB8" text-anchor="end" letter-spacing="0.8">.bcx</text>
@@ -217,21 +217,21 @@
     <rect x="82" y="288" width="246" height="186" rx="18" fill="#1A1030" stroke="#261A45"/>
     
     <rect x="96" y="306" width="28" height="28" rx="8" fill="#1ED760" fill-opacity="0.14"/>
-    <g transform="translate(102 312) scale(1)"><rect x="3" y="7" width="10" height="8" rx="2" fill="none" stroke="#1ED760" stroke-width="1.6"/><path d="M5 7 V5 a3 3 0 0 1 6 0 V7" fill="none" stroke="#1ED760" stroke-width="1.6"/></g>
+    <g transform="translate(102 312) scale(0.6666666666666666)"><path d="M12 2.8 L19.5 5.8 V11.2 C19.5 15.9 16.3 19.8 12 21.2 C7.7 19.8 4.5 15.9 4.5 11.2 V5.8 Z" fill="none" stroke="#1ED760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
     <text x="134" y="318" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="600" fill="#F6F2FF" text-anchor="start" >Tout reste sur ce téléphone</text>
     <text x="134" y="334" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="400" fill="#7D6E99" text-anchor="start" >Base chiffrée, aucun compte</text>
     
     <line x1="82" y1="350" x2="328" y2="350" stroke="#261A45"/>
     
     <rect x="96" y="366" width="28" height="28" rx="8" fill="#F0ABFC" fill-opacity="0.14"/>
-    <g transform="translate(102 372) scale(1)"><path d="M8 2 V10 M4.5 7 L8 10.5 L11.5 7 M3 13.5 H13" fill="none" stroke="#F0ABFC" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g transform="translate(102 372) scale(0.6666666666666666)"><path d="M12 3 V14 M8 6.8 L12 3 L16 6.8 M8 10 H6.5 C5.7 10 5 10.7 5 11.5 V19.5 C5 20.3 5.7 21 6.5 21 H17.5 C18.3 21 19 20.3 19 19.5 V11.5 C19 10.7 18.3 10 17.5 10 H16" fill="none" stroke="#F0ABFC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
     <text x="134" y="378" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="600" fill="#F6F2FF" text-anchor="start" >Exporter, chiffré</text>
     <text x="134" y="394" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="400" fill="#7D6E99" text-anchor="start" >Dernière il y a 38 jours</text>
     <text x="314" y="386" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="700" fill="#9B8CB8" text-anchor="end" letter-spacing="0.8">Phrase</text>
     <line x1="82" y1="412" x2="328" y2="412" stroke="#261A45"/>
     
     <rect x="96" y="428" width="28" height="28" rx="8" fill="#F0ABFC" fill-opacity="0.14"/>
-    <g transform="translate(102 434) scale(1)"><path d="M4 1.5 H10 L13 4.5 V14.5 H4 Z M10 1.5 V4.5 H13" fill="none" stroke="#F0ABFC" stroke-width="1.5" stroke-linejoin="round"/></g>
+    <g transform="translate(102 434) scale(0.6666666666666666)"><path d="M4.2 12 A7.8 7.8 0 1 0 6.6 6.4 M3.8 3.8 V7.8 H7.8" fill="none" stroke="#F0ABFC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="2" fill="#F0ABFC"/></g>
     <text x="134" y="440" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="600" fill="#F6F2FF" text-anchor="start" >Restaurer une sauvegarde</text>
     <text x="134" y="456" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="400" fill="#7D6E99" text-anchor="start" >Remplace ce qui est ici</text>
     <text x="314" y="448" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="700" fill="#9B8CB8" text-anchor="end" letter-spacing="0.8">.bcx</text>
@@ -239,10 +239,10 @@
     <rect x="70" y="472" width="270" height="200" rx="22" fill="#1A1030"/>
     <rect x="187" y="482" width="36" height="4" rx="2" fill="#261A45"/>
     <text x="92" y="512" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="14.5" font-weight="700" fill="#F6F2FF" text-anchor="start" >Sauvegarde prête, 186 Mo</text>
-    <g transform="translate(94 540) scale(1)"><path d="M8 2 V10 M4.5 7 L8 10.5 L11.5 7 M3 13.5 H13" fill="none" stroke="#9B8CB8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g transform="translate(94 540) scale(0.6666666666666666)"><path d="M12 3.5 V14.5 M7.5 10.2 L12 14.7 L16.5 10.2 M4.5 14 V18.5 C4.5 19.6 5.4 20.5 6.5 20.5 H17.5 C18.6 20.5 19.5 19.6 19.5 18.5 V14" fill="none" stroke="#9B8CB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
     <text x="126" y="546" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="600" fill="#F6F2FF" text-anchor="start" >Enregistrer sur le téléphone</text>
     <text x="126" y="562" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10" font-weight="400" fill="#7D6E99" text-anchor="start" >Dans le dossier de ton choix</text>
-    <g transform="translate(94 592) scale(1)"><path d="M4 1.5 H10 L13 4.5 V14.5 H4 Z M10 1.5 V4.5 H13" fill="none" stroke="#9B8CB8" stroke-width="1.5" stroke-linejoin="round"/></g>
+    <g transform="translate(94 592) scale(0.6666666666666666)"><path d="M12 3 V14 M8 6.8 L12 3 L16 6.8 M8 10 H6.5 C5.7 10 5 10.7 5 11.5 V19.5 C5 20.3 5.7 21 6.5 21 H17.5 C18.3 21 19 20.3 19 19.5 V11.5 C19 10.7 18.3 10 17.5 10 H16" fill="none" stroke="#9B8CB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
     <text x="126" y="598" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="600" fill="#F6F2FF" text-anchor="start" >Partager</text>
     <text x="126" y="614" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="10" font-weight="400" fill="#7D6E99" text-anchor="start" >Vers une autre application</text><g opacity="0"><animate attributeName="opacity" dur="32s" repeatCount="indefinite" keyTimes="0;0.697;0.701;0.723;0.727;1" values="0;0;1;1;0;0"/>
     <circle cx="200" cy="552" r="13" fill="#FFFFFF" fill-opacity="0.28" stroke="#FFFFFF" stroke-opacity="0.7" stroke-width="1.5"/>
@@ -287,21 +287,21 @@
     <rect x="82" y="288" width="246" height="186" rx="18" fill="#1A1030" stroke="#261A45"/>
     
     <rect x="96" y="306" width="28" height="28" rx="8" fill="#1ED760" fill-opacity="0.14"/>
-    <g transform="translate(102 312) scale(1)"><rect x="3" y="7" width="10" height="8" rx="2" fill="none" stroke="#1ED760" stroke-width="1.6"/><path d="M5 7 V5 a3 3 0 0 1 6 0 V7" fill="none" stroke="#1ED760" stroke-width="1.6"/></g>
+    <g transform="translate(102 312) scale(0.6666666666666666)"><path d="M12 2.8 L19.5 5.8 V11.2 C19.5 15.9 16.3 19.8 12 21.2 C7.7 19.8 4.5 15.9 4.5 11.2 V5.8 Z" fill="none" stroke="#1ED760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
     <text x="134" y="318" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="600" fill="#F6F2FF" text-anchor="start" >Tout reste sur ce téléphone</text>
     <text x="134" y="334" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="400" fill="#7D6E99" text-anchor="start" >Base chiffrée, aucun compte</text>
     
     <line x1="82" y1="350" x2="328" y2="350" stroke="#261A45"/>
     
     <rect x="96" y="366" width="28" height="28" rx="8" fill="#F0ABFC" fill-opacity="0.14"/>
-    <g transform="translate(102 372) scale(1)"><path d="M8 2 V10 M4.5 7 L8 10.5 L11.5 7 M3 13.5 H13" fill="none" stroke="#F0ABFC" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g transform="translate(102 372) scale(0.6666666666666666)"><path d="M12 3 V14 M8 6.8 L12 3 L16 6.8 M8 10 H6.5 C5.7 10 5 10.7 5 11.5 V19.5 C5 20.3 5.7 21 6.5 21 H17.5 C18.3 21 19 20.3 19 19.5 V11.5 C19 10.7 18.3 10 17.5 10 H16" fill="none" stroke="#F0ABFC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
     <text x="134" y="378" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="600" fill="#F6F2FF" text-anchor="start" >Exporter, chiffré</text>
     <text x="134" y="394" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="700" fill="#1ED760" text-anchor="start" >Dernière aujourd’hui</text>
     <text x="314" y="386" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="700" fill="#9B8CB8" text-anchor="end" letter-spacing="0.8">Phrase</text>
     <line x1="82" y1="412" x2="328" y2="412" stroke="#261A45"/>
     
     <rect x="96" y="428" width="28" height="28" rx="8" fill="#F0ABFC" fill-opacity="0.14"/>
-    <g transform="translate(102 434) scale(1)"><path d="M4 1.5 H10 L13 4.5 V14.5 H4 Z M10 1.5 V4.5 H13" fill="none" stroke="#F0ABFC" stroke-width="1.5" stroke-linejoin="round"/></g>
+    <g transform="translate(102 434) scale(0.6666666666666666)"><path d="M4.2 12 A7.8 7.8 0 1 0 6.6 6.4 M3.8 3.8 V7.8 H7.8" fill="none" stroke="#F0ABFC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="2" fill="#F0ABFC"/></g>
     <text x="134" y="440" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="12" font-weight="600" fill="#F6F2FF" text-anchor="start" >Restaurer une sauvegarde</text>
     <text x="134" y="456" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="400" fill="#7D6E99" text-anchor="start" >Remplace ce qui est ici</text>
     <text x="314" y="448" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" font-size="9.5" font-weight="700" fill="#9B8CB8" text-anchor="end" letter-spacing="0.8">.bcx</text>

@@ -66,7 +66,7 @@ module.exports = (O) => {
       <animate attributeName="y" dur="2.2s" repeatCount="indefinite" values="${SY + 346};${SY + 410};${SY + 410}" keyTimes="0;0.7;1"/></rect></g>
     ${entre(C, 0, TOUCHE, libelle(t('Touche le capteur pour ouvrir', 'Touch the sensor to open')), 0.004)}
     ${entre(C, TOUCHE, OUVRE, libelle(t('Vérification…', 'Checking…'), APP.rose), 0.004)}
-    ${icone('cadenas', SX + 38, SY + SH - 40, APP.vert, 0.75)}
+    ${icone('lock', SX + 38, SY + SH - 40, APP.vert, 0.75)}
     ${texte(SX + 54, SY + SH - 29, t('Base chiffrée, clé rangée dans le Keystore', 'Encrypted database, key kept in the Keystore'), { taille: 10, couleur: APP.second, poids: 600 })}
     ${toucher(CX, SY + 380, C, TOUCHE)}`, 0.006);
 
