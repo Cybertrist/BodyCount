@@ -654,3 +654,21 @@ for (const [nom, contenu] of [
     '  ' + nom.padEnd(16) + (contenu.length / 1024).toFixed(1) + ' Ko  (' + LG + ')',
   );
 }
+
+// ------------------------------------------------------------------------
+// Les schémas qui rejouent l'application dans un téléphone, un fichier
+// chacun dans schemas/. Ils partagent outils.js et appellent svg() eux
+// mêmes ; visages.json porte les photos du jeu d'essai, réduites par
+// visages.js.
+const DOSSIER = path.join(__dirname, 'schemas');
+const OUTILS = require(path.join(DOSSIER, 'outils.js'))(LG);
+for (const f of fs.readdirSync(DOSSIER).filter((f) => f.endsWith('.js') && f !== 'outils.js').sort()) {
+  // Un schéma en erreur est signalé sans empêcher les autres de sortir,
+  // mais le rendu finit en échec pour qu'on ne le rate pas.
+  try {
+    require(path.join(DOSSIER, f))(OUTILS);
+  } catch (e) {
+    console.error(`  ${f} : ${e.stack}`);
+    process.exitCode = 1;
+  }
+}
