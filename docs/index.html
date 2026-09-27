@@ -207,7 +207,7 @@
   .chiffres li { padding: 28px 24px; }
   .chiffres li + li { border-left: 1px solid var(--arete); }
   .chiffres strong {
-    display: block; font: 700 clamp(30px, 3.2vw, 42px)/1 var(--corps); letter-spacing: -.03em; white-space: nowrap;
+    display: block; font: 700 clamp(38px, 4vw, 56px)/1 var(--corps); letter-spacing: -.045em; white-space: nowrap; font-variant-numeric: tabular-nums; filter: drop-shadow(0 0 22px rgba(217, 70, 239, .3));
     background: linear-gradient(90deg, #F6F2FF, #E879F9); -webkit-background-clip: text; background-clip: text; color: transparent;
   }
   .chiffres span { display: block; margin-top: 10px; font-size: 14px; line-height: 1.45; color: var(--texte-2); }
@@ -269,13 +269,11 @@
 
   /* Rangées texte + schéma */
   .rangee { display: grid; grid-template-columns: 1fr; gap: 36px; }
-  .rangee > div:first-child { display: grid; grid-template-columns: .8fr 1.2fr; column-gap: 56px; align-items: start; }
+  .rangee > div:first-child { max-width: 50em; }
   .rangee > *, .verifier > *, .deux > *, .heros .conteneur > * { min-width: 0; }
   .rangee > div:first-child > * { min-width: 0; }
-  .rangee > div:first-child > h3 { grid-column: 1; grid-row: 1 / span 20; }
-  .rangee > div:first-child > :not(h3) { grid-column: 2; }
   .rangee + .rangee { margin-top: 72px; }
-  .rangee h3 { margin: 0 0 14px; font: 800 clamp(24px, 2.6vw, 30px)/1.15 var(--titre); letter-spacing: -.01em; }
+  .rangee h3 { margin: 0 0 16px; font: 700 clamp(26px, 2.8vw, 34px)/1.15 var(--corps); letter-spacing: -.03em; }
   .rangee h3 em { font-style: normal; background: linear-gradient(90deg, #E879F9, #C084FC); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .rangee p { margin: 0 0 14px; color: var(--texte-2); }
   .rangee p strong { color: var(--texte); font-weight: 500; }
@@ -307,7 +305,7 @@
     background: rgba(168, 85, 247, .12); border: 1px solid rgba(192, 132, 252, .3);
     box-shadow: 0 0 40px -6px rgba(217, 70, 239, .45);
   }
-  .refus h3 { margin: 0 0 8px; font: 800 22px/1.2 var(--titre); }
+  .refus h3 { margin: 0 0 8px; font: 700 22px/1.2 var(--corps); letter-spacing: -.02em; }
   .refus p { margin: 0; font-size: 15px; color: var(--texte-2); }
 
   /* Code */
@@ -339,7 +337,7 @@
   .apk:hover { transform: translateY(-3px); border-color: var(--violet); }
   .apk .haut { display: flex; align-items: center; gap: 18px; margin-bottom: 20px; }
   .apk .haut img { width: 64px; height: 64px; border-radius: 16px; box-shadow: 0 10px 30px -10px rgba(217, 70, 239, .7); }
-  .apk h3 { margin: 0; font: 800 23px/1.15 var(--titre); }
+  .apk h3 { margin: 0; font: 700 23px/1.15 var(--corps); letter-spacing: -.02em; }
   .apk .sous { display: block; margin-top: 6px; font: 500 12.5px/1 var(--mono); color: var(--etoile); letter-spacing: .04em; }
   .apk p { margin: 0 0 24px; color: var(--texte-2); font-size: 15.5px; flex-grow: 1; }
   .apk .bouton { align-self: flex-start; }
@@ -351,7 +349,7 @@
   .conditions .icone { font-size: 18px; color: var(--rose); }
 
   .verifier { margin-top: 44px; display: grid; grid-template-columns: .8fr 1.2fr; gap: 40px; align-items: start; }
-  .verifier h3 { margin: 0 0 12px; font: 800 24px/1.2 var(--titre); }
+  .verifier h3 { margin: 0 0 12px; font: 700 24px/1.2 var(--corps); letter-spacing: -.02em; }
   .verifier p { margin: 0 0 12px; color: var(--texte-2); font-size: 15.5px; }
 
   /* Avertissement */
@@ -365,7 +363,7 @@
     display: grid; place-items: center; width: 56px; height: 56px; border-radius: 16px;
     font-size: 30px; color: var(--or); background: rgba(253, 230, 138, .08); border: 1px solid rgba(253, 230, 138, .25);
   }
-  .avertir h3 { margin: 4px 0 10px; font: 800 22px/1.2 var(--titre); color: var(--or); }
+  .avertir h3 { margin: 4px 0 10px; font: 700 22px/1.2 var(--corps); letter-spacing: -.02em; color: var(--or); }
   .avertir p { margin: 0 0 10px; color: var(--texte-2); }
   .avertir p:last-child { margin-bottom: 0; }
 
@@ -378,7 +376,7 @@
     border: 1px solid rgba(192, 132, 252, .35);
   }
   .final img { width: 92px; margin: 0 auto 26px; border-radius: 22px; box-shadow: 0 20px 60px -14px rgba(217, 70, 239, .8); }
-  .final h2 { margin: 0; font: 800 clamp(32px, 5vw, 56px)/1.05 var(--titre); letter-spacing: -.02em; }
+  .final h2 { margin: 0; font: 700 clamp(34px, 5vw, 60px)/1.05 var(--corps); letter-spacing: -.04em; }
   .final h2 b { font-weight: 800; background: linear-gradient(90deg, #E879F9, #C084FC); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .final p { margin: 18px auto 0; max-width: 34em; color: var(--texte-2); font-size: 18px; }
   .final .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 34px; }
@@ -401,7 +399,7 @@
   .lisere { height: 3px; background: linear-gradient(90deg, #E879F9, #A855F7 50%, #7C3AED); }
 
   /* Apparitions au défilement */
-  .js .apparait { opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+  .js .apparait { opacity: 0; transform: translateY(12px); transition: opacity .5s ease, transform .5s ease; }
   .js .apparait.vu { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -462,6 +460,13 @@
     .nav .cta { padding: 10px 12px; }
     .embleme .puce { font-size: 10.5px; padding: 7px 10px; }
   }
+
+  /* Schémas : la place est réservée, l'animation part quand on les voit */
+  img.schema { display: block; width: 100%; height: auto; opacity: 0; transition: opacity .35s ease; background: rgba(255,255,255,.025); cursor: zoom-in; }
+  img.schema.pret { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { img.schema { transition: none; } }
+  .zoom { display: none; margin: 10px 0 2px; text-align: center; font: 500 12px var(--mono); letter-spacing: .5px; opacity: .7; }
+  @media (max-width: 720px) { .zoom { display: block; } }
 </style>
 </head>
 <body>
@@ -523,7 +528,7 @@
   <section class="apercu" aria-label="Aperçu de l'application">
     <div class="conteneur apparait">
       <div class="vitrine halo">
-        <img src="schemas/fonctionnalites.svg" alt="Les fonctionnalités de BodyCount en onze écrans animés : verrouillage biométrique, répertoire, statistiques, carte de France, calendrier, galerie privée, sauvegarde, ce que ça rapporte, corrections, itinéraire, trois formats d'écran." width="1280" height="720">
+        <img class="schema" data-schema="schemas/fonctionnalites.svg" alt="Les fonctionnalités de BodyCount en onze écrans animés : verrouillage biométrique, répertoire, statistiques, carte de France, calendrier, galerie privée, sauvegarde, ce que ça rapporte, corrections, itinéraire, trois formats d'écran." width="1280" height="720" style="aspect-ratio:1280/720"><div class="zoom">Touche pour agrandir</div>
       </div>
       <p class="legende">L'application rejouée écran par écran. Les visages sont ceux du jeu d'essai, des portraits générés : personne de réel.</p>
     </div>
@@ -533,11 +538,11 @@
   <section class="chiffres" aria-label="En chiffres">
     <div class="conteneur apparait">
       <ul>
-        <li><strong>0</strong><span>permission Internet demandée à Android</span></li>
-        <li><strong>34 836</strong><span>communes embarquées, sans tuiles</span></li>
-        <li><strong>210 000</strong><span>tours de PBKDF2 pour chaque sauvegarde</span></li>
-        <li><strong>32</strong><span>octets de clé maîtresse, dans le Keystore</span></li>
-        <li><strong>25</strong><span>signes dans le calendrier, aucun à saisir</span></li>
+        <li><strong data-compte>0</strong><span>permission Internet demandée à Android</span></li>
+        <li><strong data-compte>34 836</strong><span>communes embarquées, sans tuiles</span></li>
+        <li><strong data-compte>210 000</strong><span>tours de PBKDF2 pour chaque sauvegarde</span></li>
+        <li><strong data-compte>32</strong><span>octets de clé maîtresse, dans le Keystore</span></li>
+        <li><strong data-compte>25</strong><span>signes dans le calendrier, aucun à saisir</span></li>
       </ul>
     </div>
   </section>
@@ -625,19 +630,19 @@
           <button role="tab" aria-selected="false" aria-controls="p-paysage" id="o-paysage" tabindex="-1"><span class="icone" aria-hidden="true">stay_current_landscape</span>Paysage</button>
         </div>
         <div class="panneau" role="tabpanel" id="p-passeport" aria-labelledby="o-passeport">
-          <div class="vitrine"><img src="schemas/captures-passeport.svg" alt="La planche complète des écrans au format passeport : verrou, répertoire, fiche, visionneuse, statistiques, carte, calendrier, formulaires et réglages." width="1280" height="1524" loading="lazy"></div>
+          <div class="vitrine"><img class="schema" data-schema="schemas/captures-passeport.svg" alt="La planche complète des écrans au format passeport : verrou, répertoire, fiche, visionneuse, statistiques, carte, calendrier, formulaires et réglages." width="1280" height="1524" style="aspect-ratio:1280/1524"><div class="zoom">Touche pour agrandir</div></div>
           <p class="note">Au lancement, l'application reprend l'icône là où Android l'a posée, trace un anneau autour et la fait glisser jusqu'à l'écran d'ouverture. L'empreinte n'est demandée qu'une fois l'animation terminée.</p>
         </div>
         <div class="panneau" role="tabpanel" id="p-telephone" aria-labelledby="o-telephone" hidden>
-          <div class="vitrine"><img src="schemas/captures-telephone.svg" alt="Quatre écrans sur un téléphone 16/9 : le verrou, le répertoire en deux colonnes, la fiche d'Enzo avec ses pastilles sur deux lignes, et la carte." width="1280" height="644" loading="lazy"></div>
+          <div class="vitrine"><img class="schema" data-schema="schemas/captures-telephone.svg" alt="Quatre écrans sur un téléphone 16/9 : le verrou, le répertoire en deux colonnes, la fiche d'Enzo avec ses pastilles sur deux lignes, et la carte." width="1280" height="644" style="aspect-ratio:1280/644"><div class="zoom">Touche pour agrandir</div></div>
           <p class="note">Sur un téléphone classique en 16/9, la mise en page passe à deux colonnes et range la recherche sous le titre.</p>
         </div>
         <div class="panneau" role="tabpanel" id="p-tablette" aria-labelledby="o-tablette" hidden>
-          <div class="vitrine"><img src="schemas/captures-tablette.svg" alt="L'écran déplié en 4/3 : la navigation devient un rail à gauche et le répertoire passe à quatre colonnes." width="1280" height="658" loading="lazy"></div>
+          <div class="vitrine"><img class="schema" data-schema="schemas/captures-tablette.svg" alt="L'écran déplié en 4/3 : la navigation devient un rail à gauche et le répertoire passe à quatre colonnes." width="1280" height="658" style="aspect-ratio:1280/658"><div class="zoom">Touche pour agrandir</div></div>
           <p class="note">Sur l'écran déplié, en 4/3, la navigation devient un rail à gauche et le répertoire passe à quatre colonnes.</p>
         </div>
         <div class="panneau" role="tabpanel" id="p-paysage" aria-labelledby="o-paysage" hidden>
-          <div class="vitrine"><img src="schemas/captures-paysage.svg" alt="L'écran déplié couché, 1200 points de large : la fiche se partage en deux volets, la photo à gauche sur toute la hauteur." width="1280" height="1078" loading="lazy"></div>
+          <div class="vitrine"><img class="schema" data-schema="schemas/captures-paysage.svg" alt="L'écran déplié couché, 1200 points de large : la fiche se partage en deux volets, la photo à gauche sur toute la hauteur." width="1280" height="1078" style="aspect-ratio:1280/1078"><div class="zoom">Touche pour agrandir</div></div>
           <p class="note">Couché, l'écran passe à 1200 points de large. La fiche se partage alors en deux volets, la photo à gauche sur toute la hauteur.</p>
         </div>
       </div>
@@ -648,7 +653,7 @@
           <p>Tous facultatifs sauf la date, déjà réglée à maintenant. La note se donne par demi-point en touchant la moitié d'une étoile.</p>
           <p>À l'enregistrement, <strong>une seule fonction</strong> fait relire la fiche, le rang, le répertoire, les statistiques, le calendrier et la carte : aucun écran ne garde un chiffre périmé.</p>
         </div>
-        <div class="vitrine"><img src="schemas/rencontre.svg" alt="Une rencontre notée en six champs, puis tous les écrans relus d'un coup." width="1280" height="720" loading="lazy"></div>
+        <div class="vitrine"><img class="schema" data-schema="schemas/rencontre.svg" alt="Une rencontre notée en six champs, puis tous les écrans relus d'un coup." width="1280" height="720" style="aspect-ratio:1280/720"><div class="zoom">Touche pour agrandir</div></div>
       </div>
     </div>
   </section>
@@ -671,7 +676,7 @@
             <li><span class="icone" aria-hidden="true">screenshot_monitor</span><span><b>Captures bloquées</b>, aperçu du multitâche masqué, sauvegarde automatique d'Android refusée.</span></li>
           </ul>
         </div>
-        <div class="vitrine"><img src="schemas/chiffrement.svg" alt="D'où viennent les clés : l'empreinte, le Keystore, HKDF, puis la clé de la base et celle des photos. Sur le disque, tout est chiffré." width="1280" height="720" loading="lazy"></div>
+        <div class="vitrine"><img class="schema" data-schema="schemas/chiffrement.svg" alt="D'où viennent les clés : l'empreinte, le Keystore, HKDF, puis la clé de la base et celle des photos. Sur le disque, tout est chiffré." width="1280" height="720" style="aspect-ratio:1280/720"><div class="zoom">Touche pour agrandir</div></div>
       </div>
       <div class="rangee inverse apparait">
         <div>
@@ -679,7 +684,7 @@
           <p>Sans geste à l'écran, ou au retour d'arrière-plan, après un délai réglable. Il attend la fin d'un travail en cours : une sauvegarde ou une longue vidéo qui se chiffre ne se coupent pas en route.</p>
           <p>Il se coupe aussi dans les réglages : <strong>le chiffrement reste</strong>, mais la clé se charge alors sans preuve d'identité, et l'écran le dit avant de l'accepter.</p>
         </div>
-        <div class="vitrine"><img src="schemas/verrou.svg" alt="Le verrou qui se referme après un délai, attend la fin d'une sauvegarde, et oublie les clés." width="1280" height="720" loading="lazy"></div>
+        <div class="vitrine"><img class="schema" data-schema="schemas/verrou.svg" alt="Le verrou qui se referme après un délai, attend la fin d'une sauvegarde, et oublie les clés." width="1280" height="720" style="aspect-ratio:1280/720"><div class="zoom">Touche pour agrandir</div></div>
       </div>
     </div>
   </section>
@@ -703,7 +708,7 @@
             <div class="mesure"><strong>720p</strong><span>H.264, 2,5 Mb/s</span></div>
           </div>
         </div>
-        <div class="vitrine"><img src="schemas/coffre.svg" alt="Une photo choisie passe au coffre, se chiffre, la copie est effacée, rien n'apparaît dans la galerie." width="1280" height="720" loading="lazy"></div>
+        <div class="vitrine"><img class="schema" data-schema="schemas/coffre.svg" alt="Une photo choisie passe au coffre, se chiffre, la copie est effacée, rien n'apparaît dans la galerie." width="1280" height="720" style="aspect-ratio:1280/720"><div class="zoom">Touche pour agrandir</div></div>
       </div>
       <div class="rangee inverse apparait">
         <div>
@@ -711,7 +716,7 @@
           <p>Chiffrée par une phrase de passe plutôt que par la clé du téléphone : elle se relit sur un autre appareil, et nulle part sans elle. La phrase passe par <strong>PBKDF2 en 210 000 tours</strong>, puis le fichier s'écrit en flux, sans jamais toucher le disque en clair.</p>
           <p>Une restauration vérifie tout avant de toucher à quoi que ce soit. Une phrase fausse, un octet abîmé ou une coupure en route : <strong>les fiches du téléphone restent intactes</strong>.</p>
         </div>
-        <div class="vitrine"><img src="schemas/sauvegarde.svg" alt="La phrase de passe, PBKDF2 en 210 000 tours, puis le fichier BCEX2 qui s'écrit morceau par morceau." width="1280" height="720" loading="lazy"></div>
+        <div class="vitrine"><img class="schema" data-schema="schemas/sauvegarde.svg" alt="La phrase de passe, PBKDF2 en 210 000 tours, puis le fichier BCEX2 qui s'écrit morceau par morceau." width="1280" height="720" style="aspect-ratio:1280/720"><div class="zoom">Touche pour agrandir</div></div>
       </div>
     </div>
   </section>
@@ -735,7 +740,7 @@
             <div class="mesure"><strong>×20</strong><span>de zoom au pincement</span></div>
           </div>
         </div>
-        <div class="vitrine"><img src="schemas/carte.svg" alt="La vraie côte lue dans france.bin, les villes en pastilles, et un pincement qui sépare la bulle de 65 en Vannes 61 et Auray 4." width="1280" height="720" loading="lazy"></div>
+        <div class="vitrine"><img class="schema" data-schema="schemas/carte.svg" alt="La vraie côte lue dans france.bin, les villes en pastilles, et un pincement qui sépare la bulle de 65 en Vannes 61 et Auray 4." width="1280" height="720" style="aspect-ratio:1280/720"><div class="zoom">Touche pour agrandir</div></div>
       </div>
       <div class="rangee inverse apparait">
         <div>
@@ -743,7 +748,7 @@
           <p>Le nom exact d'abord, en ignorant accents, tirets et « St ». Puis un début de nom, une faute d'une ou deux lettres, un nom suivi d'un quartier. À chaque étape, la plus peuplée l'emporte.</p>
           <p>Le référentiel officiel des communes est embarqué lui aussi. Le seul script du projet qui touche au réseau tourne sur la machine du développeur, <strong>jamais sur le téléphone</strong>.</p>
         </div>
-        <div class="vitrine"><img src="schemas/villes.svg" alt="Comment un lieu tapé retrouve sa commune : nom exact, début de nom, faute de frappe, quartier." width="1280" height="720" loading="lazy"></div>
+        <div class="vitrine"><img class="schema" data-schema="schemas/villes.svg" alt="Comment un lieu tapé retrouve sa commune : nom exact, début de nom, faute de frappe, quartier." width="1280" height="720" style="aspect-ratio:1280/720"><div class="zoom">Touche pour agrandir</div></div>
       </div>
     </div>
   </section>
@@ -763,15 +768,15 @@
           <button role="tab" aria-selected="false" aria-controls="p-repertoire" id="o-repertoire" tabindex="-1"><span class="icone" aria-hidden="true">search</span>Recherche</button>
         </div>
         <div class="panneau" role="tabpanel" id="p-calendrier" aria-labelledby="o-calendrier">
-          <div class="vitrine"><img src="schemas/calendrier.svg" alt="Le calendrier : les jours pleins prennent leur disque et leurs signes, on touche le 23 et ses six signes passent au tri, trois restent." width="1280" height="720" loading="lazy"></div>
+          <div class="vitrine"><img class="schema" data-schema="schemas/calendrier.svg" alt="Le calendrier : les jours pleins prennent leur disque et leurs signes, on touche le 23 et ses six signes passent au tri, trois restent." width="1280" height="720" style="aspect-ratio:1280/720"><div class="zoom">Touche pour agrandir</div></div>
           <p class="note">Vingt-cinq signes en tout, tous déduits de ce que l'application enregistre déjà. Sous chaque jour, jusqu'à trois, du plus rare au plus banal. Une légende dit précisément ce qui déclenche chacun : pas « une bonne soirée », mais « une note de cinq sur cinq ».</p>
         </div>
         <div class="panneau" role="tabpanel" id="p-stats" aria-labelledby="o-stats" hidden>
-          <div class="vitrine"><img src="schemas/statistiques.svg" alt="Les statistiques : les rencontres de l'année tombent dans leur mois, les barres montent, le podium se range." width="1280" height="720" loading="lazy"></div>
+          <div class="vitrine"><img class="schema" data-schema="schemas/statistiques.svg" alt="Les statistiques : les rencontres de l'année tombent dans leur mois, les barres montent, le podium se range." width="1280" height="720" style="aspect-ratio:1280/720"><div class="zoom">Touche pour agrandir</div></div>
           <p class="note">Chaque chiffre sort d'une requête SQL : la base renvoie douze entiers pour les douze barres, pas toutes les rencontres. Une année sans précédent n'affiche pas de pourcentage plutôt que de diviser par zéro.</p>
         </div>
         <div class="panneau" role="tabpanel" id="p-repertoire" aria-labelledby="o-repertoire" hidden>
-          <div class="vitrine"><img src="schemas/repertoire.svg" alt="La recherche du répertoire : chaque lettre refait une requête, les pastilles de ville et d'étiquette s'ajoutent à la recherche." width="1280" height="720" loading="lazy"></div>
+          <div class="vitrine"><img class="schema" data-schema="schemas/repertoire.svg" alt="La recherche du répertoire : chaque lettre refait une requête, les pastilles de ville et d'étiquette s'ajoutent à la recherche." width="1280" height="720" style="aspect-ratio:1280/720"><div class="zoom">Touche pour agrandir</div></div>
           <p class="note">Chaque lettre refait une seule requête sur la base chiffrée. Les pastilles de ville et d'étiquette s'ajoutent à la recherche au lieu de la remplacer, et un tri ne change que l'ordre.</p>
         </div>
       </div>
@@ -813,9 +818,9 @@
           </div>
           <p style="margin-top: 22px">Restent quatre sorties, et <strong>aucune ne s'ouvre seule</strong> : chacune attend un doigt, et passe la main à une autre application.</p>
         </div>
-        <div class="vitrine"><img src="schemas/reseau.svg" alt="Les quatre sorties de l'application, chacune déclenchée par un geste et confiée à une autre application." width="1280" height="700" loading="lazy"></div>
+        <div class="vitrine"><img class="schema" data-schema="schemas/reseau.svg" alt="Les quatre sorties de l'application, chacune déclenchée par un geste et confiée à une autre application." width="1280" height="700" style="aspect-ratio:1280/700"><div class="zoom">Touche pour agrandir</div></div>
       </div>
-      <div class="vitrine apparait" style="margin-top: 72px"><img src="schemas/confidentialite.svg" alt="Le modèle de confidentialité de BodyCount." width="1280" height="720" loading="lazy"></div>
+      <div class="vitrine apparait" style="margin-top: 72px"><img class="schema" data-schema="schemas/confidentialite.svg" alt="Le modèle de confidentialité de BodyCount." width="1280" height="720" style="aspect-ratio:1280/720"></div>
     </div>
   </section>
 
@@ -835,18 +840,18 @@
           <button role="tab" aria-selected="false" aria-controls="p-tests" id="o-tests" tabindex="-1"><span class="icone" aria-hidden="true">science</span>Les tests</button>
         </div>
         <div class="panneau" role="tabpanel" id="p-stack" aria-labelledby="o-stack">
-          <div class="vitrine"><img src="schemas/stack.svg" alt="La stack technique de BodyCount." width="1280" height="700" loading="lazy"></div>
+          <div class="vitrine"><img class="schema" data-schema="schemas/stack.svg" alt="La stack technique de BodyCount." width="1280" height="700" style="aspect-ratio:1280/700"><div class="zoom">Touche pour agrandir</div></div>
         </div>
         <div class="panneau" role="tabpanel" id="p-couches" aria-labelledby="o-couches" hidden>
-          <div class="vitrine"><img src="schemas/couches.svg" alt="Les cinq couches de l'application." width="1280" height="720" loading="lazy"></div>
+          <div class="vitrine"><img class="schema" data-schema="schemas/couches.svg" alt="Les cinq couches de l'application." width="1280" height="720" style="aspect-ratio:1280/720"><div class="zoom">Touche pour agrandir</div></div>
           <p class="note">Un écran ne voit pas SQLite, un dépôt ne voit pas Riverpod, et rien ne lit un fichier du coffre sans passer par le trousseau.</p>
         </div>
         <div class="panneau" role="tabpanel" id="p-modele" aria-labelledby="o-modele" hidden>
-          <div class="vitrine"><img src="schemas/modele.svg" alt="Le modèle de données : sept tables, schéma v7." width="1280" height="720" loading="lazy"></div>
+          <div class="vitrine"><img class="schema" data-schema="schemas/modele.svg" alt="Le modèle de données : sept tables, schéma v7." width="1280" height="720" style="aspect-ratio:1280/720"><div class="zoom">Touche pour agrandir</div></div>
           <p class="note">Sept tables, schéma v7. Tout ce qui se rattache à une personne part avec elle, et c'est le schéma qui le garantit, pas une boucle de suppression écrite à la main.</p>
         </div>
         <div class="panneau" role="tabpanel" id="p-tests" aria-labelledby="o-tests" hidden>
-          <div class="vitrine"><img src="schemas/tests.svg" alt="Les tests, lancés sur un émulateur avec les vraies bibliothèques." width="1280" height="720" loading="lazy"></div>
+          <div class="vitrine"><img class="schema" data-schema="schemas/tests.svg" alt="Les tests, lancés sur un émulateur avec les vraies bibliothèques." width="1280" height="720" style="aspect-ratio:1280/720"><div class="zoom">Touche pour agrandir</div></div>
           <p class="note">SQLCipher, le Keystore et l'AES natif n'existent que sur Android : les tests tournent sur un émulateur, avec les vraies bibliothèques. Six d'entre eux pilotent l'application entière, au doigt.</p>
         </div>
       </div>
@@ -907,7 +912,7 @@
         </div>
       </div>
 
-      <div class="vitrine apparait" style="margin-top: 56px"><img src="schemas/versions.svg" alt="L'historique des versions de BodyCount." width="1280" height="452" loading="lazy"></div>
+      <div class="vitrine apparait" style="margin-top: 56px"><img class="schema" data-schema="schemas/versions.svg" alt="L'historique des versions de BodyCount." width="1280" height="452" style="aspect-ratio:1280/452"></div>
     </div>
   </section>
 
@@ -987,6 +992,7 @@
         x.tabIndex = actif ? 0 : -1;
         document.getElementById(x.getAttribute('aria-controls')).hidden = !actif;
       });
+      window.lancerSchema(document.getElementById(b.getAttribute('aria-controls')).querySelector('img.schema'));
     };
     boutons.forEach((b, i) => {
       b.addEventListener('click', () => choisir(b));
@@ -999,11 +1005,6 @@
     });
   });
 
-  // Un schéma s'ouvre en grand au toucher, utile sur un petit écran.
-  document.querySelectorAll('.vitrine img').forEach((img) => {
-    img.style.cursor = 'zoom-in';
-    img.addEventListener('click', () => window.open(img.src, '_blank', 'noopener'));
-  });
 
   // Copier une commande.
   document.querySelectorAll('.copier').forEach((b) => {
@@ -1016,6 +1017,57 @@
       } catch (e) {}
     });
   });
+
+  // Schémas : chargés quand ils arrivent à l'écran, pour que l'animation
+  // commence sous les yeux ; la place est déjà réservée, rien ne saute.
+  (function () {
+    var lancer = window.lancerSchema = function (img) {
+      if (!img || !img.dataset.schema) return;
+      img.classList.remove('pret');
+      img.src = img.dataset.schema + '#' + Date.now();
+    };
+    document.addEventListener('load', function (e) {
+      var t = e.target;
+      if (t.classList && t.classList.contains('schema')) t.classList.add('pret');
+    }, true);
+    var schemas = document.querySelectorAll('img.schema');
+    schemas.forEach(function (img) {
+      img.addEventListener('click', function () { window.open(img.dataset.schema, '_blank', 'noopener'); });
+    });
+    if ('IntersectionObserver' in window) {
+      var vus = new IntersectionObserver(function (entrees) {
+        entrees.forEach(function (e) {
+          if (e.isIntersecting && !e.target.dataset.lance) { e.target.dataset.lance = '1'; lancer(e.target); vus.unobserve(e.target); }
+        });
+      }, { rootMargin: '700px 0px' });
+      schemas.forEach(function (img) { vus.observe(img); });
+    } else {
+      schemas.forEach(lancer);
+    }
+
+    // Chiffres : ils comptent jusqu'à leur valeur une fois visibles.
+    var fr = new Intl.NumberFormat('fr-FR');
+    var compter = function (el) {
+      var fin = parseInt(el.textContent.replace(/\D/g, ''), 10);
+      if (!fin) return;
+      var debut = null, duree = 1400;
+      var pas = function (t) {
+        if (debut === null) debut = t;
+        var p = Math.min(1, (t - debut) / duree), v = 1 - Math.pow(1 - p, 3);
+        el.textContent = fr.format(Math.round(fin * v)).replace(/\u202f/g, '\u00a0');
+        if (p < 1) requestAnimationFrame(pas);
+      };
+      el.textContent = '0';
+      requestAnimationFrame(pas);
+    };
+    var nombres = document.querySelectorAll('[data-compte]');
+    if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      var vu = new IntersectionObserver(function (entrees) {
+        entrees.forEach(function (e) { if (e.isIntersecting) { compter(e.target); vu.unobserve(e.target); } });
+      }, { threshold: .6 });
+      nombres.forEach(function (n) { vu.observe(n); });
+    }
+  })();
 </script>
 </body>
 </html>
