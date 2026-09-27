@@ -1,0 +1,1021 @@
+<!doctype html>
+<html lang="fr" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BodyCount, journal personnel chiffré pour Android</title>
+<meta name="description" content="BodyCount est un journal personnel chiffré et hors ligne pour Android. Aucun serveur, aucun compte, aucune télémétrie : tout reste sur le téléphone, derrière l'empreinte.">
+<meta name="theme-color" content="#0B0616">
+<meta property="og:type" content="website">
+<meta property="og:title" content="BodyCount, journal personnel chiffré pour Android">
+<meta property="og:description" content="Chiffré, hors ligne, sans serveur ni compte. Tout reste sur le téléphone, derrière l'empreinte.">
+<meta property="og:image" content="https://cybertrist.github.io/BodyCount/social-preview.png">
+<meta property="og:url" content="https://cybertrist.github.io/BodyCount/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,1,0&display=block">
+<style>
+  :root {
+    color-scheme: dark;
+    --fond: #0B0616;
+    --surface: #150C28;
+    --carte: #1A1030;
+    --arete: #261A45;
+    --arete-2: #3A2D55;
+    --texte: #F6F2FF;
+    --texte-2: #9B8CB8;
+    --texte-3: #7D6E99;
+    --violet: #A855F7;
+    --fuchsia: #D946EF;
+    --rose: #E879F9;
+    --etoile: #C084FC;
+    --or: #FDE68A;
+    --rouge: #F87171;
+    --vert: #1ED760;
+    --degrade: linear-gradient(90deg, #A855F7, #D946EF);
+    --titre: 'Syne', sans-serif;
+    --corps: 'Space Grotesk', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --large: 1180px;
+    --gouttiere: clamp(16px, 4vw, 40px);
+    --rayon: 20px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+  body {
+    margin: 0;
+    background: var(--fond);
+    color: var(--texte);
+    font: 400 17px/1.65 var(--corps);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: inherit; }
+  ::selection { background: rgba(217, 70, 239, .35); }
+
+  .icone {
+    font-family: 'Material Symbols Rounded';
+    font-weight: normal; font-style: normal;
+    font-size: 24px; line-height: 1;
+    letter-spacing: normal; text-transform: none;
+    display: inline-block; white-space: nowrap;
+    font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .conteneur { width: 100%; max-width: var(--large); margin: 0 auto; padding: 0 var(--gouttiere); }
+
+  /* Le fond : la grille discrète des bannières, et deux lueurs fixes. */
+  .fond {
+    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(900px 600px at 12% -10%, rgba(168, 85, 247, .16), transparent 60%),
+      radial-gradient(800px 600px at 100% 30%, rgba(217, 70, 239, .08), transparent 60%),
+      var(--fond);
+  }
+  .fond::after {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(155, 140, 184, .06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(155, 140, 184, .06) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.5) 50%, transparent 100%);
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.5) 50%, transparent 100%);
+  }
+
+  /* Navigation collante */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    background: rgba(11, 6, 22, .72);
+    border-bottom: 1px solid transparent;
+    transition: border-color .3s, background .3s;
+  }
+  .nav.defile { border-bottom-color: var(--arete); background: rgba(11, 6, 22, .88); }
+  .nav .conteneur { display: flex; align-items: center; gap: 28px; height: 68px; }
+  .marque { display: flex; align-items: center; gap: 12px; text-decoration: none; flex-shrink: 0; }
+  .marque img { width: 34px; height: 34px; border-radius: 9px; }
+  .marque span { font: 800 19px/1 var(--titre); letter-spacing: -.2px; }
+  .marque b { font-weight: 800; background: var(--degrade); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .nav ul { list-style: none; display: flex; gap: 4px; margin: 0 0 0 auto; padding: 0; }
+  .nav ul a {
+    display: block; padding: 8px 14px; border-radius: 999px;
+    font: 500 14.5px/1 var(--corps); color: var(--texte-2); text-decoration: none;
+    transition: color .2s, background .2s;
+  }
+  .nav ul a:hover { color: var(--texte); background: rgba(168, 85, 247, .1); }
+  .nav .cta { flex-shrink: 0; }
+
+  /* Boutons */
+  .bouton {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 15px 26px; border-radius: 14px;
+    font: 700 16px/1 var(--corps); text-decoration: none; white-space: nowrap;
+    transition: transform .2s, box-shadow .25s, background .2s, border-color .2s;
+  }
+  .bouton .icone { font-size: 22px; }
+  .bouton.plein {
+    background: var(--degrade); color: #fff;
+    box-shadow: 0 10px 34px -10px rgba(217, 70, 239, .7), inset 0 1px 0 rgba(255,255,255,.25);
+  }
+  .bouton.plein:hover { transform: translateY(-2px); box-shadow: 0 16px 44px -10px rgba(217, 70, 239, .85), inset 0 1px 0 rgba(255,255,255,.25); }
+  .bouton.contour { border: 1px solid var(--arete-2); color: var(--texte); background: rgba(26, 16, 48, .6); }
+  .bouton.contour:hover { border-color: var(--violet); transform: translateY(-2px); }
+  .bouton.petit { padding: 10px 16px; font-size: 14px; border-radius: 11px; }
+  .bouton.petit .icone { font-size: 19px; }
+
+  /* Étiquettes façon bannière */
+  .etiquette {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 14px; border-radius: 8px;
+    border: 1px solid rgba(232, 121, 249, .35); background: rgba(38, 26, 69, .45);
+    font: 700 12px/1 var(--mono); letter-spacing: .22em; text-transform: uppercase; color: var(--rose);
+  }
+
+  /* Héros */
+  .heros { padding: clamp(48px, 9vw, 110px) 0 40px; }
+  .heros .conteneur { display: grid; grid-template-columns: 340px 1fr; gap: 56px; align-items: center; }
+  .heros .etiquettes { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px; }
+  .heros h1 {
+    margin: 0; font: 800 clamp(38px, 5.4vw, 78px)/1 var(--titre); letter-spacing: -.03em; white-space: nowrap;
+  }
+  .heros h1 b { font-weight: 800; background: linear-gradient(90deg, #E879F9, #D946EF 60%, #C084FC); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .heros .accroche { margin: 26px 0 0; font-size: clamp(19px, 2.2vw, 23px); line-height: 1.45; color: var(--texte-2); max-width: 30em; }
+  .heros .accroche strong { color: var(--texte); font-weight: 500; }
+  .heros .actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 36px; }
+  .heros .meta { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 26px; font: 500 13px/1.4 var(--mono); color: var(--texte-3); }
+  .heros .meta span { display: inline-flex; align-items: center; gap: 7px; }
+  .heros .meta .icone { font-size: 17px; color: var(--etoile); }
+
+  .embleme { position: relative; display: grid; place-items: center; aspect-ratio: 1; max-width: 340px; width: 100%; }
+  .embleme::before {
+    content: ''; position: absolute; inset: 8%;
+    background: radial-gradient(circle, rgba(217, 70, 239, .45), rgba(168, 85, 247, .18) 45%, transparent 70%);
+    filter: blur(30px);
+  }
+  .embleme .anneau { position: absolute; inset: 2%; border-radius: 50%; border: 1px dashed rgba(192, 132, 252, .28); }
+  .embleme .anneau.deux { inset: 16%; border-style: solid; border-color: rgba(192, 132, 252, .14); }
+  .embleme img {
+    position: relative; width: 52%; height: auto; aspect-ratio: 1; object-fit: contain; border-radius: 24%;
+    box-shadow: 0 30px 80px -20px rgba(217, 70, 239, .6), 0 0 0 1px rgba(232, 121, 249, .25);
+  }
+  .embleme .puce {
+    position: absolute; display: inline-flex; align-items: center; gap: 7px;
+    padding: 8px 12px; border-radius: 11px;
+    background: rgba(21, 12, 40, .92); border: 1px solid var(--arete-2);
+    font: 700 11.5px/1 var(--mono); letter-spacing: .06em; color: var(--texte);
+    box-shadow: 0 12px 30px -12px rgba(0,0,0,.8);
+    white-space: nowrap;
+  }
+  .embleme .puce .icone { font-size: 16px; color: var(--rose); }
+  .puce.p1 { top: 9%; left: 0; }
+  .puce.p2 { top: 18%; right: -8%; }
+  .puce.p3 { bottom: 17%; left: -4%; }
+  .puce.p4 { bottom: 6%; right: 6%; }
+
+  /* Vitrine : un schéma animé cadré comme une fenêtre */
+  .vitrine {
+    position: relative; border-radius: var(--rayon); padding: 10px;
+    background: linear-gradient(180deg, rgba(38, 26, 69, .9), rgba(21, 12, 40, .7));
+    border: 1px solid var(--arete);
+    box-shadow: 0 40px 100px -40px rgba(168, 85, 247, .45);
+  }
+  .vitrine img { width: 100%; height: auto; border-radius: 14px; }
+  .vitrine.halo::before {
+    content: ''; position: absolute; inset: -1px; border-radius: inherit; z-index: -1;
+    background: linear-gradient(135deg, rgba(168, 85, 247, .6), transparent 40%, transparent 60%, rgba(217, 70, 239, .55));
+    filter: blur(28px); opacity: .5;
+  }
+  .legende { margin: 14px 4px 0; font-size: 14px; color: var(--texte-3); text-align: center; }
+
+  .apercu { padding: 20px 0 20px; }
+
+  /* Chiffres clés */
+  .chiffres { padding: 64px 0 24px; }
+  .chiffres ul {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    border: 1px solid var(--arete); border-radius: var(--rayon);
+    background: rgba(21, 12, 40, .55); overflow: hidden;
+  }
+  .chiffres li { padding: 28px 24px; }
+  .chiffres li + li { border-left: 1px solid var(--arete); }
+  .chiffres strong {
+    display: block; font: 700 clamp(30px, 3.2vw, 42px)/1 var(--corps); letter-spacing: -.03em; white-space: nowrap;
+    background: linear-gradient(90deg, #F6F2FF, #E879F9); -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .chiffres span { display: block; margin-top: 10px; font-size: 14px; line-height: 1.45; color: var(--texte-2); }
+
+  /* Sections */
+  section.bloc { padding: clamp(72px, 10vw, 128px) 0 0; }
+  .entete { margin-bottom: 44px; }
+  .bandeau { display: flex; align-items: center; gap: 22px; }
+  .numero {
+    flex-shrink: 0; display: grid; place-items: center;
+    width: 58px; height: 46px; border-radius: 10px;
+    background: rgba(168, 85, 247, .1); border: 1px solid rgba(192, 132, 252, .35);
+    font: 500 18px/1 var(--mono); color: var(--rose);
+  }
+  .bandeau h2 {
+    margin: 0; font: 800 clamp(24px, 3.6vw, 40px)/1.05 var(--titre);
+    letter-spacing: .12em; text-transform: uppercase;
+  }
+  .trait { position: relative; height: 2px; margin-top: 22px; background: linear-gradient(90deg, var(--arete-2), transparent 90%); }
+  .trait::before { content: ''; position: absolute; left: 0; top: 0; width: 58px; height: 2px; background: var(--degrade); }
+  .entete p.intro { margin: 28px 0 0; max-width: 46em; font-size: clamp(17px, 1.8vw, 19.5px); color: var(--texte-2); }
+  .entete p.intro strong { color: var(--texte); font-weight: 500; }
+
+  /* Tuiles de fonctionnalités, comme le sommaire du README */
+  .tuiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .tuile {
+    position: relative; padding: 26px 26px 28px; border-radius: 18px;
+    background: linear-gradient(180deg, #171024, #120B20);
+    border: 1px solid var(--arete);
+    transition: border-color .25s, transform .25s, background .25s;
+  }
+  .tuile:hover { border-color: rgba(192, 132, 252, .45); transform: translateY(-3px); }
+  .tuile .pastille {
+    display: grid; place-items: center; width: 54px; height: 54px; border-radius: 14px;
+    background: rgba(168, 85, 247, .12); border: 1px solid rgba(192, 132, 252, .25);
+    color: var(--rose); margin-bottom: 20px;
+    box-shadow: 0 0 30px -6px rgba(217, 70, 239, .35);
+  }
+  .tuile .pastille .icone { font-size: 28px; }
+  .tuile small { display: block; font: 500 12.5px/1 var(--mono); color: var(--etoile); letter-spacing: .06em; margin-bottom: 8px; }
+  .tuile h3 { margin: 0 0 10px; font: 700 20px/1.25 var(--corps); letter-spacing: -.01em; }
+  .tuile p { margin: 0; font-size: 15.5px; line-height: 1.6; color: var(--texte-2); }
+
+  /* Onglets */
+  .onglets { display: inline-flex; flex-wrap: wrap; gap: 6px; padding: 6px; border-radius: 14px; background: rgba(21, 12, 40, .8); border: 1px solid var(--arete); margin-bottom: 22px; }
+  .onglets button {
+    appearance: none; border: 0; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 16px; border-radius: 10px;
+    background: transparent; color: var(--texte-2);
+    font: 600 14.5px/1 var(--corps);
+    transition: background .2s, color .2s;
+  }
+  .onglets button .icone { font-size: 19px; }
+  .onglets button:hover { color: var(--texte); }
+  .onglets button[aria-selected="true"] { background: var(--degrade); color: #fff; box-shadow: 0 6px 20px -8px rgba(217, 70, 239, .8); }
+  .panneau[hidden] { display: none; }
+  .panneau p.note { margin: 18px 4px 0; color: var(--texte-2); font-size: 16px; max-width: 52em; }
+
+  /* Rangées texte + schéma */
+  .rangee { display: grid; grid-template-columns: 1fr; gap: 36px; }
+  .rangee > div:first-child { display: grid; grid-template-columns: .8fr 1.2fr; column-gap: 56px; align-items: start; }
+  .rangee > *, .verifier > *, .deux > *, .heros .conteneur > * { min-width: 0; }
+  .rangee > div:first-child > * { min-width: 0; }
+  .rangee > div:first-child > h3 { grid-column: 1; grid-row: 1 / span 20; }
+  .rangee > div:first-child > :not(h3) { grid-column: 2; }
+  .rangee + .rangee { margin-top: 72px; }
+  .rangee h3 { margin: 0 0 14px; font: 800 clamp(24px, 2.6vw, 30px)/1.15 var(--titre); letter-spacing: -.01em; }
+  .rangee h3 em { font-style: normal; background: linear-gradient(90deg, #E879F9, #C084FC); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .rangee p { margin: 0 0 14px; color: var(--texte-2); }
+  .rangee p strong { color: var(--texte); font-weight: 500; }
+
+  .points { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 12px; }
+  .points li { display: flex; gap: 14px; align-items: flex-start; color: var(--texte-2); font-size: 15.5px; line-height: 1.55; }
+  .points li .icone {
+    flex-shrink: 0; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px;
+    font-size: 19px; color: var(--rose); background: rgba(168, 85, 247, .12); border: 1px solid rgba(192, 132, 252, .22);
+  }
+  .points li b { color: var(--texte); font-weight: 600; }
+
+  .mesures { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 24px; }
+  .mesure { padding: 18px 18px 16px; border-radius: 14px; background: rgba(26, 16, 48, .7); border: 1px solid var(--arete); }
+  .mesure strong { display: block; white-space: nowrap; font: 700 26px/1 var(--corps); color: var(--texte); letter-spacing: -.01em; }
+  .mesure span { display: block; margin-top: 8px; font: 500 12px/1.4 var(--mono); color: var(--texte-3); }
+
+  /* Les trois refus */
+  .trois { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 44px; }
+  .refus {
+    position: relative; overflow: hidden;
+    padding: 32px 28px; border-radius: 20px; text-align: center;
+    background: radial-gradient(120% 90% at 50% 0%, rgba(168, 85, 247, .16), transparent 60%), #120B20;
+    border: 1px solid var(--arete);
+  }
+  .refus .icone {
+    display: grid; place-items: center; width: 64px; height: 64px; margin: 0 auto 18px; border-radius: 50%;
+    font-size: 32px; color: var(--rose);
+    background: rgba(168, 85, 247, .12); border: 1px solid rgba(192, 132, 252, .3);
+    box-shadow: 0 0 40px -6px rgba(217, 70, 239, .45);
+  }
+  .refus h3 { margin: 0 0 8px; font: 800 22px/1.2 var(--titre); }
+  .refus p { margin: 0; font-size: 15px; color: var(--texte-2); }
+
+  /* Code */
+  .code {
+    margin: 22px 0 0; border-radius: 14px; overflow: hidden;
+    background: #0D0819; border: 1px solid var(--arete);
+  }
+  .code .barre { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px 10px 16px; border-bottom: 1px solid var(--arete); background: rgba(26, 16, 48, .6); }
+  .code .barre > span { font: 500 12px/1 var(--mono); color: var(--texte-3); letter-spacing: .08em; text-transform: uppercase; }
+  .code pre { margin: 0; padding: 16px 18px; overflow-x: auto; font: 500 13.5px/1.7 var(--mono); color: var(--texte); }
+  .code pre .com { color: var(--texte-3); }
+  .copier {
+    appearance: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 10px; border-radius: 8px; border: 1px solid var(--arete-2); background: transparent;
+    color: var(--texte-2); font: 500 12px/1 var(--mono);
+  }
+  .copier:hover { color: var(--texte); border-color: var(--violet); }
+  .copier .icone { font-size: 15px; }
+
+  /* Installer */
+  .deux { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .apk {
+    position: relative; display: flex; flex-direction: column;
+    padding: 32px; border-radius: 22px; text-decoration: none;
+    background: #120B20; border: 1px solid var(--arete);
+    transition: border-color .25s, transform .25s;
+  }
+  .apk.principale { background: radial-gradient(120% 100% at 0% 0%, rgba(168, 85, 247, .22), transparent 55%), #140C24; border-color: rgba(192, 132, 252, .4); }
+  .apk:hover { transform: translateY(-3px); border-color: var(--violet); }
+  .apk .haut { display: flex; align-items: center; gap: 18px; margin-bottom: 20px; }
+  .apk .haut img { width: 64px; height: 64px; border-radius: 16px; box-shadow: 0 10px 30px -10px rgba(217, 70, 239, .7); }
+  .apk h3 { margin: 0; font: 800 23px/1.15 var(--titre); }
+  .apk .sous { display: block; margin-top: 6px; font: 500 12.5px/1 var(--mono); color: var(--etoile); letter-spacing: .04em; }
+  .apk p { margin: 0 0 24px; color: var(--texte-2); font-size: 15.5px; flex-grow: 1; }
+  .apk .bouton { align-self: flex-start; }
+  .conditions { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; margin-top: 18px; }
+  .conditions span {
+    display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 10px;
+    background: rgba(21, 12, 40, .8); border: 1px solid var(--arete); font-size: 14px; color: var(--texte-2);
+  }
+  .conditions .icone { font-size: 18px; color: var(--rose); }
+
+  .verifier { margin-top: 44px; display: grid; grid-template-columns: .8fr 1.2fr; gap: 40px; align-items: start; }
+  .verifier h3 { margin: 0 0 12px; font: 800 24px/1.2 var(--titre); }
+  .verifier p { margin: 0 0 12px; color: var(--texte-2); font-size: 15.5px; }
+
+  /* Avertissement */
+  .avertir {
+    display: grid; grid-template-columns: auto 1fr; gap: 24px; align-items: start;
+    padding: 32px; border-radius: 22px;
+    background: radial-gradient(90% 120% at 100% 0%, rgba(253, 230, 138, .07), transparent 60%), #120B20;
+    border: 1px solid rgba(253, 230, 138, .22);
+  }
+  .avertir .icone {
+    display: grid; place-items: center; width: 56px; height: 56px; border-radius: 16px;
+    font-size: 30px; color: var(--or); background: rgba(253, 230, 138, .08); border: 1px solid rgba(253, 230, 138, .25);
+  }
+  .avertir h3 { margin: 4px 0 10px; font: 800 22px/1.2 var(--titre); color: var(--or); }
+  .avertir p { margin: 0 0 10px; color: var(--texte-2); }
+  .avertir p:last-child { margin-bottom: 0; }
+
+  /* Appel final */
+  .final { padding: clamp(80px, 11vw, 140px) 0 0; }
+  .final .cadre {
+    position: relative; overflow: hidden; text-align: center;
+    padding: clamp(48px, 7vw, 80px) var(--gouttiere); border-radius: 28px;
+    background: radial-gradient(70% 90% at 50% 0%, rgba(217, 70, 239, .3), transparent 65%), #120B20;
+    border: 1px solid rgba(192, 132, 252, .35);
+  }
+  .final img { width: 92px; margin: 0 auto 26px; border-radius: 22px; box-shadow: 0 20px 60px -14px rgba(217, 70, 239, .8); }
+  .final h2 { margin: 0; font: 800 clamp(32px, 5vw, 56px)/1.05 var(--titre); letter-spacing: -.02em; }
+  .final h2 b { font-weight: 800; background: linear-gradient(90deg, #E879F9, #C084FC); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .final p { margin: 18px auto 0; max-width: 34em; color: var(--texte-2); font-size: 18px; }
+  .final .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 34px; }
+
+  /* Pied de page */
+  footer { margin-top: 96px; border-top: 1px solid var(--arete); background: rgba(11, 6, 22, .8); }
+  footer .conteneur { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; padding-top: 48px; padding-bottom: 48px; }
+  footer .marque { margin-bottom: 16px; }
+  footer p { margin: 0 0 10px; color: var(--texte-3); font-size: 14.5px; max-width: 36em; }
+  footer p strong { color: var(--texte-2); font-weight: 600; }
+  .liens { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-content: start; }
+  .liens a {
+    display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-radius: 12px;
+    background: rgba(21, 12, 40, .8); border: 1px solid var(--arete);
+    color: var(--texte-2); text-decoration: none; font-size: 14.5px; font-weight: 500;
+    transition: color .2s, border-color .2s;
+  }
+  .liens a:hover { color: var(--texte); border-color: var(--violet); }
+  .liens .icone { font-size: 20px; color: var(--rose); }
+  .lisere { height: 3px; background: linear-gradient(90deg, #E879F9, #A855F7 50%, #7C3AED); }
+
+  /* Apparitions au défilement */
+  .js .apparait { opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+  .js .apparait.vu { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .js .apparait { opacity: 1; transform: none; transition: none; }
+    .bouton, .tuile, .apk { transition: none; }
+  }
+
+  /* Adaptations */
+  @media (max-width: 1060px) {
+    .nav ul { display: none; }
+    .nav .cta { margin-left: auto; }
+    .chiffres ul { grid-template-columns: repeat(3, 1fr); }
+    .chiffres li:nth-child(4) { border-left: 0; }
+    .chiffres li:nth-child(n+4) { border-top: 1px solid var(--arete); }
+  }
+  @media (max-width: 900px) {
+    .heros .conteneur { grid-template-columns: 1fr; gap: 24px; }
+    .heros h1 { font-size: min(9.4vw, 84px); }
+    .embleme { max-width: 300px; margin: 0 auto; }
+    .rangee { gap: 28px; }
+    .rangee > div:first-child { display: block; }
+    .tuiles { grid-template-columns: 1fr 1fr; }
+    .trois { grid-template-columns: 1fr; }
+    .deux, .verifier { grid-template-columns: 1fr; }
+    footer .conteneur { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 620px) {
+    body { font-size: 16px; }
+    .nav .conteneur { height: 60px; }
+    .marque span { font-size: 17px; }
+    .embleme { max-width: 250px; }
+    .heros .actions .bouton { flex: 1 1 100%; }
+    .chiffres ul { grid-template-columns: 1fr 1fr; }
+    .chiffres li { padding: 22px 18px; }
+    .chiffres li + li { border-left: 0; }
+    .chiffres li:nth-child(even) { border-left: 1px solid var(--arete); }
+    .chiffres li:nth-child(n+3) { border-top: 1px solid var(--arete); }
+    .chiffres li:last-child { grid-column: 1 / -1; border-left: 0; }
+    .tuiles { grid-template-columns: 1fr; }
+    .bandeau { flex-direction: column; align-items: flex-start; gap: 14px; }
+    .numero { width: 48px; height: 40px; font-size: 16px; }
+    .bandeau h2 { font-size: min(5.2vw, 26px); letter-spacing: .04em; }
+    .mesures { grid-template-columns: 1fr 1fr; }
+    .mesures .mesure:last-child { grid-column: 1 / -1; }
+    .vitrine { padding: 6px; border-radius: 16px; }
+    .vitrine img { border-radius: 11px; }
+    .apk, .avertir { padding: 24px 20px; }
+    .avertir { grid-template-columns: 1fr; gap: 16px; }
+    .apk .bouton { align-self: stretch; }
+    .liens { grid-template-columns: 1fr; }
+    .onglets { display: flex; }
+    .onglets button { flex: 1 1 auto; justify-content: center; padding: 11px 10px; }
+    .puce.p1 { left: -2%; }
+    .puce.p3 { left: -6%; }
+  }
+  @media (max-width: 400px) {
+    .nav .cta span.texte { display: none; }
+    .nav .cta { padding: 10px 12px; }
+    .embleme .puce { font-size: 10.5px; padding: 7px 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="fond" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <div class="conteneur">
+    <a class="marque" href="#haut" aria-label="BodyCount, retour en haut">
+      <img src="logo.png" alt="" width="34" height="34">
+      <span>Body<b>Count</b></span>
+    </a>
+    <ul>
+      <li><a href="#fonctionnalites">Fonctionnalités</a></li>
+      <li><a href="#ecrans">Écrans</a></li>
+      <li><a href="#chiffrement">Chiffrement</a></li>
+      <li><a href="#carte">Carte</a></li>
+      <li><a href="#confidentialite">Confidentialité</a></li>
+    </ul>
+    <a class="bouton plein petit cta" href="#installer"><span class="icone" aria-hidden="true">download</span><span class="texte">Installer</span></a>
+  </div>
+</header>
+
+<main id="haut">
+
+  <!-- Héros -->
+  <section class="heros">
+    <div class="conteneur">
+      <div class="embleme apparait" aria-hidden="true">
+        <span class="anneau"></span>
+        <span class="anneau deux"></span>
+        <img src="logo.png" alt="" width="220" height="220">
+        <span class="puce p1"><span class="icone">fingerprint</span>Biométrie</span>
+        <span class="puce p2"><span class="icone">database</span>SQLCipher</span>
+        <span class="puce p3"><span class="icone">lock</span>AES-GCM</span>
+        <span class="puce p4"><span class="icone">wifi_off</span>Hors ligne</span>
+      </div>
+      <div class="apparait">
+        <div class="etiquettes">
+          <span class="etiquette">Mobile</span>
+          <span class="etiquette">Adulte</span>
+          <span class="etiquette">Open source</span>
+        </div>
+        <h1>Body<b>Count</b></h1>
+        <p class="accroche"><strong>Journal personnel chiffré, hors ligne, sur Android.</strong> Aucun serveur, aucun compte, aucune télémétrie. Une photo, des notes, un avis sur la soirée : tout reste sur le téléphone, derrière ton empreinte.</p>
+        <div class="actions">
+          <a class="bouton plein" href="https://github.com/Cybertrist/BodyCount/releases/latest/download/BodyCount.apk"><span class="icone" aria-hidden="true">download</span>Télécharger</a>
+          <a class="bouton contour" href="https://github.com/Cybertrist/BodyCount/releases/latest/download/BodyCount-demo.apk"><span class="icone" aria-hidden="true">play_circle</span>Essayer la démo</a>
+        </div>
+        <div class="meta">
+          <span><span class="icone" aria-hidden="true">android</span>Android 7 ou plus</span>
+          <span><span class="icone" aria-hidden="true">memory</span>arm64</span>
+          <span><span class="icone" aria-hidden="true">code</span>Licence MIT</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Aperçu animé -->
+  <section class="apercu" aria-label="Aperçu de l'application">
+    <div class="conteneur apparait">
+      <div class="vitrine halo">
+        <img src="schemas/fonctionnalites.svg" alt="Les fonctionnalités de BodyCount en onze écrans animés : verrouillage biométrique, répertoire, statistiques, carte de France, calendrier, galerie privée, sauvegarde, ce que ça rapporte, corrections, itinéraire, trois formats d'écran." width="1280" height="720">
+      </div>
+      <p class="legende">L'application rejouée écran par écran. Les visages sont ceux du jeu d'essai, des portraits générés : personne de réel.</p>
+    </div>
+  </section>
+
+  <!-- Chiffres clés -->
+  <section class="chiffres" aria-label="En chiffres">
+    <div class="conteneur apparait">
+      <ul>
+        <li><strong>0</strong><span>permission Internet demandée à Android</span></li>
+        <li><strong>34 836</strong><span>communes embarquées, sans tuiles</span></li>
+        <li><strong>210 000</strong><span>tours de PBKDF2 pour chaque sauvegarde</span></li>
+        <li><strong>32</strong><span>octets de clé maîtresse, dans le Keystore</span></li>
+        <li><strong>25</strong><span>signes dans le calendrier, aucun à saisir</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 01 Fonctionnalités -->
+  <section class="bloc" id="fonctionnalites">
+    <div class="conteneur">
+      <div class="entete apparait">
+        <div class="bandeau"><span class="numero">01</span><h2>Fonctionnalités</h2></div>
+        <div class="trait"></div>
+        <p class="intro">Un endroit où garder ce qui entoure tes rencontres, <strong>bien rangé et gardé pour toi</strong>. Rien de ce qui existait ne faisait les deux.</p>
+      </div>
+      <div class="tuiles">
+        <article class="tuile apparait">
+          <div class="pastille"><span class="icone" aria-hidden="true">fingerprint</span></div>
+          <small>Verrou</small>
+          <h3>L'empreinte ouvre la clé</h3>
+          <p>Elle ne déverrouille pas un écran : elle fait entrer la clé maîtresse en mémoire. Avant, la base n'est que du bruit.</p>
+        </article>
+        <article class="tuile apparait">
+          <div class="pastille"><span class="icone" aria-hidden="true">grid_view</span></div>
+          <small>Répertoire</small>
+          <h3>Retrouvé en deux secondes</h3>
+          <p>La grille se filtre pendant qu'on tape, par prénom, ville ou étiquette. Chaque carte porte la photo, le nombre de fois et la moyenne.</p>
+        </article>
+        <article class="tuile apparait">
+          <div class="pastille"><span class="icone" aria-hidden="true">bar_chart</span></div>
+          <small>Statistiques</small>
+          <h3>L'année en un coup d'œil</h3>
+          <p>Le total et son écart avec l'année précédente, le rythme en douze barres, le podium et ce que ça a rapporté.</p>
+        </article>
+        <article class="tuile apparait">
+          <div class="pastille"><span class="icone" aria-hidden="true">map</span></div>
+          <small>Carte</small>
+          <h3>La France, embarquée</h3>
+          <p>Dessinée depuis sa vraie géométrie, sans tuiles ni réseau. Les villes se regroupent en bulles et se séparent au zoom.</p>
+        </article>
+        <article class="tuile apparait">
+          <div class="pastille"><span class="icone" aria-hidden="true">calendar_month</span></div>
+          <small>Calendrier</small>
+          <h3>Quand, plutôt que combien</h3>
+          <p>Un jour plein porte un disque, doré quand la soirée a rapporté, et jusqu'à trois signes de ce qu'il a eu de remarquable.</p>
+        </article>
+        <article class="tuile apparait">
+          <div class="pastille"><span class="icone" aria-hidden="true">photo_library</span></div>
+          <small>Galerie privée</small>
+          <h3>Photos et vidéos au coffre</h3>
+          <p>Chiffrées en AES-GCM dès l'import, la copie effacée : rien n'apparaît dans la galerie du téléphone.</p>
+        </article>
+        <article class="tuile apparait">
+          <div class="pastille"><span class="icone" aria-hidden="true">backup</span></div>
+          <small>Sauvegarde</small>
+          <h3>Chiffrée par ta phrase</h3>
+          <p>Un fichier qui se relit sur un autre téléphone, et nulle part sans la phrase de passe. Un bandeau prévient quand la dernière a plus d'un mois.</p>
+        </article>
+        <article class="tuile apparait">
+          <div class="pastille"><span class="icone" aria-hidden="true">payments</span></div>
+          <small>Ce que ça rapporte</small>
+          <h3>Des moyennes honnêtes</h3>
+          <p>Un montant laissé vide veut dire rien, pas zéro euro : la moyenne ne compte que les soirées payées.</p>
+        </article>
+        <article class="tuile apparait">
+          <div class="pastille"><span class="icone" aria-hidden="true">devices_fold</span></div>
+          <small>Trois formats</small>
+          <h3>Pensée pour le Fold</h3>
+          <p>L'écran de couverture en priorité, puis le téléphone classique, l'écran déplié et le paysage : de deux à quatre colonnes.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 Les écrans -->
+  <section class="bloc" id="ecrans">
+    <div class="conteneur">
+      <div class="entete apparait">
+        <div class="bandeau"><span class="numero">02</span><h2>Les écrans</h2></div>
+        <div class="trait"></div>
+        <p class="intro">Pensée d'abord pour le <strong>format passeport</strong>, l'écran de couverture d'un Galaxy Z Fold : large et court. C'est là qu'elle sert tous les jours. Puis le téléphone classique, l'écran déplié et le paysage.</p>
+      </div>
+      <div class="apparait" data-onglets>
+        <div class="onglets" role="tablist" aria-label="Format d'écran">
+          <button role="tab" aria-selected="true" aria-controls="p-passeport" id="o-passeport"><span class="icone" aria-hidden="true">smartphone</span>Passeport</button>
+          <button role="tab" aria-selected="false" aria-controls="p-telephone" id="o-telephone" tabindex="-1"><span class="icone" aria-hidden="true">stay_current_portrait</span>Téléphone</button>
+          <button role="tab" aria-selected="false" aria-controls="p-tablette" id="o-tablette" tabindex="-1"><span class="icone" aria-hidden="true">tablet</span>Déplié</button>
+          <button role="tab" aria-selected="false" aria-controls="p-paysage" id="o-paysage" tabindex="-1"><span class="icone" aria-hidden="true">stay_current_landscape</span>Paysage</button>
+        </div>
+        <div class="panneau" role="tabpanel" id="p-passeport" aria-labelledby="o-passeport">
+          <div class="vitrine"><img src="schemas/captures-passeport.svg" alt="La planche complète des écrans au format passeport : verrou, répertoire, fiche, visionneuse, statistiques, carte, calendrier, formulaires et réglages." width="1280" height="1524" loading="lazy"></div>
+          <p class="note">Au lancement, l'application reprend l'icône là où Android l'a posée, trace un anneau autour et la fait glisser jusqu'à l'écran d'ouverture. L'empreinte n'est demandée qu'une fois l'animation terminée.</p>
+        </div>
+        <div class="panneau" role="tabpanel" id="p-telephone" aria-labelledby="o-telephone" hidden>
+          <div class="vitrine"><img src="schemas/captures-telephone.svg" alt="Quatre écrans sur un téléphone 16/9 : le verrou, le répertoire en deux colonnes, la fiche d'Enzo avec ses pastilles sur deux lignes, et la carte." width="1280" height="644" loading="lazy"></div>
+          <p class="note">Sur un téléphone classique en 16/9, la mise en page passe à deux colonnes et range la recherche sous le titre.</p>
+        </div>
+        <div class="panneau" role="tabpanel" id="p-tablette" aria-labelledby="o-tablette" hidden>
+          <div class="vitrine"><img src="schemas/captures-tablette.svg" alt="L'écran déplié en 4/3 : la navigation devient un rail à gauche et le répertoire passe à quatre colonnes." width="1280" height="658" loading="lazy"></div>
+          <p class="note">Sur l'écran déplié, en 4/3, la navigation devient un rail à gauche et le répertoire passe à quatre colonnes.</p>
+        </div>
+        <div class="panneau" role="tabpanel" id="p-paysage" aria-labelledby="o-paysage" hidden>
+          <div class="vitrine"><img src="schemas/captures-paysage.svg" alt="L'écran déplié couché, 1200 points de large : la fiche se partage en deux volets, la photo à gauche sur toute la hauteur." width="1280" height="1078" loading="lazy"></div>
+          <p class="note">Couché, l'écran passe à 1200 points de large. La fiche se partage alors en deux volets, la photo à gauche sur toute la hauteur.</p>
+        </div>
+      </div>
+
+      <div class="rangee apparait" style="margin-top: 80px">
+        <div>
+          <h3>Noter une rencontre, <em>en six champs</em></h3>
+          <p>Tous facultatifs sauf la date, déjà réglée à maintenant. La note se donne par demi-point en touchant la moitié d'une étoile.</p>
+          <p>À l'enregistrement, <strong>une seule fonction</strong> fait relire la fiche, le rang, le répertoire, les statistiques, le calendrier et la carte : aucun écran ne garde un chiffre périmé.</p>
+        </div>
+        <div class="vitrine"><img src="schemas/rencontre.svg" alt="Une rencontre notée en six champs, puis tous les écrans relus d'un coup." width="1280" height="720" loading="lazy"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 Le chiffrement -->
+  <section class="bloc" id="chiffrement">
+    <div class="conteneur">
+      <div class="entete apparait">
+        <div class="bandeau"><span class="numero">03</span><h2>Le chiffrement</h2></div>
+        <div class="trait"></div>
+        <p class="intro">Tant qu'Android n'a pas reconnu ton doigt ou ton code, <strong>la base, les photos et les vidéos ne sont que du bruit sur le disque</strong>.</p>
+      </div>
+      <div class="rangee apparait">
+        <div>
+          <h3>Une clé, <em>deux descendantes</em></h3>
+          <p>Une clé maîtresse de 32 octets, tirée au hasard au premier lancement, dort dans des préférences chiffrées par le Keystore d'Android.</p>
+          <ul class="points">
+            <li><span class="icone" aria-hidden="true">key</span><span><b>HKDF en tire deux clés</b>, chacune par sa propre étiquette : l'une pour SQLCipher, l'autre pour le coffre.</span></li>
+            <li><span class="icone" aria-hidden="true">memory</span><span><b>Aucune n'existe en mémoire</b> avant l'empreinte, et leurs octets sont écrasés au verrouillage.</span></li>
+            <li><span class="icone" aria-hidden="true">screenshot_monitor</span><span><b>Captures bloquées</b>, aperçu du multitâche masqué, sauvegarde automatique d'Android refusée.</span></li>
+          </ul>
+        </div>
+        <div class="vitrine"><img src="schemas/chiffrement.svg" alt="D'où viennent les clés : l'empreinte, le Keystore, HKDF, puis la clé de la base et celle des photos. Sur le disque, tout est chiffré." width="1280" height="720" loading="lazy"></div>
+      </div>
+      <div class="rangee inverse apparait">
+        <div>
+          <h3>Le verrou <em>se referme seul</em></h3>
+          <p>Sans geste à l'écran, ou au retour d'arrière-plan, après un délai réglable. Il attend la fin d'un travail en cours : une sauvegarde ou une longue vidéo qui se chiffre ne se coupent pas en route.</p>
+          <p>Il se coupe aussi dans les réglages : <strong>le chiffrement reste</strong>, mais la clé se charge alors sans preuve d'identité, et l'écran le dit avant de l'accepter.</p>
+        </div>
+        <div class="vitrine"><img src="schemas/verrou.svg" alt="Le verrou qui se referme après un délai, attend la fin d'une sauvegarde, et oublie les clés." width="1280" height="720" loading="lazy"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 Coffre et sauvegardes -->
+  <section class="bloc" id="coffre">
+    <div class="conteneur">
+      <div class="entete apparait">
+        <div class="bandeau"><span class="numero">04</span><h2>Coffre et sauvegardes</h2></div>
+        <div class="trait"></div>
+        <p class="intro">Une photo ou une vidéo <strong>n'entre jamais en clair</strong> dans BodyCount. Elle passe au coffre, et la copie rendue par le sélecteur d'Android est effacée.</p>
+      </div>
+      <div class="rangee apparait">
+        <div>
+          <h3>La galerie <em>reste vide</em></h3>
+          <p>Chaque photo est un fichier à part, chiffré en AES-GCM, nommé par un UUID qui ne dit rien de son contenu. Pour l'afficher, elle est déchiffrée en mémoire, le temps de la regarder.</p>
+          <p>Les vidéos passent par un flux chiffré <strong>par morceaux d'un mégaoctet</strong> : intervertir deux morceaux ou couper la fin fait échouer la lecture, au lieu de rendre une vidéo amputée sans rien dire.</p>
+          <div class="mesures">
+            <div class="mesure"><strong>1 Mo</strong><span>par morceau chiffré</span></div>
+            <div class="mesure"><strong>20 → 3</strong><span>Mo après réencodage</span></div>
+            <div class="mesure"><strong>720p</strong><span>H.264, 2,5 Mb/s</span></div>
+          </div>
+        </div>
+        <div class="vitrine"><img src="schemas/coffre.svg" alt="Une photo choisie passe au coffre, se chiffre, la copie est effacée, rien n'apparaît dans la galerie." width="1280" height="720" loading="lazy"></div>
+      </div>
+      <div class="rangee inverse apparait">
+        <div>
+          <h3>Une sauvegarde <em>qui voyage</em></h3>
+          <p>Chiffrée par une phrase de passe plutôt que par la clé du téléphone : elle se relit sur un autre appareil, et nulle part sans elle. La phrase passe par <strong>PBKDF2 en 210 000 tours</strong>, puis le fichier s'écrit en flux, sans jamais toucher le disque en clair.</p>
+          <p>Une restauration vérifie tout avant de toucher à quoi que ce soit. Une phrase fausse, un octet abîmé ou une coupure en route : <strong>les fiches du téléphone restent intactes</strong>.</p>
+        </div>
+        <div class="vitrine"><img src="schemas/sauvegarde.svg" alt="La phrase de passe, PBKDF2 en 210 000 tours, puis le fichier BCEX2 qui s'écrit morceau par morceau." width="1280" height="720" loading="lazy"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 La carte -->
+  <section class="bloc" id="carte">
+    <div class="conteneur">
+      <div class="entete apparait">
+        <div class="bandeau"><span class="numero">05</span><h2>La carte, sans tuiles</h2></div>
+        <div class="trait"></div>
+        <p class="intro">Une carte à tuiles enverrait à un serveur, à chaque déplacement du doigt, la liste exacte des endroits regardés. <strong>La France est donc embarquée.</strong></p>
+      </div>
+      <div class="rangee apparait">
+        <div>
+          <h3>Serrée sur <em>tes villes</em></h3>
+          <p>La carte s'ouvre sur le vrai cœur d'activité : les villes qui font les deux tiers des rencontres. Elle se pince jusqu'à vingt fois, et la règle se regradue seule.</p>
+          <p>Aucune pastille n'est déplacée d'un pixel. Deux villes trop proches deviennent une bulle qui porte la somme, et qui se scinde dès qu'on s'approche : Vannes et Auray sont à dix-sept kilomètres, <strong>c'est de la géographie</strong>.</p>
+          <div class="mesures">
+            <div class="mesure"><strong>34 836</strong><span>communes, Corse comprise</span></div>
+            <div class="mesure"><strong>420 Ko</strong><span>compressées dans l'APK</span></div>
+            <div class="mesure"><strong>×20</strong><span>de zoom au pincement</span></div>
+          </div>
+        </div>
+        <div class="vitrine"><img src="schemas/carte.svg" alt="La vraie côte lue dans france.bin, les villes en pastilles, et un pincement qui sépare la bulle de 65 en Vannes 61 et Auray 4." width="1280" height="720" loading="lazy"></div>
+      </div>
+      <div class="rangee inverse apparait">
+        <div>
+          <h3>Tout ce qui est en France <em>est posé</em></h3>
+          <p>Le nom exact d'abord, en ignorant accents, tirets et « St ». Puis un début de nom, une faute d'une ou deux lettres, un nom suivi d'un quartier. À chaque étape, la plus peuplée l'emporte.</p>
+          <p>Le référentiel officiel des communes est embarqué lui aussi. Le seul script du projet qui touche au réseau tourne sur la machine du développeur, <strong>jamais sur le téléphone</strong>.</p>
+        </div>
+        <div class="vitrine"><img src="schemas/villes.svg" alt="Comment un lieu tapé retrouve sa commune : nom exact, début de nom, faute de frappe, quartier." width="1280" height="720" loading="lazy"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 Calendrier et statistiques -->
+  <section class="bloc" id="calendrier">
+    <div class="conteneur">
+      <div class="entete apparait">
+        <div class="bandeau"><span class="numero">06</span><h2>Calendrier et chiffres</h2></div>
+        <div class="trait"></div>
+        <p class="intro">La question qu'on se pose le plus souvent n'est pas « combien », mais <strong>« quand »</strong> : c'était quel soir, il y a combien de temps, est-ce que ça a été une bonne période.</p>
+      </div>
+      <div class="apparait" data-onglets>
+        <div class="onglets" role="tablist" aria-label="Calendrier ou statistiques">
+          <button role="tab" aria-selected="true" aria-controls="p-calendrier" id="o-calendrier"><span class="icone" aria-hidden="true">calendar_month</span>Calendrier</button>
+          <button role="tab" aria-selected="false" aria-controls="p-stats" id="o-stats" tabindex="-1"><span class="icone" aria-hidden="true">monitoring</span>Statistiques</button>
+          <button role="tab" aria-selected="false" aria-controls="p-repertoire" id="o-repertoire" tabindex="-1"><span class="icone" aria-hidden="true">search</span>Recherche</button>
+        </div>
+        <div class="panneau" role="tabpanel" id="p-calendrier" aria-labelledby="o-calendrier">
+          <div class="vitrine"><img src="schemas/calendrier.svg" alt="Le calendrier : les jours pleins prennent leur disque et leurs signes, on touche le 23 et ses six signes passent au tri, trois restent." width="1280" height="720" loading="lazy"></div>
+          <p class="note">Vingt-cinq signes en tout, tous déduits de ce que l'application enregistre déjà. Sous chaque jour, jusqu'à trois, du plus rare au plus banal. Une légende dit précisément ce qui déclenche chacun : pas « une bonne soirée », mais « une note de cinq sur cinq ».</p>
+        </div>
+        <div class="panneau" role="tabpanel" id="p-stats" aria-labelledby="o-stats" hidden>
+          <div class="vitrine"><img src="schemas/statistiques.svg" alt="Les statistiques : les rencontres de l'année tombent dans leur mois, les barres montent, le podium se range." width="1280" height="720" loading="lazy"></div>
+          <p class="note">Chaque chiffre sort d'une requête SQL : la base renvoie douze entiers pour les douze barres, pas toutes les rencontres. Une année sans précédent n'affiche pas de pourcentage plutôt que de diviser par zéro.</p>
+        </div>
+        <div class="panneau" role="tabpanel" id="p-repertoire" aria-labelledby="o-repertoire" hidden>
+          <div class="vitrine"><img src="schemas/repertoire.svg" alt="La recherche du répertoire : chaque lettre refait une requête, les pastilles de ville et d'étiquette s'ajoutent à la recherche." width="1280" height="720" loading="lazy"></div>
+          <p class="note">Chaque lettre refait une seule requête sur la base chiffrée. Les pastilles de ville et d'étiquette s'ajoutent à la recherche au lieu de la remplacer, et un tri ne change que l'ordre.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 Confidentialité -->
+  <section class="bloc" id="confidentialite">
+    <div class="conteneur">
+      <div class="entete apparait">
+        <div class="bandeau"><span class="numero">07</span><h2>Confidentialité</h2></div>
+        <div class="trait"></div>
+        <p class="intro">« Aucune requête réseau » s'écrit facilement. Ici, <strong>ce n'est pas une promesse du code mais une règle d'Android</strong> : l'application ne demande pas la permission Internet, et sans elle le système refuse d'ouvrir la moindre connexion.</p>
+      </div>
+      <div class="trois">
+        <div class="refus apparait">
+          <span class="icone" aria-hidden="true">cloud_off</span>
+          <h3>Aucun serveur</h3>
+          <p>Tout vit dans une base chiffrée sur le téléphone. Il n'y a nulle part ailleurs où aller.</p>
+        </div>
+        <div class="refus apparait">
+          <span class="icone" aria-hidden="true">no_accounts</span>
+          <h3>Aucun compte</h3>
+          <p>Rien à créer, rien à retenir, sauf la phrase de passe de tes sauvegardes.</p>
+        </div>
+        <div class="refus apparait">
+          <span class="icone" aria-hidden="true">visibility_off</span>
+          <h3>Aucune télémétrie</h3>
+          <p>Rien ne mesure ce que tu fais. Rien ne sort, sauf ce que tu demandes.</p>
+        </div>
+      </div>
+      <div class="rangee apparait">
+        <div>
+          <h3>Ça se vérifie <em>sur l'APK</em></h3>
+          <p>Sans lire une ligne de code. La liste est courte : l'empreinte, puis deux permissions qu'ajoutent des bibliothèques, et qui ne permettent pas de se servir du réseau.</p>
+          <div class="code">
+            <div class="barre"><span>Terminal</span><button class="copier" data-copie="aapt2 dump permissions app-arm64-v8a-release.apk"><span class="icone" aria-hidden="true">content_copy</span>Copier</button></div>
+            <pre>aapt2 dump permissions app-arm64-v8a-release.apk</pre>
+          </div>
+          <p style="margin-top: 22px">Restent quatre sorties, et <strong>aucune ne s'ouvre seule</strong> : chacune attend un doigt, et passe la main à une autre application.</p>
+        </div>
+        <div class="vitrine"><img src="schemas/reseau.svg" alt="Les quatre sorties de l'application, chacune déclenchée par un geste et confiée à une autre application." width="1280" height="700" loading="lazy"></div>
+      </div>
+      <div class="vitrine apparait" style="margin-top: 72px"><img src="schemas/confidentialite.svg" alt="Le modèle de confidentialité de BodyCount." width="1280" height="720" loading="lazy"></div>
+    </div>
+  </section>
+
+  <!-- 08 Sous le capot -->
+  <section class="bloc" id="capot">
+    <div class="conteneur">
+      <div class="entete apparait">
+        <div class="bandeau"><span class="numero">08</span><h2>Sous le capot</h2></div>
+        <div class="trait"></div>
+        <p class="intro">Flutter, Riverpod, SQLCipher et quelques lignes de Kotlin. <strong>Cinq couches, et une règle</strong> : une couche ne connaît jamais celle du dessus.</p>
+      </div>
+      <div class="apparait" data-onglets>
+        <div class="onglets" role="tablist" aria-label="Architecture">
+          <button role="tab" aria-selected="true" aria-controls="p-stack" id="o-stack"><span class="icone" aria-hidden="true">layers</span>La stack</button>
+          <button role="tab" aria-selected="false" aria-controls="p-couches" id="o-couches" tabindex="-1"><span class="icone" aria-hidden="true">account_tree</span>Les couches</button>
+          <button role="tab" aria-selected="false" aria-controls="p-modele" id="o-modele" tabindex="-1"><span class="icone" aria-hidden="true">table_chart</span>Le modèle</button>
+          <button role="tab" aria-selected="false" aria-controls="p-tests" id="o-tests" tabindex="-1"><span class="icone" aria-hidden="true">science</span>Les tests</button>
+        </div>
+        <div class="panneau" role="tabpanel" id="p-stack" aria-labelledby="o-stack">
+          <div class="vitrine"><img src="schemas/stack.svg" alt="La stack technique de BodyCount." width="1280" height="700" loading="lazy"></div>
+        </div>
+        <div class="panneau" role="tabpanel" id="p-couches" aria-labelledby="o-couches" hidden>
+          <div class="vitrine"><img src="schemas/couches.svg" alt="Les cinq couches de l'application." width="1280" height="720" loading="lazy"></div>
+          <p class="note">Un écran ne voit pas SQLite, un dépôt ne voit pas Riverpod, et rien ne lit un fichier du coffre sans passer par le trousseau.</p>
+        </div>
+        <div class="panneau" role="tabpanel" id="p-modele" aria-labelledby="o-modele" hidden>
+          <div class="vitrine"><img src="schemas/modele.svg" alt="Le modèle de données : sept tables, schéma v7." width="1280" height="720" loading="lazy"></div>
+          <p class="note">Sept tables, schéma v7. Tout ce qui se rattache à une personne part avec elle, et c'est le schéma qui le garantit, pas une boucle de suppression écrite à la main.</p>
+        </div>
+        <div class="panneau" role="tabpanel" id="p-tests" aria-labelledby="o-tests" hidden>
+          <div class="vitrine"><img src="schemas/tests.svg" alt="Les tests, lancés sur un émulateur avec les vraies bibliothèques." width="1280" height="720" loading="lazy"></div>
+          <p class="note">SQLCipher, le Keystore et l'AES natif n'existent que sur Android : les tests tournent sur un émulateur, avec les vraies bibliothèques. Six d'entre eux pilotent l'application entière, au doigt.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 Installer -->
+  <section class="bloc" id="installer">
+    <div class="conteneur">
+      <div class="entete apparait">
+        <div class="bandeau"><span class="numero">09</span><h2>Installer</h2></div>
+        <div class="trait"></div>
+        <p class="intro">Deux applications, qui s'installent <strong>côte à côte</strong>. Les liens mènent toujours à la dernière version publiée.</p>
+      </div>
+      <div class="deux">
+        <a class="apk principale apparait" href="https://github.com/Cybertrist/BodyCount/releases/latest/download/BodyCount.apk">
+          <div class="haut">
+            <img src="logo.png" alt="" width="64" height="64">
+            <div><h3>BodyCount</h3><span class="sous">Version complète</span></div>
+          </div>
+          <p>La vraie. Elle démarre vide et n'attend que tes fiches. Elle ne contient pas le jeu d'essai : ni les profils, ni leurs visages.</p>
+          <span class="bouton plein"><span class="icone" aria-hidden="true">download</span>Télécharger l'APK</span>
+        </a>
+        <a class="apk apparait" href="https://github.com/Cybertrist/BodyCount/releases/latest/download/BodyCount-demo.apk">
+          <div class="haut">
+            <img src="logo.png" alt="" width="64" height="64">
+            <div><h3>BodyCount démo</h3><span class="sous">Dix-huit fiches d'essai</span></div>
+          </div>
+          <p>Remplie des fiches du jeu d'essai, avec leurs photos, leurs rencontres et leurs carnets. Elle s'ouvre sans empreinte, pour tout parcourir sans rien saisir.</p>
+          <span class="bouton contour"><span class="icone" aria-hidden="true">play_circle</span>Essayer la démo</span>
+        </a>
+      </div>
+      <div class="conditions apparait">
+        <span><span class="icone" aria-hidden="true">android</span>Android 7 ou plus</span>
+        <span><span class="icone" aria-hidden="true">memory</span>Processeur 64 bits</span>
+        <span><span class="icone" aria-hidden="true">shield_lock</span>Même clé de signature pour chaque version</span>
+        <span><span class="icone" aria-hidden="true">install_mobile</span>Hors Play Store : Android demande une autorisation, une fois</span>
+      </div>
+
+      <div class="verifier apparait">
+        <div>
+          <h3>Deux vérifications, une minute</h3>
+          <p>Pour une application qui gardera ce genre de données, elles valent la minute qu'elles prennent. L'empreinte du fichier doit être celle publiée avec la version.</p>
+          <p>Et le certificat qui le signe doit être celui-ci, le même pour toutes les versions : Android refuse une mise à jour signée d'une autre clé, ce qui écarte aussi un APK retouché en chemin.</p>
+        </div>
+        <div>
+          <div class="code" style="margin-top: 0">
+            <div class="barre"><span>Empreintes des fichiers</span><button class="copier" data-copie="sha256sum BodyCount.apk BodyCount-demo.apk"><span class="icone" aria-hidden="true">content_copy</span>Copier</button></div>
+            <pre>sha256sum BodyCount.apk BodyCount-demo.apk
+<span class="com"># 6fd713f7036788d57fe95d8a6f9a27f030374d7c9264f9d8e83d0cfbce569bd4  BodyCount.apk</span>
+<span class="com"># e2bdd13500aa165746168fde9b5319c3df97f41ae81b96408de12f0be28235f2  BodyCount-demo.apk</span></pre>
+          </div>
+          <div class="code">
+            <div class="barre"><span>Certificat de signature</span><button class="copier" data-copie="apksigner verify --print-certs BodyCount.apk"><span class="icone" aria-hidden="true">content_copy</span>Copier</button></div>
+            <pre>apksigner verify --print-certs BodyCount.apk
+<span class="com"># SHA-256 : ac09674e066658991aeb60f02e1386423b5e14dede4bd6c844f542785fef86d1</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="vitrine apparait" style="margin-top: 56px"><img src="schemas/versions.svg" alt="L'historique des versions de BodyCount." width="1280" height="452" loading="lazy"></div>
+    </div>
+  </section>
+
+  <!-- 10 Avertissement -->
+  <section class="bloc" id="avertissement">
+    <div class="conteneur">
+      <div class="avertir apparait">
+        <span class="icone" aria-hidden="true">warning</span>
+        <div>
+          <h3>Un projet personnel, pas un produit de sécurité</h3>
+          <p>Le chiffrement s'appuie sur des primitives éprouvées et sur le Keystore d'Android, mais l'assemblage n'a été relu par personne d'autre que son auteur. Si tu comptes y mettre des données dont la fuite te coûterait quelque chose, lis le code avant, ou ne le fais pas.</p>
+          <p>Les visages du jeu d'essai sont des portraits générés, qui ne représentent personne. Ils n'existent que dans la démo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Appel final -->
+  <section class="final">
+    <div class="conteneur">
+      <div class="cadre apparait">
+        <img src="logo.png" alt="" width="92" height="92">
+        <h2>Gardé <b>pour toi</b>.</h2>
+        <p>Chiffré, hors ligne, sans serveur ni compte. Le code est ouvert : libre de le lire, de le reprendre et de le modifier.</p>
+        <div class="actions">
+          <a class="bouton plein" href="https://github.com/Cybertrist/BodyCount/releases/latest/download/BodyCount.apk"><span class="icone" aria-hidden="true">download</span>Télécharger</a>
+          <a class="bouton contour" href="https://github.com/Cybertrist/BodyCount"><span class="icone" aria-hidden="true">code</span>Voir le code</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="conteneur">
+    <div>
+      <a class="marque" href="#haut"><img src="logo.png" alt="" width="34" height="34"><span>Body<b>Count</b></span></a>
+      <p>Conçu et développé par <strong>Tristan Joncour</strong>, élève ingénieur en cyberdéfense à l'ENSIBS, pour son propre usage d'abord : l'application qu'il voulait avoir sur son téléphone, et qui n'existait pas.</p>
+      <p>Code sous licence MIT. Géométrie de la France et référentiel des communes issus de données ouvertes.</p>
+    </div>
+    <nav class="liens" aria-label="Liens">
+      <a href="https://github.com/Cybertrist/BodyCount"><span class="icone" aria-hidden="true">code</span>Le dépôt</a>
+      <a href="https://github.com/Cybertrist/BodyCount/releases"><span class="icone" aria-hidden="true">new_releases</span>Les versions</a>
+      <a href="https://github.com/Cybertrist/BodyCount/blob/main/LICENSE"><span class="icone" aria-hidden="true">gavel</span>Licence MIT</a>
+      <a href="https://github.com/Cybertrist"><span class="icone" aria-hidden="true">person</span>@Cybertrist</a>
+    </nav>
+  </div>
+  <div class="lisere" aria-hidden="true"></div>
+</footer>
+
+<script>
+  document.documentElement.classList.replace('no-js', 'js');
+
+  // Apparitions au défilement : une seule fois, et rien si le mouvement est réduit.
+  const apparitions = document.querySelectorAll('.apparait');
+  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const obs = new IntersectionObserver((entrees) => {
+      for (const e of entrees) if (e.isIntersecting) { e.target.classList.add('vu'); obs.unobserve(e.target); }
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+    apparitions.forEach((el) => obs.observe(el));
+  } else {
+    apparitions.forEach((el) => el.classList.add('vu'));
+  }
+
+  // La barre prend un bord dès qu'on quitte le haut de la page.
+  const nav = document.getElementById('nav');
+  const bord = () => nav.classList.toggle('defile', scrollY > 8);
+  addEventListener('scroll', bord, { passive: true }); bord();
+
+  // Onglets, au clavier comme au doigt.
+  document.querySelectorAll('[data-onglets]').forEach((groupe) => {
+    const boutons = [...groupe.querySelectorAll('[role="tab"]')];
+    const choisir = (b) => {
+      boutons.forEach((x) => {
+        const actif = x === b;
+        x.setAttribute('aria-selected', actif);
+        x.tabIndex = actif ? 0 : -1;
+        document.getElementById(x.getAttribute('aria-controls')).hidden = !actif;
+      });
+    };
+    boutons.forEach((b, i) => {
+      b.addEventListener('click', () => choisir(b));
+      b.addEventListener('keydown', (e) => {
+        const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (!d) return;
+        const n = boutons[(i + d + boutons.length) % boutons.length];
+        choisir(n); n.focus();
+      });
+    });
+  });
+
+  // Un schéma s'ouvre en grand au toucher, utile sur un petit écran.
+  document.querySelectorAll('.vitrine img').forEach((img) => {
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', () => window.open(img.src, '_blank', 'noopener'));
+  });
+
+  // Copier une commande.
+  document.querySelectorAll('.copier').forEach((b) => {
+    b.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(b.dataset.copie);
+        const avant = b.innerHTML;
+        b.innerHTML = '<span class="icone" aria-hidden="true">check</span>Copié';
+        setTimeout(() => { b.innerHTML = avant; }, 1600);
+      } catch (e) {}
+    });
+  });
+</script>
+</body>
+</html>
